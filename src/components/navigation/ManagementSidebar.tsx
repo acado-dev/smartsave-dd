@@ -8,7 +8,7 @@ import {
   Settings,
   Store,
 } from "lucide-react";
-import displayLogo from "@/assets/display-logo.webp";
+import displayDataLogo from "@/assets/displaydata-logo.png";
 import {
   Sidebar,
   SidebarContent,
@@ -56,13 +56,13 @@ export function ManagementSidebar() {
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white p-1.5">
-            <img src={displayLogo} alt="Display" className="h-full w-full object-contain" />
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-center rounded-lg bg-white p-2">
+            <img src={displayDataLogo} alt="Display Data" className="h-8 w-auto object-contain" />
           </div>
           {!collapsed && (
-            <div>
-              <h2 className="text-sm font-semibold text-sidebar-foreground">Display</h2>
+            <div className="text-center">
+              <h2 className="text-sm font-semibold text-sidebar-foreground">FreshTrack</h2>
               <p className="text-xs text-sidebar-foreground/60">Waste Management</p>
             </div>
           )}

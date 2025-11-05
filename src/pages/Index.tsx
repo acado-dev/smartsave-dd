@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Leaf, Heart, TrendingDown, Users, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import displayLogo from "@/assets/display-logo.webp";
+import displayDataLogo from "@/assets/displaydata-logo.png";
 
 const Index = () => {
   return (
@@ -11,12 +11,13 @@ const Index = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-center text-center">
-            <div className="mb-6 flex h-24 w-auto items-center justify-center rounded-2xl bg-white p-4 shadow-elevated">
-              <img src={displayLogo} alt="Display" className="h-full w-auto object-contain" />
+            <div className="mb-6 flex items-center justify-center rounded-2xl bg-white p-6 shadow-elevated">
+              <img src={displayDataLogo} alt="Display Data" className="h-12 w-auto object-contain" />
             </div>
-            <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
-              Food Waste Management Platform
+            <h1 className="mb-3 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
+              FreshTrack
             </h1>
+            <p className="mb-2 text-lg font-medium text-muted-foreground">by Display Data</p>
             <p className="mb-8 max-w-2xl text-xl text-muted-foreground">
               Reducing food waste through smart inventory management, donations, and community impact
             </p>
