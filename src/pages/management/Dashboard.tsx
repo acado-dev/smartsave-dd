@@ -98,7 +98,7 @@ export default function Dashboard() {
                         <span className="text-sm font-medium text-foreground">{item.currentPrice}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-accent">Suggested:</span>
+                        <span className="text-xs text-accent">Suggested Price:</span>
                         <span className="text-sm font-bold text-accent">{item.suggestedPrice}</span>
                       </div>
                     </div>
