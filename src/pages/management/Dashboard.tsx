@@ -65,33 +65,44 @@ export default function Dashboard() {
               Food Items Near Expiry - Urgent Action Required
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {[
-              { name: "Organic Milk", qty: "24 units", expiry: "2 days", category: "Dairy", action: "Discount 30%" },
-              { name: "Fresh Bread", qty: "18 units", expiry: "1 day", category: "Bakery", action: "Discount 50%" },
-              { name: "Greek Yogurt", qty: "32 units", expiry: "3 days", category: "Dairy", action: "Discount 20%" },
-              { name: "Mixed Salad Greens", qty: "15 units", expiry: "1 day", category: "Produce", action: "Donate" },
-              { name: "Chicken Breast", qty: "20 units", expiry: "2 days", category: "Meat", action: "Discount 40%" },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between rounded-lg border border-destructive/20 bg-card p-4 transition-colors hover:bg-muted/30"
-              >
-                <div>
-                  <p className="font-medium text-foreground">{item.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {item.qty} • {item.category}
-                  </p>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2">
+              {[
+                { name: "Organic Milk", qty: "24 units", expiry: "2 days", category: "Dairy", action: "Discount 30%", price: "$3.99", newPrice: "$2.79" },
+                { name: "Fresh Bread", qty: "18 units", expiry: "1 day", category: "Bakery", action: "Discount 50%", price: "$2.49", newPrice: "$1.25" },
+                { name: "Greek Yogurt", qty: "32 units", expiry: "3 days", category: "Dairy", action: "Discount 20%", price: "$4.99", newPrice: "$3.99" },
+                { name: "Mixed Salad Greens", qty: "15 units", expiry: "1 day", category: "Produce", action: "Donate", price: "$3.49", newPrice: "Free" },
+                { name: "Chicken Breast", qty: "20 units", expiry: "2 days", category: "Meat", action: "Discount 40%", price: "$8.99", newPrice: "$5.39" },
+                { name: "Strawberries", qty: "28 units", expiry: "2 days", category: "Produce", action: "Discount 35%", price: "$5.99", newPrice: "$3.89" },
+                { name: "Fresh Pasta", qty: "22 units", expiry: "3 days", category: "Deli", action: "Discount 25%", price: "$6.49", newPrice: "$4.87" },
+                { name: "Cottage Cheese", qty: "16 units", expiry: "2 days", category: "Dairy", action: "Discount 30%", price: "$3.99", newPrice: "$2.79" },
+                { name: "Sliced Turkey", qty: "12 units", expiry: "1 day", category: "Deli", action: "Discount 50%", price: "$7.99", newPrice: "$4.00" },
+                { name: "Fresh Juice", qty: "30 units", expiry: "3 days", category: "Beverages", action: "Discount 20%", price: "$4.49", newPrice: "$3.59" },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-start justify-between rounded-lg border border-destructive/20 bg-card p-4 transition-colors hover:bg-muted/30"
+                >
+                  <div className="flex-1">
+                    <p className="font-medium text-foreground">{item.name}</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {item.category} • {item.qty}
+                    </p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="text-xs text-muted-foreground line-through">{item.price}</span>
+                      <span className="text-sm font-medium text-accent">{item.newPrice}</span>
+                    </div>
+                  </div>
+                  <div className="text-right ml-4">
+                    <p className="text-sm font-medium text-destructive whitespace-nowrap">
+                      {item.expiry}
+                    </p>
+                    <p className="text-xs font-medium text-accent mt-1 whitespace-nowrap">{item.action}</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-destructive">
-                    Expires in {item.expiry}
-                  </p>
-                  <p className="text-xs font-medium text-accent">{item.action}</p>
-                </div>
-              </div>
-            ))}
-            <Button variant="destructive" className="w-full">
+              ))}
+            </div>
+            <Button variant="destructive" className="w-full mt-4">
               Take Action on All Items
             </Button>
           </CardContent>
