@@ -7,6 +7,10 @@ import {
   Users,
   Settings,
   Store,
+  Clock,
+  Tag,
+  Trash2,
+  Archive,
 } from "lucide-react";
 import smartSaveLogo from "@/assets/smartsave-logo.png";
 import displayDataLogo from "@/assets/displaydata-logo.png";
@@ -27,8 +31,11 @@ import {
 const mainNavItems = [
   { title: "Dashboard", url: "/management", icon: LayoutDashboard },
   { title: "Inventory", url: "/management/inventory", icon: Package },
+  { title: "Expiring Items", url: "/management/expiring-items", icon: Clock },
+  { title: "Discounts", url: "/management/discounts", icon: Tag },
   { title: "Donations", url: "/management/donations", icon: Heart },
-  { title: "Waste Analytics", url: "/management/analytics", icon: TrendingDown },
+  { title: "Low Salability", url: "/management/low-salability", icon: Archive },
+  { title: "Waste Tracking", url: "/management/waste-tracking", icon: Trash2 },
 ];
 
 const adminNavItems = [
