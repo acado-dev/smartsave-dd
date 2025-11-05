@@ -15,11 +15,11 @@ const Index = () => {
               <img src={displayDataLogo} alt="Display Data" className="h-12 w-auto object-contain" />
             </div>
             <h1 className="mb-3 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
-              FreshTrack
+              SmartSave
             </h1>
-            <p className="mb-2 text-lg font-medium text-muted-foreground">by Display Data</p>
+            <p className="mb-2 text-lg font-medium text-muted-foreground">by DisplayData</p>
             <p className="mb-8 max-w-2xl text-xl text-muted-foreground">
-              Reducing food waste through smart inventory management, donations, and community impact
+              Driving freshness, reducing waste – the DisplayData way.
             </p>
             <div className="flex gap-4">
               <Button asChild size="lg" className="bg-gradient-primary shadow-elevated">

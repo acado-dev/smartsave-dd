@@ -62,8 +62,8 @@ export function ManagementSidebar() {
           </div>
           {!collapsed && (
             <div className="text-center">
-              <h2 className="text-sm font-semibold text-sidebar-foreground">FreshTrack</h2>
-              <p className="text-xs text-sidebar-foreground/60">Waste Management</p>
+              <h2 className="text-sm font-semibold text-sidebar-foreground">SmartSave</h2>
+              <p className="text-xs text-sidebar-foreground/60">by DisplayData</p>
             </div>
           )}
         </div>
