@@ -11,7 +11,7 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-foreground">Metro Fresh Retail Store</h1>
+            <h1 className="text-4xl font-bold text-foreground">BUC-EE'S Store</h1>
             <p className="mt-2 text-muted-foreground">
               Multi-category inventory management and salability insights
             </p>
