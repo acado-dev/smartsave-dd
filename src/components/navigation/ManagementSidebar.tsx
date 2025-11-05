@@ -57,8 +57,8 @@ export function ManagementSidebar() {
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-center rounded-lg bg-white p-2">
-            <img src={displayDataLogo} alt="Display Data" className="h-8 w-auto object-contain" />
+          <div className="flex items-center justify-center p-2">
+            <img src={displayDataLogo} alt="Display Data" className="h-10 w-auto object-contain" />
           </div>
           {!collapsed && (
             <div className="text-center">

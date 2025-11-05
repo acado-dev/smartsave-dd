@@ -11,8 +11,8 @@ const Index = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-center text-center">
-            <div className="mb-6 flex items-center justify-center rounded-2xl bg-white p-6 shadow-elevated">
-              <img src={displayDataLogo} alt="Display Data" className="h-12 w-auto object-contain" />
+            <div className="mb-6 flex items-center justify-center">
+              <img src={displayDataLogo} alt="Display Data" className="h-16 w-auto object-contain" />
             </div>
             <h1 className="mb-3 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
               SmartSave
