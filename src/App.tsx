@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { ManagementLayout } from "./components/layouts/ManagementLayout";
 import Dashboard from "./pages/management/Dashboard";
+import Analytics from "./pages/management/Analytics";
 import Inventory from "./pages/management/Inventory";
 import ExpiringItems from "./pages/management/ExpiringItems";
 import WasteTracking from "./pages/management/WasteTracking";
@@ -25,6 +26,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/management" element={<ManagementLayout><Dashboard /></ManagementLayout>} />
+          <Route path="/management/analytics" element={<ManagementLayout><Analytics /></ManagementLayout>} />
           <Route path="/management/inventory" element={<ManagementLayout><Inventory /></ManagementLayout>} />
           <Route path="/management/expiring-items" element={<ManagementLayout><ExpiringItems /></ManagementLayout>} />
           <Route path="/management/waste-tracking" element={<ManagementLayout><WasteTracking /></ManagementLayout>} />

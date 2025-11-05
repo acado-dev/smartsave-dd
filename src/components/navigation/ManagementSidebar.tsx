@@ -11,6 +11,7 @@ import {
   Tag,
   Trash2,
   Archive,
+  BarChart3,
 } from "lucide-react";
 import smartSaveLogo from "@/assets/smartsave-logo.png";
 import displayDataLogo from "@/assets/displaydata-logo.png";
@@ -30,6 +31,7 @@ import {
 
 const mainNavItems = [
   { title: "Dashboard", url: "/management", icon: LayoutDashboard },
+  { title: "Analytics", url: "/management/analytics", icon: BarChart3 },
   { title: "Inventory", url: "/management/inventory", icon: Package },
   { title: "Expiring Items", url: "/management/expiring-items", icon: Clock },
   { title: "Discounts", url: "/management/discounts", icon: Tag },
