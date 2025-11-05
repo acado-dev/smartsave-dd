@@ -8,63 +8,147 @@ export default function Inventory() {
   const inventoryItems = [
     {
       id: 1,
-      name: "Organic Milk",
-      category: "Dairy",
-      quantity: 24,
+      name: "iPhone 14 Pro",
+      category: "Electronics",
+      quantity: 8,
       unit: "units",
-      expiryDate: "2025-11-07",
-      status: "critical",
-      price: 3.99,
+      age: "6 months",
+      marketFit: "Low",
+      salability: 42,
+      status: "warning",
+      price: 899.99,
     },
     {
       id: 2,
+      name: "Samsung Galaxy S22",
+      category: "Electronics",
+      quantity: 15,
+      unit: "units",
+      age: "8 months",
+      marketFit: "Very Low",
+      salability: 32,
+      status: "critical",
+      price: 649.99,
+    },
+    {
+      id: 3,
+      name: "Summer Fashion Collection",
+      category: "Fashion",
+      quantity: 42,
+      unit: "units",
+      age: "4 months",
+      marketFit: "Low",
+      salability: 28,
+      status: "critical",
+      price: 49.99,
+    },
+    {
+      id: 4,
+      name: "Winter Coats 2024",
+      category: "Fashion",
+      quantity: 24,
+      unit: "units",
+      age: "2 months",
+      marketFit: "High",
+      salability: 85,
+      status: "good",
+      price: 129.99,
+    },
+    {
+      id: 5,
+      name: "Anti-Aging Serum",
+      category: "Cosmetics",
+      quantity: 28,
+      unit: "units",
+      age: "5 months",
+      marketFit: "Medium",
+      salability: 45,
+      status: "warning",
+      price: 34.99,
+    },
+    {
+      id: 6,
+      name: "Luxury Perfume Set",
+      category: "Cosmetics",
+      quantity: 12,
+      unit: "units",
+      age: "1 month",
+      marketFit: "High",
+      salability: 92,
+      status: "good",
+      price: 89.99,
+    },
+    {
+      id: 7,
+      name: "Organic Milk",
+      category: "Food",
+      quantity: 24,
+      unit: "units",
+      age: "2 days",
+      marketFit: "Medium",
+      salability: 68,
+      status: "warning",
+      price: 3.99,
+    },
+    {
+      id: 8,
       name: "Fresh Bread",
-      category: "Bakery",
+      category: "Food",
       quantity: 18,
       unit: "units",
-      expiryDate: "2025-11-06",
+      age: "1 day",
+      marketFit: "High",
+      salability: 55,
       status: "critical",
       price: 2.49,
     },
     {
-      id: 3,
-      name: "Mixed Vegetables",
-      category: "Produce",
-      quantity: 35,
-      unit: "kg",
-      expiryDate: "2025-11-08",
-      status: "warning",
-      price: 1.99,
-    },
-    {
-      id: 4,
-      name: "Chicken Breast",
-      category: "Meat",
-      quantity: 12,
-      unit: "kg",
-      expiryDate: "2025-11-07",
-      status: "critical",
-      price: 8.99,
-    },
-    {
-      id: 5,
-      name: "Yogurt Cups",
-      category: "Dairy",
-      quantity: 48,
+      id: 9,
+      name: "Kitchen Appliances",
+      category: "Home & Garden",
+      quantity: 10,
       unit: "units",
-      expiryDate: "2025-11-12",
-      status: "good",
-      price: 1.29,
+      age: "3 months",
+      marketFit: "Medium",
+      salability: 58,
+      status: "warning",
+      price: 159.99,
     },
     {
-      id: 6,
-      name: "Fresh Apples",
-      category: "Produce",
-      quantity: 28,
-      unit: "kg",
-      expiryDate: "2025-11-10",
+      id: 10,
+      name: "Smart Watch Series 7",
+      category: "Electronics",
+      quantity: 20,
+      unit: "units",
+      age: "1 month",
+      marketFit: "High",
+      salability: 88,
+      status: "good",
+      price: 399.99,
+    },
+    {
+      id: 11,
+      name: "Yoga Mats Premium",
+      category: "Sports",
+      quantity: 35,
+      unit: "units",
+      age: "2 weeks",
+      marketFit: "High",
+      salability: 95,
+      status: "good",
+      price: 29.99,
+    },
+    {
+      id: 12,
+      name: "Gaming Console Accessories",
+      category: "Electronics",
+      quantity: 16,
+      unit: "units",
+      age: "5 months",
+      marketFit: "Medium",
+      salability: 52,
       status: "warning",
-      price: 2.99,
+      price: 79.99,
     },
   ];
 
@@ -82,12 +166,6 @@ export default function Inventory() {
     );
   };
 
-  const getDaysUntilExpiry = (expiryDate: string) => {
-    const days = Math.ceil(
-      (new Date(expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
-    );
-    return days;
-  };
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -95,9 +173,9 @@ export default function Inventory() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-foreground">Inventory Management</h1>
+            <h1 className="text-4xl font-bold text-foreground">Metro Fresh - Inventory Management</h1>
             <p className="mt-2 text-muted-foreground">
-              Track and manage all inventory items
+              Multi-category inventory tracking with salability intelligence
             </p>
           </div>
           <Button className="bg-gradient-primary shadow-elevated">
@@ -145,7 +223,13 @@ export default function Inventory() {
                       Quantity
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
-                      Expiry
+                      Age
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                      Market Fit
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                      Salability
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                       Status
@@ -171,7 +255,19 @@ export default function Inventory() {
                         {item.quantity} {item.unit}
                       </td>
                       <td className="px-4 py-4 text-sm text-foreground">
-                        {getDaysUntilExpiry(item.expiryDate)} days
+                        {item.age}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-foreground">
+                        {item.marketFit}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-foreground">
+                        <span className={`font-medium ${
+                          item.salability >= 70 ? 'text-accent' : 
+                          item.salability >= 50 ? 'text-warning' : 
+                          'text-destructive'
+                        }`}>
+                          {item.salability}%
+                        </span>
                       </td>
                       <td className="px-4 py-4">
                         {getStatusBadge(item.status)}

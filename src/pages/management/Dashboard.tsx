@@ -10,9 +10,9 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-foreground">Dashboard</h1>
+            <h1 className="text-4xl font-bold text-foreground">Metro Fresh Retail Store</h1>
             <p className="mt-2 text-muted-foreground">
-              Food waste management overview and insights
+              Multi-category inventory management and salability insights
             </p>
           </div>
           <Button className="bg-gradient-primary shadow-elevated">
@@ -24,36 +24,36 @@ export default function Dashboard() {
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="Items Near Expiry"
-            value="247"
-            subtitle="Within 7 days"
+            title="Low Salability Items"
+            value="382"
+            subtitle="Across all categories"
             icon={AlertCircle}
             variant="warning"
-            trend={{ value: "12% from yesterday", positive: false }}
+            trend={{ value: "18% from yesterday", positive: false }}
           />
           <StatCard
-            title="Total Donations"
-            value="1,284"
-            subtitle="This month"
-            icon={Heart}
+            title="Active SKUs"
+            value="8,542"
+            subtitle="In stock"
+            icon={Package}
             variant="success"
-            trend={{ value: "8% from last month", positive: true }}
+            trend={{ value: "5% from last week", positive: true }}
           />
           <StatCard
-            title="Waste Reduced"
-            value="542 kg"
-            subtitle="This week"
+            title="Inventory Turnover"
+            value="94%"
+            subtitle="This month"
             icon={TrendingDown}
             variant="success"
-            trend={{ value: "15% improvement", positive: true }}
+            trend={{ value: "12% improvement", positive: true }}
           />
           <StatCard
-            title="Revenue Saved"
-            value="$12,450"
-            subtitle="From waste reduction"
+            title="Potential Loss"
+            value="$48,920"
+            subtitle="From aged inventory"
             icon={DollarSign}
             variant="default"
-            trend={{ value: "10% increase", positive: true }}
+            trend={{ value: "8% decrease", positive: true }}
           />
         </div>
 
@@ -63,15 +63,15 @@ export default function Dashboard() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Package className="h-5 w-5 text-accent" />
-                Near Expiry Items
+                Critical Salability Items
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
-                { name: "Organic Milk", qty: "24 units", expiry: "2 days", category: "Dairy" },
-                { name: "Fresh Bread", qty: "18 units", expiry: "1 day", category: "Bakery" },
-                { name: "Mixed Vegetables", qty: "35 kg", expiry: "3 days", category: "Produce" },
-                { name: "Chicken Breast", qty: "12 kg", expiry: "2 days", category: "Meat" },
+                { name: "Samsung Galaxy S22", qty: "15 units", age: "8 months", category: "Electronics", salability: "32%" },
+                { name: "Summer Fashion Collection", qty: "42 units", age: "4 months", category: "Fashion", salability: "28%" },
+                { name: "Anti-Aging Serum", qty: "28 units", age: "5 months", category: "Cosmetics", salability: "45%" },
+                { name: "Organic Milk", qty: "24 units", age: "2 days", category: "Food", salability: "68%" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -85,8 +85,9 @@ export default function Dashboard() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-medium text-warning">
-                      Expires in {item.expiry}
+                      {item.salability} salability
                     </p>
+                    <p className="text-xs text-muted-foreground">Age: {item.age}</p>
                   </div>
                 </div>
               ))}
