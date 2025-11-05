@@ -1,7 +1,7 @@
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar, Trash2, Clock, Tag, Archive, ArrowRight, ExternalLink } from "lucide-react";
+import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar, Trash2, Clock, Tag, Archive, ArrowRight, ExternalLink, Boxes, ShoppingCart, Layers } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
@@ -65,6 +65,45 @@ export default function Dashboard() {
             />
           </Link>
         </div>
+
+        {/* Inventory Overview */}
+        <Card className="shadow-card border-accent/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Boxes className="h-5 w-5 text-accent" />
+              Inventory Overview
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+              <div className="text-center p-4 rounded-lg bg-muted/30">
+                <Package className="h-8 w-8 text-primary mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">12,485</p>
+                <p className="text-sm text-muted-foreground mt-1">Total Items</p>
+              </div>
+              <div className="text-center p-4 rounded-lg bg-muted/30">
+                <Layers className="h-8 w-8 text-accent mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">24</p>
+                <p className="text-sm text-muted-foreground mt-1">Categories</p>
+              </div>
+              <div className="text-center p-4 rounded-lg bg-muted/30">
+                <ShoppingCart className="h-8 w-8 text-primary mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">$284,562</p>
+                <p className="text-sm text-muted-foreground mt-1">Total Inventory Value</p>
+              </div>
+              <div className="text-center p-4 rounded-lg bg-muted/30">
+                <TrendingDown className="h-8 w-8 text-warning mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">348</p>
+                <p className="text-sm text-muted-foreground mt-1">Out of Stock</p>
+              </div>
+              <div className="text-center p-4 rounded-lg bg-muted/30">
+                <AlertCircle className="h-8 w-8 text-destructive mx-auto mb-2" />
+                <p className="text-3xl font-bold text-foreground">156</p>
+                <p className="text-sm text-muted-foreground mt-1">Low Stock Alerts</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Food Expiry Alert - Priority Section */}
         <Card className="shadow-card border-destructive/50 bg-destructive/5">
