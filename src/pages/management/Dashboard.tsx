@@ -1,7 +1,7 @@
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar } from "lucide-react";
+import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar, Trash2, Clock, Tag, Archive } from "lucide-react";
 
 export default function Dashboard() {
   return (
@@ -24,6 +24,30 @@ export default function Dashboard() {
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
+            title="Waste This Week"
+            value="142 kg"
+            subtitle="Food & perishables"
+            icon={Trash2}
+            variant="warning"
+            trend={{ value: "23% from last week", positive: false }}
+          />
+          <StatCard
+            title="Items Near Expiry"
+            value="48"
+            subtitle="Within 3 days"
+            icon={Clock}
+            variant="warning"
+            trend={{ value: "12 items added today", positive: false }}
+          />
+          <StatCard
+            title="Waste Prevented"
+            value="$12,340"
+            subtitle="Through donations & discounts"
+            icon={Heart}
+            variant="success"
+            trend={{ value: "18% increase", positive: true }}
+          />
+          <StatCard
             title="Low Salability Items"
             value="382"
             subtitle="Across all categories"
@@ -31,68 +55,79 @@ export default function Dashboard() {
             variant="warning"
             trend={{ value: "18% from yesterday", positive: false }}
           />
-          <StatCard
-            title="Active SKUs"
-            value="8,542"
-            subtitle="In stock"
-            icon={Package}
-            variant="success"
-            trend={{ value: "5% from last week", positive: true }}
-          />
-          <StatCard
-            title="Inventory Turnover"
-            value="94%"
-            subtitle="This month"
-            icon={TrendingDown}
-            variant="success"
-            trend={{ value: "12% improvement", positive: true }}
-          />
-          <StatCard
-            title="Potential Loss"
-            value="$48,920"
-            subtitle="From aged inventory"
-            icon={DollarSign}
-            variant="default"
-            trend={{ value: "8% decrease", positive: true }}
-          />
         </div>
 
-        {/* Quick Actions & Recent Activity */}
-        <div className="grid gap-6 lg:grid-cols-2">
+        {/* Food Expiry Alert - Priority Section */}
+        <Card className="shadow-card border-destructive/50 bg-destructive/5">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Clock className="h-5 w-5 text-destructive" />
+              Food Items Near Expiry - Urgent Action Required
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[
+              { name: "Organic Milk", qty: "24 units", expiry: "2 days", category: "Dairy", action: "Discount 30%" },
+              { name: "Fresh Bread", qty: "18 units", expiry: "1 day", category: "Bakery", action: "Discount 50%" },
+              { name: "Greek Yogurt", qty: "32 units", expiry: "3 days", category: "Dairy", action: "Discount 20%" },
+              { name: "Mixed Salad Greens", qty: "15 units", expiry: "1 day", category: "Produce", action: "Donate" },
+              { name: "Chicken Breast", qty: "20 units", expiry: "2 days", category: "Meat", action: "Discount 40%" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between rounded-lg border border-destructive/20 bg-card p-4 transition-colors hover:bg-muted/30"
+              >
+                <div>
+                  <p className="font-medium text-foreground">{item.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {item.qty} • {item.category}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-destructive">
+                    Expires in {item.expiry}
+                  </p>
+                  <p className="text-xs font-medium text-accent">{item.action}</p>
+                </div>
+              </div>
+            ))}
+            <Button variant="destructive" className="w-full">
+              Take Action on All Items
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Waste Management & Action Items */}
+        <div className="grid gap-6 lg:grid-cols-3">
           <Card className="shadow-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Package className="h-5 w-5 text-accent" />
-                Critical Salability Items
+                <Tag className="h-5 w-5 text-accent" />
+                Recommended for Discount
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
-                { name: "Samsung Galaxy S22", qty: "15 units", age: "8 months", category: "Electronics", salability: "32%" },
-                { name: "Summer Fashion Collection", qty: "42 units", age: "4 months", category: "Fashion", salability: "28%" },
-                { name: "Anti-Aging Serum", qty: "28 units", age: "5 months", category: "Cosmetics", salability: "45%" },
-                { name: "Organic Milk", qty: "24 units", age: "2 days", category: "Food", salability: "68%" },
+                { name: "Summer Fashion Collection", discount: "40%", reason: "Season ending", value: "$2,099" },
+                { name: "iPhone 13 Pro", discount: "25%", reason: "New model released", value: "$1,349" },
+                { name: "Anti-Aging Serum", discount: "30%", reason: "6 months old", value: "$979" },
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-4 transition-colors hover:bg-muted/50"
+                  className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-3 transition-colors hover:bg-muted/50"
                 >
                   <div>
-                    <p className="font-medium text-foreground">{item.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {item.qty} • {item.category}
-                    </p>
+                    <p className="font-medium text-sm text-foreground">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">{item.reason}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-warning">
-                      {item.salability} salability
-                    </p>
-                    <p className="text-xs text-muted-foreground">Age: {item.age}</p>
+                    <p className="text-sm font-medium text-accent">{item.discount}</p>
+                    <p className="text-xs text-muted-foreground">{item.value}</p>
                   </div>
                 </div>
               ))}
-              <Button variant="outline" className="w-full">
-                View All Items
+              <Button variant="outline" size="sm" className="w-full">
+                Apply Discounts
               </Button>
             </CardContent>
           </Card>
@@ -101,37 +136,101 @@ export default function Dashboard() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Heart className="h-5 w-5 text-accent" />
-                Recent Donations
+                Ready for Donation
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
-                { org: "Local Food Bank", items: "45 items", time: "2 hours ago", weight: "28 kg" },
-                { org: "Community Kitchen", items: "32 items", time: "5 hours ago", weight: "19 kg" },
-                { org: "Shelter House", items: "28 items", time: "1 day ago", weight: "15 kg" },
-                { org: "Youth Center", items: "22 items", time: "1 day ago", weight: "12 kg" },
-              ].map((donation, i) => (
+                { name: "Canned Vegetables", qty: "45 units", partner: "Food Bank", weight: "28 kg" },
+                { name: "Winter Coats (Last Season)", qty: "18 units", partner: "Shelter", weight: "15 kg" },
+                { name: "School Supplies", qty: "32 sets", partner: "Youth Center", weight: "8 kg" },
+              ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-4 transition-colors hover:bg-muted/50"
+                  className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-3 transition-colors hover:bg-muted/50"
                 >
                   <div>
-                    <p className="font-medium text-foreground">{donation.org}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {donation.items} • {donation.weight}
-                    </p>
+                    <p className="font-medium text-sm text-foreground">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">{item.qty} • {item.weight}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-muted-foreground">{donation.time}</p>
+                    <p className="text-xs text-muted-foreground">{item.partner}</p>
                   </div>
                 </div>
               ))}
-              <Button variant="outline" className="w-full">
-                View All Donations
+              <Button variant="outline" size="sm" className="w-full">
+                Schedule Pickup
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Archive className="h-5 w-5 text-accent" />
+                Low Salability Items
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[
+                { name: "Samsung Galaxy S22", salability: "32%", age: "8 months", action: "Clearance" },
+                { name: "Gaming Console Accessories", salability: "52%", age: "5 months", action: "Bundle deal" },
+                { name: "Luxury Perfume Set", salability: "45%", age: "5 months", action: "Promote" },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-3 transition-colors hover:bg-muted/50"
+                >
+                  <div>
+                    <p className="font-medium text-sm text-foreground">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">Age: {item.age}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-warning">{item.salability}</p>
+                    <p className="text-xs text-accent">{item.action}</p>
+                  </div>
+                </div>
+              ))}
+              <Button variant="outline" size="sm" className="w-full">
+                View All
               </Button>
             </CardContent>
           </Card>
         </div>
+
+        {/* Recent Activity */}
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-accent" />
+              Waste Prevention Activity - Last 7 Days
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[
+              { action: "Donated to Local Food Bank", items: "45 items", impact: "28 kg waste prevented", time: "2 hours ago", type: "donation" },
+              { action: "Applied 50% discount on bakery", items: "32 items", impact: "$156 recovered", time: "5 hours ago", type: "discount" },
+              { action: "Donated to Community Kitchen", items: "28 items", impact: "19 kg waste prevented", time: "1 day ago", type: "donation" },
+              { action: "Clearance sale on electronics", items: "12 items", impact: "$2,340 recovered", time: "2 days ago", type: "discount" },
+            ].map((activity, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-4 transition-colors hover:bg-muted/50"
+              >
+                <div>
+                  <p className="font-medium text-foreground">{activity.action}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {activity.items}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-accent">{activity.impact}</p>
+                  <p className="text-xs text-muted-foreground">{activity.time}</p>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
