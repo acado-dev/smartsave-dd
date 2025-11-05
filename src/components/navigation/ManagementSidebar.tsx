@@ -8,6 +8,7 @@ import {
   Settings,
   Store,
 } from "lucide-react";
+import smartSaveLogo from "@/assets/smartsave-logo.png";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 import {
   Sidebar,
@@ -57,13 +58,15 @@ export function ManagementSidebar() {
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-center rounded-lg bg-white p-2">
-            <img src={displayDataLogo} alt="Display Data" className="h-8 w-auto object-contain" />
-          </div>
-          {!collapsed && (
-            <div className="text-center">
-              <h2 className="text-sm font-semibold text-sidebar-foreground">SmartSave</h2>
-              <p className="text-xs text-sidebar-foreground/60">by DisplayData</p>
+          {!collapsed ? (
+            <div className="flex items-center justify-center gap-2">
+              <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
+              <span className="text-sm font-semibold text-sidebar-foreground">SmartSave</span>
+              <img src={displayDataLogo} alt="DisplayData" className="h-5 w-auto object-contain" />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
             </div>
           )}
         </div>

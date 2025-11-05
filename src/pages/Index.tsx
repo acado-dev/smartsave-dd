@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/navigation/Header";
+import smartSaveLogo from "@/assets/smartsave-logo.png";
+import displayDataLogo from "@/assets/displaydata-logo.png";
 
 const Index = () => {
   return (
@@ -27,6 +29,10 @@ const Index = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10 px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-center text-center">
+            <div className="mb-8 flex items-center gap-3">
+              <img src={smartSaveLogo} alt="SmartSave" className="h-20 w-auto object-contain" />
+              <img src={displayDataLogo} alt="DisplayData" className="h-12 w-auto object-contain" />
+            </div>
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
               Driving freshness,<br />reducing waste
             </h1>
