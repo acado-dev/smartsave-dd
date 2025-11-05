@@ -64,17 +64,10 @@ export function ManagementSidebar() {
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
-        <div className="flex flex-col gap-3">
-          {!collapsed ? (
-            <div className="flex items-center justify-center gap-2">
-              <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
-              <span className="text-sm font-semibold text-sidebar-foreground">SmartSave</span>
-              <img src={displayDataLogo} alt="DisplayData" className="h-5 w-auto object-contain" />
-            </div>
-          ) : (
-            <div className="flex items-center justify-center">
-              <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
-            </div>
+        <div className="flex items-center justify-center gap-3">
+          <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
+          {!collapsed && (
+            <img src={displayDataLogo} alt="DisplayData" className="h-6 w-auto object-contain" />
           )}
         </div>
       </SidebarHeader>
@@ -124,9 +117,6 @@ export function ManagementSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <div className="mt-auto border-t border-sidebar-border p-4">
-        <SidebarTrigger className="w-full" />
-      </div>
     </Sidebar>
   );
 }
