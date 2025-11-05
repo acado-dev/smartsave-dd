@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Leaf, Heart, TrendingDown, Users, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import displayLogo from "@/assets/display-logo.webp";
 
 const Index = () => {
   return (
@@ -10,11 +11,11 @@ const Index = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-center text-center">
-            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-primary shadow-elevated">
-              <Leaf className="h-10 w-10 text-white" />
+            <div className="mb-6 flex h-24 w-auto items-center justify-center rounded-2xl bg-white p-4 shadow-elevated">
+              <img src={displayLogo} alt="Display" className="h-full w-auto object-contain" />
             </div>
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
-              FoodSaver Platform
+              Food Waste Management Platform
             </h1>
             <p className="mb-8 max-w-2xl text-xl text-muted-foreground">
               Reducing food waste through smart inventory management, donations, and community impact
@@ -47,8 +48,8 @@ const Index = () => {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <Card className="shadow-card transition-all hover:shadow-elevated">
               <CardContent className="p-6">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <TrendingDown className="h-6 w-6 text-primary" />
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
+                  <TrendingDown className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="mb-2 text-xl font-semibold text-foreground">
                   Waste Reduction
@@ -61,8 +62,8 @@ const Index = () => {
 
             <Card className="shadow-card transition-all hover:shadow-elevated">
               <CardContent className="p-6">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Heart className="h-6 w-6 text-primary" />
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
+                  <Heart className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="mb-2 text-xl font-semibold text-foreground">
                   Community Donations
@@ -75,8 +76,8 @@ const Index = () => {
 
             <Card className="shadow-card transition-all hover:shadow-elevated">
               <CardContent className="p-6">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Users className="h-6 w-6 text-primary" />
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
+                  <Users className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="mb-2 text-xl font-semibold text-foreground">
                   Collaborative Network
@@ -91,19 +92,19 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-gradient-to-br from-primary/5 to-accent/5 px-6 py-16">
+      <section className="bg-gradient-hero px-6 py-16">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 md:grid-cols-3">
             <div className="text-center">
-              <p className="mb-2 text-4xl font-bold text-primary">542kg</p>
+              <p className="mb-2 text-4xl font-bold text-accent">542kg</p>
               <p className="text-muted-foreground">Food Saved This Week</p>
             </div>
             <div className="text-center">
-              <p className="mb-2 text-4xl font-bold text-primary">1,284</p>
+              <p className="mb-2 text-4xl font-bold text-accent">1,284</p>
               <p className="text-muted-foreground">Donations This Month</p>
             </div>
             <div className="text-center">
-              <p className="mb-2 text-4xl font-bold text-primary">$12,450</p>
+              <p className="mb-2 text-4xl font-bold text-accent">$12,450</p>
               <p className="text-muted-foreground">Value Recovered</p>
             </div>
           </div>

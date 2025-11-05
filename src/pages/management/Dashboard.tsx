@@ -62,7 +62,7 @@ export default function Dashboard() {
           <Card className="shadow-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Package className="h-5 w-5 text-primary" />
+                <Package className="h-5 w-5 text-accent" />
                 Near Expiry Items
               </CardTitle>
             </CardHeader>
@@ -99,7 +99,7 @@ export default function Dashboard() {
           <Card className="shadow-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Heart className="h-5 w-5 text-primary" />
+                <Heart className="h-5 w-5 text-accent" />
                 Recent Donations
               </CardTitle>
             </CardHeader>

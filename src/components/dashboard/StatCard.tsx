@@ -21,9 +21,9 @@ export function StatCard({ title, value, subtitle, icon: Icon, trend, variant = 
   };
 
   const iconVariantClasses = {
-    default: "bg-primary/10 text-primary",
+    default: "bg-accent/10 text-accent",
     warning: "bg-warning/10 text-warning",
-    success: "bg-primary/10 text-primary",
+    success: "bg-accent/10 text-accent",
   };
 
   return (
@@ -35,7 +35,7 @@ export function StatCard({ title, value, subtitle, icon: Icon, trend, variant = 
             <p className="text-3xl font-bold text-card-foreground">{value}</p>
             <p className="text-sm text-muted-foreground">{subtitle}</p>
             {trend && (
-              <p className={`text-sm font-medium ${trend.positive ? "text-primary" : "text-destructive"}`}>
+              <p className={`text-sm font-medium ${trend.positive ? "text-accent" : "text-destructive"}`}>
                 {trend.positive ? "↑" : "↓"} {trend.value}
               </p>
             )}

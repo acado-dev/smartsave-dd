@@ -7,8 +7,8 @@ import {
   Users,
   Settings,
   Store,
-  Leaf,
 } from "lucide-react";
+import displayLogo from "@/assets/display-logo.webp";
 import {
   Sidebar,
   SidebarContent,
@@ -56,14 +56,14 @@ export function ManagementSidebar() {
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary">
-            <Leaf className="h-5 w-5 text-white" />
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white p-1.5">
+            <img src={displayLogo} alt="Display" className="h-full w-full object-contain" />
           </div>
           {!collapsed && (
             <div>
-              <h2 className="text-sm font-semibold text-sidebar-foreground">FoodSaver</h2>
-              <p className="text-xs text-sidebar-foreground/60">Management</p>
+              <h2 className="text-sm font-semibold text-sidebar-foreground">Display</h2>
+              <p className="text-xs text-sidebar-foreground/60">Waste Management</p>
             </div>
           )}
         </div>
