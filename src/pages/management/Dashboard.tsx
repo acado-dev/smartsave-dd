@@ -68,16 +68,16 @@ export default function Dashboard() {
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
               {[
-                { name: "Organic Milk", qty: "24 units", expiry: "2 days", category: "Dairy", action: "Discount 30%", price: "$3.99", newPrice: "$2.79" },
-                { name: "Fresh Bread", qty: "18 units", expiry: "1 day", category: "Bakery", action: "Discount 50%", price: "$2.49", newPrice: "$1.25" },
-                { name: "Greek Yogurt", qty: "32 units", expiry: "3 days", category: "Dairy", action: "Discount 20%", price: "$4.99", newPrice: "$3.99" },
-                { name: "Mixed Salad Greens", qty: "15 units", expiry: "1 day", category: "Produce", action: "Donate", price: "$3.49", newPrice: "Free" },
-                { name: "Chicken Breast", qty: "20 units", expiry: "2 days", category: "Meat", action: "Discount 40%", price: "$8.99", newPrice: "$5.39" },
-                { name: "Strawberries", qty: "28 units", expiry: "2 days", category: "Produce", action: "Discount 35%", price: "$5.99", newPrice: "$3.89" },
-                { name: "Fresh Pasta", qty: "22 units", expiry: "3 days", category: "Deli", action: "Discount 25%", price: "$6.49", newPrice: "$4.87" },
-                { name: "Cottage Cheese", qty: "16 units", expiry: "2 days", category: "Dairy", action: "Discount 30%", price: "$3.99", newPrice: "$2.79" },
-                { name: "Sliced Turkey", qty: "12 units", expiry: "1 day", category: "Deli", action: "Discount 50%", price: "$7.99", newPrice: "$4.00" },
-                { name: "Fresh Juice", qty: "30 units", expiry: "3 days", category: "Beverages", action: "Discount 20%", price: "$4.49", newPrice: "$3.59" },
+                { name: "Organic Milk", qty: "24 units", expiry: "2 days", category: "Dairy", mrp: "$3.99", currentPrice: "$3.59", suggestedPrice: "$2.79" },
+                { name: "Fresh Bread", qty: "18 units", expiry: "1 day", category: "Bakery", mrp: "$2.49", currentPrice: "$2.49", suggestedPrice: "$1.25" },
+                { name: "Greek Yogurt", qty: "32 units", expiry: "3 days", category: "Dairy", mrp: "$4.99", currentPrice: "$4.49", suggestedPrice: "$3.99" },
+                { name: "Mixed Salad Greens", qty: "15 units", expiry: "1 day", category: "Produce", mrp: "$3.49", currentPrice: "$2.99", suggestedPrice: "$1.50" },
+                { name: "Chicken Breast", qty: "20 units", expiry: "2 days", category: "Meat", mrp: "$8.99", currentPrice: "$7.99", suggestedPrice: "$5.39" },
+                { name: "Strawberries", qty: "28 units", expiry: "2 days", category: "Produce", mrp: "$5.99", currentPrice: "$5.49", suggestedPrice: "$3.89" },
+                { name: "Fresh Pasta", qty: "22 units", expiry: "3 days", category: "Deli", mrp: "$6.49", currentPrice: "$5.99", suggestedPrice: "$4.87" },
+                { name: "Cottage Cheese", qty: "16 units", expiry: "2 days", category: "Dairy", mrp: "$3.99", currentPrice: "$3.59", suggestedPrice: "$2.79" },
+                { name: "Sliced Turkey", qty: "12 units", expiry: "1 day", category: "Deli", mrp: "$7.99", currentPrice: "$7.99", suggestedPrice: "$4.00" },
+                { name: "Fresh Juice", qty: "30 units", expiry: "3 days", category: "Beverages", mrp: "$4.49", currentPrice: "$4.49", suggestedPrice: "$3.59" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -88,16 +88,26 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground mt-1">
                       {item.category} • {item.qty}
                     </p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs text-muted-foreground line-through">{item.price}</span>
-                      <span className="text-sm font-medium text-accent">{item.newPrice}</span>
+                    <div className="flex flex-col gap-1 mt-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">MRP:</span>
+                        <span className="text-xs text-muted-foreground line-through">{item.mrp}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">Current:</span>
+                        <span className="text-sm font-medium text-foreground">{item.currentPrice}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-accent">Suggested:</span>
+                        <span className="text-sm font-bold text-accent">{item.suggestedPrice}</span>
+                      </div>
                     </div>
                   </div>
                   <div className="text-right ml-4">
                     <p className="text-sm font-medium text-destructive whitespace-nowrap">
-                      {item.expiry}
+                      Expires in
                     </p>
-                    <p className="text-xs font-medium text-accent mt-1 whitespace-nowrap">{item.action}</p>
+                    <p className="text-lg font-bold text-destructive whitespace-nowrap">{item.expiry}</p>
                   </div>
                 </div>
               ))}
