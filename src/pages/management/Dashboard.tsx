@@ -1,7 +1,8 @@
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar, Trash2, Clock, Tag, Archive } from "lucide-react";
+import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar, Trash2, Clock, Tag, Archive, ArrowRight, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   return (
@@ -23,47 +24,60 @@ export default function Dashboard() {
 
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title="Waste This Week"
-            value="142 kg"
-            subtitle="Food & perishables"
-            icon={Trash2}
-            variant="warning"
-            trend={{ value: "23% from last week", positive: false }}
-          />
-          <StatCard
-            title="Items Near Expiry"
-            value="48"
-            subtitle="Within 3 days"
-            icon={Clock}
-            variant="warning"
-            trend={{ value: "12 items added today", positive: false }}
-          />
-          <StatCard
-            title="Waste Prevented"
-            value="$12,340"
-            subtitle="Through donations & discounts"
-            icon={Heart}
-            variant="success"
-            trend={{ value: "18% increase", positive: true }}
-          />
-          <StatCard
-            title="Low Salability Items"
-            value="382"
-            subtitle="Across all categories"
-            icon={AlertCircle}
-            variant="warning"
-            trend={{ value: "18% from yesterday", positive: false }}
-          />
+          <Link to="/management/waste-tracking" className="transition-transform hover:scale-105">
+            <StatCard
+              title="Waste This Week"
+              value="142 kg"
+              subtitle="Food & perishables"
+              icon={Trash2}
+              variant="warning"
+              trend={{ value: "23% from last week", positive: false }}
+            />
+          </Link>
+          <Link to="/management/expiring-items" className="transition-transform hover:scale-105">
+            <StatCard
+              title="Items Near Expiry"
+              value="48"
+              subtitle="Within 3 days"
+              icon={Clock}
+              variant="warning"
+              trend={{ value: "12 items added today", positive: false }}
+            />
+          </Link>
+          <Link to="/management/donations" className="transition-transform hover:scale-105">
+            <StatCard
+              title="Waste Prevented"
+              value="$12,340"
+              subtitle="Through donations & discounts"
+              icon={Heart}
+              variant="success"
+              trend={{ value: "18% increase", positive: true }}
+            />
+          </Link>
+          <Link to="/management/low-salability" className="transition-transform hover:scale-105">
+            <StatCard
+              title="Low Salability Items"
+              value="382"
+              subtitle="Across all categories"
+              icon={AlertCircle}
+              variant="warning"
+              trend={{ value: "18% from yesterday", positive: false }}
+            />
+          </Link>
         </div>
 
         {/* Food Expiry Alert - Priority Section */}
         <Card className="shadow-card border-destructive/50 bg-destructive/5">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-destructive" />
               Food Items Near Expiry - Urgent Action Required
             </CardTitle>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/management/expiring-items">
+                View All <ExternalLink className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
@@ -72,12 +86,6 @@ export default function Dashboard() {
                 { name: "Fresh Bread", qty: "18 units", expiry: "1 day", category: "Bakery", mrp: "$2.49", currentPrice: "$2.49", suggestedPrice: "$1.25" },
                 { name: "Greek Yogurt", qty: "32 units", expiry: "3 days", category: "Dairy", mrp: "$4.99", currentPrice: "$4.49", suggestedPrice: "$3.99" },
                 { name: "Mixed Salad Greens", qty: "15 units", expiry: "1 day", category: "Produce", mrp: "$3.49", currentPrice: "$2.99", suggestedPrice: "$1.50" },
-                { name: "Chicken Breast", qty: "20 units", expiry: "2 days", category: "Meat", mrp: "$8.99", currentPrice: "$7.99", suggestedPrice: "$5.39" },
-                { name: "Strawberries", qty: "28 units", expiry: "2 days", category: "Produce", mrp: "$5.99", currentPrice: "$5.49", suggestedPrice: "$3.89" },
-                { name: "Fresh Pasta", qty: "22 units", expiry: "3 days", category: "Deli", mrp: "$6.49", currentPrice: "$5.99", suggestedPrice: "$4.87" },
-                { name: "Cottage Cheese", qty: "16 units", expiry: "2 days", category: "Dairy", mrp: "$3.99", currentPrice: "$3.59", suggestedPrice: "$2.79" },
-                { name: "Sliced Turkey", qty: "12 units", expiry: "1 day", category: "Deli", mrp: "$7.99", currentPrice: "$7.99", suggestedPrice: "$4.00" },
-                { name: "Fresh Juice", qty: "30 units", expiry: "3 days", category: "Beverages", mrp: "$4.49", currentPrice: "$4.49", suggestedPrice: "$3.59" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -115,20 +123,32 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
-            <Button variant="destructive" className="w-full mt-4">
-              Take Action on All Items
-            </Button>
+            <div className="flex gap-3 mt-4">
+              <Button variant="destructive" className="flex-1">
+                Apply Suggested Pricing
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/management/expiring-items">
+                  View All Items <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
         {/* Waste Management & Action Items */}
         <div className="grid gap-6 lg:grid-cols-3">
           <Card className="shadow-card">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <Tag className="h-5 w-5 text-accent" />
                 Recommended for Discount
               </CardTitle>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/management/discounts">
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              </Button>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
@@ -150,18 +170,30 @@ export default function Dashboard() {
                   </div>
                 </div>
               ))}
-              <Button variant="outline" size="sm" className="w-full">
-                Apply Discounts
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="flex-1">
+                  Apply Discounts
+                </Button>
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/management/discounts">
+                    View All
+                  </Link>
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
           <Card className="shadow-card">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <Heart className="h-5 w-5 text-accent" />
                 Ready for Donation
               </CardTitle>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/management/donations">
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              </Button>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
@@ -182,18 +214,30 @@ export default function Dashboard() {
                   </div>
                 </div>
               ))}
-              <Button variant="outline" size="sm" className="w-full">
-                Schedule Pickup
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="flex-1">
+                  Schedule Pickup
+                </Button>
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/management/donations">
+                    View All
+                  </Link>
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
           <Card className="shadow-card">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <Archive className="h-5 w-5 text-accent" />
                 Low Salability Items
               </CardTitle>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/management/low-salability">
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              </Button>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
@@ -215,8 +259,10 @@ export default function Dashboard() {
                   </div>
                 </div>
               ))}
-              <Button variant="outline" size="sm" className="w-full">
-                View All
+              <Button asChild variant="outline" size="sm" className="w-full">
+                <Link to="/management/low-salability">
+                  View All <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
@@ -224,11 +270,16 @@ export default function Dashboard() {
 
         {/* Recent Activity */}
         <Card className="shadow-card">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <Trash2 className="h-5 w-5 text-accent" />
               Waste Prevention Activity - Last 7 Days
             </CardTitle>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/management/waste-tracking">
+                View All Activity <ExternalLink className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </CardHeader>
           <CardContent className="space-y-4">
             {[
