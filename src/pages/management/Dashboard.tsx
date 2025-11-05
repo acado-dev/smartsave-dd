@@ -81,33 +81,36 @@ export default function Dashboard() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start justify-between rounded-lg border border-destructive/20 bg-card p-4 transition-colors hover:bg-muted/30"
+                  className="rounded-lg border border-destructive/20 bg-card p-4 transition-colors hover:bg-muted/30"
                 >
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">{item.name}</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {item.category} • {item.qty}
-                    </p>
-                    <div className="flex flex-col gap-1 mt-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground">MRP:</span>
-                        <span className="text-xs text-muted-foreground line-through">{item.mrp}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground">Current:</span>
-                        <span className="text-sm font-medium text-foreground">{item.currentPrice}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-accent">Suggested Price:</span>
-                        <span className="text-sm font-bold text-accent">{item.suggestedPrice}</span>
-                      </div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <p className="font-medium text-foreground">{item.name}</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {item.category} • {item.qty}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">Expires in</p>
+                      <p className="text-lg font-bold text-destructive whitespace-nowrap">{item.expiry}</p>
                     </div>
                   </div>
-                  <div className="text-right ml-4">
-                    <p className="text-sm font-medium text-destructive whitespace-nowrap">
-                      Expires in
-                    </p>
-                    <p className="text-lg font-bold text-destructive whitespace-nowrap">{item.expiry}</p>
+                  
+                  <div className="flex items-center justify-between pt-3 border-t border-border">
+                    <div className="flex gap-4">
+                      <div>
+                        <p className="text-xs text-muted-foreground">MRP</p>
+                        <p className="text-sm text-muted-foreground line-through">{item.mrp}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Current</p>
+                        <p className="text-sm font-medium text-foreground">{item.currentPrice}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-accent">Suggested Price</p>
+                      <p className="text-lg font-bold text-accent">{item.suggestedPrice}</p>
+                    </div>
                   </div>
                 </div>
               ))}
