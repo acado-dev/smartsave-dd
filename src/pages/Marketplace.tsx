@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import buceesLogo from "@/assets/bucees-logo.webp";
+import smartSaveLogo from "@/assets/smartsave-logo.png";
+import displayDataLogo from "@/assets/displaydata-logo.png";
 
 // Mock marketplace data
 const marketplaceItems = [
@@ -108,7 +111,7 @@ export default function Marketplace() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <img src="/src/assets/bucees-logo.webp" alt="Buc-ee's" className="h-10" />
+              <img src={buceesLogo} alt="Buc-ee's" className="h-10" />
               <div>
                 <h1 className="text-2xl font-bold text-foreground">Buc-ee's Marketplace</h1>
                 <p className="text-sm text-muted-foreground">Fresh deals, less waste</p>
@@ -270,9 +273,13 @@ export default function Marketplace() {
       {/* Footer */}
       <footer className="border-t bg-card/50 mt-12">
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-muted-foreground">
-            <p className="mb-2">Powered by SmartSave & DisplayData</p>
-            <p className="text-sm">Helping reduce food waste, one deal at a time</p>
+          <div className="text-center">
+            <p className="text-muted-foreground mb-4">Powered by</p>
+            <div className="flex items-center justify-center gap-6 mb-4">
+              <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
+              <img src={displayDataLogo} alt="DisplayData" className="h-7 w-auto object-contain" />
+            </div>
+            <p className="text-sm text-muted-foreground">Helping reduce food waste, one deal at a time</p>
           </div>
         </div>
       </footer>
