@@ -13,8 +13,7 @@ import {
   Archive,
   BarChart3,
 } from "lucide-react";
-import smartSaveLogo from "@/assets/smartsave-logo.png";
-import displayDataLogo from "@/assets/displaydata-logo.png";
+import buceesLogo from "@/assets/bucees-logo.webp";
 import {
   Sidebar,
   SidebarContent,
@@ -66,10 +65,10 @@ export function ManagementSidebar() {
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
-        <div className="flex items-center justify-center gap-3">
-          <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
+        <div className="flex flex-col items-center gap-2">
+          <img src={buceesLogo} alt="BUC-EE'S" className="h-12 w-auto object-contain" />
           {!collapsed && (
-            <img src={displayDataLogo} alt="DisplayData" className="h-6 w-auto object-contain" />
+            <span className="text-lg font-bold text-sidebar-foreground">BUC-EE'S</span>
           )}
         </div>
       </SidebarHeader>
