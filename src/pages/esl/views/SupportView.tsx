@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { AlertTriangle, Battery, WifiOff, Monitor, Server, Activity } from "lucide-react";
+import { AlertTriangle, Battery, WifiOff, Monitor, Server, Activity, ExternalLink } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { FilterBar } from "@/components/esl/FilterBar";
+import { Link } from "react-router-dom";
 
 const systemHealthData = [
   { time: "22:30", failures: 12, cpu: 45, memory: 62 },
@@ -32,6 +34,8 @@ export default function SupportView() {
         <p className="text-muted-foreground">System health monitoring and technical alerts</p>
       </div>
 
+      <FilterBar />
+
       {/* Critical Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
@@ -54,13 +58,15 @@ export default function SupportView() {
           subtitle="Across all stores"
           icon={Monitor}
         />
-        <StatCard
-          title="System Uptime"
-          value="99.8%"
-          subtitle="Last 30 days"
-          icon={Activity}
-          variant="success"
-        />
+        <Link to="/esl/details/system-health" className="transition-transform hover:scale-105">
+          <StatCard
+            title="System Uptime"
+            value="99.8%"
+            subtitle="Last 30 days"
+            icon={Activity}
+            variant="success"
+          />
+        </Link>
       </div>
 
       {/* System Health Chart */}
@@ -93,11 +99,20 @@ export default function SupportView() {
       {/* Active Alerts */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-warning" />
-            Active System Alerts
-          </CardTitle>
-          <CardDescription>Real-time notifications requiring attention</CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-warning" />
+                Active System Alerts
+              </CardTitle>
+              <CardDescription>Real-time notifications requiring attention</CardDescription>
+            </div>
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/esl/details/system-health">
+                <ExternalLink className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">

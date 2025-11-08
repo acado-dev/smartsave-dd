@@ -1,7 +1,7 @@
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar, Trash2, Clock, Tag, Archive, ArrowRight, ExternalLink, Boxes, ShoppingCart, Layers } from "lucide-react";
+import { Package, Heart, TrendingDown, DollarSign, AlertCircle, Calendar, Trash2, Clock, Tag, Archive, ArrowRight, ExternalLink, Boxes, ShoppingCart, Layers, TrendingUp, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
@@ -64,6 +64,54 @@ export default function Dashboard() {
               trend={{ value: "18% from yesterday", positive: false }}
             />
           </Link>
+        </div>
+
+        {/* New KPI Cards */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card className="shadow-card border-accent/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Store Footfall</p>
+                  <p className="text-3xl font-bold text-foreground">28,456</p>
+                  <p className="text-sm text-accent mt-1">↑ 15.3% vs last week</p>
+                </div>
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <TrendingUp className="h-6 w-6 text-accent" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card border-primary/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Daily Revenue</p>
+                  <p className="text-3xl font-bold text-foreground">$42,890</p>
+                  <p className="text-sm text-primary mt-1">↑ 8.2% vs yesterday</p>
+                </div>
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <DollarSign className="h-6 w-6 text-primary" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card border-accent/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Conversion Rate</p>
+                  <p className="text-3xl font-bold text-foreground">3.8%</p>
+                  <p className="text-sm text-accent mt-1">↑ 0.4% vs last week</p>
+                </div>
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <Target className="h-6 w-6 text-accent" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Inventory Overview */}

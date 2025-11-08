@@ -4,6 +4,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { FilterBar } from "@/components/esl/FilterBar";
 
 const planogramStatus = [
   { store: "London Central", compliance: 94, mismatches: 23, lastAudit: "2 hours ago" },
@@ -34,6 +35,8 @@ export default function MerchandisingView() {
           Upload Planogram
         </Button>
       </div>
+
+      <FilterBar />
 
       {/* Merchandising KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

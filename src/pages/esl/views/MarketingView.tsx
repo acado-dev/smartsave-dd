@@ -3,6 +3,7 @@ import { Megaphone, TrendingUp, Users, DollarSign, Calendar, Tag } from "lucide-
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { FilterBar } from "@/components/esl/FilterBar";
 
 const activeCampaigns = [
   { 
@@ -57,6 +58,8 @@ export default function MarketingView() {
           Create Campaign
         </Button>
       </div>
+
+      <FilterBar />
 
       {/* Marketing KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

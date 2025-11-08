@@ -4,6 +4,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { FilterBar } from "@/components/esl/FilterBar";
 
 const todaysSales = [
   { time: "Morning (6-12)", sales: 12450, transactions: 234, avgBasket: 53.21 },
@@ -38,6 +39,8 @@ export default function StoreOpsView() {
           </Badge>
         </div>
       </div>
+
+      <FilterBar />
 
       {/* Daily Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

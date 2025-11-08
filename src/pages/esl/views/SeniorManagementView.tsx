@@ -1,7 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { TrendingUp, DollarSign, Target, Award, MapPin, Building2 } from "lucide-react";
+import { TrendingUp, DollarSign, Target, Award, MapPin, Building2, ExternalLink } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+import { FilterBar } from "@/components/esl/FilterBar";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const revenueData = [
   { month: "Jan", revenue: 245000, savings: 18000 },
@@ -28,16 +31,20 @@ export default function SeniorManagementView() {
         <p className="text-muted-foreground">Strategic insights and performance metrics</p>
       </div>
 
+      <FilterBar />
+
       {/* Key Executive Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Additional Revenue"
-          value="$368K"
-          subtitle="This month"
-          icon={DollarSign}
-          trend={{ value: "12.4%", positive: true }}
-          variant="success"
-        />
+        <Link to="/esl/details/revenue" className="transition-transform hover:scale-105">
+          <StatCard
+            title="Additional Revenue"
+            value="$368K"
+            subtitle="This month"
+            icon={DollarSign}
+            trend={{ value: "12.4%", positive: true }}
+            variant="success"
+          />
+        </Link>
         <StatCard
           title="Cost Savings"
           value="$35.4K"
@@ -64,8 +71,17 @@ export default function SeniorManagementView() {
       {/* Revenue & Savings Trend */}
       <Card>
         <CardHeader>
-          <CardTitle>Revenue Impact & Savings Trend</CardTitle>
-          <CardDescription>Additional revenue generated through dynamic pricing (6-month view)</CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Revenue Impact & Savings Trend</CardTitle>
+              <CardDescription>Additional revenue generated through dynamic pricing (6-month view)</CardDescription>
+            </div>
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/esl/details/revenue">
+                <ExternalLink className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>

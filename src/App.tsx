@@ -17,6 +17,8 @@ import Donations from "./pages/management/Donations";
 import LowSalability from "./pages/management/LowSalability";
 import ESLLogin from "./pages/esl/ESLLogin";
 import ESLDashboard from "./pages/esl/ESLDashboard";
+import RevenueDetails from "./pages/esl/details/RevenueDetails";
+import SystemHealthDetails from "./pages/esl/details/SystemHealthDetails";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +33,8 @@ const App = () => (
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/esl/login" element={<ESLLogin />} />
           <Route path="/esl/dashboard" element={<ESLDashboard />} />
+          <Route path="/esl/details/revenue" element={<RevenueDetails />} />
+          <Route path="/esl/details/system-health" element={<SystemHealthDetails />} />
           <Route path="/management" element={<ManagementLayout><Dashboard /></ManagementLayout>} />
           <Route path="/management/analytics" element={<ManagementLayout><Analytics /></ManagementLayout>} />
           <Route path="/management/inventory" element={<ManagementLayout><Inventory /></ManagementLayout>} />
