@@ -4,6 +4,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FilterBar } from "@/components/esl/FilterBar";
+import { useNavigate } from "react-router-dom";
 
 const activeCampaigns = [
   { 
@@ -46,6 +47,8 @@ const promotionalInsights = [
 ];
 
 export default function MarketingView() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -70,6 +73,7 @@ export default function MarketingView() {
           icon={DollarSign}
           trend={{ value: "15.3%", positive: true }}
           variant="success"
+          onClick={() => navigate("/esl/details/campaigns")}
         />
         <StatCard
           title="Active Campaigns"
@@ -77,6 +81,7 @@ export default function MarketingView() {
           subtitle="Running promotions"
           icon={Megaphone}
           variant="success"
+          onClick={() => navigate("/esl/details/campaigns")}
         />
         <StatCard
           title="Customer Reach"
@@ -84,6 +89,7 @@ export default function MarketingView() {
           subtitle="Unique shoppers"
           icon={Users}
           trend={{ value: "8.7%", positive: true }}
+          onClick={() => navigate("/esl/details/campaigns")}
         />
         <StatCard
           title="Avg. Uplift"
@@ -91,6 +97,7 @@ export default function MarketingView() {
           subtitle="Sales increase"
           icon={TrendingUp}
           variant="success"
+          onClick={() => navigate("/esl/details/campaigns")}
         />
       </div>
 
@@ -138,7 +145,7 @@ export default function MarketingView() {
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm">Edit</Button>
-                  <Button variant="outline" size="sm">View</Button>
+                  <Button variant="outline" size="sm" onClick={() => navigate("/esl/details/campaigns")}>View Details</Button>
                 </div>
               </div>
             ))}

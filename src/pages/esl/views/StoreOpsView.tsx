@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { FilterBar } from "@/components/esl/FilterBar";
+import { useNavigate } from "react-router-dom";
 
 const todaysSales = [
   { time: "Morning (6-12)", sales: 12450, transactions: 234, avgBasket: 53.21 },
@@ -25,6 +26,8 @@ const lowStockAlerts = [
 ];
 
 export default function StoreOpsView() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -51,6 +54,7 @@ export default function StoreOpsView() {
           icon={DollarSign}
           trend={{ value: "5.2%", positive: true }}
           variant="success"
+          onClick={() => navigate("/esl/details/store-operations")}
         />
         <StatCard
           title="Avg. Basket"
@@ -58,12 +62,14 @@ export default function StoreOpsView() {
           subtitle="Per transaction"
           icon={ShoppingCart}
           trend={{ value: "2.1%", positive: true }}
+          onClick={() => navigate("/esl/details/store-operations")}
         />
         <StatCard
           title="Active Products"
           value="1,456"
           subtitle="With ESL labels"
           icon={Package}
+          onClick={() => navigate("/esl/details/store-operations")}
         />
         <StatCard
           title="Customer Flow"
@@ -71,6 +77,7 @@ export default function StoreOpsView() {
           subtitle="Shoppers today"
           icon={Users}
           trend={{ value: "8.3%", positive: true }}
+          onClick={() => navigate("/esl/details/store-operations")}
         />
       </div>
 

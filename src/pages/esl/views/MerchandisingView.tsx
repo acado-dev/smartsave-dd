@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { FilterBar } from "@/components/esl/FilterBar";
+import { useNavigate } from "react-router-dom";
 
 const planogramStatus = [
   { store: "London Central", compliance: 94, mismatches: 23, lastAudit: "2 hours ago" },
@@ -23,6 +24,8 @@ const categoryCompliance = [
 ];
 
 export default function MerchandisingView() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -47,6 +50,7 @@ export default function MerchandisingView() {
           icon={CheckCircle2}
           trend={{ value: "2.3%", positive: true }}
           variant="success"
+          onClick={() => navigate("/esl/details/compliance")}
         />
         <StatCard
           title="Total Mismatches"
@@ -54,12 +58,14 @@ export default function MerchandisingView() {
           subtitle="Requires correction"
           icon={AlertCircle}
           variant="warning"
+          onClick={() => navigate("/esl/details/compliance")}
         />
         <StatCard
           title="Products Tracked"
           value="12,021"
           subtitle="ESL-enabled items"
           icon={Package}
+          onClick={() => navigate("/esl/details/compliance")}
         />
         <StatCard
           title="ESL Deployment"
@@ -67,6 +73,7 @@ export default function MerchandisingView() {
           subtitle="Active labels"
           icon={BarChart3}
           variant="success"
+          onClick={() => navigate("/esl/details/compliance")}
         />
       </div>
 
@@ -108,7 +115,7 @@ export default function MerchandisingView() {
                     </div>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => navigate("/esl/details/compliance")}>
                   View Details
                 </Button>
               </div>

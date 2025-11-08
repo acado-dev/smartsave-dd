@@ -11,9 +11,10 @@ interface StatCardProps {
     positive: boolean;
   };
   variant?: "default" | "warning" | "success";
+  onClick?: () => void;
 }
 
-export function StatCard({ title, value, subtitle, icon: Icon, trend, variant = "default" }: StatCardProps) {
+export function StatCard({ title, value, subtitle, icon: Icon, trend, variant = "default", onClick }: StatCardProps) {
   const variantClasses = {
     default: "bg-card",
     warning: "bg-gradient-to-br from-warning/10 to-warning/5 border-warning/20",
@@ -27,7 +28,10 @@ export function StatCard({ title, value, subtitle, icon: Icon, trend, variant = 
   };
 
   return (
-    <Card className={`shadow-card transition-all hover:shadow-elevated ${variantClasses[variant]}`}>
+    <Card 
+      className={`shadow-card transition-all hover:shadow-elevated ${variantClasses[variant]} ${onClick ? 'cursor-pointer' : ''}`}
+      onClick={onClick}
+    >
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div className="space-y-1">

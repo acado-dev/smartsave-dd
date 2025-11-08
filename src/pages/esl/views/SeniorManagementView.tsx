@@ -4,7 +4,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 import { FilterBar } from "@/components/esl/FilterBar";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const revenueData = [
   { month: "Jan", revenue: 245000, savings: 18000 },
@@ -24,6 +24,8 @@ const storePerformance = [
 ];
 
 export default function SeniorManagementView() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
       <div>
@@ -35,16 +37,15 @@ export default function SeniorManagementView() {
 
       {/* Key Executive Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Link to="/esl/details/revenue" className="transition-transform hover:scale-105">
-          <StatCard
-            title="Additional Revenue"
-            value="$368K"
-            subtitle="This month"
-            icon={DollarSign}
-            trend={{ value: "12.4%", positive: true }}
-            variant="success"
-          />
-        </Link>
+        <StatCard
+          title="Additional Revenue"
+          value="$368K"
+          subtitle="This month"
+          icon={DollarSign}
+          trend={{ value: "12.4%", positive: true }}
+          variant="success"
+          onClick={() => navigate("/esl/details/revenue")}
+        />
         <StatCard
           title="Cost Savings"
           value="$35.4K"
@@ -52,6 +53,7 @@ export default function SeniorManagementView() {
           icon={Target}
           trend={{ value: "8.2%", positive: true }}
           variant="success"
+          onClick={() => navigate("/esl/details/revenue")}
         />
         <StatCard
           title="System Uptime"
@@ -59,12 +61,14 @@ export default function SeniorManagementView() {
           subtitle="Across all stores"
           icon={Award}
           variant="success"
+          onClick={() => navigate("/esl/details/system-health")}
         />
         <StatCard
           title="Active Stores"
           value="127"
           subtitle="ESL-enabled locations"
           icon={Building2}
+          onClick={() => navigate("/esl/details/revenue")}
         />
       </div>
 

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { FilterBar } from "@/components/esl/FilterBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const systemHealthData = [
   { time: "22:30", failures: 12, cpu: 45, memory: 62 },
@@ -27,6 +27,8 @@ const alerts = [
 ];
 
 export default function SupportView() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
       <div>
@@ -44,6 +46,7 @@ export default function SupportView() {
           subtitle="Requires attention"
           icon={WifiOff}
           variant="warning"
+          onClick={() => navigate("/esl/details/system-health")}
         />
         <StatCard
           title="Low Battery"
@@ -51,22 +54,23 @@ export default function SupportView() {
           subtitle="Below 20% charge"
           icon={Battery}
           variant="warning"
+          onClick={() => navigate("/esl/details/system-health")}
         />
         <StatCard
           title="Total Labels"
           value="126,305"
           subtitle="Across all stores"
           icon={Monitor}
+          onClick={() => navigate("/esl/details/system-health")}
         />
-        <Link to="/esl/details/system-health" className="transition-transform hover:scale-105">
-          <StatCard
-            title="System Uptime"
-            value="99.8%"
-            subtitle="Last 30 days"
-            icon={Activity}
-            variant="success"
-          />
-        </Link>
+        <StatCard
+          title="System Uptime"
+          value="99.8%"
+          subtitle="Last 30 days"
+          icon={Activity}
+          variant="success"
+          onClick={() => navigate("/esl/details/system-health")}
+        />
       </div>
 
       {/* System Health Chart */}
@@ -142,7 +146,7 @@ export default function SupportView() {
                   <p className="font-medium text-foreground">{alert.message}</p>
                   <p className="text-sm text-muted-foreground mt-1">Location: {alert.store}</p>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => navigate("/esl/details/system-health")}>
                   View Details
                 </Button>
               </div>

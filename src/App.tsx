@@ -19,6 +19,9 @@ import ESLLogin from "./pages/esl/ESLLogin";
 import ESLDashboard from "./pages/esl/ESLDashboard";
 import RevenueDetails from "./pages/esl/details/RevenueDetails";
 import SystemHealthDetails from "./pages/esl/details/SystemHealthDetails";
+import CampaignsDetails from "./pages/esl/details/CampaignsDetails";
+import ComplianceDetails from "./pages/esl/details/ComplianceDetails";
+import StoreOpsDetails from "./pages/esl/details/StoreOpsDetails";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +38,9 @@ const App = () => (
           <Route path="/esl/dashboard" element={<ESLDashboard />} />
           <Route path="/esl/details/revenue" element={<RevenueDetails />} />
           <Route path="/esl/details/system-health" element={<SystemHealthDetails />} />
+          <Route path="/esl/details/campaigns" element={<CampaignsDetails />} />
+          <Route path="/esl/details/compliance" element={<ComplianceDetails />} />
+          <Route path="/esl/details/store-operations" element={<StoreOpsDetails />} />
           <Route path="/management" element={<ManagementLayout><Dashboard /></ManagementLayout>} />
           <Route path="/management/analytics" element={<ManagementLayout><Analytics /></ManagementLayout>} />
           <Route path="/management/inventory" element={<ManagementLayout><Inventory /></ManagementLayout>} />
