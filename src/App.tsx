@@ -15,6 +15,9 @@ import WasteTracking from "./pages/management/WasteTracking";
 import Discounts from "./pages/management/Discounts";
 import Donations from "./pages/management/Donations";
 import LowSalability from "./pages/management/LowSalability";
+import PlanogramCompliance from "./pages/management/PlanogramCompliance";
+import MediaManagement from "./pages/management/MediaManagement";
+import DynamicPricing from "./pages/management/DynamicPricing";
 import ESLLogin from "./pages/esl/ESLLogin";
 import ESLDashboard from "./pages/esl/ESLDashboard";
 import RevenueDetails from "./pages/esl/details/RevenueDetails";
@@ -49,6 +52,9 @@ const App = () => (
           <Route path="/management/discounts" element={<ManagementLayout><Discounts /></ManagementLayout>} />
           <Route path="/management/donations" element={<ManagementLayout><Donations /></ManagementLayout>} />
           <Route path="/management/low-salability" element={<ManagementLayout><LowSalability /></ManagementLayout>} />
+          <Route path="/management/planogram-compliance" element={<ManagementLayout><PlanogramCompliance /></ManagementLayout>} />
+          <Route path="/management/media-management" element={<ManagementLayout><MediaManagement /></ManagementLayout>} />
+          <Route path="/management/dynamic-pricing" element={<ManagementLayout><DynamicPricing /></ManagementLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
