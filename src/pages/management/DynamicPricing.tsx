@@ -2,8 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingDown, DollarSign, Clock, Zap, Settings, Link as LinkIcon, Database, BarChart3 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function DynamicPricing() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-7xl space-y-8">
@@ -29,7 +32,7 @@ export default function DynamicPricing() {
 
         {/* Performance Metrics */}
         <div className="grid gap-6 md:grid-cols-4">
-          <Card className="shadow-card border-accent/20">
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/dynamic-pricing')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -44,7 +47,7 @@ export default function DynamicPricing() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-primary/20">
+          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/dynamic-pricing')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -59,7 +62,7 @@ export default function DynamicPricing() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-accent/20">
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/details/pricing-rules')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -74,7 +77,7 @@ export default function DynamicPricing() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-primary/20">
+          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/dynamic-pricing')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -107,7 +110,7 @@ export default function DynamicPricing() {
                   <li>• Time-based adjustments</li>
                   <li>• Multiple price points/day</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full">Configure Times</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>Configure Times</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -120,7 +123,7 @@ export default function DynamicPricing() {
                   <li>• Acceptable end qty</li>
                   <li>• Margin thresholds</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full">Edit Parameters</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>Edit Parameters</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -133,7 +136,7 @@ export default function DynamicPricing() {
                   <li>• Auto-sync to displays</li>
                   <li>• Instant deployment</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full">ESL Status</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>ESL Status</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -146,7 +149,7 @@ export default function DynamicPricing() {
                   <li>• Sales data sync</li>
                   <li>• Inventory updates</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full">POS Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>POS Settings</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -159,7 +162,7 @@ export default function DynamicPricing() {
                   <li>• End of life dates</li>
                   <li>• Real-time monitoring</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full">Data Sources</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>Data Sources</Button>
               </div>
             </div>
           </CardContent>
@@ -201,7 +204,7 @@ export default function DynamicPricing() {
                   <div className="text-right">
                     <p className="text-xs text-muted-foreground">Price change at</p>
                     <p className="text-sm font-medium text-foreground">{rule.changeTime}</p>
-                    <Button variant="ghost" size="sm" className="mt-2">
+                    <Button variant="ghost" size="sm" className="mt-2" onClick={() => navigate('/management/details/pricing-rules')}>
                       Adjust Rule
                     </Button>
                   </div>

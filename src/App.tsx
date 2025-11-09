@@ -25,6 +25,10 @@ import SystemHealthDetails from "./pages/esl/details/SystemHealthDetails";
 import CampaignsDetails from "./pages/esl/details/CampaignsDetails";
 import ComplianceDetails from "./pages/esl/details/ComplianceDetails";
 import StoreOpsDetails from "./pages/esl/details/StoreOpsDetails";
+import DisplayManagement from "./pages/management/details/DisplayManagement";
+import ContentScheduler from "./pages/management/details/ContentScheduler";
+import PricingRules from "./pages/management/details/PricingRules";
+import CameraFeeds from "./pages/management/details/CameraFeeds";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +59,10 @@ const App = () => (
           <Route path="/management/planogram-compliance" element={<ManagementLayout><PlanogramCompliance /></ManagementLayout>} />
           <Route path="/management/media-management" element={<ManagementLayout><MediaManagement /></ManagementLayout>} />
           <Route path="/management/dynamic-pricing" element={<ManagementLayout><DynamicPricing /></ManagementLayout>} />
+          <Route path="/management/details/display-management" element={<ManagementLayout><DisplayManagement /></ManagementLayout>} />
+          <Route path="/management/details/content-scheduler" element={<ManagementLayout><ContentScheduler /></ManagementLayout>} />
+          <Route path="/management/details/pricing-rules" element={<ManagementLayout><PricingRules /></ManagementLayout>} />
+          <Route path="/management/details/camera-feeds" element={<ManagementLayout><CameraFeeds /></ManagementLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
