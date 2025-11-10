@@ -161,7 +161,7 @@ export function ManagementSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Digital Signage</SidebarGroupLabel>
+          <SidebarGroupLabel>In-Store Advertising</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {digitalSignageItems.map((item) => (
