@@ -37,6 +37,7 @@ import {
 const homeNavItem = { title: "Home", url: "/management", icon: Home };
 
 const perishableWasteItems = [
+  { title: "Dashboard", url: "/management/dashboard", icon: LayoutDashboard },
   { title: "Analytics", url: "/management/analytics", icon: BarChart3 },
   { title: "Inventory", url: "/management/inventory", icon: Package },
   { title: "Expiring Items", url: "/management/expiring-items", icon: Clock },

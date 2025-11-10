@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Marketplace from "./pages/Marketplace";
 import { ManagementLayout } from "./components/layouts/ManagementLayout";
+import Home from "./pages/management/Home";
 import Dashboard from "./pages/management/Dashboard";
 import Analytics from "./pages/management/Analytics";
 import Inventory from "./pages/management/Inventory";
@@ -51,7 +52,8 @@ const App = () => (
           <Route path="/esl/details/campaigns" element={<CampaignsDetails />} />
           <Route path="/esl/details/compliance" element={<ComplianceDetails />} />
           <Route path="/esl/details/store-operations" element={<StoreOpsDetails />} />
-          <Route path="/management" element={<ManagementLayout><Dashboard /></ManagementLayout>} />
+          <Route path="/management" element={<ManagementLayout><Home /></ManagementLayout>} />
+          <Route path="/management/dashboard" element={<ManagementLayout><Dashboard /></ManagementLayout>} />
           <Route path="/management/analytics" element={<ManagementLayout><Analytics /></ManagementLayout>} />
           <Route path="/management/inventory" element={<ManagementLayout><Inventory /></ManagementLayout>} />
           <Route path="/management/expiring-items" element={<ManagementLayout><ExpiringItems /></ManagementLayout>} />
