@@ -140,7 +140,7 @@ export function ManagementSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>ESL Display Management</SidebarGroupLabel>
+          <SidebarGroupLabel>Planogram Compliance</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {eslDisplayItems.map((item) => (
