@@ -95,65 +95,6 @@ export default function Home() {
           </Card>
         </div>
 
-        {/* Solution Boxes */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="shadow-card hover:shadow-lg transition-all cursor-pointer border-accent/30" onClick={() => navigate('/management/dashboard')}>
-            <CardContent className="p-6">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="h-16 w-16 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <Zap className="h-8 w-8 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg text-foreground">Perishable Waste Reduction</h3>
-                  <p className="text-sm text-muted-foreground mt-2">AI-powered dynamic pricing & waste management</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-card hover:shadow-lg transition-all cursor-pointer border-primary/30" onClick={() => navigate('/management/planogram-compliance')}>
-            <CardContent className="p-6">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="h-16 w-16 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Camera className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg text-foreground">Planogram Compliance</h3>
-                  <p className="text-sm text-muted-foreground mt-2">AI-powered shelf monitoring & gap detection</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-card hover:shadow-lg transition-all cursor-pointer border-accent/30" onClick={() => navigate('/management/media-management')}>
-            <CardContent className="p-6">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="h-16 w-16 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <Monitor className="h-8 w-8 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg text-foreground">In-Store Advertising</h3>
-                  <p className="text-sm text-muted-foreground mt-2">Digital displays & content management</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-card hover:shadow-lg transition-all cursor-pointer border-primary/30" onClick={() => navigate('/management/esl-solution')}>
-            <CardContent className="p-6">
-              <div className="flex flex-col items-center text-center space-y-4">
-                <div className="h-16 w-16 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Layers className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg text-foreground">ESL Solution</h3>
-                  <p className="text-sm text-muted-foreground mt-2">Electronic shelf labels & system monitoring</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Solution Areas with Widgets */}
         <div className="space-y-6">
           {/* Perishable Waste Reduction */}
