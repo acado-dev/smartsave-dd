@@ -24,6 +24,93 @@ export default function Home() {
           </Button>
         </div>
 
+        {/* Solution Boxes (Quick Access) */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <Card className="shadow-card border-accent/30">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <Zap className="h-6 w-6 text-accent" />
+                </div>
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-lg text-foreground">Perishable Waste Reduction</h3>
+                  <p className="text-sm text-muted-foreground">AI-powered dynamic pricing & waste management</p>
+                  <ul className="text-xs text-muted-foreground list-disc pl-4 space-y-1">
+                    <li>Dynamic pricing rules</li>
+                    <li>Expiring items view</li>
+                  </ul>
+                  <Button onClick={() => navigate('/management/dashboard')} variant="outline" size="sm">
+                    Open Dashboard
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card border-primary/30">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Camera className="h-6 w-6 text-primary" />
+                </div>
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-lg text-foreground">Planogram Compliance</h3>
+                  <p className="text-sm text-muted-foreground">AI-powered shelf monitoring & gap detection</p>
+                  <ul className="text-xs text-muted-foreground list-disc pl-4 space-y-1">
+                    <li>Gap detection</li>
+                    <li>Compliance score</li>
+                  </ul>
+                  <Button onClick={() => navigate('/management/planogram-compliance')} variant="outline" size="sm">
+                    Open Dashboard
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card border-accent/30">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <Monitor className="h-6 w-6 text-accent" />
+                </div>
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-lg text-foreground">In-Store Advertising</h3>
+                  <p className="text-sm text-muted-foreground">Digital displays & content management</p>
+                  <ul className="text-xs text-muted-foreground list-disc pl-4 space-y-1">
+                    <li>Active campaigns</li>
+                    <li>Display status</li>
+                  </ul>
+                  <Button onClick={() => navigate('/management/media-management')} variant="outline" size="sm">
+                    Open Dashboard
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card border-primary/30">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Layers className="h-6 w-6 text-primary" />
+                </div>
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-lg text-foreground">ESL Solution</h3>
+                  <p className="text-sm text-muted-foreground">Electronic shelf labels & system monitoring</p>
+                  <ul className="text-xs text-muted-foreground list-disc pl-4 space-y-1">
+                    <li>ESL health</li>
+                    <li>Battery alerts</li>
+                  </ul>
+                  <Button onClick={() => navigate('/management/esl-solution')} variant="outline" size="sm">
+                    Open Dashboard
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Overall Ecosystem Stats */}
         <div className="grid gap-6 md:grid-cols-4">
           <Card className="shadow-card border-accent/20">
