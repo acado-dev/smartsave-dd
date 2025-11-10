@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   Package,
   Heart,
-  TrendingDown,
   Users,
   Settings,
   Store,
@@ -12,6 +11,13 @@ import {
   Trash2,
   Archive,
   BarChart3,
+  Home,
+  Grid3x3,
+  Monitor,
+  TrendingUp,
+  Radio,
+  Shield,
+  Eye,
 } from "lucide-react";
 import buceesLogo from "@/assets/bucees-logo.webp";
 import {
@@ -28,8 +34,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const mainNavItems = [
-  { title: "Dashboard", url: "/management", icon: LayoutDashboard },
+const homeNavItem = { title: "Home", url: "/management", icon: Home };
+
+const perishableWasteItems = [
   { title: "Analytics", url: "/management/analytics", icon: BarChart3 },
   { title: "Inventory", url: "/management/inventory", icon: Package },
   { title: "Expiring Items", url: "/management/expiring-items", icon: Clock },
@@ -37,6 +44,24 @@ const mainNavItems = [
   { title: "Donations", url: "/management/donations", icon: Heart },
   { title: "Low Salability", url: "/management/low-salability", icon: Archive },
   { title: "Waste Tracking", url: "/management/waste-tracking", icon: Trash2 },
+];
+
+const eslDisplayItems = [
+  { title: "Overview", url: "/management/planogram-compliance", icon: Grid3x3 },
+];
+
+const digitalSignageItems = [
+  { title: "Overview", url: "/management/media-management", icon: Monitor },
+];
+
+const dynamicPricingItems = [
+  { title: "Overview", url: "/management/dynamic-pricing", icon: TrendingUp },
+];
+
+const eslSolutionItems = [
+  { title: "Overview", url: "/management/esl-solution", icon: Radio },
+  { title: "Retail Sentry", url: "/management/details/retail-sentry", icon: Shield },
+  { title: "Store Sentry", url: "/management/details/store-sentry", icon: Eye },
 ];
 
 const adminNavItems = [
@@ -75,15 +100,117 @@ export function ManagementSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {mainNavItems.map((item) => (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to={homeNavItem.url}
+                    end
+                    className={getNavCls(isActive(homeNavItem.url))}
+                  >
+                    <homeNavItem.icon className="h-4 w-4" />
+                    {!collapsed && <span>{homeNavItem.title}</span>}
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Perishable Waste Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {perishableWasteItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.url}
-                      end={item.url === "/management"}
+                      className={getNavCls(isActive(item.url))}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>ESL Display Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {eslDisplayItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
+                      className={getNavCls(isActive(item.url))}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Digital Signage</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {digitalSignageItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
+                      className={getNavCls(isActive(item.url))}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Dynamic Pricing</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {dynamicPricingItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
+                      className={getNavCls(isActive(item.url))}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>ESL Solution</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {eslSolutionItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
                       className={getNavCls(isActive(item.url))}
                     >
                       <item.icon className="h-4 w-4" />
