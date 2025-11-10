@@ -30,7 +30,7 @@ export default function Dashboard() {
             <CardTitle className="text-2xl">Smart Retail Solutions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-4">
               <div onClick={() => navigate('/management/dynamic-pricing')} className="cursor-pointer rounded-lg border-2 border-accent/30 bg-card p-4 transition-all hover:border-accent hover:shadow-lg">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
@@ -76,6 +76,23 @@ export default function Dashboard() {
                   <li>• CMS integration</li>
                   <li>• LCD & ESL displays</li>
                   <li>• Content scheduling</li>
+                </ul>
+                <Button variant="outline" size="sm" className="w-full mt-3">
+                  View Dashboard
+                </Button>
+              </div>
+
+              <div onClick={() => navigate('/management/esl-solution')} className="cursor-pointer rounded-lg border-2 border-primary/30 bg-card p-4 transition-all hover:border-primary hover:shadow-lg">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Layers className="h-5 w-5 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-foreground">ESL Solution</h3>
+                </div>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li>• Retail Sentry</li>
+                  <li>• Store Sentry</li>
+                  <li>• Analytics & monitoring</li>
                 </ul>
                 <Button variant="outline" size="sm" className="w-full mt-3">
                   View Dashboard

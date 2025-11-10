@@ -29,6 +29,9 @@ import DisplayManagement from "./pages/management/details/DisplayManagement";
 import ContentScheduler from "./pages/management/details/ContentScheduler";
 import PricingRules from "./pages/management/details/PricingRules";
 import CameraFeeds from "./pages/management/details/CameraFeeds";
+import ESLSolution from "./pages/management/ESLSolution";
+import RetailSentry from "./pages/management/details/RetailSentry";
+import StoreSentry from "./pages/management/details/StoreSentry";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +66,9 @@ const App = () => (
           <Route path="/management/details/content-scheduler" element={<ManagementLayout><ContentScheduler /></ManagementLayout>} />
           <Route path="/management/details/pricing-rules" element={<ManagementLayout><PricingRules /></ManagementLayout>} />
           <Route path="/management/details/camera-feeds" element={<ManagementLayout><CameraFeeds /></ManagementLayout>} />
+          <Route path="/management/esl-solution" element={<ManagementLayout><ESLSolution /></ManagementLayout>} />
+          <Route path="/management/details/retail-sentry" element={<ManagementLayout><RetailSentry /></ManagementLayout>} />
+          <Route path="/management/details/store-sentry" element={<ManagementLayout><StoreSentry /></ManagementLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
