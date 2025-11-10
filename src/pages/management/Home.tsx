@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Zap, Camera, Monitor, Layers, Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Zap, Camera, Monitor, Layers, Calendar, TrendingUp, TrendingDown, DollarSign, AlertCircle, CheckCircle, Clock, Eye, Wifi, Activity } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -23,83 +24,323 @@ export default function Home() {
           </Button>
         </div>
 
-        {/* MVP Solution Areas */}
-        <Card className="shadow-card border-accent/20 bg-gradient-to-br from-accent/5 to-primary/5">
-          <CardHeader>
-            <CardTitle className="text-2xl">Smart Retail Solutions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-4">
-              <div onClick={() => navigate('/management/dashboard')} className="cursor-pointer rounded-lg border-2 border-accent/30 bg-card p-4 transition-all hover:border-accent hover:shadow-lg">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <Zap className="h-5 w-5 text-accent" />
-                  </div>
-                  <h3 className="font-semibold text-foreground">Perishable Waste Reduction</h3>
+        {/* Overall Ecosystem Stats */}
+        <div className="grid gap-6 md:grid-cols-4">
+          <Card className="shadow-card border-accent/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Revenue</p>
+                  <p className="text-3xl font-bold text-foreground">$42,890</p>
+                  <p className="text-sm text-accent mt-1 flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" /> 8.2% vs yesterday
+                  </p>
                 </div>
-                <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• AI pricing algorithm</li>
-                  <li>• ESL & POS integration</li>
-                  <li>• Real-time optimization</li>
-                </ul>
-                <Button variant="outline" size="sm" className="w-full mt-3">
-                  View Dashboard
-                </Button>
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <DollarSign className="h-6 w-6 text-accent" />
+                </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div onClick={() => navigate('/management/planogram-compliance')} className="cursor-pointer rounded-lg border-2 border-primary/30 bg-card p-4 transition-all hover:border-primary hover:shadow-lg">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Camera className="h-5 w-5 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-foreground">Planogram Compliance</h3>
+          <Card className="shadow-card border-primary/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Waste Prevented</p>
+                  <p className="text-3xl font-bold text-foreground">$12.3K</p>
+                  <p className="text-sm text-primary mt-1 flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" /> 18% increase
+                  </p>
                 </div>
-                <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• AI gap detection</li>
-                  <li>• HD camera system</li>
-                  <li>• Location tracking</li>
-                </ul>
-                <Button variant="outline" size="sm" className="w-full mt-3">
-                  View Dashboard
-                </Button>
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Zap className="h-6 w-6 text-primary" />
+                </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div onClick={() => navigate('/management/media-management')} className="cursor-pointer rounded-lg border-2 border-accent/30 bg-card p-4 transition-all hover:border-accent hover:shadow-lg">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <Monitor className="h-5 w-5 text-accent" />
-                  </div>
-                  <h3 className="font-semibold text-foreground">In-Store Advertising</h3>
+          <Card className="shadow-card border-accent/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Compliance Score</p>
+                  <p className="text-3xl font-bold text-foreground">94.2%</p>
+                  <p className="text-sm text-accent mt-1 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3" /> Excellent
+                  </p>
                 </div>
-                <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• CMS integration</li>
-                  <li>• LCD & ESL displays</li>
-                  <li>• Content scheduling</li>
-                </ul>
-                <Button variant="outline" size="sm" className="w-full mt-3">
-                  View Dashboard
-                </Button>
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <Camera className="h-6 w-6 text-accent" />
+                </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div onClick={() => navigate('/management/esl-solution')} className="cursor-pointer rounded-lg border-2 border-primary/30 bg-card p-4 transition-all hover:border-primary hover:shadow-lg">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Layers className="h-5 w-5 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-foreground">ESL Solution</h3>
+          <Card className="shadow-card border-primary/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Active ESLs</p>
+                  <p className="text-3xl font-bold text-foreground">2,847</p>
+                  <p className="text-sm text-primary mt-1 flex items-center gap-1">
+                    <Wifi className="h-3 w-3" /> 98.5% online
+                  </p>
                 </div>
-                <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• Retail Sentry</li>
-                  <li>• Store Sentry</li>
-                  <li>• Analytics & monitoring</li>
-                </ul>
-                <Button variant="outline" size="sm" className="w-full mt-3">
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Layers className="h-6 w-6 text-primary" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Solution Areas with Widgets */}
+        <div className="space-y-6">
+          {/* Perishable Waste Reduction */}
+          <Card className="shadow-card border-accent/30 hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <Zap className="h-6 w-6 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">Perishable Waste Reduction</CardTitle>
+                    <p className="text-sm text-muted-foreground">AI-powered dynamic pricing & waste management</p>
+                  </div>
+                </div>
+                <Button onClick={() => navigate('/management/dashboard')} variant="outline" size="sm">
                   View Dashboard
                 </Button>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-4">
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Waste This Week</p>
+                    <Clock className="h-4 w-4 text-warning" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">142 kg</p>
+                  <p className="text-xs text-warning mt-1 flex items-center gap-1">
+                    <TrendingDown className="h-3 w-3" /> 23% from last week
+                  </p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Near Expiry</p>
+                    <AlertCircle className="h-4 w-4 text-destructive" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">48 items</p>
+                  <p className="text-xs text-muted-foreground mt-1">Within 3 days</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Discounts Applied</p>
+                    <DollarSign className="h-4 w-4 text-accent" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">156</p>
+                  <p className="text-xs text-accent mt-1 flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" /> Today
+                  </p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Donations</p>
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">89 units</p>
+                  <p className="text-xs text-muted-foreground mt-1">This week</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Planogram Compliance */}
+          <Card className="shadow-card border-primary/30 hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Camera className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">Planogram Compliance</CardTitle>
+                    <p className="text-sm text-muted-foreground">AI-powered shelf monitoring & gap detection</p>
+                  </div>
+                </div>
+                <Button onClick={() => navigate('/management/planogram-compliance')} variant="outline" size="sm">
+                  View Dashboard
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-4">
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Overall Score</p>
+                    <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">Excellent</Badge>
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">94.2%</p>
+                  <p className="text-xs text-primary mt-1 flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" /> +2.1% this week
+                  </p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Active Cameras</p>
+                    <Eye className="h-4 w-4 text-accent" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">48/50</p>
+                  <p className="text-xs text-muted-foreground mt-1">96% online</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Gaps Detected</p>
+                    <AlertCircle className="h-4 w-4 text-warning" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">12</p>
+                  <p className="text-xs text-muted-foreground mt-1">Needs attention</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Alerts Resolved</p>
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">127</p>
+                  <p className="text-xs text-accent mt-1">Today</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* In-Store Advertising */}
+          <Card className="shadow-card border-accent/30 hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <Monitor className="h-6 w-6 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">In-Store Advertising</CardTitle>
+                    <p className="text-sm text-muted-foreground">Digital displays & content management</p>
+                  </div>
+                </div>
+                <Button onClick={() => navigate('/management/media-management')} variant="outline" size="sm">
+                  View Dashboard
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-4">
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Active Campaigns</p>
+                    <Activity className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">8</p>
+                  <p className="text-xs text-muted-foreground mt-1">Running now</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Display Devices</p>
+                    <Monitor className="h-4 w-4 text-accent" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">124/128</p>
+                  <p className="text-xs text-accent mt-1">96.9% online</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Total Impressions</p>
+                    <Eye className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">2.4M</p>
+                  <p className="text-xs text-primary mt-1 flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" /> Today
+                  </p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Engagement Rate</p>
+                    <TrendingUp className="h-4 w-4 text-accent" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">12.3%</p>
+                  <p className="text-xs text-accent mt-1">Above average</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* ESL Solution */}
+          <Card className="shadow-card border-primary/30 hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Layers className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">ESL Solution</CardTitle>
+                    <p className="text-sm text-muted-foreground">Electronic shelf labels & system monitoring</p>
+                  </div>
+                </div>
+                <Button onClick={() => navigate('/management/esl-solution')} variant="outline" size="sm">
+                  View Dashboard
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-4">
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Total ESLs</p>
+                    <Layers className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">2,847</p>
+                  <p className="text-xs text-muted-foreground mt-1">Deployed</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Online Status</p>
+                    <Wifi className="h-4 w-4 text-accent" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">98.5%</p>
+                  <p className="text-xs text-accent mt-1">Excellent health</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Updates Today</p>
+                    <Activity className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">1,247</p>
+                  <p className="text-xs text-muted-foreground mt-1">Price changes</p>
+                </div>
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Battery Low</p>
+                    <AlertCircle className="h-4 w-4 text-warning" />
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">23</p>
+                  <p className="text-xs text-muted-foreground mt-1">Need replacement</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
