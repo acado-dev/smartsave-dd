@@ -156,8 +156,8 @@ export default function DynamicPricing() {
                   <li>• Auto-sync to displays</li>
                   <li>• Instant deployment</li>
                 </ul>
-                <Button asChild variant="outline" size="sm" className="w-full">
-                  <a href="/admin/esl-solution" target="_blank" rel="noopener noreferrer">ESL Status</a>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/admin/esl-solution')}>
+                  ESL Status
                 </Button>
               </div>
 
