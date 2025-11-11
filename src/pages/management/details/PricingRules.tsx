@@ -4,9 +4,73 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DollarSign, TrendingDown, Clock, ArrowLeft, Plus, Edit, Pause, Play } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PricingRules() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    sku: "",
+    shelfLife: "",
+    minDiscount: "",
+    maxDiscount: "",
+    targetQty: "",
+    minMargin: "",
+    updateFreq: "",
+    priceStep: ""
+  });
+  const [pausedRules, setPausedRules] = useState<number[]>([]);
+
+  const handleCreateRule = () => {
+    if (!formData.sku || !formData.shelfLife) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in at least Product SKU and Shelf Life.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    toast({
+      title: "Rule Created",
+      description: `New pricing rule created for SKU: ${formData.sku}`,
+    });
+    
+    setFormData({
+      sku: "",
+      shelfLife: "",
+      minDiscount: "",
+      maxDiscount: "",
+      targetQty: "",
+      minMargin: "",
+      updateFreq: "",
+      priceStep: ""
+    });
+  };
+
+  const handleTestRule = () => {
+    toast({
+      title: "Testing Rule",
+      description: "Running simulation with current parameters...",
+    });
+  };
+
+  const togglePause = (index: number) => {
+    setPausedRules(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index)
+        : [...prev, index]
+    );
+    toast({
+      title: pausedRules.includes(index) ? "Rule Resumed" : "Rule Paused",
+      description: pausedRules.includes(index) 
+        ? "Pricing rule is now active again."
+        : "Pricing rule has been paused.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-7xl space-y-8">
@@ -25,7 +89,13 @@ export default function PricingRules() {
               </p>
             </div>
           </div>
-          <Button className="bg-gradient-primary shadow-elevated">
+          <Button 
+            className="bg-gradient-primary shadow-elevated"
+            onClick={() => {
+              const element = document.getElementById('create-rule-form');
+              element?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
             <Plus className="mr-2 h-4 w-4" />
             Create New Rule
           </Button>
@@ -247,15 +317,42 @@ export default function PricingRules() {
                           </div>
                         </div>
                         <div className="flex flex-col gap-2">
-                          <Button variant="outline" size="sm">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => {
+                              const element = document.getElementById('create-rule-form');
+                              element?.scrollIntoView({ behavior: 'smooth' });
+                              toast({
+                                title: "Edit Mode",
+                                description: "You can now modify the rule parameters below.",
+                              });
+                            }}
+                          >
                             <Edit className="mr-2 h-4 w-4" />
                             Edit Rule
                           </Button>
-                          <Button variant="outline" size="sm">
-                            <Pause className="mr-2 h-4 w-4" />
-                            Pause
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => togglePause(i)}
+                          >
+                            {pausedRules.includes(i) ? (
+                              <>
+                                <Play className="mr-2 h-4 w-4" />
+                                Resume
+                              </>
+                            ) : (
+                              <>
+                                <Pause className="mr-2 h-4 w-4" />
+                                Pause
+                              </>
+                            )}
                           </Button>
-                          <Button size="sm">
+                          <Button 
+                            size="sm"
+                            onClick={() => navigate(`/management/details/rule-history?product=${encodeURIComponent(rule.product)}`)}
+                          >
                             View History
                           </Button>
                         </div>
@@ -269,7 +366,7 @@ export default function PricingRules() {
         </Card>
 
         {/* Create New Rule */}
-        <Card className="shadow-card">
+        <Card className="shadow-card" id="create-rule-form">
           <CardHeader>
             <CardTitle>Create New Pricing Rule</CardTitle>
           </CardHeader>
@@ -278,46 +375,107 @@ export default function PricingRules() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="product-sku">Product SKU</Label>
-                  <Input id="product-sku" placeholder="Enter product SKU" className="mt-2" />
+                  <Input 
+                    id="product-sku" 
+                    placeholder="Enter product SKU" 
+                    className="mt-2"
+                    value={formData.sku}
+                    onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="shelf-life">Total Shelf Life (days)</Label>
-                  <Input id="shelf-life" type="number" placeholder="7" className="mt-2" />
+                  <Input 
+                    id="shelf-life" 
+                    type="number" 
+                    placeholder="7" 
+                    className="mt-2"
+                    value={formData.shelfLife}
+                    onChange={(e) => setFormData({ ...formData, shelfLife: e.target.value })}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="min-discount">Minimum Discount %</Label>
-                  <Input id="min-discount" type="number" placeholder="15" className="mt-2" />
+                  <Input 
+                    id="min-discount" 
+                    type="number" 
+                    placeholder="15" 
+                    className="mt-2"
+                    value={formData.minDiscount}
+                    onChange={(e) => setFormData({ ...formData, minDiscount: e.target.value })}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="max-discount">Maximum Discount %</Label>
-                  <Input id="max-discount" type="number" placeholder="70" className="mt-2" />
+                  <Input 
+                    id="max-discount" 
+                    type="number" 
+                    placeholder="70" 
+                    className="mt-2"
+                    value={formData.maxDiscount}
+                    onChange={(e) => setFormData({ ...formData, maxDiscount: e.target.value })}
+                  />
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="target-qty">Target End Quantity</Label>
-                  <Input id="target-qty" type="number" placeholder="0-5 units" className="mt-2" />
+                  <Input 
+                    id="target-qty" 
+                    type="number" 
+                    placeholder="0-5 units" 
+                    className="mt-2"
+                    value={formData.targetQty}
+                    onChange={(e) => setFormData({ ...formData, targetQty: e.target.value })}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="min-margin">Minimum Margin %</Label>
-                  <Input id="min-margin" type="number" placeholder="20" className="mt-2" />
+                  <Input 
+                    id="min-margin" 
+                    type="number" 
+                    placeholder="20" 
+                    className="mt-2"
+                    value={formData.minMargin}
+                    onChange={(e) => setFormData({ ...formData, minMargin: e.target.value })}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="update-freq">Update Frequency</Label>
-                  <Input id="update-freq" placeholder="Hourly, Daily, etc." className="mt-2" />
+                  <Input 
+                    id="update-freq" 
+                    placeholder="Hourly, Daily, etc." 
+                    className="mt-2"
+                    value={formData.updateFreq}
+                    onChange={(e) => setFormData({ ...formData, updateFreq: e.target.value })}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="price-step">Price Step Size %</Label>
-                  <Input id="price-step" type="number" placeholder="5" className="mt-2" />
+                  <Input 
+                    id="price-step" 
+                    type="number" 
+                    placeholder="5" 
+                    className="mt-2"
+                    value={formData.priceStep}
+                    onChange={(e) => setFormData({ ...formData, priceStep: e.target.value })}
+                  />
                 </div>
               </div>
             </div>
             <div className="flex gap-3 mt-6">
-              <Button className="flex-1 bg-gradient-primary shadow-elevated">
+              <Button 
+                className="flex-1 bg-gradient-primary shadow-elevated"
+                onClick={handleCreateRule}
+              >
                 <Plus className="mr-2 h-4 w-4" />
                 Create Rule
               </Button>
-              <Button variant="outline" className="flex-1">
+              <Button 
+                variant="outline" 
+                className="flex-1"
+                onClick={handleTestRule}
+              >
                 Test Rule
               </Button>
             </div>

@@ -19,11 +19,18 @@ export default function DynamicPricing() {
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => navigate('/management/details/algorithm-settings')}>
               <Settings className="mr-2 h-4 w-4" />
               Algorithm Settings
             </Button>
-            <Button className="bg-gradient-primary shadow-elevated">
+            <Button 
+              className="bg-gradient-primary shadow-elevated"
+              onClick={() => {
+                const toast = document.createElement('div');
+                toast.textContent = 'Running optimization...';
+                // This would trigger the actual optimization in a real system
+              }}
+            >
               <Zap className="mr-2 h-4 w-4" />
               Run Optimization
             </Button>
@@ -110,7 +117,7 @@ export default function DynamicPricing() {
                   <li>• Time-based adjustments</li>
                   <li>• Multiple price points/day</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>Configure Times</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/details/algorithm-settings')}>Configure Times</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -123,7 +130,7 @@ export default function DynamicPricing() {
                   <li>• Acceptable end qty</li>
                   <li>• Margin thresholds</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>Edit Parameters</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/details/algorithm-settings')}>Edit Parameters</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -136,7 +143,7 @@ export default function DynamicPricing() {
                   <li>• Auto-sync to displays</li>
                   <li>• Instant deployment</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>ESL Status</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/admin/esl-solution')}>ESL Status</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -149,7 +156,7 @@ export default function DynamicPricing() {
                   <li>• Sales data sync</li>
                   <li>• Inventory updates</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>POS Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/inventory')}>POS Settings</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -162,7 +169,7 @@ export default function DynamicPricing() {
                   <li>• End of life dates</li>
                   <li>• Real-time monitoring</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/dynamic-pricing')}>Data Sources</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/inventory')}>Data Sources</Button>
               </div>
             </div>
           </CardContent>
