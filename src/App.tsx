@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Marketplace from "./pages/Marketplace";
 import { ManagementLayout } from "./components/layouts/ManagementLayout";
+import { AdminLayout } from "./components/layouts/AdminLayout";
+import AdminHome from "./pages/admin/AdminHome";
 import Home from "./pages/management/Home";
 import Dashboard from "./pages/management/Dashboard";
 import Analytics from "./pages/management/Analytics";
@@ -43,9 +45,22 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/management" replace />} />
+          <Route path="/" element={<Navigate to="/admin" replace />} />
           <Route path="/landing" element={<Index />} />
           <Route path="/marketplace" element={<Marketplace />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout><AdminHome /></AdminLayout>} />
+          <Route path="/admin/esl-solution" element={<AdminLayout><ESLSolution /></AdminLayout>} />
+          <Route path="/admin/retail-sentry" element={<AdminLayout><RetailSentry /></AdminLayout>} />
+          <Route path="/admin/store-sentry" element={<AdminLayout><StoreSentry /></AdminLayout>} />
+          <Route path="/admin/planogram-compliance" element={<AdminLayout><PlanogramCompliance /></AdminLayout>} />
+          <Route path="/admin/camera-feeds" element={<AdminLayout><CameraFeeds /></AdminLayout>} />
+          <Route path="/admin/media-management" element={<AdminLayout><MediaManagement /></AdminLayout>} />
+          <Route path="/admin/display-management" element={<AdminLayout><DisplayManagement /></AdminLayout>} />
+          <Route path="/admin/content-scheduler" element={<AdminLayout><ContentScheduler /></AdminLayout>} />
+          <Route path="/admin/dynamic-pricing" element={<AdminLayout><DynamicPricing /></AdminLayout>} />
+          <Route path="/admin/pricing-rules" element={<AdminLayout><PricingRules /></AdminLayout>} />
           <Route path="/esl/login" element={<ESLLogin />} />
           <Route path="/esl/dashboard" element={<ESLDashboard />} />
           <Route path="/esl/details/revenue" element={<RevenueDetails />} />
@@ -62,16 +77,6 @@ const App = () => (
           <Route path="/management/discounts" element={<ManagementLayout><Discounts /></ManagementLayout>} />
           <Route path="/management/donations" element={<ManagementLayout><Donations /></ManagementLayout>} />
           <Route path="/management/low-salability" element={<ManagementLayout><LowSalability /></ManagementLayout>} />
-          <Route path="/management/planogram-compliance" element={<ManagementLayout><PlanogramCompliance /></ManagementLayout>} />
-          <Route path="/management/media-management" element={<ManagementLayout><MediaManagement /></ManagementLayout>} />
-          <Route path="/management/dynamic-pricing" element={<ManagementLayout><DynamicPricing /></ManagementLayout>} />
-          <Route path="/management/details/display-management" element={<ManagementLayout><DisplayManagement /></ManagementLayout>} />
-          <Route path="/management/details/content-scheduler" element={<ManagementLayout><ContentScheduler /></ManagementLayout>} />
-          <Route path="/management/details/pricing-rules" element={<ManagementLayout><PricingRules /></ManagementLayout>} />
-          <Route path="/management/details/camera-feeds" element={<ManagementLayout><CameraFeeds /></ManagementLayout>} />
-          <Route path="/management/esl-solution" element={<ManagementLayout><ESLSolution /></ManagementLayout>} />
-          <Route path="/management/details/retail-sentry" element={<ManagementLayout><RetailSentry /></ManagementLayout>} />
-          <Route path="/management/details/store-sentry" element={<ManagementLayout><StoreSentry /></ManagementLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
