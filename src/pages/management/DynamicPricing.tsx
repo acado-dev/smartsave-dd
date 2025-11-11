@@ -20,13 +20,11 @@ export default function DynamicPricing() {
           </div>
           <div className="flex gap-3">
             <Button 
-              asChild
               className="bg-gradient-primary shadow-elevated"
+              onClick={() => navigate('/admin/freshness-analysis')}
             >
-              <a href="/admin/freshness-analysis" target="_blank" rel="noopener noreferrer">
-                <Scan className="mr-2 h-4 w-4" />
-                AI Freshness Analysis
-              </a>
+              <Scan className="mr-2 h-4 w-4" />
+              AI Freshness Analysis
             </Button>
             <Button variant="outline" onClick={() => navigate('/management/details/algorithm-settings')}>
               <Settings className="mr-2 h-4 w-4" />
