@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Save, RotateCcw } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AlgorithmSettings() {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isAdminWorkspace = location.pathname.includes('/admin/');
   const [settings, setSettings] = useState({
     morningStart: "06:00",
     morningEnd: "12:00",
@@ -53,11 +56,13 @@ export default function AlgorithmSettings() {
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/management/dynamic-pricing">
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => navigate(isAdminWorkspace ? '/admin/dynamic-pricing' : '/management/dynamic-pricing')}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
             <div>
               <h1 className="text-4xl font-bold text-foreground">Algorithm Settings</h1>
               <p className="mt-2 text-muted-foreground">

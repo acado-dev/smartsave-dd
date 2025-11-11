@@ -2,10 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingDown, DollarSign, Clock, Zap, Settings, Link as LinkIcon, Database, BarChart3, Scan } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function DynamicPricing() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAdminWorkspace = location.pathname.includes('/admin/');
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -26,11 +28,12 @@ export default function DynamicPricing() {
               <Scan className="mr-2 h-4 w-4" />
               AI Freshness Analysis
             </Button>
-            <Button variant="outline" asChild>
-              <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">
-                <Settings className="mr-2 h-4 w-4" />
-                Algorithm Settings
-              </a>
+            <Button 
+              variant="outline"
+              onClick={() => navigate(isAdminWorkspace ? '/admin/algorithm-settings' : '/management/details/algorithm-settings')}
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              Algorithm Settings
             </Button>
             <Button 
               variant="outline"
@@ -126,8 +129,8 @@ export default function DynamicPricing() {
                   <li>• Time-based adjustments</li>
                   <li>• Multiple price points/day</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" asChild>
-                  <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">Configure Times</a>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/algorithm-settings' : '/management/details/algorithm-settings')}>
+                  Configure Times
                 </Button>
               </div>
 
@@ -141,8 +144,8 @@ export default function DynamicPricing() {
                   <li>• Acceptable end qty</li>
                   <li>• Margin thresholds</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" asChild>
-                  <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">Edit Parameters</a>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/algorithm-settings' : '/management/details/algorithm-settings')}>
+                  Edit Parameters
                 </Button>
               </div>
 

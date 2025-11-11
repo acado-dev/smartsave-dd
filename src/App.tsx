@@ -64,6 +64,7 @@ const App = () => (
           <Route path="/admin/content-scheduler" element={<AdminLayout><ContentScheduler /></AdminLayout>} />
           <Route path="/admin/dynamic-pricing" element={<AdminLayout><DynamicPricing /></AdminLayout>} />
           <Route path="/admin/pricing-rules" element={<AdminLayout><PricingRules /></AdminLayout>} />
+          <Route path="/admin/algorithm-settings" element={<AdminLayout><AlgorithmSettings /></AdminLayout>} />
           <Route path="/admin/freshness-analysis" element={<AdminLayout><FreshnessAnalysis /></AdminLayout>} />
           <Route path="/esl/login" element={<ESLLogin />} />
           <Route path="/esl/dashboard" element={<ESLDashboard />} />
