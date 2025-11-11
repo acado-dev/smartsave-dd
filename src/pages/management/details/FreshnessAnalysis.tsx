@@ -19,10 +19,14 @@ export default function FreshnessAnalysis() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploadedFilename, setUploadedFilename] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [identifiedProduct, setIdentifiedProduct] = useState<InventoryItem | null>(null);
+  const [testMode, setTestMode] = useState<string>("auto");
+  const [detectedKeywords, setDetectedKeywords] = useState<string[]>([]);
+  const [detectionConfidence, setDetectionConfidence] = useState<number>(0);
   
   // Form parameters
   const [productName, setProductName] = useState("");
@@ -54,11 +58,16 @@ export default function FreshnessAnalysis() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setUploadedFilename(file.name.toLowerCase());
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+      
+      // Reset previous analysis
+      setAnalysisResult(null);
+      setIdentifiedProduct(null);
     }
   };
 
@@ -121,20 +130,61 @@ export default function FreshnessAnalysis() {
 
     setIsAnalyzing(true);
 
-    // Simulate AI vision analysis
+    // Simulate AI vision analysis with realistic delay
     setTimeout(() => {
-      // Simulate image recognition by extracting "keywords" from the image
-      // In a real app, this would call an AI vision API
-      const simulatedKeywords = [
-        "red", "round", "fruit", "fresh", "tomato", "vegetable", 
-        "banana", "yellow", "apple", "orange", "strawberry", "lettuce", "green",
-        "milk", "dairy", "carton", "cheese", "eggs", "yogurt"
-      ];
-      
-      // Randomly select some keywords to simulate detection
-      const detectedKeywords = simulatedKeywords
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 3 + Math.floor(Math.random() * 3));
+      let detectedKeywords: string[] = [];
+      let confidence = 0;
+
+      // Determine keywords based on test mode or filename
+      if (testMode === "bananas") {
+        detectedKeywords = ["banana", "yellow", "fruit"];
+        confidence = 94;
+      } else if (testMode === "tomatoes") {
+        detectedKeywords = ["tomato", "red", "vegetable"];
+        confidence = 91;
+      } else if (testMode === "milk") {
+        detectedKeywords = ["milk", "dairy", "white"];
+        confidence = 89;
+      } else if (testMode === "random") {
+        // Random product (original behavior)
+        const simulatedKeywords = [
+          "red", "round", "fruit", "fresh", "tomato", "vegetable", 
+          "banana", "yellow", "apple", "orange", "strawberry", "lettuce", "green",
+          "milk", "dairy", "carton", "cheese", "eggs", "yogurt"
+        ];
+        detectedKeywords = simulatedKeywords
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3 + Math.floor(Math.random() * 3));
+        confidence = 70 + Math.floor(Math.random() * 20);
+      } else {
+        // Auto mode - detect from filename
+        const filename = uploadedFilename;
+        
+        if (filename.includes("banana")) {
+          detectedKeywords = ["banana", "yellow", "fruit"];
+          confidence = 94;
+        } else if (filename.includes("tomato")) {
+          detectedKeywords = ["tomato", "red", "vegetable"];
+          confidence = 91;
+        } else if (filename.includes("milk")) {
+          detectedKeywords = ["milk", "dairy", "white"];
+          confidence = 89;
+        } else {
+          // Fallback to random if filename doesn't match
+          const simulatedKeywords = [
+            "red", "round", "fruit", "fresh", "tomato", "vegetable", 
+            "banana", "yellow", "apple", "orange", "strawberry", "lettuce", "green",
+            "milk", "dairy", "carton", "cheese", "eggs", "yogurt"
+          ];
+          detectedKeywords = simulatedKeywords
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 3 + Math.floor(Math.random() * 3));
+          confidence = 70 + Math.floor(Math.random() * 20);
+        }
+      }
+
+      setDetectedKeywords(detectedKeywords);
+      setDetectionConfidence(confidence);
 
       // Try to identify product from inventory
       const identified = identifyProductFromKeywords(detectedKeywords);
@@ -154,7 +204,13 @@ export default function FreshnessAnalysis() {
 
         toast({
           title: "Product identified!",
-          description: `Detected: ${identified.name}`,
+          description: `Detected: ${identified.name} (${confidence}% confidence)`,
+        });
+      } else {
+        toast({
+          title: "Product not found",
+          description: "Could not match detected features to inventory",
+          variant: "destructive",
         });
       }
 
@@ -305,6 +361,30 @@ export default function FreshnessAnalysis() {
             </div>
 
             <canvas ref={canvasRef} className="hidden" />
+
+            {/* Test Mode Selector */}
+            <div className="space-y-2">
+              <Label htmlFor="testMode">Detection Mode</Label>
+              <Select value={testMode} onValueChange={setTestMode}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">Auto-detect from filename</SelectItem>
+                  <SelectItem value="bananas">Test with Bananas</SelectItem>
+                  <SelectItem value="tomatoes">Test with Tomatoes</SelectItem>
+                  <SelectItem value="milk">Test with Milk</SelectItem>
+                  <SelectItem value="random">Random Product</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                {testMode === "auto" 
+                  ? "Will detect product based on image filename (sample-bananas.jpg, etc.)" 
+                  : testMode === "random"
+                  ? "Randomly selects a product for testing"
+                  : `Will identify as ${testMode} regardless of image`}
+              </p>
+            </div>
 
             {/* Capture Controls */}
             <div className="flex gap-2">
@@ -464,12 +544,39 @@ export default function FreshnessAnalysis() {
               </div>
             </div>
 
+            {/* Detection Feedback */}
+            {detectedKeywords.length > 0 && (
+              <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">Detected Features</span>
+                  <Badge variant="secondary">{detectionConfidence}% confidence</Badge>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {detectedKeywords.map((keyword, idx) => (
+                    <Badge key={idx} variant="outline" className="bg-background">
+                      {keyword}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <Button 
               onClick={analyzeImage} 
               disabled={isAnalyzing || !imagePreview}
               className="w-full"
             >
-              {isAnalyzing ? "Analyzing..." : "Analyze Freshness"}
+              {isAnalyzing ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                  Analyzing image features...
+                </>
+              ) : (
+                <>
+                  <Scan className="mr-2 h-4 w-4" />
+                  Analyze Freshness
+                </>
+              )}
             </Button>
           </Card>
 
