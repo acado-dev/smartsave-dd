@@ -26,9 +26,11 @@ export default function DynamicPricing() {
               <Scan className="mr-2 h-4 w-4" />
               AI Freshness Analysis
             </Button>
-            <Button variant="outline" onClick={() => navigate('/management/details/algorithm-settings')}>
-              <Settings className="mr-2 h-4 w-4" />
-              Algorithm Settings
+            <Button variant="outline" asChild>
+              <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">
+                <Settings className="mr-2 h-4 w-4" />
+                Algorithm Settings
+              </a>
             </Button>
             <Button 
               variant="outline"
@@ -46,7 +48,7 @@ export default function DynamicPricing() {
 
         {/* Performance Metrics */}
         <div className="grid gap-6 md:grid-cols-4">
-          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/dynamic-pricing')}>
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/admin/dynamic-pricing')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -61,7 +63,7 @@ export default function DynamicPricing() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/dynamic-pricing')}>
+          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/admin/dynamic-pricing')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -76,7 +78,7 @@ export default function DynamicPricing() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/details/pricing-rules')}>
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/admin/pricing-rules')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -91,7 +93,7 @@ export default function DynamicPricing() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/dynamic-pricing')}>
+          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/admin/dynamic-pricing')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -124,7 +126,9 @@ export default function DynamicPricing() {
                   <li>• Time-based adjustments</li>
                   <li>• Multiple price points/day</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/details/algorithm-settings')}>Configure Times</Button>
+                <Button variant="outline" size="sm" className="w-full" asChild>
+                  <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">Configure Times</a>
+                </Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -137,7 +141,9 @@ export default function DynamicPricing() {
                   <li>• Acceptable end qty</li>
                   <li>• Margin thresholds</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/details/algorithm-settings')}>Edit Parameters</Button>
+                <Button variant="outline" size="sm" className="w-full" asChild>
+                  <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">Edit Parameters</a>
+                </Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -165,7 +171,9 @@ export default function DynamicPricing() {
                   <li>• Sales data sync</li>
                   <li>• Inventory updates</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/inventory')}>POS Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" asChild>
+                  <a href="/management/inventory" target="_blank" rel="noopener noreferrer">POS Settings</a>
+                </Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -178,7 +186,9 @@ export default function DynamicPricing() {
                   <li>• End of life dates</li>
                   <li>• Real-time monitoring</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/inventory')}>Data Sources</Button>
+                <Button variant="outline" size="sm" className="w-full" asChild>
+                  <a href="/management/inventory" target="_blank" rel="noopener noreferrer">Data Sources</a>
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -220,7 +230,7 @@ export default function DynamicPricing() {
                   <div className="text-right">
                     <p className="text-xs text-muted-foreground">Price change at</p>
                     <p className="text-sm font-medium text-foreground">{rule.changeTime}</p>
-                    <Button variant="ghost" size="sm" className="mt-2" onClick={() => navigate('/management/details/pricing-rules')}>
+                    <Button variant="ghost" size="sm" className="mt-2" onClick={() => navigate('/admin/pricing-rules')}>
                       Adjust Rule
                     </Button>
                   </div>

@@ -77,11 +77,9 @@ export default function PricingRules() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/management/dynamic-pricing">
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
-            </Link>
+            <Button variant="ghost" size="icon" onClick={() => navigate('/admin/dynamic-pricing')}>
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
             <div>
               <h1 className="text-4xl font-bold text-foreground">Pricing Rules Management</h1>
               <p className="mt-2 text-muted-foreground">
@@ -351,9 +349,11 @@ export default function PricingRules() {
                           </Button>
                           <Button 
                             size="sm"
-                            onClick={() => navigate(`/management/details/rule-history?product=${encodeURIComponent(rule.product)}`)}
+                            asChild
                           >
-                            View History
+                            <a href={`/management/details/rule-history?product=${encodeURIComponent(rule.product)}`} target="_blank" rel="noopener noreferrer">
+                              View History
+                            </a>
                           </Button>
                         </div>
                       </div>
