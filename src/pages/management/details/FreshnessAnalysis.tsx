@@ -6,8 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft, Camera, Upload, Scan, TrendingDown, TrendingUp, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Camera, Upload, Scan, TrendingDown, AlertTriangle, Tag, Package, Calendar, DollarSign, Monitor } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { sampleInventory, identifyProductFromKeywords, type InventoryItem } from "@/data/sampleInventory";
 
 export default function FreshnessAnalysis() {
   const navigate = useNavigate();
@@ -20,14 +22,18 @@ export default function FreshnessAnalysis() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [identifiedProduct, setIdentifiedProduct] = useState<InventoryItem | null>(null);
   
   // Form parameters
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [location, setLocation] = useState("");
-  const [season, setSeason] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
+  const [sku, setSku] = useState("");
+  const [supplier, setSupplier] = useState("");
+  const [receivedDate, setReceivedDate] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
   
   // Analysis results
   const [analysisResult, setAnalysisResult] = useState<{
@@ -37,6 +43,12 @@ export default function FreshnessAnalysis() {
     priceReduction: number;
     condition: string;
     factors: string[];
+    eslActions: string[];
+    displayRecommendations: {
+      color: string;
+      message: string;
+      urgency: "high" | "medium" | "low";
+    };
   } | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,55 +119,139 @@ export default function FreshnessAnalysis() {
       return;
     }
 
-    if (!productName || !category || !originalPrice) {
-      toast({
-        title: "Missing information",
-        description: "Please fill in product details",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsAnalyzing(true);
 
-    // Simulate AI analysis (replace with actual AI vision API call when backend is ready)
+    // Simulate AI vision analysis
     setTimeout(() => {
-      const baseFreshness = Math.floor(Math.random() * 30) + 60; // 60-90%
-      const baseShelfLife = Math.floor(Math.random() * 5) + 1; // 1-5 days
+      // Simulate image recognition by extracting "keywords" from the image
+      // In a real app, this would call an AI vision API
+      const simulatedKeywords = [
+        "red", "round", "fruit", "fresh", "tomato", "vegetable", 
+        "banana", "yellow", "apple", "orange", "strawberry", "lettuce", "green",
+        "milk", "dairy", "carton", "cheese", "eggs", "yogurt"
+      ];
       
-      // Calculate price adjustments based on parameters
-      let priceMultiplier = 1.0;
-      const factors = [];
+      // Randomly select some keywords to simulate detection
+      const detectedKeywords = simulatedKeywords
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3 + Math.floor(Math.random() * 3));
+
+      // Try to identify product from inventory
+      const identified = identifyProductFromKeywords(detectedKeywords);
       
-      if (season === "out-of-season") {
-        priceMultiplier *= 0.85;
-        factors.push("Out of season (-15%)");
-      }
-      
-      if (parseInt(quantity) > 100) {
-        priceMultiplier *= 0.90;
-        factors.push("High quantity (-10%)");
-      }
-      
-      if (baseFreshness < 70) {
-        priceMultiplier *= 0.80;
-        factors.push("Reduced freshness (-20%)");
-      } else if (baseFreshness < 80) {
-        priceMultiplier *= 0.90;
-        factors.push("Good condition (-10%)");
+      if (identified) {
+        setIdentifiedProduct(identified);
+        // Auto-populate form with identified product data
+        setProductName(identified.name);
+        setCategory(identified.category);
+        setQuantity(identified.quantity.toString());
+        setLocation(identified.location);
+        setOriginalPrice(identified.originalPrice.toString());
+        setSku(identified.sku);
+        setSupplier(identified.supplier);
+        setReceivedDate(identified.receivedDate);
+        setExpiryDate(identified.expiryDate);
+
+        toast({
+          title: "Product identified!",
+          description: `Detected: ${identified.name}`,
+        });
       }
 
-      const price = parseFloat(originalPrice);
+      // Calculate freshness based on dates and category
+      const daysUntilExpiry = identified 
+        ? Math.max(0, Math.floor((new Date(identified.expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)))
+        : Math.floor(Math.random() * 10) + 2;
+      
+      const daysInStorage = identified
+        ? Math.floor((new Date().getTime() - new Date(identified.receivedDate).getTime()) / (1000 * 60 * 60 * 24))
+        : Math.floor(Math.random() * 5) + 1;
+
+      // Calculate freshness score (higher is better)
+      let baseFreshness = 95 - (daysInStorage * 5);
+      
+      // Category-specific adjustments
+      if (identified?.category === "fruits") {
+        baseFreshness -= daysInStorage * 3;
+      } else if (identified?.category === "vegetables") {
+        baseFreshness -= daysInStorage * 4;
+      } else if (identified?.category === "dairy") {
+        baseFreshness = daysUntilExpiry > 7 ? 90 : (daysUntilExpiry / 7) * 90;
+      }
+      
+      baseFreshness = Math.max(40, Math.min(98, baseFreshness));
+      
+      // Calculate price adjustments
+      let priceMultiplier = 1.0;
+      const factors: string[] = [];
+      const eslActions: string[] = [];
+      
+      if (baseFreshness < 70) {
+        priceMultiplier *= 0.70;
+        factors.push("Low freshness score (-30%)");
+        eslActions.push("Update price immediately");
+        eslActions.push("Display 'Quick Sale' badge");
+      } else if (baseFreshness < 80) {
+        priceMultiplier *= 0.85;
+        factors.push("Moderate freshness (-15%)");
+        eslActions.push("Apply discount pricing");
+      } else {
+        eslActions.push("Maintain standard pricing");
+      }
+      
+      if (daysUntilExpiry <= 2) {
+        priceMultiplier *= 0.60;
+        factors.push("Near expiration (-40%)");
+        eslActions.push("Flash red indicator on ESL");
+        eslActions.push("Add 'Use Today' message");
+      } else if (daysUntilExpiry <= 4) {
+        priceMultiplier *= 0.80;
+        factors.push("Approaching expiry (-20%)");
+        eslActions.push("Display amber indicator");
+        eslActions.push("Show days until expiry");
+      }
+      
+      if (identified && parseInt(quantity) > 100) {
+        priceMultiplier *= 0.95;
+        factors.push("High inventory (-5%)");
+        eslActions.push("Add 'Stock Up' promotion");
+      }
+
+      const price = identified ? identified.originalPrice : parseFloat(originalPrice || "0");
       const suggestedPrice = parseFloat((price * priceMultiplier).toFixed(2));
       const reduction = Math.round((1 - priceMultiplier) * 100);
 
+      // ESL Display recommendations
+      let displayRecommendations;
+      if (baseFreshness >= 85) {
+        displayRecommendations = {
+          color: "green",
+          message: "Fresh & Ready",
+          urgency: "low" as const
+        };
+      } else if (baseFreshness >= 70) {
+        displayRecommendations = {
+          color: "yellow",
+          message: "Sale Price - Great Value",
+          urgency: "medium" as const
+        };
+      } else {
+        displayRecommendations = {
+          color: "red",
+          message: "CLEARANCE - Use Soon",
+          urgency: "high" as const
+        };
+      }
+
       setAnalysisResult({
-        freshness: baseFreshness,
-        shelfLife: baseShelfLife,
+        freshness: Math.round(baseFreshness),
+        shelfLife: daysUntilExpiry,
         suggestedPrice,
         priceReduction: reduction,
-        condition: baseFreshness >= 80 ? "Excellent" : baseFreshness >= 70 ? "Good" : "Fair",
+        condition: baseFreshness >= 85 ? "Excellent" : baseFreshness >= 70 ? "Good" : baseFreshness >= 60 ? "Fair" : "Poor",
         factors,
+        eslActions,
+        displayRecommendations
       });
 
       setIsAnalyzing(false);
@@ -164,7 +260,7 @@ export default function FreshnessAnalysis() {
         title: "Analysis complete",
         description: "AI freshness analysis finished successfully",
       });
-    }, 2000);
+    }, 2500);
   };
 
   return (
@@ -245,22 +341,43 @@ export default function FreshnessAnalysis() {
 
             {/* Product Details Form */}
             <div className="space-y-4 pt-4 border-t">
-              <h4 className="font-semibold">Product Details</h4>
+              <div className="flex items-center justify-between">
+                <h4 className="font-semibold">Product Details</h4>
+                {identifiedProduct && (
+                  <Badge variant="secondary" className="bg-green-500/10 text-green-700">
+                    Auto-detected
+                  </Badge>
+                )}
+              </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="productName">Product Name *</Label>
-                <Input 
-                  id="productName" 
-                  value={productName} 
-                  onChange={(e) => setProductName(e.target.value)}
-                  placeholder="e.g., Organic Tomatoes"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="productName">Product Name</Label>
+                  <Input 
+                    id="productName" 
+                    value={productName} 
+                    onChange={(e) => setProductName(e.target.value)}
+                    placeholder="Auto-filled from image"
+                    disabled={!!identifiedProduct}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="sku">SKU</Label>
+                  <Input 
+                    id="sku" 
+                    value={sku} 
+                    onChange={(e) => setSku(e.target.value)}
+                    placeholder="Product SKU"
+                    disabled={!!identifiedProduct}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="category">Category *</Label>
-                  <Select value={category} onValueChange={setCategory}>
+                  <Label htmlFor="category">Category</Label>
+                  <Select value={category} onValueChange={setCategory} disabled={!!identifiedProduct}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -268,58 +385,81 @@ export default function FreshnessAnalysis() {
                       <SelectItem value="fruits">Fruits</SelectItem>
                       <SelectItem value="vegetables">Vegetables</SelectItem>
                       <SelectItem value="dairy">Dairy</SelectItem>
-                      <SelectItem value="meat">Meat</SelectItem>
-                      <SelectItem value="bakery">Bakery</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="quantity">Quantity (units)</Label>
+                  <Label htmlFor="supplier">Supplier</Label>
                   <Input 
-                    id="quantity" 
-                    type="number" 
-                    value={quantity} 
-                    onChange={(e) => setQuantity(e.target.value)}
-                    placeholder="100"
+                    id="supplier" 
+                    value={supplier} 
+                    onChange={(e) => setSupplier(e.target.value)}
+                    placeholder="Supplier name"
+                    disabled={!!identifiedProduct}
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="location">Location</Label>
+                  <Label htmlFor="quantity">Quantity</Label>
                   <Input 
-                    id="location" 
-                    value={location} 
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder="City, Country"
+                    id="quantity" 
+                    type="number" 
+                    value={quantity} 
+                    onChange={(e) => setQuantity(e.target.value)}
+                    placeholder="Stock qty"
+                    disabled={!!identifiedProduct}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="season">Season</Label>
-                  <Select value={season} onValueChange={setSeason}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="in-season">In Season</SelectItem>
-                      <SelectItem value="out-of-season">Out of Season</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="location">Store Location</Label>
+                  <Input 
+                    id="location" 
+                    value={location} 
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="Section/Aisle"
+                    disabled={!!identifiedProduct}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="receivedDate">Received Date</Label>
+                  <Input 
+                    id="receivedDate" 
+                    type="date"
+                    value={receivedDate} 
+                    onChange={(e) => setReceivedDate(e.target.value)}
+                    disabled={!!identifiedProduct}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="expiryDate">Expiry Date</Label>
+                  <Input 
+                    id="expiryDate" 
+                    type="date"
+                    value={expiryDate} 
+                    onChange={(e) => setExpiryDate(e.target.value)}
+                    disabled={!!identifiedProduct}
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="originalPrice">Original Price ($) *</Label>
+                <Label htmlFor="originalPrice">Original Price ($)</Label>
                 <Input 
                   id="originalPrice" 
                   type="number" 
                   step="0.01"
                   value={originalPrice} 
                   onChange={(e) => setOriginalPrice(e.target.value)}
-                  placeholder="5.99"
+                  placeholder="0.00"
+                  disabled={!!identifiedProduct}
                 />
               </div>
             </div>
@@ -342,70 +482,139 @@ export default function FreshnessAnalysis() {
 
             {analysisResult ? (
               <div className="space-y-6">
+                {/* Identified Product Info */}
+                {identifiedProduct && (
+                  <Card className="p-4 bg-green-500/5 border-green-500/20">
+                    <div className="flex items-start gap-3">
+                      <Package className="h-5 w-5 text-green-600 mt-0.5" />
+                      <div className="flex-1 space-y-1">
+                        <h4 className="font-semibold text-sm">Product Identified</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {identifiedProduct.name} • SKU: {identifiedProduct.sku}
+                        </p>
+                        <div className="flex gap-2 mt-2">
+                          <Badge variant="outline" className="text-xs">
+                            <Tag className="h-3 w-3 mr-1" />
+                            {identifiedProduct.category}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            Exp: {identifiedProduct.expiryDate}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                )}
+
                 {/* Freshness Score */}
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-base">Freshness Score</Label>
-                    <span className="text-2xl font-bold">{analysisResult.freshness}%</span>
+                    <Label className="text-base font-semibold">Freshness Score</Label>
+                    <span className="text-3xl font-bold">{analysisResult.freshness}%</span>
                   </div>
-                  <Progress value={analysisResult.freshness} className="h-3" />
-                  <p className="text-sm text-muted-foreground">Condition: {analysisResult.condition}</p>
+                  <Progress value={analysisResult.freshness} className="h-4" />
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Condition: <strong>{analysisResult.condition}</strong></span>
+                    <span className="text-muted-foreground">{analysisResult.shelfLife} days remaining</span>
+                  </div>
                 </div>
 
-                {/* Shelf Life */}
-                <div className="rounded-lg border border-border p-4 space-y-2">
-                  <Label className="text-base flex items-center gap-2">
-                    <AlertTriangle className="h-4 w-4" />
-                    Estimated Shelf Life
-                  </Label>
-                  <p className="text-3xl font-bold">{analysisResult.shelfLife} days</p>
-                  <p className="text-sm text-muted-foreground">Under optimal storage conditions</p>
-                </div>
+                {/* ESL Display Recommendations */}
+                <Card className={`p-4 border-2 ${
+                  analysisResult.displayRecommendations.urgency === 'high' ? 'border-red-500 bg-red-500/5' :
+                  analysisResult.displayRecommendations.urgency === 'medium' ? 'border-yellow-500 bg-yellow-500/5' :
+                  'border-green-500 bg-green-500/5'
+                }`}>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Monitor className="h-5 w-5" />
+                      <Label className="text-base font-semibold">ESL Display Recommendation</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full ${
+                        analysisResult.displayRecommendations.color === 'red' ? 'bg-red-500' :
+                        analysisResult.displayRecommendations.color === 'yellow' ? 'bg-yellow-500' :
+                        'bg-green-500'
+                      }`} />
+                      <span className="font-semibold text-lg">{analysisResult.displayRecommendations.message}</span>
+                    </div>
+                    <div className="pt-2 border-t">
+                      <Label className="text-sm font-medium mb-2 block">Action Items:</Label>
+                      <ul className="space-y-1.5">
+                        {analysisResult.eslActions.map((action, idx) => (
+                          <li key={idx} className="text-sm flex items-start gap-2">
+                            <span className="text-primary mt-0.5">▶</span>
+                            <span>{action}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </Card>
 
                 {/* Pricing Recommendation */}
-                <div className="rounded-lg bg-primary/5 border border-primary/20 p-4 space-y-3">
-                  <Label className="text-base font-semibold">Pricing Recommendation</Label>
-                  
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-sm text-muted-foreground line-through">
-                      ${originalPrice}
-                    </span>
-                    <span className="text-3xl font-bold text-primary">
-                      ${analysisResult.suggestedPrice}
-                    </span>
-                  </div>
+                <Card className="p-4 bg-primary/5 border-primary/20">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="h-5 w-5" />
+                      <Label className="text-base font-semibold">Pricing Recommendation</Label>
+                    </div>
+                    
+                    <div className="flex items-baseline gap-4">
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Original</p>
+                        <span className="text-lg text-muted-foreground line-through">
+                          ${originalPrice}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Suggested</p>
+                        <span className="text-4xl font-bold text-primary">
+                          ${analysisResult.suggestedPrice}
+                        </span>
+                      </div>
+                      <div className="ml-auto text-right">
+                        <Badge variant="destructive" className="text-sm px-3 py-1">
+                          {analysisResult.priceReduction}% OFF
+                        </Badge>
+                      </div>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <TrendingDown className="h-4 w-4 text-destructive" />
-                    <span className="text-sm font-medium text-destructive">
-                      {analysisResult.priceReduction}% reduction
-                    </span>
+                    <div className="pt-3 border-t space-y-2">
+                      <Label className="text-sm font-medium">Price Adjustment Factors:</Label>
+                      <ul className="text-sm space-y-1.5">
+                        {analysisResult.factors.map((factor, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <AlertTriangle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                            <span className="text-muted-foreground">{factor}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-
-                  {/* Factors */}
-                  <div className="pt-3 border-t space-y-2">
-                    <Label className="text-sm">Price Adjustment Factors:</Label>
-                    <ul className="text-sm space-y-1">
-                      {analysisResult.factors.map((factor, idx) => (
-                        <li key={idx} className="text-muted-foreground">• {factor}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                </Card>
 
                 {/* Actions */}
-                <div className="flex gap-2">
-                  <Button className="flex-1">Apply to ESL</Button>
-                  <Button variant="outline" className="flex-1" onClick={() => navigate('/admin/pricing-rules')}>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button className="w-full">
+                    <Monitor className="mr-2 h-4 w-4" />
+                    Apply to ESL
+                  </Button>
+                  <Button variant="outline" className="w-full" onClick={() => navigate('/admin/pricing-rules')}>
+                    <Tag className="mr-2 h-4 w-4" />
                     Create Rule
                   </Button>
                 </div>
 
-                {/* Note */}
-                <div className="rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-                  <p className="font-semibold mb-1">Note:</p>
-                  <p>This is a demonstration using simulated analysis. For production use, connect to an AI vision API for real-time freshness detection based on visual characteristics like color, texture, and condition.</p>
-                </div>
+                {/* Demo Note */}
+                <Card className="p-3 bg-muted/50 border-muted">
+                  <p className="text-xs text-muted-foreground">
+                    <strong>Demo Mode:</strong> This analysis uses simulated AI vision with sample inventory data 
+                    (Fruits, Vegetables, Dairy). The system identifies products from uploaded images and provides 
+                    real-time freshness scoring, ESL display recommendations, and dynamic pricing suggestions.
+                  </p>
+                </Card>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-center">
