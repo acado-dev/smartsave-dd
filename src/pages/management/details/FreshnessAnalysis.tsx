@@ -173,7 +173,7 @@ export default function FreshnessAnalysis() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate('/management/dynamic-pricing')}>
+            <Button variant="ghost" size="icon" onClick={() => navigate('/admin/dynamic-pricing')}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
@@ -396,7 +396,7 @@ export default function FreshnessAnalysis() {
                 {/* Actions */}
                 <div className="flex gap-2">
                   <Button className="flex-1">Apply to ESL</Button>
-                  <Button variant="outline" className="flex-1" onClick={() => navigate('/management/details/pricing-rules')}>
+                  <Button variant="outline" className="flex-1" onClick={() => navigate('/admin/pricing-rules')}>
                     Create Rule
                   </Button>
                 </div>

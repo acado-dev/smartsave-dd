@@ -64,6 +64,7 @@ const App = () => (
           <Route path="/admin/content-scheduler" element={<AdminLayout><ContentScheduler /></AdminLayout>} />
           <Route path="/admin/dynamic-pricing" element={<AdminLayout><DynamicPricing /></AdminLayout>} />
           <Route path="/admin/pricing-rules" element={<AdminLayout><PricingRules /></AdminLayout>} />
+          <Route path="/admin/freshness-analysis" element={<AdminLayout><FreshnessAnalysis /></AdminLayout>} />
           <Route path="/esl/login" element={<ESLLogin />} />
           <Route path="/esl/dashboard" element={<ESLDashboard />} />
           <Route path="/esl/details/revenue" element={<RevenueDetails />} />
@@ -84,7 +85,6 @@ const App = () => (
           <Route path="/management/details/pricing-rules" element={<ManagementLayout><PricingRules /></ManagementLayout>} />
           <Route path="/management/details/algorithm-settings" element={<ManagementLayout><AlgorithmSettings /></ManagementLayout>} />
           <Route path="/management/details/rule-history" element={<ManagementLayout><RuleHistory /></ManagementLayout>} />
-          <Route path="/management/details/freshness-analysis" element={<ManagementLayout><FreshnessAnalysis /></ManagementLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
