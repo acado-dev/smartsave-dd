@@ -17,9 +17,11 @@ export default function AdminHome() {
               Configure and manage all retail solutions
             </p>
           </div>
-          <Button onClick={() => navigate('/management')} variant="outline">
-            <ArrowRight className="mr-2 h-4 w-4" />
-            Go to Operations
+          <Button asChild variant="outline">
+            <a href="/management" target="_blank" rel="noopener noreferrer">
+              <ArrowRight className="mr-2 h-4 w-4" />
+              Go to Operations
+            </a>
           </Button>
         </div>
 

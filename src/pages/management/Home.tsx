@@ -18,9 +18,11 @@ export default function Home() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button onClick={() => navigate('/admin')} variant="outline">
-              <Settings className="mr-2 h-4 w-4" />
-              Admin Configuration
+            <Button asChild variant="outline">
+              <a href="/admin" target="_blank" rel="noopener noreferrer">
+                <Settings className="mr-2 h-4 w-4" />
+                Admin Configuration
+              </a>
             </Button>
             <Button className="bg-gradient-primary shadow-elevated">
               <Calendar className="mr-2 h-4 w-4" />
