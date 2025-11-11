@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft, Camera, Upload, Scan, TrendingDown, AlertTriangle, Tag, Package, Calendar, DollarSign, Monitor } from "lucide-react";
+import { ArrowLeft, Camera, Upload, Scan, TrendingDown, AlertTriangle, Tag, Package, Calendar, DollarSign, Monitor, Maximize, ExternalLink } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { sampleInventory, identifyProductFromKeywords, type InventoryItem } from "@/data/sampleInventory";
@@ -333,6 +333,15 @@ export default function FreshnessAnalysis() {
               <p className="text-muted-foreground">Vision-based perishable item analysis & dynamic pricing</p>
             </div>
           </div>
+          <Button 
+            variant="outline" 
+            onClick={() => window.open('/demo/freshness-analysis', '_blank')}
+            className="gap-2"
+          >
+            <Maximize className="h-4 w-4" />
+            Demo Mode
+            <ExternalLink className="h-3 w-3" />
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

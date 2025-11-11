@@ -1,9 +1,24 @@
+import { useState } from "react";
 import FreshnessAnalysis from "../management/details/FreshnessAnalysis";
 import buceesLogo from "@/assets/bucees-logo.webp";
 import smartsaveLogo from "@/assets/smartsave-logo.png";
 import displaydataLogo from "@/assets/displaydata-logo.png";
+import { Button } from "@/components/ui/button";
+import { Maximize, Minimize } from "lucide-react";
 
 const FreshnessAnalysisDemo = () => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header with logos */}
@@ -17,8 +32,18 @@ const FreshnessAnalysisDemo = () => {
               <div className="h-8 w-px bg-border" />
               <img src={displaydataLogo} alt="DisplayData" className="h-10 w-auto object-contain" />
             </div>
-            <div className="text-sm text-muted-foreground">
-              AI Freshness Analysis Demo
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-muted-foreground">
+                AI Freshness Analysis Demo
+              </div>
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={toggleFullscreen}
+                title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+              >
+                {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+              </Button>
             </div>
           </div>
         </div>
