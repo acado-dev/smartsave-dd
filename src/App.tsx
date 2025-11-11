@@ -33,6 +33,7 @@ import ContentScheduler from "./pages/management/details/ContentScheduler";
 import PricingRules from "./pages/management/details/PricingRules";
 import AlgorithmSettings from "./pages/management/details/AlgorithmSettings";
 import RuleHistory from "./pages/management/details/RuleHistory";
+import FreshnessAnalysis from "./pages/management/details/FreshnessAnalysis";
 import CameraFeeds from "./pages/management/details/CameraFeeds";
 import ESLSolution from "./pages/management/ESLSolution";
 import RetailSentry from "./pages/management/details/RetailSentry";
@@ -83,6 +84,7 @@ const App = () => (
           <Route path="/management/details/pricing-rules" element={<ManagementLayout><PricingRules /></ManagementLayout>} />
           <Route path="/management/details/algorithm-settings" element={<ManagementLayout><AlgorithmSettings /></ManagementLayout>} />
           <Route path="/management/details/rule-history" element={<ManagementLayout><RuleHistory /></ManagementLayout>} />
+          <Route path="/management/details/freshness-analysis" element={<ManagementLayout><FreshnessAnalysis /></ManagementLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

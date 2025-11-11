@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { TrendingDown, DollarSign, Clock, Zap, Settings, Link as LinkIcon, Database, BarChart3 } from "lucide-react";
+import { TrendingDown, DollarSign, Clock, Zap, Settings, Link as LinkIcon, Database, BarChart3, Scan } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function DynamicPricing() {
@@ -19,12 +19,19 @@ export default function DynamicPricing() {
             </p>
           </div>
           <div className="flex gap-3">
+            <Button 
+              className="bg-gradient-primary shadow-elevated"
+              onClick={() => navigate('/management/details/freshness-analysis')}
+            >
+              <Scan className="mr-2 h-4 w-4" />
+              AI Freshness Analysis
+            </Button>
             <Button variant="outline" onClick={() => navigate('/management/details/algorithm-settings')}>
               <Settings className="mr-2 h-4 w-4" />
               Algorithm Settings
             </Button>
             <Button 
-              className="bg-gradient-primary shadow-elevated"
+              variant="outline"
               onClick={() => {
                 const toast = document.createElement('div');
                 toast.textContent = 'Running optimization...';
