@@ -2,20 +2,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Camera, MapPin, Activity, AlertTriangle, ArrowLeft, Maximize2, RefreshCw } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function CameraFeeds() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isAdminWorkspace = location.pathname.includes('/admin/');
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-7xl space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/management/planogram-compliance">
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
             <div>
               <h1 className="text-4xl font-bold text-foreground">Live Camera Feeds</h1>
               <p className="mt-2 text-muted-foreground">
