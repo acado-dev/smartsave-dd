@@ -38,6 +38,7 @@ import CameraFeeds from "./pages/management/details/CameraFeeds";
 import ESLSolution from "./pages/management/ESLSolution";
 import RetailSentry from "./pages/management/details/RetailSentry";
 import StoreSentry from "./pages/management/details/StoreSentry";
+import FreshnessAnalysisDemo from "./pages/demo/FreshnessAnalysisDemo";
 
 const queryClient = new QueryClient();
 
@@ -86,6 +87,10 @@ const App = () => (
           <Route path="/management/details/pricing-rules" element={<ManagementLayout><PricingRules /></ManagementLayout>} />
           <Route path="/management/details/algorithm-settings" element={<ManagementLayout><AlgorithmSettings /></ManagementLayout>} />
           <Route path="/management/details/rule-history" element={<ManagementLayout><RuleHistory /></ManagementLayout>} />
+          
+          {/* Demo Routes */}
+          <Route path="/demo/freshness-analysis" element={<FreshnessAnalysisDemo />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
