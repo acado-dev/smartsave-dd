@@ -26,11 +26,12 @@ export default function DynamicPricing() {
               <Scan className="mr-2 h-4 w-4" />
               AI Freshness Analysis
             </Button>
-            <Button variant="outline" asChild>
-              <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">
-                <Settings className="mr-2 h-4 w-4" />
-                Algorithm Settings
-              </a>
+            <Button 
+              variant="outline"
+              onClick={() => navigate('/admin/algorithm-settings')}
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              Algorithm Settings
             </Button>
             <Button 
               variant="outline"
@@ -126,8 +127,8 @@ export default function DynamicPricing() {
                   <li>• Time-based adjustments</li>
                   <li>• Multiple price points/day</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" asChild>
-                  <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">Configure Times</a>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/admin/algorithm-settings')}>
+                  Configure Times
                 </Button>
               </div>
 
@@ -141,8 +142,8 @@ export default function DynamicPricing() {
                   <li>• Acceptable end qty</li>
                   <li>• Margin thresholds</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" asChild>
-                  <a href="/management/details/algorithm-settings" target="_blank" rel="noopener noreferrer">Edit Parameters</a>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/admin/algorithm-settings')}>
+                  Edit Parameters
                 </Button>
               </div>
 
