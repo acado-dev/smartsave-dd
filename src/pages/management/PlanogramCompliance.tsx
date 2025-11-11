@@ -2,10 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Camera, MapPin, CheckCircle, XCircle, AlertTriangle, Upload, Settings, Eye } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PlanogramCompliance() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAdminWorkspace = location.pathname.includes('/admin/');
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -32,7 +34,7 @@ export default function PlanogramCompliance() {
 
         {/* Key Metrics */}
         <div className="grid gap-6 md:grid-cols-4">
-          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/planogram-compliance')}>
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -47,7 +49,7 @@ export default function PlanogramCompliance() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-warning/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/planogram-compliance')}>
+          <Card className="shadow-card border-warning/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -62,7 +64,7 @@ export default function PlanogramCompliance() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-destructive/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/planogram-compliance')}>
+          <Card className="shadow-card border-destructive/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -77,7 +79,7 @@ export default function PlanogramCompliance() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/details/camera-feeds')}>
+          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/camera-feeds' : '/management/details/camera-feeds')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -110,7 +112,7 @@ export default function PlanogramCompliance() {
                   <li>• Shelf bar codes mapped</li>
                   <li>• Zone tracking active</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/planogram-compliance')}>Configure Locations</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>Configure Locations</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -123,7 +125,7 @@ export default function PlanogramCompliance() {
                   <li>• Facing data synced</li>
                   <li>• Real-time updates enabled</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/planogram-compliance')}>View Integration</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>View Integration</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -136,7 +138,7 @@ export default function PlanogramCompliance() {
                   <li>• Shelf edge cameras active</li>
                   <li>• Auto-gap detection running</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/details/camera-feeds')}>Camera Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/camera-feeds' : '/management/details/camera-feeds')}>Camera Settings</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -149,7 +151,7 @@ export default function PlanogramCompliance() {
                   <li>• Real-time alerts enabled</li>
                   <li>• Task assignment active</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/planogram-compliance')}>App Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>App Settings</Button>
               </div>
             </div>
           </CardContent>
@@ -188,11 +190,11 @@ export default function PlanogramCompliance() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => navigate('/management/details/camera-feeds')}>
+                    <Button variant="outline" size="sm" onClick={() => navigate(isAdminWorkspace ? '/admin/camera-feeds' : '/management/details/camera-feeds')}>
                       <Eye className="mr-2 h-4 w-4" />
                       View Image
                     </Button>
-                    <Button size="sm" onClick={() => navigate('/management/planogram-compliance')}>
+                    <Button size="sm" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
                       Assign Task
                     </Button>
                   </div>

@@ -2,10 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Monitor, Wifi, Image, Calendar, PlayCircle, Settings, Upload, Link as LinkIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function MediaManagement() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAdminWorkspace = location.pathname.includes('/admin/');
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -32,7 +34,7 @@ export default function MediaManagement() {
 
         {/* Display Status Overview */}
         <div className="grid gap-6 md:grid-cols-4">
-          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/details/display-management')}>
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/display-management' : '/management/details/display-management')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -47,7 +49,7 @@ export default function MediaManagement() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/details/display-management')}>
+          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/display-management' : '/management/details/display-management')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -62,7 +64,7 @@ export default function MediaManagement() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/details/content-scheduler')}>
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/content-scheduler' : '/management/details/content-scheduler')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -77,7 +79,7 @@ export default function MediaManagement() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate('/management/media-management')}>
+          <Card className="shadow-card border-primary/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/media-management' : '/management/media-management')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -110,7 +112,7 @@ export default function MediaManagement() {
                   <li>• Content sync enabled</li>
                   <li>• API connection active</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/media-management')}>Configure CMS</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/media-management' : '/management/media-management')}>Configure CMS</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -123,7 +125,7 @@ export default function MediaManagement() {
                   <li>• 248 assets stored</li>
                   <li>• Auto-optimization enabled</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/media-management')}>Manage Library</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/media-management' : '/management/media-management')}>Manage Library</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -136,7 +138,7 @@ export default function MediaManagement() {
                   <li>• Wi-Fi & Dynamic Central</li>
                   <li>• Media player links active</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/details/display-management')}>Display Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/display-management' : '/management/details/display-management')}>Display Settings</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -149,7 +151,7 @@ export default function MediaManagement() {
                   <li>• Wi-Fi connectivity</li>
                   <li>• Real-time content push</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/management/details/display-management')}>ESL Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/display-management' : '/management/details/display-management')}>ESL Settings</Button>
               </div>
             </div>
           </CardContent>
@@ -188,10 +190,10 @@ export default function MediaManagement() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => navigate('/management/details/content-scheduler')}>
+                    <Button variant="outline" size="sm" onClick={() => navigate(isAdminWorkspace ? '/admin/content-scheduler' : '/management/details/content-scheduler')}>
                       Edit
                     </Button>
-                    <Button size="sm" onClick={() => navigate('/management/details/content-scheduler')}>
+                    <Button size="sm" onClick={() => navigate(isAdminWorkspace ? '/admin/content-scheduler' : '/management/details/content-scheduler')}>
                       Preview
                     </Button>
                   </div>
@@ -226,7 +228,7 @@ export default function MediaManagement() {
                       <p className="text-xs text-accent mt-1">Playing: {display.content}</p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => navigate('/management/details/display-management')}>
+                  <Button variant="ghost" size="sm" onClick={() => navigate(isAdminWorkspace ? '/admin/display-management' : '/management/details/display-management')}>
                     <Settings className="h-4 w-4" />
                   </Button>
                 </div>
