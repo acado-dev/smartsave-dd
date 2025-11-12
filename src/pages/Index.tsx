@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
   TrendingDown, 
   Users, 
@@ -13,7 +13,13 @@ import {
   Clock,
   Store,
   Heart,
-  Leaf
+  Leaf,
+  Monitor,
+  BarChart3,
+  Target,
+  Video,
+  CheckCircle2,
+  Sparkles
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/navigation/Header";
@@ -59,13 +65,205 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Key Features Section */}
-      <section id="features" className="px-6 py-20 bg-muted/30">
+      {/* Main Solutions Section */}
+      <section id="solutions" className="px-6 py-20 bg-muted/30">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-4xl font-bold text-foreground lg:text-5xl">Complete Retail Solutions Suite</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Four powerful integrated solutions designed to transform your retail operations, 
+              maximize efficiency, and drive profitability
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* ESL Solution */}
+            <Card className="shadow-elevated transition-all hover:shadow-elevated-hover border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-background">
+              <CardHeader>
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10">
+                  <Monitor className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-2xl lg:text-3xl">Electronic Shelf Labels (ESL)</CardTitle>
+                <CardDescription className="text-base">
+                  Real-time digital price management for dynamic retail environments
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-6 text-muted-foreground">
+                  Transform your store with cutting-edge digital pricing that updates instantly across all locations. 
+                  Eliminate manual price changes, reduce errors, and enable dynamic pricing strategies that respond 
+                  to market conditions in real-time.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">Real-time price updates across all store locations</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">Automated compliance with pricing regulations</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">Integration with inventory and POS systems</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">Reduce labor costs by up to 80%</span>
+                  </div>
+                </div>
+                <Button asChild className="w-full">
+                  <Link to="/esl/login">
+                    Explore ESL Solution
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Dynamic Pricing */}
+            <Card className="shadow-elevated transition-all hover:shadow-elevated-hover border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-background">
+              <CardHeader>
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-accent/10">
+                  <DollarSign className="h-8 w-8 text-accent" />
+                </div>
+                <CardTitle className="text-2xl lg:text-3xl">Dynamic Pricing</CardTitle>
+                <CardDescription className="text-base">
+                  AI-powered pricing optimization to maximize revenue and minimize waste
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-6 text-muted-foreground">
+                  Leverage advanced algorithms to automatically adjust prices based on expiration dates, demand patterns, 
+                  inventory levels, and competitor pricing. Maximize sell-through while maintaining optimal margins.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">Automated markdown schedules based on freshness</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">AI-driven demand forecasting and pricing</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">Competitor price monitoring and matching</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">Increase profit margins by 15-25%</span>
+                  </div>
+                </div>
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to="/management/dynamic-pricing">
+                    Explore Dynamic Pricing
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Planogram Compliance */}
+            <Card className="shadow-elevated transition-all hover:shadow-elevated-hover border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-background">
+              <CardHeader>
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10">
+                  <Target className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-2xl lg:text-3xl">Planogram Compliance</CardTitle>
+                <CardDescription className="text-base">
+                  Vision-based monitoring to ensure perfect product placement
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-6 text-muted-foreground">
+                  Use AI-powered computer vision to automatically verify shelf layouts match planograms. 
+                  Identify compliance issues, out-of-stock situations, and misplaced items in real-time 
+                  to optimize product visibility and sales.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">AI vision-based shelf analysis and monitoring</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">Real-time alerts for compliance violations</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">Automated reporting and analytics dashboard</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm">Increase sales by up to 30% through optimal placement</span>
+                  </div>
+                </div>
+                <Button asChild className="w-full">
+                  <Link to="/management/planogram-compliance">
+                    Explore Planogram Solution
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* In-Store Media & Advertising */}
+            <Card className="shadow-elevated transition-all hover:shadow-elevated-hover border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-background">
+              <CardHeader>
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-accent/10">
+                  <Video className="h-8 w-8 text-accent" />
+                </div>
+                <CardTitle className="text-2xl lg:text-3xl">In-Store Media Management</CardTitle>
+                <CardDescription className="text-base">
+                  Dynamic digital content to engage customers and drive purchases
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-6 text-muted-foreground">
+                  Transform your store into an interactive shopping experience with targeted digital displays. 
+                  Schedule promotions, showcase products, and deliver personalized content that resonates 
+                  with shoppers at the perfect moment.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">Centralized content management across locations</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">Time-based and event-triggered content scheduling</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">Integration with promotions and pricing engines</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm">Drive impulse purchases and increase basket size</span>
+                  </div>
+                </div>
+                <Button asChild variant="secondary" className="w-full">
+                  <Link to="/management/media-management">
+                    Explore Media Management
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Features Section */}
+      <section id="features" className="px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-foreground lg:text-4xl">Powerful Features</h2>
+            <h2 className="mb-4 text-3xl font-bold text-foreground lg:text-4xl">
+              <Sparkles className="inline h-8 w-8 text-primary mb-1" /> Additional Powerful Features
+            </h2>
             <p className="text-lg text-muted-foreground">
-              Complete toolkit for modern food waste management
+              Comprehensive toolkit for modern retail management
             </p>
           </div>
 
@@ -76,7 +274,7 @@ const Index = () => {
                   <TrendingUp className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  Inventory & Demand Forecasting
+                  Inventory Forecasting
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   AI-powered predictions to optimize stock levels and reduce overordering
@@ -90,7 +288,7 @@ const Index = () => {
                   <Calendar className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  Track Expiration Dates
+                  Expiration Tracking
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   Automated alerts and smart rotation to ensure product freshness
@@ -101,13 +299,13 @@ const Index = () => {
             <Card className="shadow-card transition-all hover:shadow-elevated">
               <CardContent className="p-6">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <DollarSign className="h-6 w-6 text-primary" />
+                  <Package className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  Dynamic Pricing
+                  Waste Reduction
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Automatically adjust prices based on expiration dates to maximize sales
+                  Smart markdowns and donations to minimize environmental impact
                 </p>
               </CardContent>
             </Card>
@@ -115,13 +313,13 @@ const Index = () => {
             <Card className="shadow-card transition-all hover:shadow-elevated">
               <CardContent className="p-6">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
-                  <Package className="h-6 w-6 text-accent" />
+                  <BarChart3 className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  Discount Imperfect Produce
+                  Analytics & Insights
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Smart markdowns for cosmetically challenged items to reduce waste
+                  Comprehensive dashboards and reports for data-driven decisions
                 </p>
               </CardContent>
             </Card>
@@ -132,10 +330,10 @@ const Index = () => {
                   <Truck className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  Supply Chain Transparency
+                  Supply Chain Visibility
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  End-to-end visibility from farm to shelf for better decision making
+                  End-to-end tracking from farm to shelf for better planning
                 </p>
               </CardContent>
             </Card>
@@ -160,7 +358,7 @@ const Index = () => {
                   <Clock className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  Reduce Time to Market
+                  Faster Time to Market
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   Streamlined processes to get products on shelves faster
@@ -290,7 +488,7 @@ const Index = () => {
       </section>
 
       {/* Impact Stats Section */}
-      <section id="solutions" className="bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-16">
+      <section id="impact" className="bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-16">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center">
             <h2 className="mb-4 text-3xl font-bold text-foreground">Real Impact</h2>
