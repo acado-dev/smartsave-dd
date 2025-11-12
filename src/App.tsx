@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Marketplace from "./pages/Marketplace";
+import Features from "./pages/Features";
+import Solutions from "./pages/Solutions";
+import Benefits from "./pages/Benefits";
+import About from "./pages/About";
 import { ManagementLayout } from "./components/layouts/ManagementLayout";
 import { AdminLayout } from "./components/layouts/AdminLayout";
 import AdminHome from "./pages/admin/AdminHome";
@@ -52,6 +56,10 @@ const App = () => (
           <Route path="/" element={<Navigate to="/admin" replace />} />
           <Route path="/landing" element={<Index />} />
           <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/solutions" element={<Solutions />} />
+          <Route path="/benefits" element={<Benefits />} />
+          <Route path="/about" element={<About />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout><AdminHome /></AdminLayout>} />

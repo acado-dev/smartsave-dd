@@ -18,16 +18,16 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
-          <Link to="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             Features
           </Link>
-          <Link to="#solutions" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/solutions" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             Solutions
           </Link>
-          <Link to="#benefits" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/benefits" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             Benefits
           </Link>
-          <Link to="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             About
           </Link>
           <Button asChild size="sm" className="bg-gradient-primary">
@@ -49,16 +49,16 @@ export function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t bg-background">
           <nav className="container mx-auto flex flex-col gap-4 px-6 py-4">
-            <Link to="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Features
             </Link>
-            <Link to="#solutions" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/solutions" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Solutions
             </Link>
-            <Link to="#benefits" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/benefits" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Benefits
             </Link>
-            <Link to="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               About
             </Link>
             <Button asChild size="sm" className="bg-gradient-primary w-full">
