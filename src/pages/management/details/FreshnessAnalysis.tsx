@@ -30,12 +30,23 @@ export default function FreshnessAnalysis() {
   const [detectedKeywords, setDetectedKeywords] = useState<string[]>([]);
   const [detectionConfidence, setDetectionConfidence] = useState<number>(0);
   const [isESLDialogOpen, setIsESLDialogOpen] = useState(false);
+  const [isPriceRuleDialogOpen, setIsPriceRuleDialogOpen] = useState(false);
   
   // ESL Dialog form fields
   const [eslProductName, setEslProductName] = useState("");
   const [eslNewPrice, setEslNewPrice] = useState("");
   const [eslDisplayMessage, setEslDisplayMessage] = useState("");
   const [eslDisplayColor, setEslDisplayColor] = useState("");
+  
+  // Price Rule Dialog form fields
+  const [ruleName, setRuleName] = useState("");
+  const [ruleProduct, setRuleProduct] = useState("");
+  const [ruleCategory, setRuleCategory] = useState("");
+  const [ruleCondition, setRuleCondition] = useState("");
+  const [ruleThreshold, setRuleThreshold] = useState("");
+  const [rulePriceAdjustment, setRulePriceAdjustment] = useState("");
+  const [ruleAdjustmentType, setRuleAdjustmentType] = useState("percentage");
+  const [ruleAutoApply, setRuleAutoApply] = useState(true);
   
   // Form parameters
   const [productName, setProductName] = useState("");
@@ -738,7 +749,21 @@ export default function FreshnessAnalysis() {
                     <Monitor className="mr-2 h-4 w-4" />
                     Apply to ESL
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={() => navigate('/admin/pricing-rules')}>
+                  <Button 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={() => {
+                      if (analysisResult && identifiedProduct) {
+                        setRuleName(`Freshness Rule - ${identifiedProduct.name}`);
+                        setRuleProduct(identifiedProduct.name);
+                        setRuleCategory(identifiedProduct.category);
+                        setRuleCondition("freshness_score");
+                        setRuleThreshold(analysisResult.freshness.toString());
+                        setRulePriceAdjustment(analysisResult.priceReduction.toString());
+                      }
+                      setIsPriceRuleDialogOpen(true);
+                    }}
+                  >
                     <Tag className="mr-2 h-4 w-4" />
                     Create Rule
                   </Button>
@@ -868,6 +893,168 @@ export default function FreshnessAnalysis() {
             }}>
               <Check className="mr-2 h-4 w-4" />
               Confirm & Apply
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Price Rule Creation Dialog */}
+      <Dialog open={isPriceRuleDialogOpen} onOpenChange={setIsPriceRuleDialogOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Create Dynamic Pricing Rule</DialogTitle>
+            <DialogDescription>
+              Set up an automated pricing rule based on freshness analysis. This rule will automatically adjust prices based on the conditions you define.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="rule-name">Rule Name</Label>
+              <Input
+                id="rule-name"
+                value={ruleName}
+                onChange={(e) => setRuleName(e.target.value)}
+                placeholder="e.g., Freshness-based discount for bananas"
+              />
+              <p className="text-xs text-muted-foreground">
+                Suggested: Give your rule a descriptive name for easy identification
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="rule-product">Product</Label>
+                <Input
+                  id="rule-product"
+                  value={ruleProduct}
+                  onChange={(e) => setRuleProduct(e.target.value)}
+                  placeholder="Product name"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="rule-category">Category</Label>
+                <Select value={ruleCategory} onValueChange={setRuleCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="fruits">Fruits</SelectItem>
+                    <SelectItem value="vegetables">Vegetables</SelectItem>
+                    <SelectItem value="dairy">Dairy</SelectItem>
+                    <SelectItem value="meat">Meat</SelectItem>
+                    <SelectItem value="bakery">Bakery</SelectItem>
+                    <SelectItem value="all">All Categories</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="rule-condition">Condition Trigger</Label>
+              <Select value={ruleCondition} onValueChange={setRuleCondition}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select condition" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="freshness_score">Freshness Score Below Threshold</SelectItem>
+                  <SelectItem value="shelf_life">Shelf Life Days Remaining</SelectItem>
+                  <SelectItem value="expiry_date">Days Until Expiry</SelectItem>
+                  <SelectItem value="visual_quality">Visual Quality Assessment</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                When should this pricing rule be triggered?
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="rule-threshold">Threshold Value</Label>
+              <Input
+                id="rule-threshold"
+                type="number"
+                value={ruleThreshold}
+                onChange={(e) => setRuleThreshold(e.target.value)}
+                placeholder="e.g., 70 for freshness score below 70%"
+              />
+              <p className="text-xs text-muted-foreground">
+                {ruleCondition === "freshness_score" && "Trigger when freshness score falls below this percentage"}
+                {ruleCondition === "shelf_life" && "Trigger when shelf life days remaining is below this number"}
+                {ruleCondition === "expiry_date" && "Trigger when days until expiry is below this number"}
+                {ruleCondition === "visual_quality" && "Trigger when visual quality score is below this value"}
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Price Adjustment</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Select value={ruleAdjustmentType} onValueChange={setRuleAdjustmentType}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="percentage">Percentage Discount</SelectItem>
+                      <SelectItem value="fixed">Fixed Amount Discount</SelectItem>
+                      <SelectItem value="new_price">Set New Price</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={rulePriceAdjustment}
+                    onChange={(e) => setRulePriceAdjustment(e.target.value)}
+                    placeholder={ruleAdjustmentType === "percentage" ? "e.g., 25" : "e.g., 1.50"}
+                  />
+                </div>
+              </div>
+              {analysisResult && (
+                <p className="text-xs text-muted-foreground">
+                  Suggested: {analysisResult.priceReduction}% discount based on current analysis
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="rule-auto-apply"
+                checked={ruleAutoApply}
+                onChange={(e) => setRuleAutoApply(e.target.checked)}
+                className="rounded border-input"
+              />
+              <Label htmlFor="rule-auto-apply" className="text-sm font-normal cursor-pointer">
+                Auto-apply rule to ESL displays when triggered
+              </Label>
+            </div>
+
+            <div className="rounded-lg bg-muted p-4 space-y-2">
+              <p className="text-sm font-medium">Rule Summary</p>
+              <div className="text-xs text-muted-foreground space-y-1">
+                <p>• <strong>Product:</strong> {ruleProduct || "Not specified"} ({ruleCategory || "No category"})</p>
+                <p>• <strong>Trigger:</strong> When {ruleCondition.replace(/_/g, " ")} is below {ruleThreshold || "threshold"}</p>
+                <p>• <strong>Action:</strong> Apply {rulePriceAdjustment || "0"}{ruleAdjustmentType === "percentage" ? "%" : "$"} {ruleAdjustmentType === "percentage" ? "discount" : ruleAdjustmentType === "fixed" ? "discount" : "as new price"}</p>
+                <p>• <strong>Auto-apply:</strong> {ruleAutoApply ? "Yes" : "No"}</p>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsPriceRuleDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => {
+              toast({
+                title: "Pricing Rule Created",
+                description: `Successfully created rule "${ruleName}" for ${ruleProduct}`,
+              });
+              setIsPriceRuleDialogOpen(false);
+            }}>
+              <Check className="mr-2 h-4 w-4" />
+              Create Rule
             </Button>
           </DialogFooter>
         </DialogContent>
