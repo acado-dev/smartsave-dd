@@ -6,9 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft, Camera, Upload, Scan, TrendingDown, AlertTriangle, Tag, Package, Calendar, DollarSign, Monitor, Maximize, ExternalLink } from "lucide-react";
+import { ArrowLeft, Camera, Upload, Scan, TrendingDown, AlertTriangle, Tag, Package, Calendar, DollarSign, Monitor, Maximize, ExternalLink, Check } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { sampleInventory, identifyProductFromKeywords, type InventoryItem } from "@/data/sampleInventory";
 
 export default function FreshnessAnalysis() {
@@ -27,6 +29,13 @@ export default function FreshnessAnalysis() {
   const [testMode, setTestMode] = useState<string>("auto");
   const [detectedKeywords, setDetectedKeywords] = useState<string[]>([]);
   const [detectionConfidence, setDetectionConfidence] = useState<number>(0);
+  const [isESLDialogOpen, setIsESLDialogOpen] = useState(false);
+  
+  // ESL Dialog form fields
+  const [eslProductName, setEslProductName] = useState("");
+  const [eslNewPrice, setEslNewPrice] = useState("");
+  const [eslDisplayMessage, setEslDisplayMessage] = useState("");
+  const [eslDisplayColor, setEslDisplayColor] = useState("");
   
   // Form parameters
   const [productName, setProductName] = useState("");
@@ -713,7 +722,19 @@ export default function FreshnessAnalysis() {
 
                 {/* Actions */}
                 <div className="grid grid-cols-2 gap-3">
-                  <Button className="w-full">
+                  <Button 
+                    className="w-full"
+                    onClick={() => {
+                      if (analysisResult && identifiedProduct) {
+                        setEslProductName(identifiedProduct.name);
+                        setEslNewPrice(analysisResult.suggestedPrice.toFixed(2));
+                        setEslDisplayMessage(analysisResult.displayRecommendations.message);
+                        setEslDisplayColor(analysisResult.displayRecommendations.color);
+                        setIsESLDialogOpen(true);
+                      }
+                    }}
+                    disabled={!analysisResult || !identifiedProduct}
+                  >
                     <Monitor className="mr-2 h-4 w-4" />
                     Apply to ESL
                   </Button>
@@ -744,6 +765,113 @@ export default function FreshnessAnalysis() {
           </Card>
         </div>
       </div>
+
+      {/* ESL Confirmation Dialog */}
+      <Dialog open={isESLDialogOpen} onOpenChange={setIsESLDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Apply Changes to ESL Display</DialogTitle>
+            <DialogDescription>
+              Review and confirm the changes to be applied to the Electronic Shelf Label. You can edit the fields before applying.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="esl-product">Product Name</Label>
+              <Input
+                id="esl-product"
+                value={eslProductName}
+                onChange={(e) => setEslProductName(e.target.value)}
+                placeholder="Enter product name"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="esl-price">New Price ($)</Label>
+              <Input
+                id="esl-price"
+                type="number"
+                step="0.01"
+                value={eslNewPrice}
+                onChange={(e) => setEslNewPrice(e.target.value)}
+                placeholder="0.00"
+              />
+              {analysisResult && (
+                <p className="text-xs text-muted-foreground">
+                  Suggested: ${analysisResult.suggestedPrice.toFixed(2)} ({analysisResult.priceReduction}% reduction)
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="esl-message">Display Message</Label>
+              <Textarea
+                id="esl-message"
+                value={eslDisplayMessage}
+                onChange={(e) => setEslDisplayMessage(e.target.value)}
+                placeholder="Enter promotional or urgency message"
+                rows={3}
+              />
+              {analysisResult && (
+                <p className="text-xs text-muted-foreground">
+                  Suggested: "{analysisResult.displayRecommendations.message}"
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="esl-color">Display Color Scheme</Label>
+              <Select value={eslDisplayColor} onValueChange={setEslDisplayColor}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select color scheme" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="red">Red (High Urgency)</SelectItem>
+                  <SelectItem value="yellow">Yellow (Medium Urgency)</SelectItem>
+                  <SelectItem value="green">Green (Good Condition)</SelectItem>
+                  <SelectItem value="blue">Blue (Special Offer)</SelectItem>
+                </SelectContent>
+              </Select>
+              {analysisResult && (
+                <p className="text-xs text-muted-foreground">
+                  Suggested: {analysisResult.displayRecommendations.color.charAt(0).toUpperCase() + analysisResult.displayRecommendations.color.slice(1)} (based on {analysisResult.displayRecommendations.urgency} urgency)
+                </p>
+              )}
+            </div>
+
+            {analysisResult && (
+              <div className="rounded-lg bg-muted p-3 space-y-1">
+                <p className="text-sm font-medium">ESL Actions to be applied:</p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  {analysisResult.eslActions.map((action, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <Check className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsESLDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => {
+              toast({
+                title: "ESL Update Applied",
+                description: `Successfully updated ESL for ${eslProductName} with new price $${eslNewPrice}`,
+              });
+              setIsESLDialogOpen(false);
+            }}>
+              <Check className="mr-2 h-4 w-4" />
+              Confirm & Apply
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
