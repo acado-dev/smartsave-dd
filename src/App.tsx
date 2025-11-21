@@ -12,6 +12,7 @@ import Benefits from "./pages/Benefits";
 import About from "./pages/About";
 import { ManagementLayout } from "./components/layouts/ManagementLayout";
 import { AdminLayout } from "./components/layouts/AdminLayout";
+import { SmartStoreLayout } from "./components/layouts/SmartStoreLayout";
 import AdminHome from "./pages/admin/AdminHome";
 import Home from "./pages/management/Home";
 import Dashboard from "./pages/management/Dashboard";
@@ -43,6 +44,16 @@ import ESLSolution from "./pages/management/ESLSolution";
 import RetailSentry from "./pages/management/details/RetailSentry";
 import StoreSentry from "./pages/management/details/StoreSentry";
 import FreshnessAnalysisDemo from "./pages/demo/FreshnessAnalysisDemo";
+import SmartStoreDashboard from "./pages/smartstore/Dashboard";
+import SmartStoreInventory from "./pages/smartstore/Inventory";
+import SmartStoreExpiringItems from "./pages/smartstore/ExpiringItems";
+import SmartStoreWasteTracking from "./pages/smartstore/WasteTracking";
+import SmartStoreDonations from "./pages/smartstore/Donations";
+import SmartStoreDiscounts from "./pages/smartstore/Discounts";
+import SmartStoreDynamicPricing from "./pages/smartstore/DynamicPricing";
+import SmartStoreLowSalability from "./pages/smartstore/LowSalability";
+import SmartStoreAnalytics from "./pages/smartstore/Analytics";
+import SmartStoreMarketplace from "./pages/smartstore/Marketplace";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +106,18 @@ const App = () => (
           <Route path="/management/details/pricing-rules" element={<ManagementLayout><PricingRules /></ManagementLayout>} />
           <Route path="/management/details/algorithm-settings" element={<ManagementLayout><AlgorithmSettings /></ManagementLayout>} />
           <Route path="/management/details/rule-history" element={<ManagementLayout><RuleHistory /></ManagementLayout>} />
+          
+          {/* SmartStore Routes */}
+          <Route path="/smartstore" element={<SmartStoreLayout><SmartStoreDashboard /></SmartStoreLayout>} />
+          <Route path="/smartstore/inventory" element={<SmartStoreLayout><SmartStoreInventory /></SmartStoreLayout>} />
+          <Route path="/smartstore/expiring-items" element={<SmartStoreLayout><SmartStoreExpiringItems /></SmartStoreLayout>} />
+          <Route path="/smartstore/waste-tracking" element={<SmartStoreLayout><SmartStoreWasteTracking /></SmartStoreLayout>} />
+          <Route path="/smartstore/donations" element={<SmartStoreLayout><SmartStoreDonations /></SmartStoreLayout>} />
+          <Route path="/smartstore/discounts" element={<SmartStoreLayout><SmartStoreDiscounts /></SmartStoreLayout>} />
+          <Route path="/smartstore/dynamic-pricing" element={<SmartStoreLayout><SmartStoreDynamicPricing /></SmartStoreLayout>} />
+          <Route path="/smartstore/low-salability" element={<SmartStoreLayout><SmartStoreLowSalability /></SmartStoreLayout>} />
+          <Route path="/smartstore/analytics" element={<SmartStoreLayout><SmartStoreAnalytics /></SmartStoreLayout>} />
+          <Route path="/smartstore/marketplace" element={<SmartStoreLayout><SmartStoreMarketplace /></SmartStoreLayout>} />
           
           {/* Demo Routes */}
           <Route path="/demo/freshness-analysis" element={<FreshnessAnalysisDemo />} />
