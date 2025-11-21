@@ -19,9 +19,15 @@ export function SmartStoreLayout({ children }: SmartStoreLayoutProps) {
               <SidebarTrigger>
                 <Menu className="h-5 w-5" />
               </SidebarTrigger>
-              <div className="flex items-center gap-3">
-                <img src={smartStoreLogo} alt="DD-SmartStore" className="h-6 w-auto object-contain" />
-                <img src={displayDataLogo} alt="DisplayData" className="h-5 w-auto object-contain" />
+              <div className="flex items-center gap-4">
+                <div className="flex flex-col items-start">
+                  <span className="text-sm font-semibold text-foreground">Perishable Waste Management</span>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <img src={smartStoreLogo} alt="SmartStore" className="h-5 w-auto object-contain" />
+                    <span className="text-xs text-muted-foreground">powered by</span>
+                    <img src={displayDataLogo} alt="DisplayData" className="h-4 w-auto object-contain" />
+                  </div>
+                </div>
               </div>
             </div>
           </header>

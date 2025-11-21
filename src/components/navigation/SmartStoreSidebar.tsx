@@ -32,7 +32,7 @@ export function SmartStoreSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>DD-SmartStore Management</SidebarGroupLabel>
+          <SidebarGroupLabel>SmartStore</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
