@@ -19,6 +19,41 @@ export default function SmartStoreInventory() {
     return matchesSearch && matchesCategory;
   });
 
+  const exportToCSV = () => {
+    // Define CSV headers
+    const headers = ['ID', 'Name', 'Category', 'Subcategory', 'Quantity', 'Price', 'Expiry Date', 'Freshness Score', 'Status'];
+    
+    // Convert data to CSV rows
+    const csvRows = filteredInventory.map(item => [
+      item.id,
+      item.name,
+      item.category,
+      item.subcategory,
+      item.quantity,
+      item.price,
+      item.expiryDate,
+      item.freshnessScore,
+      item.status
+    ].map(value => `"${value}"`).join(','));
+    
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(','),
+      ...csvRows
+    ].join('\n');
+    
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `inventory_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'fresh':
@@ -42,9 +77,9 @@ export default function SmartStoreInventory() {
           <p className="text-muted-foreground mt-1">Track and manage all store inventory</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline" onClick={exportToCSV}>
             <Download className="h-4 w-4 mr-2" />
-            Export
+            Export CSV
           </Button>
           <Button>
             <Plus className="h-4 w-4 mr-2" />
