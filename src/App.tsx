@@ -54,6 +54,7 @@ import SmartStoreDynamicPricing from "./pages/smartstore/DynamicPricing";
 import SmartStoreLowSalability from "./pages/smartstore/LowSalability";
 import SmartStoreAnalytics from "./pages/smartstore/Analytics";
 import SmartStoreMarketplace from "./pages/smartstore/Marketplace";
+import SmartStorePricingOptimization from "./pages/smartstore/PricingOptimization";
 
 const queryClient = new QueryClient();
 
@@ -118,6 +119,7 @@ const App = () => (
           <Route path="/smartstore/low-salability" element={<SmartStoreLayout><SmartStoreLowSalability /></SmartStoreLayout>} />
           <Route path="/smartstore/analytics" element={<SmartStoreLayout><SmartStoreAnalytics /></SmartStoreLayout>} />
           <Route path="/smartstore/marketplace" element={<SmartStoreLayout><SmartStoreMarketplace /></SmartStoreLayout>} />
+          <Route path="/smartstore/pricing-optimization" element={<SmartStoreLayout><SmartStorePricingOptimization /></SmartStoreLayout>} />
           
           {/* Demo Routes */}
           <Route path="/demo/freshness-analysis" element={<FreshnessAnalysisDemo />} />
