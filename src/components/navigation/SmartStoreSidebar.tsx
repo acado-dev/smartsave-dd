@@ -1,4 +1,4 @@
-import { Home, Package, AlertTriangle, Trash2, Heart, Percent, DollarSign, BarChart3, TrendingDown, Store } from "lucide-react";
+import { Home, Package, AlertTriangle, Trash2, Heart, Percent, DollarSign, BarChart3, TrendingDown, Store, Zap } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -17,6 +17,7 @@ const menuItems = [
   { title: "Dashboard", icon: Home, path: "/smartstore" },
   { title: "Inventory", icon: Package, path: "/smartstore/inventory" },
   { title: "Expiring Items", icon: AlertTriangle, path: "/smartstore/expiring-items" },
+  { title: "Pricing Optimization", icon: Zap, path: "/smartstore/pricing-optimization" },
   { title: "Waste Tracking", icon: Trash2, path: "/smartstore/waste-tracking" },
   { title: "Donations", icon: Heart, path: "/smartstore/donations" },
   { title: "Discounts", icon: Percent, path: "/smartstore/discounts" },
