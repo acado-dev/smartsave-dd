@@ -9,7 +9,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
+import smartStoreLogo from "@/assets/smartstore-logo.webp";
 
 const menuItems = [
   { title: "Dashboard", icon: Home, path: "/smartstore" },
@@ -30,9 +32,18 @@ export function SmartStoreSidebar() {
 
   return (
     <Sidebar>
+      <SidebarHeader className="border-b px-6 py-4">
+        <div className="flex items-center gap-3">
+          <img src={smartStoreLogo} alt="SmartStore" className="h-10 w-10 object-contain" />
+          <div className="flex flex-col">
+            <span className="text-xl font-bold text-primary">SmartStore</span>
+            <span className="text-xs text-muted-foreground">Perishable Waste Management</span>
+          </div>
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>SmartStore</SidebarGroupLabel>
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
