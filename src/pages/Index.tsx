@@ -92,6 +92,10 @@ const Index = () => {
               </div>
               
               <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-2">
+                  <Sparkles className="h-5 w-5 text-primary" />
+                  <span className="text-sm font-semibold text-primary">Built on the 4P + C Framework</span>
+                </div>
                 <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl leading-tight">
                   Transform Your
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
@@ -99,7 +103,7 @@ const Index = () => {
                   </span>
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                  Drive freshness, reduce waste, and maximize profitability with DisplayData's intelligent retail solutions.
+                  Drive freshness, reduce waste, and maximize profitability with DisplayData's intelligent retail solutions powered by our proven Five Value-Added Projects methodology.
                 </p>
               </div>
               
@@ -191,23 +195,219 @@ const Index = () => {
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
       </section>
 
+      {/* 4P + C Framework Section */}
+      <section id="framework" className="px-6 py-24 bg-gradient-to-b from-background via-primary/5 to-muted/30">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-16 text-center space-y-4 animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
+              <Target className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold text-primary">Our Proven Framework</span>
+            </div>
+            <h2 className="text-4xl font-bold text-foreground lg:text-5xl">
+              Five Value-Added Projects
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                (4P + C)
+              </span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Our comprehensive approach delivers measurable value through five interconnected pillars that drive operational excellence and profitability
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
+            {/* P1: Perishable Food Reduction */}
+            <Card className="group shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-2 border-green-500/30 bg-gradient-to-br from-green-500/10 to-background">
+              <CardHeader>
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/20">
+                    <Leaf className="h-6 w-6 text-green-500" />
+                  </div>
+                  <span className="text-3xl font-bold text-green-500">P1</span>
+                </div>
+                <CardTitle className="text-xl">Perishable Food Reduction</CardTitle>
+                <CardDescription>Minimize waste and maximize freshness</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  AI-powered freshness tracking and dynamic pricing strategies to reduce perishable food waste by up to 60%
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
+                    <span>Real-time freshness monitoring</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
+                    <span>Automated markdown schedules</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
+                    <span>Donation coordination</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* P2: Planogram Compliance and Management */}
+            <Card className="group shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-2 border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-background">
+              <CardHeader>
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/20">
+                    <Target className="h-6 w-6 text-blue-500" />
+                  </div>
+                  <span className="text-3xl font-bold text-blue-500">P2</span>
+                </div>
+                <CardTitle className="text-xl">Planogram Compliance & Management</CardTitle>
+                <CardDescription>Optimize product placement and visibility</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  AI vision-based shelf monitoring ensures perfect product placement and maximizes sales potential
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+                    <span>Automated compliance tracking</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+                    <span>Real-time alert system</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+                    <span>Sales lift up to 30%</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* P3: Promotion Execution */}
+            <Card className="group shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 to-background">
+              <CardHeader>
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/20">
+                    <Video className="h-6 w-6 text-purple-500" />
+                  </div>
+                  <span className="text-3xl font-bold text-purple-500">P3</span>
+                </div>
+                <CardTitle className="text-xl">Promotion Execution</CardTitle>
+                <CardDescription>Seamless promotional campaigns</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Execute promotional campaigns instantly across all channels with ESL and digital displays
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-purple-500 shrink-0 mt-0.5" />
+                    <span>Instant price updates</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-purple-500 shrink-0 mt-0.5" />
+                    <span>Coordinated media campaigns</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-purple-500 shrink-0 mt-0.5" />
+                    <span>100% price accuracy</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* P4: Profit Optimization */}
+            <Card className="group shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-2 border-orange-500/30 bg-gradient-to-br from-orange-500/10 to-background">
+              <CardHeader>
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-500/20">
+                    <TrendingUp className="h-6 w-6 text-orange-500" />
+                  </div>
+                  <span className="text-3xl font-bold text-orange-500">P4</span>
+                </div>
+                <CardTitle className="text-xl">Profit Optimization</CardTitle>
+                <CardDescription>Maximize margins and revenue</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  AI-driven dynamic pricing strategies optimize margins while moving inventory efficiently
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-orange-500 shrink-0 mt-0.5" />
+                    <span>Demand-based pricing</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-orange-500 shrink-0 mt-0.5" />
+                    <span>Competitor analysis</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-orange-500 shrink-0 mt-0.5" />
+                    <span>Margin increase up to 25%</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* C1: Cash Generation */}
+            <Card className="group shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-background lg:col-span-2">
+              <CardHeader>
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-500/20">
+                    <DollarSign className="h-6 w-6 text-emerald-500" />
+                  </div>
+                  <span className="text-3xl font-bold text-emerald-500">C1</span>
+                </div>
+                <CardTitle className="text-xl">Cash Generation</CardTitle>
+                <CardDescription>Improve cash flow and working capital</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Transform aging inventory into immediate revenue through strategic pricing and promotions, improving cash flow and reducing carrying costs
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Faster inventory turnover</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Reduced holding costs</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Improved working capital</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Better cash flow management</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Main Solutions Section */}
-      <section id="solutions" className="px-6 py-24 bg-gradient-to-b from-background to-muted/30">
+      <section id="solutions" className="px-6 py-24 bg-muted/20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-20 text-center space-y-4 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
               <Sparkles className="h-5 w-5 text-primary" />
-              <span className="text-sm font-semibold text-primary">Complete Solution Suite</span>
+              <span className="text-sm font-semibold text-primary">Technology Solutions</span>
             </div>
             <h2 className="text-4xl font-bold text-foreground lg:text-5xl">
-              Everything You Need to
+              Integrated Retail Solutions
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                Revolutionize Retail
+                Powered by 4P + C
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Four powerful integrated solutions designed to transform your retail operations, 
-              maximize efficiency, and drive profitability
+              Four powerful integrated technologies designed to deliver the 4P + C framework, 
+              transforming your retail operations and driving measurable results
             </p>
           </div>
 
@@ -221,7 +421,7 @@ const Index = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl font-bold">Electronic Shelf Labels (ESL)</CardTitle>
                 <CardDescription className="text-base text-muted-foreground">
-                  Real-time digital price management for dynamic retail environments
+                  Enables P3 (Promotion Execution) with real-time digital price management
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -266,7 +466,7 @@ const Index = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl font-bold">Dynamic Pricing</CardTitle>
                 <CardDescription className="text-base text-muted-foreground">
-                  AI-powered pricing optimization to maximize revenue and minimize waste
+                  Powers P1, P4 & C1 through AI-driven pricing optimization
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -310,7 +510,7 @@ const Index = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl font-bold">Planogram Compliance</CardTitle>
                 <CardDescription className="text-base text-muted-foreground">
-                  Vision-based monitoring to ensure perfect product placement
+                  Delivers P2 with AI vision-based monitoring for perfect product placement
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -355,7 +555,7 @@ const Index = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl font-bold">In-Store Media Management</CardTitle>
                 <CardDescription className="text-base text-muted-foreground">
-                  Dynamic digital content to engage customers and drive purchases
+                  Supports P3 with dynamic digital content to engage customers
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -705,7 +905,7 @@ const Index = () => {
               </span>
             </h2>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Join leading retailers who are reducing waste, increasing profits, and building a sustainable future with DisplayData's intelligent solutions.
+              Join leading retailers who are implementing the 4P + C framework to reduce waste, increase profits, and build a sustainable future with DisplayData's intelligent solutions.
             </p>
             <div className="flex flex-wrap gap-4 justify-center pt-6">
               <Button asChild size="lg" className="bg-gradient-to-r from-primary to-primary/80 shadow-lg hover:shadow-xl transition-all text-lg px-8">
