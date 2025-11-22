@@ -5,12 +5,32 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, Filter, Download, Plus } from "lucide-react";
-import { smartStoreInventory, smartStoreCategories } from "@/data/smartStoreInventory";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Search, Filter, Download, Plus, Wifi, Battery, Clock, Monitor } from "lucide-react";
+import { smartStoreInventory, smartStoreCategories, type SmartStoreProduct } from "@/data/smartStoreInventory";
 
 export default function SmartStoreInventory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [selectedItem, setSelectedItem] = useState<SmartStoreProduct | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleViewItem = (item: SmartStoreProduct) => {
+    setSelectedItem(item);
+    setDialogOpen(true);
+  };
+
+  const getESLData = (item: SmartStoreProduct) => {
+    // Generate ESL-specific data based on item
+    return {
+      eslId: `ESL-${item.id.padStart(6, '0')}`,
+      batteryLevel: Math.floor(Math.random() * 30) + 70, // 70-100%
+      signalStrength: Math.floor(Math.random() * 20) + 80, // 80-100%
+      lastSync: new Date(Date.now() - Math.random() * 3600000).toLocaleString(), // Within last hour
+      displayType: '2.9" E-Ink',
+      firmwareVersion: 'v2.4.1'
+    };
+  };
 
   const filteredInventory = smartStoreInventory.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -168,7 +188,7 @@ export default function SmartStoreInventory() {
                     </TableCell>
                     <TableCell>{getStatusBadge(item.status)}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">View</Button>
+                      <Button variant="ghost" size="sm" onClick={() => handleViewItem(item)}>View</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -177,6 +197,145 @@ export default function SmartStoreInventory() {
           </div>
         </CardContent>
       </Card>
+
+      {/* ESL Label Preview Dialog */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>ESL Label Details & Preview</DialogTitle>
+            <DialogDescription>
+              View electronic shelf label information and real-time display preview
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedItem && (
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* ESL Information */}
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Product Information</h3>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Product:</span>
+                      <span className="font-medium">{selectedItem.name}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Category:</span>
+                      <span>{selectedItem.category}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Price:</span>
+                      <span className="font-bold text-lg">${selectedItem.price.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Quantity:</span>
+                      <span>{selectedItem.quantity} units</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">ESL Technical Details</h3>
+                  <div className="space-y-3">
+                    {(() => {
+                      const eslData = getESLData(selectedItem);
+                      return (
+                        <>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Monitor className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-muted-foreground">ESL ID:</span>
+                            </div>
+                            <span className="font-mono">{eslData.eslId}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Battery className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-muted-foreground">Battery:</span>
+                            </div>
+                            <Badge variant={eslData.batteryLevel > 80 ? "default" : "destructive"}>
+                              {eslData.batteryLevel}%
+                            </Badge>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Wifi className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-muted-foreground">Signal:</span>
+                            </div>
+                            <Badge>{eslData.signalStrength}%</Badge>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Clock className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-muted-foreground">Last Sync:</span>
+                            </div>
+                            <span className="text-sm">{eslData.lastSync}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Display Type:</span>
+                            <span>{eslData.displayType}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Firmware:</span>
+                            <span className="font-mono text-sm">{eslData.firmwareVersion}</span>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
+
+              {/* ESL Label Preview */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Label Preview</h3>
+                <div className="border-2 border-border rounded-lg p-6 bg-white text-black aspect-[4/3] flex flex-col justify-between">
+                  {/* Store Header */}
+                  <div className="border-b border-gray-300 pb-2">
+                    <div className="text-xs font-semibold">SMARTSTORE</div>
+                  </div>
+
+                  {/* Product Info */}
+                  <div className="flex-1 flex flex-col justify-center space-y-3">
+                    <div>
+                      <div className="text-2xl font-bold">${selectedItem.price.toFixed(2)}</div>
+                      <div className="text-xs text-gray-600">per unit</div>
+                    </div>
+                    <div className="text-sm font-medium leading-tight">
+                      {selectedItem.name}
+                    </div>
+                    <div className="text-xs text-gray-600">
+                      {selectedItem.category} • {selectedItem.subcategory}
+                    </div>
+                  </div>
+
+                  {/* Barcode Simulation */}
+                  <div className="border-t border-gray-300 pt-2">
+                    <div className="flex gap-[2px] h-12 items-end">
+                      {Array.from({ length: 30 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 bg-black"
+                          style={{ height: `${Math.random() * 60 + 40}%` }}
+                        />
+                      ))}
+                    </div>
+                    <div className="text-center text-xs font-mono mt-1">
+                      {selectedItem.id.padStart(12, '0')}
+                    </div>
+                  </div>
+
+                  {/* Additional Info */}
+                  <div className="flex justify-between text-xs text-gray-600 mt-2">
+                    <span>Exp: {new Date(selectedItem.expiryDate).toLocaleDateString()}</span>
+                    <span>Fresh: {selectedItem.freshnessScore}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
