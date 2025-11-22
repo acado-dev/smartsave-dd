@@ -22,11 +22,19 @@ const Benefits = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10 px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold text-primary">4P + C Framework Benefits</span>
+            </div>
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
               Benefits for Every Stakeholder
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                Across the Value Chain
+              </span>
             </h1>
             <p className="mb-10 max-w-3xl mx-auto text-xl text-muted-foreground">
-              Creating value across the entire food supply chain - from retailers to consumers to communities
+              The Five Value-Added Projects (4P + C) create measurable value across the entire food supply chain - 
+              from retailers to consumers to communities
             </p>
           </div>
         </div>
@@ -45,30 +53,33 @@ const Benefits = () => {
                 <h3 className="mb-6 text-3xl font-bold text-foreground">
                   For Retailers
                 </h3>
+                <div className="mb-4 inline-block px-3 py-1 bg-primary/10 rounded-full">
+                  <span className="text-xs font-semibold text-primary">All 4P + C Benefits</span>
+                </div>
                 <ul className="space-y-4 text-muted-foreground">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                    <span>Reduce waste by up to 60% with smart expiration tracking and automated markdown strategies</span>
+                    <span><strong>P1:</strong> Reduce waste by up to 60% with smart expiration tracking and automated markdown strategies</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                    <span>Increase profit margins by 15-25% through dynamic pricing and demand forecasting</span>
+                    <span><strong>P4:</strong> Increase profit margins by 15-25% through dynamic pricing and demand forecasting</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                    <span>Improve customer satisfaction and loyalty with consistently fresher products</span>
+                    <span><strong>P2:</strong> Optimize product placement and increase sales by up to 30% with planogram compliance</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                    <span>Enhance brand reputation through measurable sustainability efforts</span>
+                    <span><strong>P3:</strong> Execute promotions instantly with 100% price accuracy and zero errors</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                    <span>Reduce labor costs by up to 80% with automated pricing and inventory management</span>
+                    <span><strong>C1:</strong> Improve cash flow and working capital through faster inventory turnover</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                    <span>Gain competitive advantage with real-time market insights and analytics</span>
+                    <span>Enhance brand reputation through measurable sustainability efforts and community impact</span>
                   </li>
                 </ul>
               </CardContent>
@@ -83,6 +94,9 @@ const Benefits = () => {
                 <h3 className="mb-6 text-3xl font-bold text-foreground">
                   For Consumers
                 </h3>
+                <div className="mb-4 inline-block px-3 py-1 bg-accent/10 rounded-full">
+                  <span className="text-xs font-semibold text-accent">P1, P3 & Community Impact</span>
+                </div>
                 <ul className="space-y-4 text-muted-foreground">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-accent shrink-0 mt-0.5" />
@@ -121,6 +135,9 @@ const Benefits = () => {
                 <h3 className="mb-6 text-3xl font-bold text-foreground">
                   For Communities
                 </h3>
+                <div className="mb-4 inline-block px-3 py-1 bg-primary/10 rounded-full">
+                  <span className="text-xs font-semibold text-primary">P1 & Environmental Impact</span>
+                </div>
                 <ul className="space-y-4 text-muted-foreground">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
@@ -158,10 +175,10 @@ const Benefits = () => {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold text-foreground lg:text-4xl">
-              Real Impact, Measurable Results
+              Real Impact Through 4P + C
             </h2>
             <p className="text-lg text-muted-foreground">
-              Making a difference every day across our partner network
+              Measurable results from our Five Value-Added Projects across our partner network
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -201,10 +218,11 @@ const Benefits = () => {
       <section className="px-6 py-20">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="mb-6 text-3xl font-bold text-foreground lg:text-4xl">
-            Start Creating Value Today
+            Start Your 4P + C Journey Today
           </h2>
           <p className="mb-8 text-lg text-muted-foreground">
-            Join hundreds of retailers already benefiting from our comprehensive platform
+            Join hundreds of retailers implementing the Five Value-Added Projects framework to reduce waste, 
+            increase profitability, and create lasting community impact
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button asChild size="lg" className="bg-gradient-primary shadow-elevated">
