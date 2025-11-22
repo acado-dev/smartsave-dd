@@ -20,12 +20,20 @@ const Solutions = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10 px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
+              <Target className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold text-primary">Delivering the 4P + C Framework</span>
+            </div>
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
-              Complete Retail Solutions Suite
+              Integrated Retail Solutions
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                Powered by Five Value-Added Projects
+              </span>
             </h1>
             <p className="mb-10 max-w-3xl mx-auto text-xl text-muted-foreground">
-              Four powerful integrated solutions designed to transform your retail operations, 
-              maximize efficiency, and drive profitability
+              Four powerful integrated technologies designed to deliver the complete 4P + C framework: 
+              Perishable Food Reduction (P1), Planogram Compliance (P2), Promotion Execution (P3), 
+              Profit Optimization (P4), and Cash Generation (C1).
             </p>
           </div>
         </div>
@@ -43,7 +51,7 @@ const Solutions = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl">Electronic Shelf Labels (ESL)</CardTitle>
                 <CardDescription className="text-base">
-                  Real-time digital price management for dynamic retail environments
+                  Enables P3 (Promotion Execution) with instant price updates and 100% accuracy
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -87,7 +95,7 @@ const Solutions = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl">Dynamic Pricing</CardTitle>
                 <CardDescription className="text-base">
-                  AI-powered pricing optimization to maximize revenue and minimize waste
+                  Powers P1 (Perishable Reduction), P4 (Profit) & C1 (Cash Generation)
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -130,7 +138,7 @@ const Solutions = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl">Planogram Compliance</CardTitle>
                 <CardDescription className="text-base">
-                  Vision-based monitoring to ensure perfect product placement
+                  Delivers P2 with AI vision ensuring optimal product placement and sales
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -174,7 +182,7 @@ const Solutions = () => {
                 </div>
                 <CardTitle className="text-2xl lg:text-3xl">In-Store Media Management</CardTitle>
                 <CardDescription className="text-base">
-                  Dynamic digital content to engage customers and drive purchases
+                  Supports P3 (Promotion Execution) with engaging digital content
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -217,11 +225,11 @@ const Solutions = () => {
       <section className="px-6 py-20 bg-muted/30">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="mb-6 text-3xl font-bold text-foreground lg:text-4xl">
-            Integrated Solutions, Unified Platform
+            Integrated Solutions, Unified 4P + C Platform
           </h2>
           <p className="mb-8 text-lg text-muted-foreground">
-            Our solutions work seamlessly together, sharing data and insights across your entire retail operation. 
-            Get the full picture with a single, unified platform that grows with your business.
+            Our solutions work seamlessly together to deliver all Five Value-Added Projects, sharing data and insights 
+            across your entire retail operation. Get the full picture with a single, unified platform that grows with your business.
           </p>
           <Button asChild size="lg" className="bg-gradient-primary shadow-elevated">
             <Link to="/management">

@@ -24,12 +24,19 @@ const Features = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10 px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold text-primary">Powered by 4P + C Framework</span>
+            </div>
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
-              <Sparkles className="inline h-12 w-12 text-primary mb-2" /> Powerful Features
+              Powerful Features for
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                Retail Excellence
+              </span>
             </h1>
             <p className="mb-10 max-w-3xl mx-auto text-xl text-muted-foreground">
-              Comprehensive toolkit for modern retail management that drives efficiency, 
-              reduces waste, and maximizes profitability
+              Comprehensive toolkit delivering the Five Value-Added Projects (4P + C) for modern retail management. 
+              Drive efficiency, reduce waste, and maximize profitability across all operations.
             </p>
           </div>
         </div>
@@ -47,6 +54,9 @@ const Features = () => {
                 <h3 className="mb-3 text-2xl font-bold text-foreground">
                   Inventory Forecasting
                 </h3>
+                <div className="mb-2 inline-block px-3 py-1 bg-primary/10 rounded-full">
+                  <span className="text-xs font-semibold text-primary">Supports P1 & C1</span>
+                </div>
                 <p className="mb-4 text-muted-foreground">
                   AI-powered predictions to optimize stock levels and reduce overordering. 
                   Our advanced algorithms analyze historical data, seasonal trends, and market 
@@ -77,6 +87,9 @@ const Features = () => {
                 <h3 className="mb-3 text-2xl font-bold text-foreground">
                   Expiration Tracking
                 </h3>
+                <div className="mb-2 inline-block px-3 py-1 bg-accent/10 rounded-full">
+                  <span className="text-xs font-semibold text-accent">Powers P1</span>
+                </div>
                 <p className="mb-4 text-muted-foreground">
                   Automated alerts and smart rotation to ensure product freshness. 
                   Track expiration dates across your entire inventory with real-time 
@@ -107,6 +120,9 @@ const Features = () => {
                 <h3 className="mb-3 text-2xl font-bold text-foreground">
                   Waste Reduction
                 </h3>
+                <div className="mb-2 inline-block px-3 py-1 bg-primary/10 rounded-full">
+                  <span className="text-xs font-semibold text-primary">Core of P1</span>
+                </div>
                 <p className="mb-4 text-muted-foreground">
                   Smart markdowns and donations to minimize environmental impact. 
                   Automatically identify products at risk and implement strategic 
@@ -137,6 +153,9 @@ const Features = () => {
                 <h3 className="mb-3 text-2xl font-bold text-foreground">
                   Analytics & Insights
                 </h3>
+                <div className="mb-2 inline-block px-3 py-1 bg-accent/10 rounded-full">
+                  <span className="text-xs font-semibold text-accent">Enables P2, P4 & C1</span>
+                </div>
                 <p className="mb-4 text-muted-foreground">
                   Comprehensive dashboards and reports for data-driven decisions. 
                   Get real-time visibility into your operations with customizable 
@@ -286,10 +305,10 @@ const Features = () => {
       <section className="px-6 py-20 bg-gradient-to-br from-primary/10 via-background to-accent/10">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="mb-6 text-3xl font-bold text-foreground lg:text-4xl">
-            Ready to transform your retail operations?
+            Ready to Implement the 4P + C Framework?
           </h2>
           <p className="mb-8 text-lg text-muted-foreground">
-            Start leveraging these powerful features today to reduce waste and increase profitability
+            Start leveraging these powerful features today to deliver all Five Value-Added Projects and transform your retail operations
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button asChild size="lg" className="bg-gradient-primary shadow-elevated">
