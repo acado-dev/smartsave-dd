@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertTriangle, Clock, DollarSign, Tag, Truck } from "lucide-react";
+import { AlertTriangle, Clock, DollarSign, Tag, Truck, Monitor, Percent } from "lucide-react";
 import { smartStoreInventory } from "@/data/smartStoreInventory";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -21,6 +21,8 @@ export default function SmartStoreExpiringItems() {
   const [donateDialogOpen, setDonateDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [discountPercentage, setDiscountPercentage] = useState("");
+  const [eslMessage, setEslMessage] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
   const [donationOrg, setDonationOrg] = useState("");
   const [pickupDate, setPickupDate] = useState("");
   const [notes, setNotes] = useState("");
@@ -40,7 +42,10 @@ export default function SmartStoreExpiringItems() {
   const handleApplyDiscount = (item: any) => {
     setSelectedItem(item);
     const days = getDaysUntilExpiry(item.expiryDate);
-    setDiscountPercentage(getSuggestedDiscount(days).toString());
+    const discount = getSuggestedDiscount(days);
+    setDiscountPercentage(discount.toString());
+    setEslMessage(`CLEARANCE SALE - ${discount}% OFF! Limited Stock!`);
+    setShowPreview(false);
     setDiscountDialogOpen(true);
   };
 
@@ -56,6 +61,8 @@ export default function SmartStoreExpiringItems() {
     });
     setDiscountDialogOpen(false);
     setDiscountPercentage("");
+    setEslMessage("");
+    setShowPreview(false);
   };
 
   const confirmDonation = () => {
@@ -201,47 +208,169 @@ export default function SmartStoreExpiringItems() {
 
       {/* Apply Discount Dialog */}
       <Dialog open={discountDialogOpen} onOpenChange={setDiscountDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Tag className="h-5 w-5 text-primary" />
-              Apply Discount to ESL
+              Configure ESL Discount
             </DialogTitle>
             <DialogDescription>
-              Set the discount percentage and push it to electronic shelf labels
+              Set discount, customize ESL message, and preview the label
             </DialogDescription>
           </DialogHeader>
           {selectedItem && (
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Product</Label>
+                <Label className="text-sm font-medium">Product Details</Label>
                 <div className="p-3 rounded-lg bg-muted">
                   <p className="font-semibold">{selectedItem.name}</p>
                   <p className="text-sm text-muted-foreground">Current Price: ${selectedItem.price.toFixed(2)}</p>
                   <p className="text-sm text-muted-foreground">Quantity: {selectedItem.quantity}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Expires: {new Date(selectedItem.expiryDate).toLocaleDateString()}
+                  </p>
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="discount">Discount Percentage (%)</Label>
-                <Input
-                  id="discount"
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={discountPercentage}
-                  onChange={(e) => setDiscountPercentage(e.target.value)}
-                  placeholder="Enter discount percentage"
-                />
-                {discountPercentage && (
-                  <p className="text-sm text-muted-foreground">
-                    New Price: ${(selectedItem.price * (1 - parseFloat(discountPercentage) / 100)).toFixed(2)}
-                  </p>
-                )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="discount">Discount Percentage (%)</Label>
+                  <Input
+                    id="discount"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={discountPercentage}
+                    onChange={(e) => setDiscountPercentage(e.target.value)}
+                    placeholder="Enter discount %"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>New Price</Label>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
+                    <span className="text-lg font-bold text-primary">
+                      ${discountPercentage ? (selectedItem.price * (1 - parseFloat(discountPercentage) / 100)).toFixed(2) : selectedItem.price.toFixed(2)}
+                    </span>
+                    {discountPercentage && (
+                      <Badge variant="destructive" className="text-xs">
+                        <Percent className="h-3 w-3 mr-1" />
+                        {discountPercentage}% OFF
+                      </Badge>
+                    )}
+                  </div>
+                </div>
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="esl-message">ESL Promotional Message</Label>
+                <Textarea
+                  id="esl-message"
+                  value={eslMessage}
+                  onChange={(e) => setEslMessage(e.target.value)}
+                  placeholder="Enter promotional message for ESL display"
+                  rows={2}
+                  maxLength={100}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {eslMessage.length}/100 characters
+                </p>
+              </div>
+
+              <Button 
+                variant="outline" 
+                onClick={() => setShowPreview(!showPreview)}
+                className="w-full"
+              >
+                <Monitor className="h-4 w-4 mr-2" />
+                {showPreview ? "Hide" : "Show"} ESL Preview
+              </Button>
+
+              {showPreview && (
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium flex items-center gap-2">
+                    <Monitor className="h-4 w-4" />
+                    ESL Display Preview
+                  </Label>
+                  <div className="border-2 border-muted rounded-lg p-6 bg-white text-black space-y-3">
+                    {/* ESL Header */}
+                    <div className="flex justify-between items-start border-b-2 border-black pb-2">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg leading-tight">
+                          {selectedItem.name}
+                        </h3>
+                        <p className="text-xs text-gray-600 mt-0.5">
+                          {selectedItem.category} • {selectedItem.subcategory || 'Fresh'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Price Section with Discount */}
+                    <div className="space-y-1">
+                      {discountPercentage && parseFloat(discountPercentage) > 0 && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm line-through text-gray-500">
+                            ${selectedItem.price.toFixed(2)}
+                          </span>
+                          <Badge className="bg-red-600 text-white text-xs">
+                            {discountPercentage}% OFF
+                          </Badge>
+                        </div>
+                      )}
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-4xl font-bold text-red-600">
+                          ${discountPercentage ? (selectedItem.price * (1 - parseFloat(discountPercentage) / 100)).toFixed(2) : selectedItem.price.toFixed(2)}
+                        </span>
+                        <span className="text-sm text-gray-600">per unit</span>
+                      </div>
+                    </div>
+
+                    {/* Promotional Message */}
+                    {eslMessage && (
+                      <div className="bg-yellow-100 border-2 border-yellow-400 rounded p-2">
+                        <p className="text-xs font-semibold text-center text-yellow-900 uppercase">
+                          {eslMessage}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Product Info */}
+                    <div className="grid grid-cols-2 gap-2 text-xs border-t border-gray-300 pt-2">
+                      <div>
+                        <span className="text-gray-600">Stock:</span>
+                        <span className="font-semibold ml-1">{selectedItem.quantity} units</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Expires:</span>
+                        <span className="font-semibold ml-1">
+                          {new Date(selectedItem.expiryDate).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Barcode Simulation */}
+                    <div className="flex flex-col items-center pt-2 border-t border-gray-300">
+                      <div className="flex gap-[1px] h-12">
+                        {[...Array(30)].map((_, i) => (
+                          <div 
+                            key={i} 
+                            className="bg-black" 
+                            style={{ 
+                              width: Math.random() > 0.5 ? '2px' : '1px',
+                              opacity: Math.random() > 0.3 ? 1 : 0
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <p className="text-xs font-mono mt-1">SKU: {selectedItem.sku || `${selectedItem.id.toString().padStart(8, '0')}`}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
                 <p className="text-sm font-medium">ESL Update</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  The discount will be immediately pushed to all electronic shelf labels for this product.
+                  The discount and promotional message will be immediately pushed to all electronic shelf labels for this product.
                 </p>
               </div>
             </div>
