@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertTriangle, Clock, DollarSign, Tag, Truck, Monitor, Percent } from "lucide-react";
+import { AlertTriangle, Clock, DollarSign, Tag, Truck, Monitor, Percent, CheckSquare, Square } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import { smartStoreInventory } from "@/data/smartStoreInventory";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -26,6 +27,11 @@ export default function SmartStoreExpiringItems() {
   const [donationOrg, setDonationOrg] = useState("");
   const [pickupDate, setPickupDate] = useState("");
   const [notes, setNotes] = useState("");
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [bulkDiscountDialogOpen, setBulkDiscountDialogOpen] = useState(false);
+  const [bulkDiscountPercentage, setBulkDiscountPercentage] = useState("");
+  const [bulkEslMessage, setBulkEslMessage] = useState("");
+  const [showBulkPreview, setShowBulkPreview] = useState(false);
   
   const getDaysUntilExpiry = (expiryDate: string) => {
     const days = Math.ceil((new Date(expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
@@ -74,6 +80,54 @@ export default function SmartStoreExpiringItems() {
     setDonationOrg("");
     setPickupDate("");
     setNotes("");
+  };
+
+  const toggleItemSelection = (id: string) => {
+    setSelectedItems(prev => 
+      prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedItems.length === expiringItems.length) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(expiringItems.map(item => item.id));
+    }
+  };
+
+  const handleBulkDiscount = () => {
+    if (selectedItems.length === 0) {
+      toast({
+        title: "No Items Selected",
+        description: "Please select at least one item to apply bulk discount.",
+        variant: "destructive",
+      });
+      return;
+    }
+    const avgDays = Math.floor(
+      selectedItems.reduce((sum, id) => {
+        const item = expiringItems.find(i => i.id === id);
+        return sum + (item ? getDaysUntilExpiry(item.expiryDate) : 0);
+      }, 0) / selectedItems.length
+    );
+    const discount = getSuggestedDiscount(avgDays);
+    setBulkDiscountPercentage(discount.toString());
+    setBulkEslMessage(`CLEARANCE SALE - ${discount}% OFF! Limited Stock!`);
+    setShowBulkPreview(false);
+    setBulkDiscountDialogOpen(true);
+  };
+
+  const confirmBulkDiscount = () => {
+    toast({
+      title: "Bulk Discount Applied",
+      description: `${bulkDiscountPercentage}% discount applied to ${selectedItems.length} items and pushed to ESL.`,
+    });
+    setBulkDiscountDialogOpen(false);
+    setSelectedItems([]);
+    setBulkDiscountPercentage("");
+    setBulkEslMessage("");
+    setShowBulkPreview(false);
   };
 
   return (
@@ -131,13 +185,21 @@ export default function SmartStoreExpiringItems() {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle>Items Requiring Attention</CardTitle>
-              <CardDescription>Products approaching expiration date</CardDescription>
+              <CardDescription>
+                {selectedItems.length > 0 ? `${selectedItems.length} items selected` : 'Products approaching expiration date'}
+              </CardDescription>
             </div>
             <div className="flex gap-2">
+              {selectedItems.length > 0 && (
+                <Button onClick={handleBulkDiscount}>
+                  <Tag className="h-4 w-4 mr-2" />
+                  Apply Bulk Discount ({selectedItems.length})
+                </Button>
+              )}
               <Button variant="outline" onClick={() => navigate('/smartstore/donations')}>
                 Schedule Donation
               </Button>
-              <Button onClick={() => navigate('/smartstore/dynamic-pricing')}>
+              <Button variant="outline" onClick={() => navigate('/smartstore/dynamic-pricing')}>
                 Apply Dynamic Pricing
               </Button>
             </div>
@@ -148,6 +210,12 @@ export default function SmartStoreExpiringItems() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={selectedItems.length === expiringItems.length}
+                      onCheckedChange={toggleSelectAll}
+                    />
+                  </TableHead>
                   <TableHead>Product</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead className="text-right">Quantity</TableHead>
@@ -167,6 +235,12 @@ export default function SmartStoreExpiringItems() {
 
                   return (
                     <TableRow key={item.id}>
+                      <TableCell>
+                        <Checkbox
+                          checked={selectedItems.includes(item.id)}
+                          onCheckedChange={() => toggleItemSelection(item.id)}
+                        />
+                      </TableCell>
                       <TableCell className="font-medium">{item.name}</TableCell>
                       <TableCell>{item.category}</TableCell>
                       <TableCell className="text-right">{item.quantity}</TableCell>
@@ -361,7 +435,7 @@ export default function SmartStoreExpiringItems() {
                           />
                         ))}
                       </div>
-                      <p className="text-xs font-mono mt-1">SKU: {selectedItem.sku || `${selectedItem.id.toString().padStart(8, '0')}`}</p>
+                      <p className="text-xs font-mono mt-1">SKU: {selectedItem.id}</p>
                     </div>
                   </div>
                 </div>
@@ -452,6 +526,181 @@ export default function SmartStoreExpiringItems() {
             </Button>
             <Button onClick={confirmDonation} disabled={!donationOrg || !pickupDate}>
               Schedule Donation
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bulk Discount Dialog */}
+      <Dialog open={bulkDiscountDialogOpen} onOpenChange={setBulkDiscountDialogOpen}>
+        <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Tag className="h-5 w-5 text-primary" />
+              Configure Bulk ESL Discount ({selectedItems.length} items)
+            </DialogTitle>
+            <DialogDescription>
+              Set discount, customize ESL message, and preview labels for all selected items
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="bulk-discount">Discount Percentage (%)</Label>
+                <Input
+                  id="bulk-discount"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={bulkDiscountPercentage}
+                  onChange={(e) => setBulkDiscountPercentage(e.target.value)}
+                  placeholder="Enter discount %"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Average Savings</Label>
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <span className="text-lg font-bold text-primary">
+                    ${bulkDiscountPercentage ? (
+                      selectedItems.reduce((sum, id) => {
+                        const item = expiringItems.find(i => i.id === id);
+                        return sum + (item ? (item.price * item.quantity * parseFloat(bulkDiscountPercentage) / 100) : 0);
+                      }, 0).toFixed(2)
+                    ) : '0.00'}
+                  </span>
+                  {bulkDiscountPercentage && (
+                    <Badge variant="destructive" className="text-xs">
+                      <Percent className="h-3 w-3 mr-1" />
+                      {bulkDiscountPercentage}% OFF
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bulk-esl-message">ESL Promotional Message</Label>
+              <Textarea
+                id="bulk-esl-message"
+                value={bulkEslMessage}
+                onChange={(e) => setBulkEslMessage(e.target.value)}
+                placeholder="Enter promotional message for ESL display"
+                rows={2}
+                maxLength={100}
+              />
+              <p className="text-xs text-muted-foreground">
+                {bulkEslMessage.length}/100 characters
+              </p>
+            </div>
+
+            <Button 
+              variant="outline" 
+              onClick={() => setShowBulkPreview(!showBulkPreview)}
+              className="w-full"
+            >
+              <Monitor className="h-4 w-4 mr-2" />
+              {showBulkPreview ? "Hide" : "Show"} ESL Previews ({selectedItems.length} items)
+            </Button>
+
+            {showBulkPreview && (
+              <div className="space-y-4">
+                <Label className="text-sm font-medium flex items-center gap-2">
+                  <Monitor className="h-4 w-4" />
+                  ESL Display Previews
+                </Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto p-2">
+                  {selectedItems.map(itemId => {
+                    const item = expiringItems.find(i => i.id === itemId);
+                    if (!item) return null;
+
+                    return (
+                      <div key={item.id} className="border-2 border-muted rounded-lg p-4 bg-white text-black space-y-2">
+                        <div className="flex justify-between items-start border-b-2 border-black pb-2">
+                          <div className="flex-1">
+                            <h3 className="font-bold text-sm leading-tight">
+                              {item.name}
+                            </h3>
+                            <p className="text-xs text-gray-600 mt-0.5">
+                              {item.category} • {item.subcategory || 'Fresh'}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1">
+                          {bulkDiscountPercentage && parseFloat(bulkDiscountPercentage) > 0 && (
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs line-through text-gray-500">
+                                ${item.price.toFixed(2)}
+                              </span>
+                              <Badge className="bg-red-600 text-white text-xs">
+                                {bulkDiscountPercentage}% OFF
+                              </Badge>
+                            </div>
+                          )}
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-2xl font-bold text-red-600">
+                              ${bulkDiscountPercentage ? (item.price * (1 - parseFloat(bulkDiscountPercentage) / 100)).toFixed(2) : item.price.toFixed(2)}
+                            </span>
+                            <span className="text-xs text-gray-600">per unit</span>
+                          </div>
+                        </div>
+
+                        {bulkEslMessage && (
+                          <div className="bg-yellow-100 border-2 border-yellow-400 rounded p-1.5">
+                            <p className="text-xs font-semibold text-center text-yellow-900 uppercase">
+                              {bulkEslMessage}
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="grid grid-cols-2 gap-2 text-xs border-t border-gray-300 pt-2">
+                          <div>
+                            <span className="text-gray-600">Stock:</span>
+                            <span className="font-semibold ml-1">{item.quantity}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-600">Expires:</span>
+                            <span className="font-semibold ml-1">
+                              {new Date(item.expiryDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-center pt-2 border-t border-gray-300">
+                          <div className="flex gap-[1px] h-8">
+                            {[...Array(20)].map((_, i) => (
+                              <div 
+                                key={i} 
+                                className="bg-black" 
+                                style={{ 
+                                  width: Math.random() > 0.5 ? '2px' : '1px',
+                                  opacity: Math.random() > 0.3 ? 1 : 0
+                                }}
+                              />
+                            ))}
+                          </div>
+                          <p className="text-xs font-mono mt-1">SKU: {item.id}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
+              <p className="text-sm font-medium">ESL Bulk Update</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                The discount and promotional message will be immediately pushed to all electronic shelf labels for these {selectedItems.length} products.
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setBulkDiscountDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmBulkDiscount} disabled={!bulkDiscountPercentage}>
+              Apply to {selectedItems.length} ESL Labels
             </Button>
           </DialogFooter>
         </DialogContent>
