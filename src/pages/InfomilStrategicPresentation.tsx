@@ -103,7 +103,7 @@ const slides = [
     id: 9,
     type: "section-title",
     sectionNumber: "2",
-    title: "Intelligence Through AI + 4P+C",
+    title: "Intelligent Retail – Powered by AI & the 4P + C Framework",
   },
   {
     id: 10,
