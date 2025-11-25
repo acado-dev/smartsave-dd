@@ -55,6 +55,7 @@ import SmartStoreLowSalability from "./pages/smartstore/LowSalability";
 import SmartStoreAnalytics from "./pages/smartstore/Analytics";
 import SmartStoreMarketplace from "./pages/smartstore/Marketplace";
 import SmartStorePricingOptimization from "./pages/smartstore/PricingOptimization";
+import InfomilPresentation from "./pages/InfomilPresentation";
 
 const queryClient = new QueryClient();
 
@@ -123,6 +124,9 @@ const App = () => (
           
           {/* Demo Routes */}
           <Route path="/demo/freshness-analysis" element={<FreshnessAnalysisDemo />} />
+          
+          {/* Presentation Routes */}
+          <Route path="/presentation/infomil" element={<InfomilPresentation />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
