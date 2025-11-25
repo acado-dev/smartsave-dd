@@ -108,24 +108,39 @@ const slides = [
   {
     id: 10,
     type: "framework",
-    title: "4P + C: The Strategic Framework for Our Retail Solutions",
-    framework: "Price | Promotion | Product Placement | Productivity + Compliance",
+    title: "Five Value-Added Projects (4P + C)",
+    subtitle: "Our comprehensive approach delivers measurable value through five interconnected pillars that drive operational excellence and profitability",
+    framework: "P1 | P2 | P3 | P4 + C1",
     solutions: [
       {
-        title: "Perishable Waste Management",
-        impact: "Reduces shrink, improves freshness, strengthens sustainability",
+        title: "P1: Perishable Food Reduction",
+        subtitle: "Minimize waste and maximize freshness",
+        impact: "AI-powered freshness tracking and dynamic pricing strategies to reduce perishable food waste by up to 60%",
+        features: ["Real-time freshness monitoring", "Automated markdown schedules", "Donation coordination"]
       },
       {
-        title: "In-Store Advertising & Dynamic Promotions",
-        impact: "Improves campaign execution and boosts engagement at shelf",
+        title: "P2: Planogram Compliance & Management",
+        subtitle: "Optimize product placement and visibility",
+        impact: "AI vision-based shelf monitoring ensures perfect product placement and maximizes sales potential",
+        features: ["Automated compliance tracking", "Real-time alert system", "Sales lift up to 30%"]
       },
       {
-        title: "Planogram Compliance",
-        impact: "Improves shelf accuracy, prevents revenue loss from misplacements",
+        title: "P3: Promotion Execution",
+        subtitle: "Seamless promotional campaigns",
+        impact: "Execute promotional campaigns instantly across all channels with ESL and digital displays",
+        features: ["Instant price updates", "Coordinated media campaigns", "100% price accuracy"]
       },
       {
-        title: "Smart Tasking & Productivity Tools",
-        impact: "Enhances staff efficiency and improves store execution",
+        title: "P4: Profit Optimization",
+        subtitle: "Maximize margins and revenue",
+        impact: "AI-driven dynamic pricing strategies optimize margins while moving inventory efficiently",
+        features: ["Demand-based pricing", "Competitor analysis", "Margin increase up to 25%"]
+      },
+      {
+        title: "C1: Cash Generation",
+        subtitle: "Improve cash flow and working capital",
+        impact: "Transform aging inventory into immediate revenue through strategic pricing and promotions, improving cash flow and reducing carrying costs",
+        features: ["Faster inventory turnover", "Reduced holding costs", "Improved working capital", "Better cash flow management"]
       },
     ],
     tagline: "This framework positions ESL as a business value engine, not just a display.",
@@ -404,31 +419,37 @@ export default function InfomilStrategicPresentation() {
           )}
 
           {slide.type === "framework" && (
-            <div className="space-y-5 animate-in fade-in duration-500 relative">
+            <div className="space-y-3 animate-in fade-in duration-500 relative">
               <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-              <div className="space-y-3">
-                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-base">{slide.subtitle}</p>}
-                <h2 className="text-4xl md:text-5xl font-bold text-foreground">{slide.title}</h2>
-                <div className="inline-block p-4 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl">
-                  <p className="text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
+              <div className="space-y-2 text-center">
+                {slide.subtitle && <p className="text-muted-foreground text-base">{slide.subtitle}</p>}
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground">{slide.title}</h2>
+                <div className="inline-block px-4 py-2 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-xl">
+                  <p className="text-lg font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
                 </div>
               </div>
-              <div className="space-y-4 pl-8">
-                <p className="text-xl text-foreground/90 font-semibold">Our solutions drive tangible contextual impact:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
                 {slide.solutions?.map((solution, idx) => (
-                  <div key={idx} className="space-y-2 group">
-                    <div className="flex items-start gap-4">
-                      <span className="text-primary text-2xl font-bold group-hover:scale-125 transition-transform">→</span>
-                      <h3 className="text-xl font-bold text-foreground">{solution.title}</h3>
-                    </div>
-                    <p className="text-lg text-muted-foreground pl-10 leading-relaxed">{solution.impact}</p>
+                  <div key={idx} className="p-3 border-2 border-border rounded-xl bg-card/50 backdrop-blur space-y-2 hover:border-primary/50 transition-all">
+                    <h3 className="text-lg font-bold text-foreground">{solution.title}</h3>
+                    {solution.subtitle && <p className="text-sm text-muted-foreground font-medium">{solution.subtitle}</p>}
+                    <p className="text-xs text-muted-foreground leading-relaxed">{solution.impact}</p>
+                    {solution.features && solution.features.length > 0 && (
+                      <ul className="space-y-1 pt-1">
+                        {solution.features.map((feature, fIdx) => (
+                          <li key={fIdx} className="flex items-start gap-2 text-xs text-foreground/80">
+                            <CheckCircle className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
               </div>
               {slide.tagline && (
-                <div className="mt-5 p-5 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
-                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
-                  <p className="text-xl font-semibold text-foreground relative">{slide.tagline}</p>
+                <div className="mt-3 p-3 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl relative overflow-hidden">
+                  <p className="text-base font-semibold text-foreground relative text-center">{slide.tagline}</p>
                 </div>
               )}
             </div>
