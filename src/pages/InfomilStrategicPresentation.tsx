@@ -109,23 +109,28 @@ const slides = [
     id: 10,
     type: "framework",
     title: "4P + C: The Strategic Framework for Our Retail Solutions",
-    framework: "Price | Promotion | Product Placement | Productivity + Compliance",
+    framework: "Perishable | Planogram | Promotion | Profit + Cash",
+    description: "Our solutions drive tangible contextual impact:",
     solutions: [
       {
         title: "Perishable Waste Management",
-        impact: "Reduces shrink, improves freshness, strengthens sustainability",
+        impact: "AI-powered freshness tracking and dynamic pricing strategies to reduce perishable food waste",
       },
       {
-        title: "In-Store Advertising & Dynamic Promotions",
-        impact: "Improves campaign execution and boosts engagement at shelf",
+        title: "Planogram Compliance & Management",
+        impact: "AI vision-based shelf monitoring ensures perfect product placement and maximizes sales potential",
       },
       {
-        title: "Planogram Compliance",
-        impact: "Improves shelf accuracy, prevents revenue loss from misplacements",
+        title: "Promotion - In-Store Advertising & Dynamic Promotions",
+        impact: "Execute promotional campaigns instantly across all channels with ESL and digital displays",
       },
       {
-        title: "Smart Tasking & Productivity Tools",
-        impact: "Enhances staff efficiency and improves store execution",
+        title: "Profit Optimization",
+        impact: "AI-driven dynamic pricing strategies optimize margins while moving inventory efficiently",
+      },
+      {
+        title: "Cash Generation",
+        impact: "Transform aging inventory into immediate revenue through strategic pricing and promotions, improving cash flow and reducing carrying costs",
       },
     ],
     tagline: "This framework positions ESL as a business value engine, not just a display.",
@@ -414,7 +419,7 @@ export default function InfomilStrategicPresentation() {
                 </div>
               </div>
               <div className="space-y-4 pl-8">
-                <p className="text-xl text-foreground/90 font-semibold">Our solutions drive tangible contextual impact:</p>
+                {slide.description && <p className="text-xl text-foreground/90 font-semibold">{slide.description}</p>}
                 {slide.solutions?.map((solution, idx) => (
                   <div key={idx} className="space-y-2 group">
                     <div className="flex items-start gap-4">
