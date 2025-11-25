@@ -107,19 +107,28 @@ const slides = [
   },
   {
     id: 10,
-    type: "content",
-    icon: Brain,
-    title: "Introducing the 4P + C Intelligence Framework",
-    subtitle: "Bringing AI While Keeping Data Local",
+    type: "framework",
+    title: "4P + C: The Strategic Framework for Our Retail Solutions",
     framework: "Price | Promotion | Product Placement | Productivity + Compliance",
-    points: [
-      "Reduced waste & shrink",
-      "Automated planogram checks",
-      "Higher promotion effectiveness",
-      "Improved staff efficiency",
-      "Stronger compliance & operational execution",
+    solutions: [
+      {
+        title: "Perishable Waste Management",
+        impact: "Reduces shrink, improves freshness, strengthens sustainability",
+      },
+      {
+        title: "In-Store Advertising & Dynamic Promotions",
+        impact: "Improves campaign execution and boosts engagement at shelf",
+      },
+      {
+        title: "Planogram Compliance",
+        impact: "Improves shelf accuracy, prevents revenue loss from misplacements",
+      },
+      {
+        title: "Smart Tasking & Productivity Tools",
+        impact: "Enhances staff efficiency and improves store execution",
+      },
     ],
-    tagline: "All without sending store data outside their environment.",
+    tagline: "This framework positions ESL as a business value engine, not just a display.",
   },
   {
     id: 11,
@@ -390,6 +399,37 @@ export default function InfomilStrategicPresentation() {
                   {slide.title}
                 </h2>
               </div>
+            </div>
+          )}
+
+          {slide.type === "framework" && (
+            <div className="space-y-10 animate-in fade-in duration-500 relative">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+              <div className="space-y-6">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
+                <div className="inline-block p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl">
+                  <p className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
+                </div>
+              </div>
+              <div className="space-y-8 pl-8">
+                <p className="text-2xl text-foreground/90 font-semibold">Our solutions drive tangible contextual impact:</p>
+                {slide.solutions?.map((solution, idx) => (
+                  <div key={idx} className="space-y-3 group">
+                    <div className="flex items-start gap-5">
+                      <span className="text-primary text-3xl font-bold group-hover:scale-125 transition-transform">→</span>
+                      <h3 className="text-2xl font-bold text-foreground">{solution.title}</h3>
+                    </div>
+                    <p className="text-xl text-muted-foreground pl-12 leading-relaxed">{solution.impact}</p>
+                  </div>
+                ))}
+              </div>
+              {slide.tagline && (
+                <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
+                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
+                  <p className="text-2xl font-semibold text-foreground relative">{slide.tagline}</p>
+                </div>
+              )}
             </div>
           )}
 
