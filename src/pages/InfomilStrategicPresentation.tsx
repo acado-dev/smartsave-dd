@@ -133,15 +133,16 @@ const slides = [
   {
     id: 11,
     type: "highlight",
-    icon: Sparkles,
-    title: "The Engine Behind 4P+C Intelligence — DD Brain",
-    subtitle: "Introducing DD Brain (New Product Line)",
+    icon: Brain,
+    title: "Introducing DD Brain (New Product Line)",
+    subtitle: "Turning Infomil's Data Warehouse Into a Strategic Superpower",
+    description: "Infomil has built a large, high-quality retail data repository over many years. This data can become the foundation for predictive, operational, and strategic intelligence.",
+    heading: "DD Brain is our new intelligence engine:",
     points: [
-      "Infomil's rich Data Warehouse becomes the starting point.",
-      "DD Brain sits on-premise, reads historical + ongoing store data.",
-      "Learns patterns, builds predictive and operational models.",
-      "These models sync to cloud versions for multi-store rollout.",
-      "Creates store-level and chain-level intelligence without moving raw data.",
+      "Deployed on-prem (inside retailer or Infomil network)",
+      "Trained on historic + live retail data",
+      "Learns patterns, optimises decisions, and builds predictive models",
+      "Models can then be replicated to cloud to support multiple stores",
     ],
   },
   {
@@ -497,6 +498,12 @@ export default function InfomilStrategicPresentation() {
                   <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
+              {slide.description && (
+                <p className="text-2xl text-foreground/90 pl-28 leading-relaxed">{slide.description}</p>
+              )}
+              {slide.heading && (
+                <h3 className="text-3xl font-bold text-accent pl-28">{slide.heading}</h3>
+              )}
               <ul className="space-y-6 pl-28">
                 {slide.points?.map((point, idx) => (
                   <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
