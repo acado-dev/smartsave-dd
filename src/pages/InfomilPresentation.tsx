@@ -68,7 +68,6 @@ const slides = [
     id: 6,
     type: "framework",
     title: "4P + C: The Strategic Framework for Our Retail Solutions",
-    subtitle: "Retail Solutions (4P + C) — Refined & Crisp",
     framework: "Price | Promotion | Product Placement | Productivity + Compliance",
     solutions: [
       {
