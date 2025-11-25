@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Layers, ShoppingCart, Cpu, Database, Brain, Cloud, Box, Handshake, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Layers, ShoppingCart, Cpu, Database, Brain, Cloud, Box, Handshake, Sparkles, Maximize, Minimize } from "lucide-react";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 
 const slides = [
@@ -178,6 +178,25 @@ const slides = [
 
 export default function InfomilPresentation() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -198,9 +217,14 @@ export default function InfomilPresentation() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col">
       {/* Header */}
       <header className="bg-card border-b border-border px-8 py-4 flex items-center justify-between shadow-card">
-        <img src={displayDataLogo} alt="DisplayData" className="h-8" />
-        <div className="text-sm text-muted-foreground">
-          Slide {currentSlide + 1} of {slides.length}
+        <img src={displayDataLogo} alt="DisplayData" className="h-10" />
+        <div className="flex items-center gap-4">
+          <div className="text-base text-muted-foreground font-medium">
+            Slide {currentSlide + 1} of {slides.length}
+          </div>
+          <Button variant="outline" size="sm" onClick={toggleFullscreen}>
+            {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+          </Button>
         </div>
       </header>
 
@@ -208,33 +232,45 @@ export default function InfomilPresentation() {
       <main className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-6xl">
           {slide.type === "title" && (
-            <div className="text-center space-y-8 animate-in fade-in duration-500">
-              <div className="space-y-4">
-                <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight">
+            <div className="text-center space-y-12 animate-in fade-in duration-500 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-3xl -z-10" />
+              <div className="absolute top-10 left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
+              <div className="absolute bottom-10 right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl" />
+              
+              <div className="space-y-8 pt-12">
+                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent mb-8 mx-auto">
+                  <Building2 className="w-12 h-12 text-white" />
+                </div>
+                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight px-4">
                   {slide.title}
                 </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground">{slide.subtitle}</p>
+                <p className="text-3xl md:text-4xl text-muted-foreground font-light">{slide.subtitle}</p>
               </div>
-              <div className="pt-8">
-                <img src={displayDataLogo} alt="DisplayData" className="h-16 mx-auto opacity-60" />
+              <div className="pt-12">
+                <img src={displayDataLogo} alt="DisplayData" className="h-20 mx-auto opacity-70" />
               </div>
             </div>
           )}
 
           {slide.type === "content" && (
-            <div className="space-y-8 animate-in fade-in duration-500">
-              <div className="space-y-2">
-                {slide.subtitle && <p className="text-primary font-semibold uppercase tracking-wide text-sm">{slide.subtitle}</p>}
-                <div className="flex items-start gap-4">
-                  {slide.icon && <slide.icon className="w-10 h-10 text-primary flex-shrink-0 mt-1" />}
-                  <h2 className="text-4xl font-bold text-foreground leading-tight">{slide.title}</h2>
+            <div className="space-y-10 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+              <div className="space-y-4">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
-              <ul className="space-y-4 pl-14">
+              <ul className="space-y-6 pl-28">
                 {slide.points?.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-lg text-foreground/90">
-                    <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2.5" />
-                    <span>{point}</span>
+                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
+                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
+                    <span className="leading-relaxed">{point}</span>
                   </li>
                 ))}
               </ul>
@@ -242,20 +278,23 @@ export default function InfomilPresentation() {
           )}
 
           {slide.type === "pillars" && (
-            <div className="space-y-8 animate-in fade-in duration-500">
-              <div className="space-y-2 text-center">
-                {slide.subtitle && <p className="text-primary font-semibold uppercase tracking-wide text-sm">{slide.subtitle}</p>}
-                <h2 className="text-4xl font-bold text-foreground">{slide.title}</h2>
+            <div className="space-y-12 animate-in fade-in duration-500">
+              <div className="space-y-4 text-center">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-6">
                 {slide.pillars?.map((pillar, idx) => (
                   <div
                     key={idx}
-                    className="bg-card border border-border rounded-xl p-6 space-y-3 hover:shadow-elevated transition-all hover:scale-105"
+                    className="bg-gradient-to-br from-card to-card/50 border-2 border-border rounded-2xl p-8 space-y-5 hover:shadow-2xl hover:border-primary/50 transition-all hover:scale-105 group relative overflow-hidden"
                   >
-                    <pillar.icon className="w-10 h-10 text-primary" />
-                    <h3 className="text-xl font-semibold text-foreground">{pillar.title}</h3>
-                    <p className="text-muted-foreground">{pillar.desc}</p>
+                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-colors" />
+                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center relative">
+                      <pillar.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground relative">{pillar.title}</h3>
+                    <p className="text-lg text-muted-foreground leading-relaxed relative">{pillar.desc}</p>
                   </div>
                 ))}
               </div>
@@ -263,88 +302,101 @@ export default function InfomilPresentation() {
           )}
 
           {slide.type === "framework" && (
-            <div className="space-y-8 animate-in fade-in duration-500">
-              <div className="space-y-2">
-                {slide.subtitle && <p className="text-primary font-semibold uppercase tracking-wide text-sm">{slide.subtitle}</p>}
-                <h2 className="text-4xl font-bold text-foreground">{slide.title}</h2>
-                <p className="text-2xl font-semibold text-accent pt-4">{slide.framework}</p>
+            <div className="space-y-10 animate-in fade-in duration-500 relative">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+              <div className="space-y-6">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
+                <div className="inline-block p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl">
+                  <p className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
+                </div>
               </div>
-              <div className="space-y-6 pl-6">
-                <p className="text-lg text-foreground/90 font-medium">Our solutions drive tangible contextual impact:</p>
+              <div className="space-y-8 pl-8">
+                <p className="text-2xl text-foreground/90 font-semibold">Our solutions drive tangible contextual impact:</p>
                 {slide.solutions?.map((solution, idx) => (
-                  <div key={idx} className="space-y-1">
-                    <div className="flex items-start gap-3">
-                      <span className="text-primary text-xl">→</span>
-                      <h3 className="text-xl font-semibold text-foreground">{solution.title}</h3>
+                  <div key={idx} className="space-y-3 group">
+                    <div className="flex items-start gap-5">
+                      <span className="text-primary text-3xl font-bold group-hover:scale-125 transition-transform">→</span>
+                      <h3 className="text-2xl font-bold text-foreground">{solution.title}</h3>
                     </div>
-                    <p className="text-muted-foreground pl-7">{solution.impact}</p>
+                    <p className="text-xl text-muted-foreground pl-12 leading-relaxed">{solution.impact}</p>
                   </div>
                 ))}
               </div>
               {slide.tagline && (
-                <div className="mt-8 p-6 bg-accent/10 border border-accent/20 rounded-xl">
-                  <p className="text-lg font-medium text-foreground">{slide.tagline}</p>
+                <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
+                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
+                  <p className="text-2xl font-semibold text-foreground relative">{slide.tagline}</p>
                 </div>
               )}
             </div>
           )}
 
           {slide.type === "highlight" && (
-            <div className="space-y-8 animate-in fade-in duration-500">
-              <div className="space-y-2">
-                {slide.subtitle && <p className="text-primary font-semibold uppercase tracking-wide text-sm">{slide.subtitle}</p>}
-                <div className="flex items-start gap-4">
-                  {slide.icon && <slide.icon className="w-10 h-10 text-accent flex-shrink-0 mt-1" />}
-                  <h2 className="text-4xl font-bold text-foreground leading-tight">{slide.title}</h2>
+            <div className="space-y-10 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+              <div className="space-y-6">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center flex-shrink-0 animate-pulse">
+                      <slide.icon className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
               {slide.description && (
-                <p className="text-lg text-foreground/90 pl-14">{slide.description}</p>
+                <p className="text-2xl text-foreground/90 pl-28 leading-relaxed">{slide.description}</p>
               )}
               {slide.heading && (
-                <h3 className="text-2xl font-semibold text-accent pl-14">{slide.heading}</h3>
+                <h3 className="text-3xl font-bold text-accent pl-28">{slide.heading}</h3>
               )}
-              <ul className="space-y-4 pl-14">
+              <ul className="space-y-6 pl-28">
                 {slide.points?.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-lg text-foreground/90">
-                    <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0 mt-2.5" />
-                    <span>{point}</span>
+                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
+                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-accent to-accent/60 flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
+                    <span className="leading-relaxed">{point}</span>
                   </li>
                 ))}
               </ul>
               {slide.tagline && (
-                <div className="mt-8 p-6 bg-primary/10 border border-primary/20 rounded-xl pl-14">
-                  <p className="text-lg font-medium text-foreground">{slide.tagline}</p>
+                <div className="mt-10 p-8 bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/30 rounded-2xl pl-28 relative overflow-hidden">
+                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-2xl" />
+                  <p className="text-2xl font-semibold text-foreground relative leading-relaxed">{slide.tagline}</p>
                 </div>
               )}
             </div>
           )}
 
           {slide.type === "closing" && (
-            <div className="text-center space-y-12 animate-in fade-in duration-500">
-              <div className="space-y-4">
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent mb-6">
-                  <Handshake className="w-10 h-10 text-white" />
+            <div className="text-center space-y-16 animate-in fade-in duration-500 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-3xl -z-10" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl -z-10" />
+              
+              <div className="space-y-8">
+                <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent mb-8 animate-pulse">
+                  <Handshake className="w-16 h-16 text-white" />
                 </div>
-                <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight">
+                <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight px-4">
                   {slide.title}
                 </h1>
               </div>
-              <div className="max-w-3xl mx-auto">
-                <p className="text-xl text-foreground/90 mb-8">DisplayData and Infomil can:</p>
-                <ul className="space-y-4 text-left">
+              <div className="max-w-4xl mx-auto">
+                <p className="text-3xl text-foreground/90 mb-12 font-semibold">DisplayData and Infomil can:</p>
+                <ul className="space-y-6 text-left">
                   {slide.points?.map((point, idx) => (
-                    <li key={idx} className="flex items-center gap-4 text-lg text-foreground/90">
-                      <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                        <span className="text-primary font-bold">{idx + 1}</span>
+                    <li key={idx} className="flex items-center gap-6 text-2xl text-foreground/90 group hover:scale-105 transition-transform">
+                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0 group-hover:shadow-lg transition-shadow">
+                        <span className="text-white font-bold text-xl">{idx + 1}</span>
                       </div>
-                      <span>{point}</span>
+                      <span className="leading-relaxed">{point}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="pt-8">
-                <img src={displayDataLogo} alt="DisplayData" className="h-12 mx-auto opacity-60" />
+              <div className="pt-12">
+                <img src={displayDataLogo} alt="DisplayData" className="h-16 mx-auto opacity-70" />
               </div>
             </div>
           )}
