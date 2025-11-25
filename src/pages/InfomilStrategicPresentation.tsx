@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers } from "lucide-react";
+import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket } from "lucide-react";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 import infomilLogo from "@/assets/infomil-logo.webp";
 
@@ -274,8 +274,6 @@ export default function InfomilStrategicPresentation() {
       {/* Slide Content */}
       <main className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-6xl">
-          {/* Title Slide */}
-          
           {slide.type === "title" && (
             <div className="text-center space-y-12 animate-in fade-in duration-500 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-3xl -z-10" />
@@ -305,124 +303,202 @@ export default function InfomilStrategicPresentation() {
             </div>
           )}
 
-          {/* Content Slide */}
           {slide.type === "content" && (
-            <div className="space-y-6 animate-in fade-in duration-500">
-              <div className="flex items-center gap-4">
-                <slide.icon className="w-8 h-8 text-primary" />
-                <h2 className="text-4xl font-semibold">{slide.title}</h2>
+            <div className="space-y-10 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+              {slide.icon && (
+                <div className="absolute top-1/2 right-10 opacity-10">
+                  <slide.icon className="w-64 h-64 text-primary" />
+                </div>
+              )}
+              <div className="space-y-4">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                </div>
               </div>
-              <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              <ul className="list-disc list-inside space-y-3">
-                {slide.points.map((point, index) => (
-                  <li key={index} className="text-lg">
-                    {point}
+              {slide.framework && (
+                <div className="inline-block p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl mb-6">
+                  <p className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
+                </div>
+              )}
+              <ul className="space-y-6 pl-28">
+                {slide.points?.map((point, idx) => (
+                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
+                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
+                    <span className="leading-relaxed">{point}</span>
                   </li>
                 ))}
               </ul>
-              {slide.framework && (
-                <div className="mt-8 p-6 bg-secondary rounded-md">
-                  <h3 className="text-xl font-semibold mb-2">Intelligence Framework</h3>
-                  <p className="text-lg">{slide.framework}</p>
-                </div>
-              )}
               {slide.tagline && (
-                <div className="mt-6 text-xl italic text-muted-foreground">
-                  &quot;{slide.tagline}&quot;
+                <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
+                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
+                  <p className="text-2xl font-semibold text-foreground relative">{slide.tagline}</p>
                 </div>
               )}
             </div>
           )}
 
-          {/* Strategy Slide */}
           {slide.type === "strategy" && (
-            <div className="space-y-6 animate-in fade-in duration-500">
-              <h2 className="text-5xl font-bold">{slide.title}</h2>
-              <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {slide.tracks.map((track) => (
-                  <div key={track.number} className="p-6 bg-card rounded-md shadow-sm">
-                    <div className="text-3xl font-semibold text-primary">{track.number}</div>
-                    <p className="text-lg mt-2">{track.title}</p>
+            <div className="space-y-12 animate-in fade-in duration-500 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 rounded-3xl -z-10" />
+              <div className="space-y-4 text-center">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
+              </div>
+              <div className="grid grid-cols-1 gap-8 pt-6">
+                {slide.tracks?.map((track, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-gradient-to-br from-card to-card/50 border-2 border-border rounded-2xl p-10 space-y-5 hover:shadow-2xl hover:border-primary/50 transition-all hover:scale-105 group relative overflow-hidden"
+                  >
+                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
+                    <div className="flex items-center gap-8">
+                      <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center relative flex-shrink-0">
+                        <span className="text-4xl font-bold text-white">{track.number}</span>
+                      </div>
+                      <h3 className="text-3xl font-bold text-foreground relative">{track.title}</h3>
+                    </div>
                   </div>
                 ))}
               </div>
               {slide.tagline && (
-                <div className="mt-6 text-xl italic text-muted-foreground">
-                  &quot;{slide.tagline}&quot;
+                <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden text-center">
+                  <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
+                  <p className="text-2xl font-semibold text-foreground relative">{slide.tagline}</p>
                 </div>
               )}
             </div>
           )}
 
-          {/* Section Title Slide */}
           {slide.type === "section-title" && (
-            <div className="text-center animate-in fade-in duration-500">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary text-3xl font-semibold mb-6">
-                {slide.sectionNumber}
+            <div className="text-center space-y-12 animate-in fade-in duration-500 relative min-h-[600px] flex flex-col items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-primary/20 to-accent/20 rounded-3xl -z-10" />
+              <div className="absolute top-20 left-20 w-40 h-40 bg-primary/30 rounded-full blur-3xl" />
+              <div className="absolute bottom-20 right-20 w-48 h-48 bg-accent/30 rounded-full blur-3xl" />
+              
+              <div className="space-y-8">
+                <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent animate-pulse">
+                  <span className="text-6xl font-bold text-white">{slide.sectionNumber}</span>
+                </div>
+                <h2 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight px-4">
+                  {slide.title}
+                </h2>
               </div>
-              <h2 className="text-6xl font-bold">{slide.title}</h2>
             </div>
           )}
 
-          {/* Advantages Slide */}
           {slide.type === "advantages" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in duration-500">
-              <div>
-                <h3 className="text-3xl font-semibold text-primary mb-4">Advantage to Infomil</h3>
-                <ul className="list-disc list-inside space-y-3">
-                  {slide.infomilBenefits.map((benefit, index) => (
-                    <li key={index} className="text-lg">
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
+            <div className="space-y-10 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+              <div className="space-y-4 text-center">
+                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
               </div>
-              <div>
-                <h3 className="text-3xl font-semibold text-primary mb-4">Advantage to Stores</h3>
-                <ul className="list-disc list-inside space-y-3">
-                  {slide.storeBenefits.map((benefit, index) => (
-                    <li key={index} className="text-lg">
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-6">
+                {/* Infomil Benefits */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                      <Shield className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-foreground">Benefits for Infomil</h3>
+                  </div>
+                  <ul className="space-y-5">
+                    {slide.infomilBenefits?.map((benefit, idx) => (
+                      <li key={idx} className="flex items-start gap-4 text-xl text-foreground/90 group">
+                        <CheckCircle className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1 group-hover:scale-125 transition-transform" />
+                        <span className="leading-relaxed">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Store Benefits */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                      <Zap className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-foreground">Benefits for Stores</h3>
+                  </div>
+                  <ul className="space-y-5">
+                    {slide.storeBenefits?.map((benefit, idx) => (
+                      <li key={idx} className="flex items-start gap-4 text-xl text-foreground/90 group">
+                        <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1 group-hover:scale-125 transition-transform" />
+                        <span className="leading-relaxed">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Highlight Slide */}
           {slide.type === "highlight" && (
-            <div className="space-y-6 animate-in fade-in duration-500">
-              <div className="flex items-center gap-4">
-                <slide.icon className="w-8 h-8 text-primary" />
-                <h2 className="text-4xl font-semibold">{slide.title}</h2>
+            <div className="space-y-10 animate-in fade-in duration-500 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-primary/10 to-accent/10 rounded-3xl -z-10" />
+              <div className="absolute top-10 right-10 opacity-10">
+                {slide.icon && <slide.icon className="w-64 h-64 text-primary" />}
               </div>
-              <p className="text-2xl text-muted-foreground">{slide.subtitle}</p>
-              <ul className="list-disc list-inside space-y-3">
-                {slide.points.map((point, index) => (
-                  <li key={index} className="text-lg">
-                    {point}
+              <div className="space-y-4">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent to-primary flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                </div>
+              </div>
+              <ul className="space-y-6 pl-28">
+                {slide.points?.map((point, idx) => (
+                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
+                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-accent to-primary flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
+                    <span className="leading-relaxed">{point}</span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Closing Slide */}
           {slide.type === "closing" && (
-            <div className="text-center space-y-12 animate-in fade-in duration-500">
-              <h1 className="text-7xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight">
-                {slide.title}
-              </h1>
-              <ul className="list-none space-y-6">
-                {slide.points.map((point, index) => (
-                  <li key={index} className="text-3xl">
-                    <CheckCircle className="inline-block w-8 h-8 mr-3 text-green-500" />
-                    {point}
+            <div className="text-center space-y-12 animate-in fade-in duration-500 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 rounded-3xl -z-10" />
+              <div className="absolute top-10 left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl" />
+              <div className="absolute bottom-10 right-10 w-48 h-48 bg-accent/20 rounded-full blur-3xl" />
+              
+              <div className="space-y-8 pt-8">
+                <div className="flex items-center justify-center gap-6 mb-8">
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent">
+                    <Rocket className="w-10 h-10 text-white" />
+                  </div>
+                </div>
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight px-4">
+                  {slide.title}
+                </h2>
+              </div>
+              
+              <ul className="space-y-6 max-w-4xl mx-auto pt-8">
+                {slide.points?.map((point, idx) => (
+                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group justify-center">
+                    <CheckCircle className="w-7 h-7 text-primary flex-shrink-0 mt-1 group-hover:scale-125 transition-transform" />
+                    <span className="leading-relaxed text-left">{point}</span>
                   </li>
                 ))}
               </ul>
+
+              <div className="pt-12 flex items-center justify-center gap-8">
+                <img src={displayDataLogo} alt="DisplayData" className="h-20 opacity-70" />
+                <div className="text-4xl text-muted-foreground/30">×</div>
+                <img src={infomilLogo} alt="Infomil" className="h-20 opacity-70" />
+              </div>
             </div>
           )}
         </div>
