@@ -355,32 +355,32 @@ export default function InfomilStrategicPresentation() {
           )}
 
           {slide.type === "strategy" && (
-            <div className="space-y-12 animate-in fade-in duration-500 relative">
+            <div className="space-y-6 animate-in fade-in duration-500 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 rounded-3xl -z-10" />
-              <div className="space-y-4 text-center">
-                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
-                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
+              <div className="space-y-3 text-center">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-base">{slide.subtitle}</p>}
+                <h2 className="text-4xl md:text-5xl font-bold text-foreground">{slide.title}</h2>
               </div>
-              <div className="grid grid-cols-1 gap-8 pt-6">
+              <div className="grid grid-cols-1 gap-5 pt-4">
                 {slide.tracks?.map((track, idx) => (
                   <div
                     key={idx}
-                    className="bg-gradient-to-br from-card to-card/50 border-2 border-border rounded-2xl p-10 space-y-5 hover:shadow-2xl hover:border-primary/50 transition-all hover:scale-105 group relative overflow-hidden"
+                    className="bg-gradient-to-br from-card to-card/50 border-2 border-border rounded-2xl p-6 hover:shadow-2xl hover:border-primary/50 transition-all hover:scale-105 group relative overflow-hidden"
                   >
                     <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
-                    <div className="flex items-center gap-8">
-                      <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center relative flex-shrink-0">
-                        <span className="text-4xl font-bold text-white">{track.number}</span>
+                    <div className="flex items-center gap-6">
+                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center relative flex-shrink-0">
+                        <span className="text-3xl font-bold text-white">{track.number}</span>
                       </div>
-                      <h3 className="text-3xl font-bold text-foreground relative">{track.title}</h3>
+                      <h3 className="text-2xl font-bold text-foreground relative">{track.title}</h3>
                     </div>
                   </div>
                 ))}
               </div>
               {slide.tagline && (
-                <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden text-center">
+                <div className="mt-6 p-5 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden text-center">
                   <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
-                  <p className="text-2xl font-semibold text-foreground relative">{slide.tagline}</p>
+                  <p className="text-xl font-semibold text-foreground relative">{slide.tagline}</p>
                 </div>
               )}
             </div>
@@ -404,31 +404,31 @@ export default function InfomilStrategicPresentation() {
           )}
 
           {slide.type === "framework" && (
-            <div className="space-y-10 animate-in fade-in duration-500 relative">
+            <div className="space-y-5 animate-in fade-in duration-500 relative">
               <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-              <div className="space-y-6">
-                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
-                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
-                <div className="inline-block p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl">
-                  <p className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
+              <div className="space-y-3">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-base">{slide.subtitle}</p>}
+                <h2 className="text-4xl md:text-5xl font-bold text-foreground">{slide.title}</h2>
+                <div className="inline-block p-4 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl">
+                  <p className="text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
                 </div>
               </div>
-              <div className="space-y-8 pl-8">
-                <p className="text-2xl text-foreground/90 font-semibold">Our solutions drive tangible contextual impact:</p>
+              <div className="space-y-4 pl-8">
+                <p className="text-xl text-foreground/90 font-semibold">Our solutions drive tangible contextual impact:</p>
                 {slide.solutions?.map((solution, idx) => (
-                  <div key={idx} className="space-y-3 group">
-                    <div className="flex items-start gap-5">
-                      <span className="text-primary text-3xl font-bold group-hover:scale-125 transition-transform">→</span>
-                      <h3 className="text-2xl font-bold text-foreground">{solution.title}</h3>
+                  <div key={idx} className="space-y-2 group">
+                    <div className="flex items-start gap-4">
+                      <span className="text-primary text-2xl font-bold group-hover:scale-125 transition-transform">→</span>
+                      <h3 className="text-xl font-bold text-foreground">{solution.title}</h3>
                     </div>
-                    <p className="text-xl text-muted-foreground pl-12 leading-relaxed">{solution.impact}</p>
+                    <p className="text-lg text-muted-foreground pl-10 leading-relaxed">{solution.impact}</p>
                   </div>
                 ))}
               </div>
               {slide.tagline && (
-                <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
+                <div className="mt-5 p-5 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
                   <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
-                  <p className="text-2xl font-semibold text-foreground relative">{slide.tagline}</p>
+                  <p className="text-xl font-semibold text-foreground relative">{slide.tagline}</p>
                 </div>
               )}
             </div>
