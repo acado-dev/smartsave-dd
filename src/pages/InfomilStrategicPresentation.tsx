@@ -73,14 +73,14 @@ const slides = [
     id: 7,
     type: "content",
     icon: Layers,
-    title: "Presto ESR + AP5 — A New Generation, Built with Backward Compatibility",
+    title: "Presto + AP5 — A New Generation, Built with Backward Compatibility",
     subtitle: "Next-Gen ESL: Upgrade Without Disruption",
     points: [
       "Complete upgrade of ESL technology without replacing infrastructure.",
       "Full backward compatibility with existing AP4 / AP5 setups.",
       "Higher performance, improved battery life, faster updates.",
       "Extends the life of the existing system → zero sunk cost.",
-      "Seamless transition path from old ESL → new Presto ESL.",
+      "Seamless transition path from old ESL → new Presto.",
     ],
   },
   {
