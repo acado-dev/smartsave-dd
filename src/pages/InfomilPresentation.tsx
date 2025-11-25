@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Layers, ShoppingCart, Cpu, Database, Brain, Cloud, Box, Handshake, Sparkles, Maximize, Minimize } from "lucide-react";
+import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Layers, ShoppingCart, Cpu, Database, Brain, Cloud, Box, Handshake, Sparkles, Maximize, Minimize, Zap, Users, LineChart, CheckCircle, Rocket, Shield } from "lucide-react";
 import displayDataLogo from "@/assets/displaydata-logo.png";
+import infomilLogo from "@/assets/infomil-logo.webp";
 
 const slides = [
   {
@@ -217,7 +218,11 @@ export default function InfomilPresentation() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex flex-col">
       {/* Header */}
       <header className="bg-card border-b border-border px-8 py-4 flex items-center justify-between shadow-card">
-        <img src={displayDataLogo} alt="DisplayData" className="h-10" />
+        <div className="flex items-center gap-6">
+          <img src={displayDataLogo} alt="DisplayData" className="h-10" />
+          <div className="text-2xl text-muted-foreground font-light">+</div>
+          <img src={infomilLogo} alt="Infomil" className="h-10" />
+        </div>
         <div className="flex items-center gap-4">
           <div className="text-base text-muted-foreground font-medium">
             Slide {currentSlide + 1} of {slides.length}
@@ -238,16 +243,24 @@ export default function InfomilPresentation() {
               <div className="absolute bottom-10 right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl" />
               
               <div className="space-y-8 pt-12">
-                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent mb-8 mx-auto">
-                  <Building2 className="w-12 h-12 text-white" />
+                <div className="flex items-center justify-center gap-8 mb-8">
+                  <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent animate-pulse">
+                    <Building2 className="w-12 h-12 text-white" />
+                  </div>
+                  <Handshake className="w-16 h-16 text-primary/60" />
+                  <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-orange-400 animate-pulse">
+                    <Users className="w-12 h-12 text-white" />
+                  </div>
                 </div>
                 <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight px-4">
                   {slide.title}
                 </h1>
                 <p className="text-3xl md:text-4xl text-muted-foreground font-light">{slide.subtitle}</p>
               </div>
-              <div className="pt-12">
-                <img src={displayDataLogo} alt="DisplayData" className="h-20 mx-auto opacity-70" />
+              <div className="pt-12 flex items-center justify-center gap-8">
+                <img src={displayDataLogo} alt="DisplayData" className="h-20 opacity-70" />
+                <div className="text-4xl text-muted-foreground/30">×</div>
+                <img src={infomilLogo} alt="Infomil" className="h-20 opacity-70" />
               </div>
             </div>
           )}
@@ -255,6 +268,36 @@ export default function InfomilPresentation() {
           {slide.type === "content" && (
             <div className="space-y-10 animate-in fade-in duration-500 relative">
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+              {slide.id === 2 && (
+                <div className="absolute top-1/2 right-10 opacity-10">
+                  <LineChart className="w-64 h-64 text-primary" />
+                </div>
+              )}
+              {slide.id === 3 && (
+                <div className="absolute top-1/2 right-10 opacity-10">
+                  <AlertTriangle className="w-64 h-64 text-destructive" />
+                </div>
+              )}
+              {slide.id === 4 && (
+                <div className="absolute top-1/2 right-10 opacity-10">
+                  <Target className="w-64 h-64 text-accent" />
+                </div>
+              )}
+              {slide.id === 7 && (
+                <div className="absolute top-1/2 right-10 opacity-10">
+                  <Cpu className="w-64 h-64 text-primary" />
+                </div>
+              )}
+              {slide.id === 8 && (
+                <div className="absolute top-1/2 right-10 opacity-10">
+                  <Database className="w-64 h-64 text-primary" />
+                </div>
+              )}
+              {slide.id === 11 && (
+                <div className="absolute top-1/2 right-10 opacity-10">
+                  <Handshake className="w-64 h-64 text-primary" />
+                </div>
+              )}
               <div className="space-y-4">
                 {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
                 <div className="flex items-start gap-6">
@@ -335,6 +378,16 @@ export default function InfomilPresentation() {
           {slide.type === "highlight" && (
             <div className="space-y-10 animate-in fade-in duration-500 relative">
               <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+              {slide.id === 9 && (
+                <div className="absolute bottom-10 right-10 opacity-10">
+                  <Brain className="w-80 h-80 text-accent" />
+                </div>
+              )}
+              {slide.id === 10 && (
+                <div className="absolute bottom-10 right-10 opacity-10">
+                  <Sparkles className="w-80 h-80 text-accent" />
+                </div>
+              )}
               <div className="space-y-6">
                 {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
                 <div className="flex items-start gap-6">
@@ -395,8 +448,10 @@ export default function InfomilPresentation() {
                   ))}
                 </ul>
               </div>
-              <div className="pt-12">
-                <img src={displayDataLogo} alt="DisplayData" className="h-16 mx-auto opacity-70" />
+              <div className="pt-12 flex items-center justify-center gap-8">
+                <img src={displayDataLogo} alt="DisplayData" className="h-16 opacity-70" />
+                <Handshake className="w-8 h-8 text-primary/40" />
+                <img src={infomilLogo} alt="Infomil" className="h-16 opacity-70" />
               </div>
             </div>
           )}
