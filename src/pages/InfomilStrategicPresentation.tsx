@@ -134,7 +134,7 @@ const slides = [
     id: 11,
     type: "highlight",
     icon: Brain,
-    title: "Introducing DD Brain (New Product Line)",
+    title: "DD Brain: From Data Warehouse to Decision Engine",
     subtitle: "Turning Infomil's Data Warehouse Into a Strategic Superpower",
     description: "Infomil has built a large, high-quality retail data repository over many years. This data can become the foundation for predictive, operational, and strategic intelligence.",
     heading: "DD Brain is our new intelligence engine:",
