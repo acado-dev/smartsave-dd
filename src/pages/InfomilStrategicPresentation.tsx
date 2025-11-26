@@ -3,6 +3,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket } from "lucide-react";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 import infomilLogo from "@/assets/infomil-logo.webp";
+import prestoEsl1 from "@/assets/presto-esl-1.jpeg";
+import prestoEsl2 from "@/assets/presto-esl-2.jpeg";
+import prestoEsl3 from "@/assets/presto-esl-3.jpeg";
+import prestoEsl4 from "@/assets/presto-esl-4.jpeg";
+import prestoEsl5 from "@/assets/presto-esl-5.jpeg";
 
 const slides = [
   {
@@ -96,6 +101,7 @@ const slides = [
       "Optional NFC support",
       "The 4.2 clear plastic protective cover is extended to 5.8 and 7.5",
     ],
+    images: [prestoEsl1, prestoEsl2, prestoEsl3, prestoEsl4, prestoEsl5],
   },
   {
     id: 9,
@@ -364,6 +370,20 @@ export default function InfomilStrategicPresentation() {
                   </li>
                 ))}
               </ul>
+              {slide.images && (
+                <div className="mt-12 grid grid-cols-3 gap-6 pl-28 pr-10">
+                  {slide.images.map((image, idx) => (
+                    <div key={idx} className="relative group overflow-hidden rounded-xl border-2 border-border hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                      <img 
+                        src={image} 
+                        alt={`Presto ESL ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  ))}
+                </div>
+              )}
               {slide.tagline && (
                 <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
                   <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
