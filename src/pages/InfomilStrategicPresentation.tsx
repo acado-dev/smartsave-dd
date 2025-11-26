@@ -46,8 +46,8 @@ const slides = [
     subtitle: "The Opportunity for DisplayData & Infomil",
     points: [
       "Enable innovation without replacing existing infrastructure.",
-      "Ensure smooth migration to new labels/products without additional hardware.",
-      "Extend current deployments with next-generation capabilities (AI, dashboards, automation).",
+      "Ensure smooth migration to new labels/products with minimal additional hardware.",
+      "Extend current deployments with next-generation capabilities (Smart Devices, AI, dashboards, automation).",
       "Protect retailer investments by ensuring no solution becomes redundant.",
     ],
   },
