@@ -8,6 +8,8 @@ import prestoEsl2 from "@/assets/presto-esl-2.jpeg";
 import prestoEsl3 from "@/assets/presto-esl-3.jpeg";
 import prestoEsl4 from "@/assets/presto-esl-4.jpeg";
 import prestoEsl5 from "@/assets/presto-esl-5.jpeg";
+import smartDeviceBluetooth from "@/assets/smart-device-bluetooth.png";
+import smartDeviceAnalytics from "@/assets/smart-device-analytics.png";
 
 const slides = [
   {
@@ -105,6 +107,20 @@ const slides = [
   },
   {
     id: 9,
+    type: "content",
+    icon: Zap,
+    title: "New Smart Devices",
+    subtitle: "Foundation for AI-Driven Solutions",
+    points: [
+      "Smart ESLs with locationing capabilities",
+      "Smart Cameras",
+      "Smart IoT Sensors",
+    ],
+    note: "All these are core pieces in the AI-Driven Solutions (more on this later)",
+    images: [smartDeviceBluetooth, smartDeviceAnalytics],
+  },
+  {
+    id: 10,
     type: "advantages",
     title: "Why This Matters: Advantage to Infomil & Stores",
     infomilBenefits: [
@@ -120,13 +136,13 @@ const slides = [
     ],
   },
   {
-    id: 10,
+    id: 11,
     type: "section-title",
     sectionNumber: "2",
     title: "Intelligent Retail – Powered by AI & the 4P + C Framework",
   },
   {
-    id: 11,
+    id: 12,
     type: "framework",
     title: "4P + C: The Strategic Framework for Our Retail Solutions",
     framework: "Perishable | Planogram | Promotion | Profit + Cash",
@@ -156,7 +172,7 @@ const slides = [
     tagline: "This framework positions ESL as a business value engine, not just a display.",
   },
   {
-    id: 12,
+    id: 13,
     type: "highlight",
     icon: Brain,
     title: "DD Brain: From Data Warehouse to Decision Engine",
@@ -171,7 +187,7 @@ const slides = [
     ],
   },
   {
-    id: 13,
+    id: 14,
     type: "advantages",
     title: "Advantage to Infomil & Stores (AI & 4P+C)",
     infomilBenefits: [
@@ -187,13 +203,13 @@ const slides = [
     ],
   },
   {
-    id: 14,
+    id: 15,
     type: "section-title",
     sectionNumber: "3",
     title: "Custom Solutions & New Form Factors",
   },
   {
-    id: 15,
+    id: 16,
     type: "content",
     icon: Cpu,
     title: "100P — The New Presto Family Form Factor",
@@ -207,7 +223,7 @@ const slides = [
     ],
   },
   {
-    id: 16,
+    id: 17,
     type: "advantages",
     title: "Advantage to Infomil & Stores (Custom Solutions)",
     infomilBenefits: [
@@ -223,7 +239,7 @@ const slides = [
     ],
   },
   {
-    id: 17,
+    id: 18,
     type: "content",
     icon: Handshake,
     title: "A Stronger DisplayData–Infomil Collaboration",
@@ -237,7 +253,7 @@ const slides = [
     ],
   },
   {
-    id: 18,
+    id: 19,
     type: "closing",
     title: "Together, We Protect Today and Build the Future",
     points: [
@@ -378,6 +394,13 @@ export default function InfomilStrategicPresentation() {
                         <span className="text-2xl text-foreground leading-tight font-medium">{point}</span>
                       </div>
                     ))}
+                    
+                    {/* Note field if exists */}
+                    {slide.note && (
+                      <div className="mt-6 p-5 bg-gradient-to-br from-primary/15 to-accent/10 rounded-xl border-2 border-primary/40">
+                        <p className="text-xl text-foreground/90 italic leading-relaxed">{slide.note}</p>
+                      </div>
+                    )}
                   </div>
 
                   {/* Vertical Separator */}
@@ -396,21 +419,23 @@ export default function InfomilStrategicPresentation() {
                     </div>
 
                     {/* 2x2 Grid of Smaller Images */}
-                    <div className="grid grid-cols-2 gap-4">
-                      {slide.images.slice(1, 5).map((img, idx) => (
-                        <div 
-                          key={idx}
-                          className="relative group overflow-hidden rounded-xl border-2 border-border hover:border-accent transition-all duration-300 shadow-lg hover:shadow-xl"
-                        >
-                          <img 
-                            src={img} 
-                            alt={`Presto ESL Detail ${idx + 1}`}
-                            className="w-full h-[140px] object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                      ))}
-                    </div>
+                    {slide.images.length > 1 && (
+                      <div className="grid grid-cols-2 gap-4">
+                        {slide.images.slice(1, 5).map((img, idx) => (
+                          <div 
+                            key={idx}
+                            className="relative group overflow-hidden rounded-xl border-2 border-border hover:border-accent transition-all duration-300 shadow-lg hover:shadow-xl"
+                          >
+                            <img 
+                              src={img} 
+                              alt={`Device Detail ${idx + 1}`}
+                              className="w-full h-[140px] object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
