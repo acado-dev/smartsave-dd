@@ -479,12 +479,26 @@ export default function InfomilStrategicPresentation() {
               ) : (
                 // Regular list for slides without images
                 <ul className="space-y-6 pl-28">
-                  {slide.points?.map((point, idx) => (
-                    <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
-                      <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
-                      <span className="leading-relaxed">{point}</span>
-                    </li>
-                  ))}
+                  {slide.points?.map((point, idx) => {
+                    const isSubPoint = point.startsWith("  • ");
+                    const displayText = isSubPoint ? point.substring(4) : point;
+                    
+                    return (
+                      <li 
+                        key={idx} 
+                        className={`flex items-start gap-5 group ${
+                          isSubPoint 
+                            ? "text-xl text-foreground/75 ml-12" 
+                            : "text-2xl text-foreground/90"
+                        }`}
+                      >
+                        <span className={`rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-3 group-hover:scale-125 transition-transform ${
+                          isSubPoint ? "w-2 h-2" : "w-3 h-3"
+                        }`} />
+                        <span className="leading-relaxed">{displayText}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
               {slide.tagline && (
