@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket } from "lucide-react";
+import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket, ArrowRight, Cloud } from "lucide-react";
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart } from "recharts";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 import infomilLogo from "@/assets/infomil-logo.webp";
 import prestoEsl1 from "@/assets/presto-esl-1.jpeg";
@@ -10,6 +11,23 @@ import prestoEsl4 from "@/assets/presto-esl-4.jpeg";
 import prestoEsl5 from "@/assets/presto-esl-5.jpeg";
 import smartDeviceBluetooth from "@/assets/smart-device-bluetooth.png";
 import smartDeviceAnalytics from "@/assets/smart-device-analytics.png";
+
+// Chart data for perishables flow
+const perishablesChartData = [
+  { hour: "6.00", qty: 100, price: 5.00 },
+  { hour: "7.00", qty: 95, price: 5.00 },
+  { hour: "8.00", qty: 85, price: 5.00 },
+  { hour: "9.00", qty: 80, price: 4.50 },
+  { hour: "10.00", qty: 70, price: 4.50 },
+  { hour: "11.00", qty: 60, price: 4.00 },
+  { hour: "12.00", qty: 50, price: 4.00 },
+  { hour: "13.00", qty: 40, price: 3.00 },
+  { hour: "14.00", qty: 30, price: 3.00 },
+  { hour: "15.00", qty: 20, price: 2.00 },
+  { hour: "16.00", qty: 10, price: 2.00 },
+  { hour: "17.00", qty: 5, price: 1.00 },
+  { hour: "18.00", qty: 2, price: 1.00 },
+];
 
 const slides = [
   {
@@ -223,10 +241,27 @@ const slides = [
   },
   {
     id: 17,
-    type: "content",
+    type: "perishables-flow",
     icon: TrendingUp,
     title: "Perishables Waste Reduction",
     subtitle: "An Algorithm That Manages Prices for Perishable Goods",
+    inputs: [
+      "Stock quantity",
+      "Shelf life",
+      "Pricing",
+      "POS",
+      "Seasonal data",
+      "Weather data",
+      "Demand data",
+    ],
+    algorithmTitle: "DisplayData Retail Platform",
+    algorithmSubtitle: "Perishables Algorithm",
+    outputs: [
+      "POS / Price changes",
+      "ESL Price changes",
+      'ESL "Marked Down" banner',
+    ],
+    outputsTitle: "That drive",
     points: [
       "Built to minimize waste of 'Lunch' fresh products (Sandwiches etc)",
       "Intelligent individual AI Algorithm per product",
@@ -690,6 +725,141 @@ export default function InfomilStrategicPresentation() {
                   </ul>
                 </div>
               </div>
+            </div>
+          )}
+
+          {slide.type === "perishables-flow" && (
+            <div className="space-y-8 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+              
+              {/* Header */}
+              <div className="space-y-4">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                </div>
+              </div>
+
+              {/* Flow Diagram */}
+              <div className="grid grid-cols-4 gap-6 py-6">
+                {/* Column 1: Inputs */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-primary mb-4">Inputs</h3>
+                  <div className="space-y-3">
+                    {slide.inputs?.map((input, idx) => (
+                      <div key={idx} className="bg-gradient-to-br from-card to-card/50 border border-border rounded-lg p-3 text-center hover:border-primary/50 transition-all">
+                        <p className="text-base font-medium text-foreground">{input}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Column 2: Algorithm Cloud */}
+                <div className="flex flex-col items-center justify-center space-y-4">
+                  <div className="relative">
+                    <div className="bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-primary/40 rounded-3xl p-8 relative">
+                      <Cloud className="w-16 h-16 text-primary/30 absolute top-2 right-2" />
+                      <div className="text-center space-y-2 relative z-10">
+                        <p className="text-lg font-bold text-primary">{slide.algorithmTitle}</p>
+                        <p className="text-2xl font-bold text-foreground">{slide.algorithmSubtitle}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ArrowRight className="w-8 h-8 text-primary animate-pulse" />
+                    <ArrowRight className="w-8 h-8 text-primary animate-pulse" />
+                  </div>
+                </div>
+
+                {/* Column 3: Outputs */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-accent mb-4">{slide.outputsTitle}</h3>
+                  <div className="space-y-3">
+                    {slide.outputs?.map((output, idx) => (
+                      <div key={idx} className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-lg p-4 hover:border-accent/50 transition-all">
+                        <p className="text-base font-semibold text-foreground">{output}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Column 4: Chart */}
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <ResponsiveContainer width="100%" height={280}>
+                    <ComposedChart data={perishablesChartData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis 
+                        dataKey="hour" 
+                        stroke="hsl(var(--muted-foreground))"
+                        tick={{ fontSize: 10 }}
+                      />
+                      <YAxis 
+                        yAxisId="left"
+                        stroke="hsl(var(--primary))"
+                        tick={{ fontSize: 10 }}
+                        label={{ value: 'Qty on Shelf', angle: -90, position: 'insideLeft', style: { fontSize: 10 } }}
+                      />
+                      <YAxis 
+                        yAxisId="right"
+                        orientation="right"
+                        stroke="hsl(var(--accent))"
+                        tick={{ fontSize: 10 }}
+                        label={{ value: 'Price ($)', angle: 90, position: 'insideRight', style: { fontSize: 10 } }}
+                        domain={[0, 6]}
+                      />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--card))', 
+                          border: '1px solid hsl(var(--border))',
+                          fontSize: '12px'
+                        }}
+                      />
+                      <Legend 
+                        wrapperStyle={{ fontSize: '11px' }}
+                      />
+                      <Bar 
+                        yAxisId="left"
+                        dataKey="qty" 
+                        fill="hsl(var(--primary))" 
+                        name="Qty on Shelf"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Line 
+                        yAxisId="right"
+                        type="stepAfter"
+                        dataKey="price" 
+                        stroke="hsl(var(--accent))" 
+                        strokeWidth={2}
+                        name="Sell price"
+                        dot={{ fill: 'hsl(var(--accent))' }}
+                      />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Bottom Points */}
+              <ul className="space-y-4 pl-28">
+                {slide.points?.map((point, idx) => (
+                  <li key={idx} className="flex items-start gap-5 text-xl text-foreground/90 group">
+                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-2 group-hover:scale-125 transition-transform" />
+                    <span className="leading-relaxed">{point}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Tagline */}
+              {slide.tagline && (
+                <div className="mt-6 p-6 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
+                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
+                  <p className="text-xl font-semibold text-foreground relative">{slide.tagline}</p>
+                </div>
+              )}
             </div>
           )}
 
