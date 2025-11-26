@@ -76,9 +76,9 @@ const slides = [
     title: "Presto + AP5 — A New Generation, Built with Backward Compatibility",
     subtitle: "Next-Gen ESL: Upgrade Without Disruption",
     points: [
-      "Complete upgrade of ESL technology without replacing infrastructure.",
-      "Full backward compatibility with existing AP4 / AP5 setups.",
-      "Higher performance, improved battery life, faster updates.",
+      "Complete upgrade of ESL technology with minimal infrastructure changes.",
+      "Full backward compatibility with existing AP4 + CC4 / 4U setups.",
+      "Higher performance, low battery, improved battery life, faster updates.",
       "Extends the life of the existing system → zero sunk cost.",
       "Seamless transition path from old ESL → new Presto.",
     ],
