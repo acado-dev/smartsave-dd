@@ -362,27 +362,106 @@ export default function InfomilStrategicPresentation() {
                   <p className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
                 </div>
               )}
-              <ul className="space-y-6 pl-28">
-                {slide.points?.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
-                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
-                    <span className="leading-relaxed">{point}</span>
-                  </li>
-                ))}
-              </ul>
-              {slide.images && (
-                <div className="mt-12 grid grid-cols-3 gap-6 pl-28 pr-10">
-                  {slide.images.map((image, idx) => (
-                    <div key={idx} className="relative group overflow-hidden rounded-xl border-2 border-border hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                      <img 
-                        src={image} 
-                        alt={`Presto ESL ${idx + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              {slide.images ? (
+                // Bento-grid layout mixing images and content
+                <div className="grid grid-cols-12 gap-5 pl-20 pr-10 auto-rows-[minmax(130px,auto)]">
+                  {/* Large hero image - top left */}
+                  <div className="col-span-5 row-span-3 relative group overflow-hidden rounded-2xl border-2 border-primary/40 shadow-2xl hover:shadow-primary/30 transition-all duration-500">
+                    <img 
+                      src={slide.images[0]} 
+                      alt="Presto ESL Main"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent" />
+                  </div>
+
+                  {/* Point 1 */}
+                  <div className="col-span-7 row-span-1 bg-gradient-to-br from-accent/10 to-primary/5 rounded-xl p-5 border border-accent/30 flex items-center gap-4 hover:border-accent/50 hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-md">
+                      <span className="text-xl font-bold text-white">1</span>
                     </div>
-                  ))}
+                    <span className="text-2xl text-foreground leading-tight">{slide.points?.[0]}</span>
+                  </div>
+
+                  {/* Point 2 */}
+                  <div className="col-span-7 row-span-1 bg-gradient-to-br from-primary/10 to-accent/5 rounded-xl p-5 border border-primary/30 flex items-center gap-4 hover:border-primary/50 hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
+                      <span className="text-xl font-bold text-white">2</span>
+                    </div>
+                    <span className="text-2xl text-foreground leading-tight">{slide.points?.[1]}</span>
+                  </div>
+
+                  {/* Medium image - right middle */}
+                  <div className="col-span-4 row-span-2 relative group overflow-hidden rounded-xl border-2 border-border hover:border-accent transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <img 
+                      src={slide.images[1]} 
+                      alt="Presto ESL Feature"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+
+                  {/* Point 3 */}
+                  <div className="col-span-3 row-span-1 bg-gradient-to-br from-accent/10 to-primary/5 rounded-xl p-5 border border-accent/30 flex items-center gap-4 hover:border-accent/50 hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-md">
+                      <span className="text-xl font-bold text-white">3</span>
+                    </div>
+                    <span className="text-2xl text-foreground leading-tight">{slide.points?.[2]}</span>
+                  </div>
+
+                  {/* Small images mosaic - bottom left */}
+                  <div className="col-span-3 row-span-2 grid grid-rows-2 gap-4">
+                    <div className="relative group overflow-hidden rounded-lg border border-border hover:border-primary transition-all shadow-md hover:shadow-lg">
+                      <img 
+                        src={slide.images[2]} 
+                        alt="Presto ESL Detail"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="relative group overflow-hidden rounded-lg border border-border hover:border-primary transition-all shadow-md hover:shadow-lg">
+                      <img 
+                        src={slide.images[3]} 
+                        alt="Presto ESL Detail"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Point 4 */}
+                  <div className="col-span-4 row-span-1 bg-gradient-to-br from-primary/10 to-accent/5 rounded-xl p-5 border border-primary/30 flex items-center gap-4 hover:border-primary/50 hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
+                      <span className="text-xl font-bold text-white">4</span>
+                    </div>
+                    <span className="text-2xl text-foreground leading-tight">{slide.points?.[3]}</span>
+                  </div>
+
+                  {/* Final image - bottom right */}
+                  <div className="col-span-4 row-span-1 relative group overflow-hidden rounded-xl border-2 border-border hover:border-accent transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <img 
+                      src={slide.images[4]} 
+                      alt="Presto ESL Detail"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Point 5 */}
+                  <div className="col-span-5 row-span-1 bg-gradient-to-br from-accent/10 to-primary/5 rounded-xl p-5 border border-accent/30 flex items-center gap-4 hover:border-accent/50 hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-md">
+                      <span className="text-xl font-bold text-white">5</span>
+                    </div>
+                    <span className="text-2xl text-foreground leading-tight">{slide.points?.[4]}</span>
+                  </div>
                 </div>
+              ) : (
+                // Regular list for slides without images
+                <ul className="space-y-6 pl-28">
+                  {slide.points?.map((point, idx) => (
+                    <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
+                      <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
+                      <span className="leading-relaxed">{point}</span>
+                    </li>
+                  ))}
+                </ul>
               )}
               {slide.tagline && (
                 <div className="mt-10 p-8 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
