@@ -58,8 +58,8 @@ const slides = [
     subtitle: "Our Strategy",
     tracks: [
       { number: "1", title: "Upgrade & Extend ESL Infrastructure" },
-      { number: "2", title: "Bring AI & Intelligence While Keeping Store Data Local" },
-      { number: "3", title: "Introduce Custom New-Form-Factor Solutions for New Use Cases" },
+      { number: "2", title: "Introduce Custom New-Form-Factor Solutions for New Use Cases (100P)" },
+      { number: "3", title: "Bring AI & Smart Devices While Keeping Store Data Local" },
     ],
     tagline: "These three tracks form a unified roadmap that protects today and grows tomorrow.",
   },
