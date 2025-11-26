@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket, ArrowRight, Cloud } from "lucide-react";
+import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket, ArrowRight, Cloud, Lightbulb, RefreshCw, Link, Clock, Monitor, Package, Grid, Server, Star, Calendar } from "lucide-react";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart } from "recharts";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 import infomilLogo from "@/assets/infomil-logo.webp";
@@ -115,15 +115,35 @@ const slides = [
   },
   {
     id: 4,
-    type: "content",
+    type: "infographic",
     icon: Target,
     title: "What We Should Offer Retailers to Strengthen Our Position",
     subtitle: "The Opportunity for DisplayData & Infomil",
-    points: [
-      "Enable innovation without replacing existing infrastructure.",
-      "Ensure smooth migration to new labels/products with minimal additional hardware.",
-      "Extend current deployments with next-generation capabilities (Smart Devices, AI, dashboards, automation).",
-      "Protect retailer investments by ensuring no solution becomes redundant.",
+    cards: [
+      {
+        icon: Lightbulb,
+        title: "Enable Innovation",
+        description: "Without replacing existing infrastructure",
+        color: "from-yellow-500 to-orange-500"
+      },
+      {
+        icon: RefreshCw,
+        title: "Smooth Migration",
+        description: "New labels/products with minimal additional hardware",
+        color: "from-blue-500 to-cyan-500"
+      },
+      {
+        icon: Layers,
+        title: "Extend Capabilities",
+        description: "Next-gen Smart Devices, AI, dashboards, automation",
+        color: "from-purple-500 to-pink-500"
+      },
+      {
+        icon: Shield,
+        title: "Protect Investments",
+        description: "Ensure no solution becomes redundant",
+        color: "from-green-500 to-emerald-500"
+      },
     ],
   },
   {
@@ -146,16 +166,41 @@ const slides = [
   },
   {
     id: 7,
-    type: "content",
+    type: "infographic",
     icon: Layers,
     title: "Presto + AP5 — A New Generation, Built with Backward Compatibility",
     subtitle: "Next-Gen ESL: Upgrade Without Disruption",
-    points: [
-      "Complete upgrade of ESL technology with minimal infrastructure changes.",
-      "Full backward compatibility with existing AP4 + CC4 / 4U setups.",
-      "Higher performance, low battery, improved battery life, faster updates.",
-      "Extends the life of the existing system → zero sunk cost.",
-      "Seamless transition path from old ESL → new Presto.",
+    cards: [
+      {
+        icon: Zap,
+        title: "Complete Upgrade",
+        description: "ESL technology with minimal infrastructure changes",
+        color: "from-blue-500 to-indigo-500"
+      },
+      {
+        icon: Link,
+        title: "Backward Compatible",
+        description: "Works with existing AP4 + CC4 / 4U setups",
+        color: "from-green-500 to-teal-500"
+      },
+      {
+        icon: TrendingUp,
+        title: "Higher Performance",
+        description: "Low battery, improved life, faster updates",
+        color: "from-purple-500 to-pink-500"
+      },
+      {
+        icon: Clock,
+        title: "Extends System Life",
+        description: "Zero sunk cost for existing infrastructure",
+        color: "from-orange-500 to-red-500"
+      },
+      {
+        icon: ArrowRight,
+        title: "Seamless Transition",
+        description: "Clear path from old ESL to new Presto",
+        color: "from-cyan-500 to-blue-500"
+      },
     ],
   },
   {
@@ -211,30 +256,68 @@ const slides = [
   },
   {
     id: 12,
-    type: "content",
+    type: "infographic",
     icon: Cpu,
     title: "100P — The New Presto Family Form Factor",
     subtitle: "Custom Solutions",
-    points: [
-      "Customized full HW/SW for infomil",
-      "Segmented LCD display powered by new presto platform(AP5) for high clarity.",
-      "Dual LEDs with side light pipes.",
-      "Sub-second latency for rapid picking and sorting.",
-      "Ideal for workflow efficiency, backroom, and operational signalling.",
-      "Extends ESL beyond pricing → into workflow optimization.",
+    cards: [
+      {
+        icon: Cpu,
+        title: "Customized HW/SW",
+        description: "Full hardware/software tailored for Infomil",
+        color: "from-indigo-500 to-purple-500"
+      },
+      {
+        icon: Monitor,
+        title: "High Clarity Display",
+        description: "Segmented LCD powered by AP5 platform",
+        color: "from-blue-500 to-cyan-500"
+      },
+      {
+        icon: Lightbulb,
+        title: "Dual LED System",
+        description: "With side light pipes for visibility",
+        color: "from-yellow-500 to-orange-500"
+      },
+      {
+        icon: Zap,
+        title: "Sub-Second Latency",
+        description: "Rapid picking and sorting operations",
+        color: "from-purple-500 to-pink-500"
+      },
+      {
+        icon: Target,
+        title: "Workflow Efficiency",
+        description: "Backroom and operational signalling",
+        color: "from-green-500 to-emerald-500"
+      },
+      {
+        icon: Layers,
+        title: "Beyond Pricing",
+        description: "Extends ESL into workflow optimization",
+        color: "from-orange-500 to-red-500"
+      },
     ],
   },
   {
     id: 13,
-    type: "content",
+    type: "infographic",
     icon: Target,
     title: "Specific Usage Cases (BOPIS)",
     subtitle: "Custom Solutions",
-    points: [
-      "Picking",
-      "  • 1 operator, multiple orders but picking all items together",
-      "Sorting",
-      "  • 1 operator with full cart → sort items into different baskets/orders",
+    cards: [
+      {
+        icon: Package,
+        title: "Picking",
+        description: "1 operator, multiple orders picking all items together",
+        color: "from-blue-500 to-cyan-500"
+      },
+      {
+        icon: Grid,
+        title: "Sorting",
+        description: "1 operator with full cart sorting items into different baskets/orders",
+        color: "from-purple-500 to-pink-500"
+      },
     ],
   },
   {
@@ -418,17 +501,35 @@ const slides = [
   },
   {
     id: 20,
-    type: "highlight",
+    type: "infographic",
     icon: Brain,
     title: "DD Brain: From Data to AI-Driven Actionable Insights",
     subtitle: "Turning Infomil's Data Warehouse Into a Strategic Superpower",
-    description: "Infomil has built a large, high-quality retail data repository over many years. This data can become the foundation for predictive, operational, and strategic intelligence.",
-    heading: "DD Brain is our new intelligence platform:",
-    points: [
-      "Deployed on-prem (inside retailer or Infomil network) – Edge AI",
-      "Trained on historic data & periodic updates with live retail data",
-      "Learns patterns, optimises decisions, and builds predictive models",
-      "Optional orchestration to centralized platform for centralized corporate management",
+    cards: [
+      {
+        icon: Server,
+        title: "Edge AI Deployment",
+        description: "On-prem inside retailer or Infomil network",
+        color: "from-blue-500 to-indigo-500"
+      },
+      {
+        icon: Database,
+        title: "Historic Training",
+        description: "Trained on historic data with periodic live updates",
+        color: "from-purple-500 to-pink-500"
+      },
+      {
+        icon: Brain,
+        title: "Predictive Intelligence",
+        description: "Learns patterns, optimizes decisions, builds models",
+        color: "from-green-500 to-emerald-500"
+      },
+      {
+        icon: Cloud,
+        title: "Centralized Orchestration",
+        description: "Optional platform for corporate management",
+        color: "from-orange-500 to-red-500"
+      },
     ],
   },
   {
@@ -449,16 +550,41 @@ const slides = [
   },
   {
     id: 22,
-    type: "content",
+    type: "infographic",
     icon: Handshake,
     title: "A Stronger DisplayData–Infomil Collaboration",
     subtitle: "Combined Partner Path Forward",
-    points: [
-      "Co-create innovative solutions using existing infrastructure.",
-      "Protect current stores by upgrading capabilities, not hardware.",
-      "Use DD Brain + Infomil data as a differentiator against competitors.",
-      "Build new value propositions for new stores and tenders.",
-      "Align on a 12–18-month roadmap for retail intelligence and device evolution.",
+    cards: [
+      {
+        icon: Handshake,
+        title: "Co-Create Solutions",
+        description: "Innovative solutions using existing infrastructure",
+        color: "from-blue-500 to-cyan-500"
+      },
+      {
+        icon: Shield,
+        title: "Protect Stores",
+        description: "Upgrade capabilities, not hardware",
+        color: "from-green-500 to-emerald-500"
+      },
+      {
+        icon: Star,
+        title: "Competitive Differentiator",
+        description: "DD Brain + Infomil data advantage",
+        color: "from-purple-500 to-pink-500"
+      },
+      {
+        icon: Rocket,
+        title: "New Value Propositions",
+        description: "Win new stores and tenders",
+        color: "from-orange-500 to-red-500"
+      },
+      {
+        icon: Calendar,
+        title: "Strategic Roadmap",
+        description: "12-18 month plan for intelligence and evolution",
+        color: "from-indigo-500 to-purple-500"
+      },
     ],
   },
   {
@@ -588,11 +714,21 @@ export default function InfomilStrategicPresentation() {
               </div>
 
               {/* Infographic Cards Grid */}
-              <div className={`grid ${slide.cards.length === 4 ? 'grid-cols-2' : slide.cards.length === 5 ? 'grid-cols-6' : 'grid-cols-2'} gap-4 px-4`}>
+              <div className={`grid ${
+                slide.cards.length === 2 ? 'grid-cols-2' : 
+                slide.cards.length === 4 ? 'grid-cols-2' : 
+                slide.cards.length === 5 ? 'grid-cols-6' : 
+                slide.cards.length === 6 ? 'grid-cols-3' : 
+                'grid-cols-2'
+              } gap-4 px-4`}>
                 {slide.cards.map((card: any, idx: number) => (
                   <div 
                     key={idx}
-                    className={`${slide.cards.length === 5 ? (idx < 3 ? 'col-span-2' : 'col-span-3') : ''} group relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-5 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300`}
+                    className={`${
+                      slide.cards.length === 5 ? (idx < 3 ? 'col-span-2' : 'col-span-3') : 
+                      slide.cards.length === 6 ? 'col-span-1' : 
+                      ''
+                    } group relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-5 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300`}
                   >
                     {/* Background pattern */}
                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -1292,39 +1428,6 @@ export default function InfomilStrategicPresentation() {
             </div>
           )}
 
-          {slide.type === "highlight" && (
-            <div className="space-y-10 animate-in fade-in duration-500 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-primary/10 to-accent/10 rounded-3xl -z-10" />
-              <div className="absolute top-10 right-10 opacity-10">
-                {slide.icon && <slide.icon className="w-64 h-64 text-primary" />}
-              </div>
-              <div className="space-y-4">
-                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
-                <div className="flex items-start gap-6">
-                  {slide.icon && (
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent to-primary flex items-center justify-center flex-shrink-0">
-                      <slide.icon className="w-10 h-10 text-white" />
-                    </div>
-                  )}
-                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
-                </div>
-              </div>
-              {slide.description && (
-                <p className="text-2xl text-foreground/90 pl-28 leading-relaxed">{slide.description}</p>
-              )}
-              {slide.heading && (
-                <h3 className="text-3xl font-bold text-accent pl-28">{slide.heading}</h3>
-              )}
-              <ul className="space-y-6 pl-28">
-                {slide.points?.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group">
-                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-accent to-primary flex-shrink-0 mt-3 group-hover:scale-125 transition-transform" />
-                    <span className="leading-relaxed">{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
 
           {slide.type === "closing" && (
             <div className="text-center space-y-12 animate-in fade-in duration-500 relative">
