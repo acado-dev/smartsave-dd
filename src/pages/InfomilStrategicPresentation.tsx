@@ -158,6 +158,19 @@ const slides = [
   },
   {
     id: 13,
+    type: "content",
+    icon: Target,
+    title: "Specific Usage Cases (BOPIS)",
+    subtitle: "Custom Solutions",
+    points: [
+      "Picking",
+      "  • 1 operator, multiple orders but picking all items together",
+      "Sorting",
+      "  • 1 operator with full cart → sort items into different baskets/orders",
+    ],
+  },
+  {
+    id: 14,
     type: "advantages",
     title: "Advantage to Infomil & Stores (Custom Solutions)",
     infomilBenefits: [
@@ -173,13 +186,13 @@ const slides = [
     ],
   },
   {
-    id: 14,
+    id: 15,
     type: "section-title",
     sectionNumber: "3",
     title: "Intelligent Retail – Powered by AI & the 4P + C Framework",
   },
   {
-    id: 15,
+    id: 16,
     type: "framework",
     title: "4P + C: The Strategic Framework for Our Retail Solutions",
     framework: "Perishable | Planogram | Promotion | Profit + Cash",
@@ -209,7 +222,7 @@ const slides = [
     tagline: "This framework positions ESL as a business value engine, not just a display.",
   },
   {
-    id: 16,
+    id: 17,
     type: "highlight",
     icon: Brain,
     title: "DD Brain: From Data Warehouse to Decision Engine",
@@ -224,7 +237,7 @@ const slides = [
     ],
   },
   {
-    id: 17,
+    id: 18,
     type: "advantages",
     title: "Advantage to Infomil & Stores (AI & 4P+C)",
     infomilBenefits: [
@@ -240,7 +253,7 @@ const slides = [
     ],
   },
   {
-    id: 18,
+    id: 19,
     type: "content",
     icon: Handshake,
     title: "A Stronger DisplayData–Infomil Collaboration",
@@ -254,7 +267,7 @@ const slides = [
     ],
   },
   {
-    id: 19,
+    id: 20,
     type: "closing",
     title: "Together, We Protect Today and Build the Future",
     points: [
