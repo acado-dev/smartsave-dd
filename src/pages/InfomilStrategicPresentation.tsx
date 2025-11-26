@@ -543,24 +543,24 @@ export default function InfomilStrategicPresentation() {
               <div className="absolute top-1/3 right-1/4 w-32 h-32 bg-accent/10 rounded-full blur-2xl" />
               
               <div className="space-y-12 pt-16">
-                <div className="flex items-center justify-center gap-12 mb-12">
-                  <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent animate-pulse shadow-2xl">
-                    <Building2 className="w-16 h-16 text-white" />
+                <div className="flex items-center justify-center gap-8 mb-8">
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent animate-pulse shadow-xl">
+                    <Building2 className="w-10 h-10 text-white" />
                   </div>
-                  <Handshake className="w-20 h-20 text-primary/60 animate-pulse" />
-                  <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-orange-400 animate-pulse shadow-2xl">
-                    <Users className="w-16 h-16 text-white" />
+                  <Handshake className="w-12 h-12 text-primary/60 animate-pulse" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-orange-400 animate-pulse shadow-xl">
+                    <Users className="w-10 h-10 text-white" />
                   </div>
                 </div>
-                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight px-4">
+                <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight px-4">
                   {slide.title}
                 </h1>
-                <p className="text-4xl md:text-5xl text-muted-foreground font-light max-w-4xl mx-auto">{slide.subtitle}</p>
+                <p className="text-3xl md:text-4xl text-muted-foreground font-light max-w-4xl mx-auto">{slide.subtitle}</p>
               </div>
-              <div className="pt-16 flex items-center justify-center gap-12">
-                <img src={displayDataLogo} alt="DisplayData" className="h-28 opacity-70 hover:opacity-100 transition-opacity" />
-                <div className="text-5xl text-muted-foreground/30">×</div>
-                <img src={infomilLogo} alt="Infomil" className="h-28 opacity-70 hover:opacity-100 transition-opacity" />
+              <div className="pt-12 flex items-center justify-center gap-8">
+                <img src={displayDataLogo} alt="DisplayData" className="h-12 opacity-70 hover:opacity-100 transition-opacity" />
+                <div className="text-3xl text-muted-foreground/30">×</div>
+                <img src={infomilLogo} alt="Infomil" className="h-12 opacity-70 hover:opacity-100 transition-opacity" />
               </div>
             </div>
           )}
@@ -575,51 +575,51 @@ export default function InfomilStrategicPresentation() {
               )}
               
               {/* Header */}
-              <div className="space-y-4 mb-12">
-                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-2xl">{slide.subtitle}</p>}
-                <div className="flex items-start gap-6">
+              <div className="space-y-3 mb-6">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-4">
                   {slide.icon && (
-                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0 shadow-xl">
-                      <slide.icon className="w-12 h-12 text-white" />
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0 shadow-xl">
+                      <slide.icon className="w-8 h-8 text-white" />
                     </div>
                   )}
-                  <h2 className="text-6xl md:text-7xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                  <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
 
               {/* Infographic Cards Grid */}
-              <div className={`grid ${slide.cards.length === 4 ? 'grid-cols-2' : slide.cards.length === 5 ? 'grid-cols-3' : 'grid-cols-2'} gap-6 px-4`}>
+              <div className={`grid ${slide.cards.length === 4 ? 'grid-cols-2' : slide.cards.length === 5 ? 'grid-cols-3' : 'grid-cols-2'} gap-4 px-4`}>
                 {slide.cards.map((card: any, idx: number) => (
                   <div 
                     key={idx}
-                    className={`${slide.cards.length === 5 && idx === 4 ? 'col-span-3 max-w-md mx-auto' : ''} group relative overflow-hidden rounded-3xl bg-gradient-to-br ${card.color} p-8 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500`}
+                    className={`${slide.cards.length === 5 && idx === 4 ? 'col-span-3 max-w-md mx-auto' : ''} group relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-5 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300`}
                   >
                     {/* Background pattern */}
                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     {/* Icon */}
-                    <div className="mb-6 relative">
-                      <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <card.icon className="w-10 h-10 text-white" />
+                    <div className="mb-4 relative">
+                      <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <card.icon className="w-7 h-7 text-white" />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="space-y-4 relative">
-                      <h3 className="text-3xl font-bold text-white leading-tight">{card.title}</h3>
-                      <p className="text-xl text-white/90 leading-relaxed">{card.description}</p>
+                    <div className="space-y-2 relative">
+                      <h3 className="text-xl font-bold text-white leading-tight">{card.title}</h3>
+                      <p className="text-base text-white/90 leading-relaxed">{card.description}</p>
                       
                       {/* Metric badge if exists */}
                       {card.metric && (
-                        <div className="inline-block mt-4 px-5 py-2 bg-white/25 backdrop-blur-md rounded-full border border-white/30">
-                          <span className="text-lg font-bold text-white">{card.metric}</span>
+                        <div className="inline-block mt-3 px-3 py-1 bg-white/25 backdrop-blur-md rounded-full border border-white/30">
+                          <span className="text-sm font-bold text-white">{card.metric}</span>
                         </div>
                       )}
                     </div>
 
                     {/* Number indicator */}
-                    <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                      <span className="text-2xl font-bold text-white">{idx + 1}</span>
+                    <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/30">
+                      <span className="text-xl font-bold text-white">{idx + 1}</span>
                     </div>
                   </div>
                 ))}
@@ -643,7 +643,7 @@ export default function InfomilStrategicPresentation() {
                       <slide.icon className="w-10 h-10 text-white" />
                     </div>
                   )}
-                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                  <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
               {slide.framework && (
