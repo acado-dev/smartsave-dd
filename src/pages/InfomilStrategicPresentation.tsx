@@ -139,10 +139,46 @@ const slides = [
     id: 11,
     type: "section-title",
     sectionNumber: "2",
-    title: "Intelligent Retail – Powered by AI & the 4P + C Framework",
+    title: "Custom Solutions & New Form Factors",
   },
   {
     id: 12,
+    type: "content",
+    icon: Cpu,
+    title: "100P — The New Presto Family Form Factor",
+    subtitle: "Custom Solutions",
+    points: [
+      "Segmented LCD display for high clarity.",
+      "Dual LEDs with side light pipes.",
+      "Sub-second latency for rapid tasking and alerting.",
+      "Ideal for workflow efficiency, backroom, and operational signalling.",
+      "Extends ESL beyond pricing → into productivity & task automation.",
+    ],
+  },
+  {
+    id: 13,
+    type: "advantages",
+    title: "Advantage to Infomil & Stores (Custom Solutions)",
+    infomilBenefits: [
+      "Unique, differentiated solutions competitors do not offer.",
+      "Ability to tap new use cases (picking, tasking, replenishment).",
+      "Strengthens positioning in 'operational transformation' projects.",
+    ],
+    storeBenefits: [
+      "Faster workflows, improved task turnaround.",
+      "Visual indicators for staff guidance & compliance.",
+      "More intelligence using existing ESL network.",
+      "Scalable without infrastructural changes.",
+    ],
+  },
+  {
+    id: 14,
+    type: "section-title",
+    sectionNumber: "3",
+    title: "Intelligent Retail – Powered by AI & the 4P + C Framework",
+  },
+  {
+    id: 15,
     type: "framework",
     title: "4P + C: The Strategic Framework for Our Retail Solutions",
     framework: "Perishable | Planogram | Promotion | Profit + Cash",
@@ -172,7 +208,7 @@ const slides = [
     tagline: "This framework positions ESL as a business value engine, not just a display.",
   },
   {
-    id: 13,
+    id: 16,
     type: "highlight",
     icon: Brain,
     title: "DD Brain: From Data Warehouse to Decision Engine",
@@ -187,7 +223,7 @@ const slides = [
     ],
   },
   {
-    id: 14,
+    id: 17,
     type: "advantages",
     title: "Advantage to Infomil & Stores (AI & 4P+C)",
     infomilBenefits: [
@@ -200,42 +236,6 @@ const slides = [
       "Gain actionable AI insights built on their own historical patterns.",
       "Improve waste, compliance, pricing, and execution.",
       "Scalable intelligence across all stores with consistent models.",
-    ],
-  },
-  {
-    id: 15,
-    type: "section-title",
-    sectionNumber: "3",
-    title: "Custom Solutions & New Form Factors",
-  },
-  {
-    id: 16,
-    type: "content",
-    icon: Cpu,
-    title: "100P — The New Presto Family Form Factor",
-    subtitle: "Custom Solutions",
-    points: [
-      "Segmented LCD display for high clarity.",
-      "Dual LEDs with side light pipes.",
-      "Sub-second latency for rapid tasking and alerting.",
-      "Ideal for workflow efficiency, backroom, and operational signalling.",
-      "Extends ESL beyond pricing → into productivity & task automation.",
-    ],
-  },
-  {
-    id: 17,
-    type: "advantages",
-    title: "Advantage to Infomil & Stores (Custom Solutions)",
-    infomilBenefits: [
-      "Unique, differentiated solutions competitors do not offer.",
-      "Ability to tap new use cases (picking, tasking, replenishment).",
-      "Strengthens positioning in 'operational transformation' projects.",
-    ],
-    storeBenefits: [
-      "Faster workflows, improved task turnaround.",
-      "Visual indicators for staff guidance & compliance.",
-      "More intelligence using existing ESL network.",
-      "Scalable without infrastructural changes.",
     ],
   },
   {
