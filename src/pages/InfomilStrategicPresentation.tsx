@@ -125,7 +125,7 @@ const slides = [
     title: "Why This Matters: Advantage to Infomil & Stores",
     infomilBenefits: [
       "Protects existing footprint and eliminates churn risk.",
-      "Ability to upsell modern ESL capabilities without reinstallation.",
+      "Ability to upsell modern ESL capabilities with incremental upgrades.",
       "Strengthens positioning against competitors pushing 'full refresh'.",
     ],
     storeBenefits: [
