@@ -85,6 +85,20 @@ const slides = [
   },
   {
     id: 8,
+    type: "content",
+    icon: Sparkles,
+    title: "The New Presto Line of ESLs",
+    subtitle: "Next-Generation Hardware Capabilities",
+    points: [
+      "4 color support",
+      "New vertical alignment form factor for high density usages",
+      "Sub-second latency LED support",
+      "Optional NFC support",
+      "The 4.2 clear plastic protective cover is extended to 5.8 and 7.5",
+    ],
+  },
+  {
+    id: 9,
     type: "advantages",
     title: "Why This Matters: Advantage to Infomil & Stores",
     infomilBenefits: [
@@ -100,13 +114,13 @@ const slides = [
     ],
   },
   {
-    id: 9,
+    id: 10,
     type: "section-title",
     sectionNumber: "2",
     title: "Intelligent Retail – Powered by AI & the 4P + C Framework",
   },
   {
-    id: 10,
+    id: 11,
     type: "framework",
     title: "4P + C: The Strategic Framework for Our Retail Solutions",
     framework: "Perishable | Planogram | Promotion | Profit + Cash",
@@ -136,7 +150,7 @@ const slides = [
     tagline: "This framework positions ESL as a business value engine, not just a display.",
   },
   {
-    id: 11,
+    id: 12,
     type: "highlight",
     icon: Brain,
     title: "DD Brain: From Data Warehouse to Decision Engine",
@@ -151,7 +165,7 @@ const slides = [
     ],
   },
   {
-    id: 12,
+    id: 13,
     type: "advantages",
     title: "Advantage to Infomil & Stores (AI & 4P+C)",
     infomilBenefits: [
@@ -167,13 +181,13 @@ const slides = [
     ],
   },
   {
-    id: 13,
+    id: 14,
     type: "section-title",
     sectionNumber: "3",
     title: "Custom Solutions & New Form Factors",
   },
   {
-    id: 14,
+    id: 15,
     type: "content",
     icon: Cpu,
     title: "100P — The New Presto Family Form Factor",
@@ -187,7 +201,7 @@ const slides = [
     ],
   },
   {
-    id: 15,
+    id: 16,
     type: "advantages",
     title: "Advantage to Infomil & Stores (Custom Solutions)",
     infomilBenefits: [
@@ -203,7 +217,7 @@ const slides = [
     ],
   },
   {
-    id: 16,
+    id: 17,
     type: "content",
     icon: Handshake,
     title: "A Stronger DisplayData–Infomil Collaboration",
@@ -217,7 +231,7 @@ const slides = [
     ],
   },
   {
-    id: 17,
+    id: 18,
     type: "closing",
     title: "Together, We Protect Today and Build the Future",
     points: [
