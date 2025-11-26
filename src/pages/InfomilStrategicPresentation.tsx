@@ -175,14 +175,14 @@ const slides = [
     title: "Advantage to Infomil & Stores (Custom Solutions)",
     infomilBenefits: [
       "Unique, differentiated solutions competitors do not offer.",
-      "Ability to tap new use cases (picking, tasking, replenishment).",
+      "Ability to tap new use cases (picking, sorting, replenishment).",
       "Strengthens positioning in 'operational transformation' projects.",
     ],
     storeBenefits: [
       "Faster workflows, improved task turnaround.",
       "Visual indicators for staff guidance & compliance.",
       "More intelligence using existing ESL network.",
-      "Scalable without infrastructural changes.",
+      "Scalable with minimal infrastructural changes.",
     ],
   },
   {
