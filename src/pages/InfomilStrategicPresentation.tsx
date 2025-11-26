@@ -588,11 +588,11 @@ export default function InfomilStrategicPresentation() {
               </div>
 
               {/* Infographic Cards Grid */}
-              <div className={`grid ${slide.cards.length === 4 ? 'grid-cols-2' : slide.cards.length === 5 ? 'grid-cols-3' : 'grid-cols-2'} gap-4 px-4`}>
+              <div className={`grid ${slide.cards.length === 4 ? 'grid-cols-2' : slide.cards.length === 5 ? 'grid-cols-6' : 'grid-cols-2'} gap-4 px-4`}>
                 {slide.cards.map((card: any, idx: number) => (
                   <div 
                     key={idx}
-                    className={`${slide.cards.length === 5 && idx === 4 ? 'col-span-3 max-w-md mx-auto' : ''} group relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-5 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300`}
+                    className={`${slide.cards.length === 5 ? (idx < 3 ? 'col-span-2' : 'col-span-3') : ''} group relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-5 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300`}
                   >
                     {/* Background pattern */}
                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
