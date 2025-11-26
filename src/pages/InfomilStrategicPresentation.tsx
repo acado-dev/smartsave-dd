@@ -148,11 +148,12 @@ const slides = [
     title: "100P — The New Presto Family Form Factor",
     subtitle: "Custom Solutions",
     points: [
-      "Segmented LCD display for high clarity.",
+      "Customized full HW/SW for infomil",
+      "Segmented LCD display powered by new presto platform(AP5) for high clarity.",
       "Dual LEDs with side light pipes.",
-      "Sub-second latency for rapid tasking and alerting.",
+      "Sub-second latency for rapid picking and sorting.",
       "Ideal for workflow efficiency, backroom, and operational signalling.",
-      "Extends ESL beyond pricing → into productivity & task automation.",
+      "Extends ESL beyond pricing → into workflow optimization.",
     ],
   },
   {
