@@ -273,43 +273,97 @@ const slides = [
   },
   {
     id: 18,
-    type: "content",
+    type: "planogram-flow",
     icon: Layers,
     title: "ePlanogram Compliance",
     subtitle: "Planogram Integration, Gap Analysis & Planogram Compliance",
-    points: [
-      "Planogram Integration:",
-      "  • Faster ESL assignment",
-      "  • ESL assignment on empty shelves",
-      "  • Saves resource costs",
-      "  • Increases revenue",
-      "Gap Analysis:",
-      "  • Identifies gaps",
-      "  • Notifies store operations",
-      "  • Improves customer experience",
-      "  • Recommends location changes",
-      "ePlanogram Compliance:",
-      "  • Identifies gaps",
-      "  • Identifies misplaced products",
-      "  • Identifies slow moving products",
-      "  • Notifies store operations",
-      "  • Improves Customer experience",
-      "  • Increases revenue",
+    inputs: [
+      "Planogram data",
+      "ESL locations",
+      "Camera feeds",
+      "Product catalog",
+      "Shelf sensors",
+    ],
+    algorithmTitle: "ePlanogram",
+    algorithmSubtitle: "Compliance System",
+    outputs: [
+      "Gap alerts",
+      "ESL assignments",
+      "Compliance reports",
+      "Replenishment tasks",
+    ],
+    outputsTitle: "Real-time actions",
+    sections: [
+      {
+        title: "Planogram Integration:",
+        benefits: [
+          "Faster ESL assignment",
+          "ESL assignment on empty shelves",
+          "Saves resource costs",
+          "Increases revenue",
+        ],
+      },
+      {
+        title: "Gap Analysis:",
+        benefits: [
+          "Identifies gaps",
+          "Notifies store operations",
+          "Improves customer experience",
+          "Recommends location changes",
+        ],
+      },
+      {
+        title: "ePlanogram Compliance:",
+        benefits: [
+          "Identifies gaps",
+          "Identifies misplaced products",
+          "Identifies slow moving products",
+          "Notifies store operations",
+          "Improves Customer experience",
+          "Increases revenue",
+        ],
+      },
     ],
     tagline: "Grocery retailers lose 5-10% of total in-store revenue, as a result of gaps on shelves through lost sales opportunities.",
   },
   {
     id: 19,
-    type: "content",
+    type: "smart-devices-flow",
     icon: Cpu,
     title: "Smart Devices and AI on the Edge",
-    points: [
-      "Smart ESLs allow customer insights like heatmaps, shopping journeys and dwell times.",
-      "Dynamic planogram",
-      "Smart camera computer vision:",
-      "  • Gap analysis (shelf stock management)",
-      "  • Planogram compliance",
-      "  • Loss prevention (shrinkage from theft or errors)",
+    subtitle: "Edge Computing for Real-Time Intelligence",
+    devices: [
+      "Smart ESLs",
+      "Smart Cameras",
+      "IoT Sensors",
+      "Edge Processors",
+    ],
+    algorithmTitle: "AI Processing",
+    algorithmSubtitle: "On the Edge",
+    outputs: [
+      "Customer heatmaps",
+      "Gap detection",
+      "Loss prevention",
+      "Compliance alerts",
+    ],
+    outputsTitle: "Actionable insights",
+    capabilities: [
+      {
+        category: "Smart ESLs",
+        features: ["Customer insights like heatmaps", "Shopping journey tracking", "Dwell time analysis"],
+      },
+      {
+        category: "Dynamic Planogram",
+        features: ["Real-time shelf optimization", "Product placement recommendations"],
+      },
+      {
+        category: "Smart Camera CV",
+        features: [
+          "Gap analysis (shelf stock management)",
+          "Planogram compliance monitoring",
+          "Loss prevention (shrinkage from theft or errors)",
+        ],
+      },
     ],
   },
   {
@@ -724,6 +778,267 @@ export default function InfomilStrategicPresentation() {
                     ))}
                   </ul>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {slide.type === "planogram-flow" && (
+            <div className="space-y-8 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+              
+              {/* Header */}
+              <div className="space-y-4">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                </div>
+              </div>
+
+              {/* Flow Diagram */}
+              <div className="grid grid-cols-4 gap-6 py-6">
+                {/* Column 1: Inputs */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-primary mb-4">Inputs</h3>
+                  <div className="space-y-3">
+                    {slide.inputs?.map((input, idx) => (
+                      <div key={idx} className="bg-gradient-to-br from-card to-card/50 border border-border rounded-lg p-3 text-center hover:border-primary/50 transition-all">
+                        <p className="text-base font-medium text-foreground">{input}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Column 2: Algorithm Cloud */}
+                <div className="flex flex-col items-center justify-center space-y-4">
+                  <div className="relative">
+                    <div className="bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-primary/40 rounded-3xl p-8 relative">
+                      <Layers className="w-16 h-16 text-primary/30 absolute top-2 right-2" />
+                      <div className="text-center space-y-2 relative z-10">
+                        <p className="text-lg font-bold text-primary">{slide.algorithmTitle}</p>
+                        <p className="text-2xl font-bold text-foreground">{slide.algorithmSubtitle}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ArrowRight className="w-8 h-8 text-primary animate-pulse" />
+                    <ArrowRight className="w-8 h-8 text-primary animate-pulse" />
+                  </div>
+                </div>
+
+                {/* Column 3: Outputs */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-accent mb-4">{slide.outputsTitle}</h3>
+                  <div className="space-y-3">
+                    {slide.outputs?.map((output, idx) => (
+                      <div key={idx} className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-lg p-4 hover:border-accent/50 transition-all">
+                        <p className="text-base font-semibold text-foreground">{output}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Column 4: Visualization - Compliance Score */}
+                <div className="bg-card border border-border rounded-xl p-4 flex flex-col justify-center items-center space-y-4">
+                  <div className="text-center space-y-2">
+                    <p className="text-sm text-muted-foreground font-medium">Compliance Score</p>
+                    <div className="relative w-32 h-32">
+                      <svg className="transform -rotate-90 w-32 h-32">
+                        <circle
+                          cx="64"
+                          cy="64"
+                          r="56"
+                          stroke="hsl(var(--border))"
+                          strokeWidth="8"
+                          fill="none"
+                        />
+                        <circle
+                          cx="64"
+                          cy="64"
+                          r="56"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth="8"
+                          fill="none"
+                          strokeDasharray={`${2 * Math.PI * 56 * 0.87} ${2 * Math.PI * 56}`}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-3xl font-bold text-foreground">87%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full space-y-2">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-muted-foreground">Gap Detection</span>
+                      <span className="font-bold text-primary">92%</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-muted-foreground">ESL Accuracy</span>
+                      <span className="font-bold text-primary">95%</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-muted-foreground">Shelf Fullness</span>
+                      <span className="font-bold text-accent">78%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Sections */}
+              <div className="grid grid-cols-3 gap-6 pl-8">
+                {slide.sections?.map((section, idx) => (
+                  <div key={idx} className="space-y-3">
+                    <h4 className="text-xl font-bold text-primary">{section.title}</h4>
+                    <ul className="space-y-2">
+                      {section.benefits?.map((benefit, bidx) => (
+                        <li key={bidx} className="flex items-start gap-3 text-sm text-foreground/90">
+                          <span className="w-2 h-2 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-1.5" />
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              {/* Tagline */}
+              {slide.tagline && (
+                <div className="mt-6 p-6 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
+                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
+                  <p className="text-xl font-semibold text-foreground relative">{slide.tagline}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {slide.type === "smart-devices-flow" && (
+            <div className="space-y-8 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+              
+              {/* Header */}
+              <div className="space-y-4">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-10 h-10 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                </div>
+              </div>
+
+              {/* Flow Diagram */}
+              <div className="grid grid-cols-4 gap-6 py-6">
+                {/* Column 1: Smart Devices */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-primary mb-4">Smart Devices</h3>
+                  <div className="space-y-3">
+                    {slide.devices?.map((device, idx) => (
+                      <div key={idx} className="bg-gradient-to-br from-card to-card/50 border border-border rounded-lg p-3 text-center hover:border-primary/50 transition-all group">
+                        <div className="flex items-center justify-center gap-2">
+                          <Cpu className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                          <p className="text-base font-medium text-foreground">{device}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Column 2: AI Processing */}
+                <div className="flex flex-col items-center justify-center space-y-4">
+                  <div className="relative">
+                    <div className="bg-gradient-to-br from-accent/20 to-primary/20 border-2 border-accent/40 rounded-3xl p-8 relative">
+                      <Brain className="w-16 h-16 text-accent/30 absolute top-2 right-2" />
+                      <div className="text-center space-y-2 relative z-10">
+                        <p className="text-lg font-bold text-accent">{slide.algorithmTitle}</p>
+                        <p className="text-2xl font-bold text-foreground">{slide.algorithmSubtitle}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ArrowRight className="w-8 h-8 text-accent animate-pulse" />
+                    <ArrowRight className="w-8 h-8 text-accent animate-pulse" />
+                  </div>
+                </div>
+
+                {/* Column 3: Outputs */}
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-accent mb-4">{slide.outputsTitle}</h3>
+                  <div className="space-y-3">
+                    {slide.outputs?.map((output, idx) => (
+                      <div key={idx} className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-lg p-4 hover:border-accent/50 transition-all">
+                        <p className="text-base font-semibold text-foreground">{output}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Column 4: Edge Processing Metrics */}
+                <div className="bg-card border border-border rounded-xl p-4 space-y-4">
+                  <p className="text-sm text-muted-foreground font-medium text-center">Edge Processing</p>
+                  
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-muted-foreground">Latency</span>
+                        <span className="font-bold text-primary">&lt;100ms</span>
+                      </div>
+                      <div className="h-2 bg-border rounded-full overflow-hidden">
+                        <div className="h-full w-[95%] bg-gradient-to-r from-primary to-accent rounded-full"></div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-muted-foreground">Accuracy</span>
+                        <span className="font-bold text-primary">98%</span>
+                      </div>
+                      <div className="h-2 bg-border rounded-full overflow-hidden">
+                        <div className="h-full w-[98%] bg-gradient-to-r from-primary to-accent rounded-full"></div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-muted-foreground">Uptime</span>
+                        <span className="font-bold text-primary">99.9%</span>
+                      </div>
+                      <div className="h-2 bg-border rounded-full overflow-hidden">
+                        <div className="h-full w-full bg-gradient-to-r from-primary to-accent rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-border">
+                    <div className="text-center space-y-1">
+                      <p className="text-xs text-muted-foreground">Devices Active</p>
+                      <p className="text-2xl font-bold text-foreground">1,247</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Capabilities */}
+              <div className="grid grid-cols-3 gap-6 pl-8">
+                {slide.capabilities?.map((capability, idx) => (
+                  <div key={idx} className="space-y-3">
+                    <h4 className="text-xl font-bold text-accent">{capability.category}</h4>
+                    <ul className="space-y-2">
+                      {capability.features?.map((feature, fidx) => (
+                        <li key={fidx} className="flex items-start gap-3 text-sm text-foreground/90">
+                          <CheckCircle className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
           )}
