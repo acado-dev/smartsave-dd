@@ -212,7 +212,7 @@ const slides = [
   {
     id: 16,
     type: "framework",
-    title: "4P + C: The Strategic Framework for Our Retail Solutions",
+    title: "4P + C: The Data Driven Strategy for Our Retail Solutions",
     framework: "Perishable | Planogram | Promotion | Profit + Cash",
     description: "Our solutions drive tangible contextual impact:",
     solutions: [
@@ -237,7 +237,7 @@ const slides = [
         impact: "Transform aging inventory into immediate revenue through strategic pricing and promotions, improving cash flow and reducing carrying costs",
       },
     ],
-    tagline: "This framework positions ESL as a business value engine, not just a display.",
+    tagline: "This strategy positions ESL as a core piece of intelligent system, not just a display.",
   },
   {
     id: 17,
