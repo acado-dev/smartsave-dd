@@ -38,29 +38,79 @@ const slides = [
   },
   {
     id: 2,
-    type: "content",
+    type: "infographic",
     icon: TrendingUp,
     title: "Retail Is Transforming. This Is Our Moment to Lead.",
     subtitle: "Setting the Context",
-    points: [
-      "Technology cycles in ESL & smart store ecosystems are accelerating.",
-      "Competitors are entering stores with upgraded capabilities and integrated analytics.",
-      "Retailers expect innovation without operational disruption.",
-      "We have a shared opportunity: Strengthen our partnership, protect the existing base, and unlock new growth.",
+    cards: [
+      {
+        icon: Zap,
+        title: "Accelerating Technology Cycles",
+        description: "ESL & smart store ecosystems are evolving faster than ever",
+        color: "from-blue-500 to-cyan-500"
+      },
+      {
+        icon: Sparkles,
+        title: "Competitive Pressure",
+        description: "New players entering with upgraded capabilities and integrated analytics",
+        color: "from-purple-500 to-pink-500"
+      },
+      {
+        icon: Shield,
+        title: "Retailer Expectations",
+        description: "Innovation required without operational disruption",
+        color: "from-orange-500 to-red-500"
+      },
+      {
+        icon: Rocket,
+        title: "Shared Opportunity",
+        description: "Strengthen partnership, protect base, unlock new growth",
+        color: "from-green-500 to-emerald-500"
+      },
     ],
   },
   {
     id: 3,
-    type: "content",
+    type: "infographic",
     icon: AlertTriangle,
     title: "The Market Is Moving Quickly — And So Are Competitors",
     subtitle: "Emerging Challenges",
-    points: [
-      "Retail chains are directly engaging with competing ESL providers.",
-      "Competitors are offering modernised solutions with analytics and AI extensions.",
-      "There is a real threat of customer migration if we don't evolve fast enough.",
-      "Retailers want future-proof solutions without changing infrastructure or adding heavy investments.",
-      "If we don't modernise collaboratively, we risk losing existing stores and upcoming tenders.",
+    cards: [
+      {
+        icon: Users,
+        title: "Direct Competition",
+        description: "Retail chains engaging with competing ESL providers",
+        color: "from-red-500 to-orange-500",
+        metric: "High Risk"
+      },
+      {
+        icon: TrendingUp,
+        title: "Modern Solutions",
+        description: "Competitors offering analytics and AI extensions",
+        color: "from-purple-500 to-indigo-500",
+        metric: "Rising Threat"
+      },
+      {
+        icon: AlertTriangle,
+        title: "Migration Risk",
+        description: "Real threat of customer migration without evolution",
+        color: "from-yellow-500 to-amber-500",
+        metric: "Critical"
+      },
+      {
+        icon: Target,
+        title: "Future-Proof Demand",
+        description: "Solutions needed without infrastructure changes or heavy investments",
+        color: "from-blue-500 to-cyan-500",
+        metric: "Urgent"
+      },
+      {
+        icon: Building2,
+        title: "Modernization Imperative",
+        description: "Risk of losing stores and tenders without collaborative innovation",
+        color: "from-pink-500 to-rose-500",
+        metric: "Time-Sensitive"
+      },
     ],
   },
   {
@@ -485,30 +535,94 @@ export default function InfomilStrategicPresentation() {
       <main className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-6xl">
           {slide.type === "title" && (
-            <div className="text-center space-y-12 animate-in fade-in duration-500 relative">
+            <div className="text-center space-y-16 animate-in fade-in duration-500 relative py-12">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-3xl -z-10" />
-              <div className="absolute top-10 left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
-              <div className="absolute bottom-10 right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl" />
+              <div className="absolute top-10 left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute bottom-10 right-10 w-48 h-48 bg-accent/20 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
+              <div className="absolute top-1/3 right-1/4 w-32 h-32 bg-accent/10 rounded-full blur-2xl" />
               
-              <div className="space-y-8 pt-12">
-                <div className="flex items-center justify-center gap-8 mb-8">
-                  <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent animate-pulse">
-                    <Building2 className="w-12 h-12 text-white" />
+              <div className="space-y-12 pt-16">
+                <div className="flex items-center justify-center gap-12 mb-12">
+                  <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent animate-pulse shadow-2xl">
+                    <Building2 className="w-16 h-16 text-white" />
                   </div>
-                  <Handshake className="w-16 h-16 text-primary/60" />
-                  <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-orange-400 animate-pulse">
-                    <Users className="w-12 h-12 text-white" />
+                  <Handshake className="w-20 h-20 text-primary/60 animate-pulse" />
+                  <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-orange-400 animate-pulse shadow-2xl">
+                    <Users className="w-16 h-16 text-white" />
                   </div>
                 </div>
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight px-4">
+                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent leading-tight px-4">
                   {slide.title}
                 </h1>
-                <p className="text-3xl md:text-4xl text-muted-foreground font-light">{slide.subtitle}</p>
+                <p className="text-4xl md:text-5xl text-muted-foreground font-light max-w-4xl mx-auto">{slide.subtitle}</p>
               </div>
-              <div className="pt-12 flex items-center justify-center gap-8">
-                <img src={displayDataLogo} alt="DisplayData" className="h-20 opacity-70" />
-                <div className="text-4xl text-muted-foreground/30">×</div>
-                <img src={infomilLogo} alt="Infomil" className="h-20 opacity-70" />
+              <div className="pt-16 flex items-center justify-center gap-12">
+                <img src={displayDataLogo} alt="DisplayData" className="h-28 opacity-70 hover:opacity-100 transition-opacity" />
+                <div className="text-5xl text-muted-foreground/30">×</div>
+                <img src={infomilLogo} alt="Infomil" className="h-28 opacity-70 hover:opacity-100 transition-opacity" />
+              </div>
+            </div>
+          )}
+
+          {slide.type === "infographic" && (
+            <div className="space-y-8 animate-in fade-in duration-500 relative">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+              {slide.icon && (
+                <div className="absolute top-1/2 right-10 opacity-5">
+                  <slide.icon className="w-96 h-96 text-primary" />
+                </div>
+              )}
+              
+              {/* Header */}
+              <div className="space-y-4 mb-12">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-2xl">{slide.subtitle}</p>}
+                <div className="flex items-start gap-6">
+                  {slide.icon && (
+                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0 shadow-xl">
+                      <slide.icon className="w-12 h-12 text-white" />
+                    </div>
+                  )}
+                  <h2 className="text-6xl md:text-7xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                </div>
+              </div>
+
+              {/* Infographic Cards Grid */}
+              <div className={`grid ${slide.cards.length === 4 ? 'grid-cols-2' : slide.cards.length === 5 ? 'grid-cols-3' : 'grid-cols-2'} gap-6 px-4`}>
+                {slide.cards.map((card: any, idx: number) => (
+                  <div 
+                    key={idx}
+                    className={`${slide.cards.length === 5 && idx === 4 ? 'col-span-3 max-w-md mx-auto' : ''} group relative overflow-hidden rounded-3xl bg-gradient-to-br ${card.color} p-8 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500`}
+                  >
+                    {/* Background pattern */}
+                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    
+                    {/* Icon */}
+                    <div className="mb-6 relative">
+                      <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <card.icon className="w-10 h-10 text-white" />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-4 relative">
+                      <h3 className="text-3xl font-bold text-white leading-tight">{card.title}</h3>
+                      <p className="text-xl text-white/90 leading-relaxed">{card.description}</p>
+                      
+                      {/* Metric badge if exists */}
+                      {card.metric && (
+                        <div className="inline-block mt-4 px-5 py-2 bg-white/25 backdrop-blur-md rounded-full border border-white/30">
+                          <span className="text-lg font-bold text-white">{card.metric}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Number indicator */}
+                    <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/30">
+                      <span className="text-2xl font-bold text-white">{idx + 1}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
