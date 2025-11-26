@@ -408,33 +408,57 @@ export default function InfomilStrategicPresentation() {
 
                   {/* Right Column - Images Gallery */}
                   <div className="flex-[3] space-y-5">
-                    {/* Hero Image */}
-                    <div className="relative group overflow-hidden rounded-2xl border-2 border-primary/40 shadow-2xl hover:shadow-primary/40 transition-all duration-500">
-                      <img 
-                        src={slide.images[0]} 
-                        alt="Presto ESL Main"
-                        className="w-full h-[280px] object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
+                    {slide.images.length === 2 ? (
+                      // Special layout for 2 images: small first, large second
+                      <>
+                        <div className="relative group overflow-hidden rounded-xl border-2 border-border hover:border-accent transition-all duration-300 shadow-lg hover:shadow-xl">
+                          <img 
+                            src={slide.images[0]} 
+                            alt="Smart Device 1"
+                            className="w-full h-[140px] object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <div className="relative group overflow-hidden rounded-2xl border-2 border-primary/40 shadow-2xl hover:shadow-primary/40 transition-all duration-500">
+                          <img 
+                            src={slide.images[1]} 
+                            alt="Smart Device 2"
+                            className="w-full h-[380px] object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* Hero Image */}
+                        <div className="relative group overflow-hidden rounded-2xl border-2 border-primary/40 shadow-2xl hover:shadow-primary/40 transition-all duration-500">
+                          <img 
+                            src={slide.images[0]} 
+                            alt="Presto ESL Main"
+                            className="w-full h-[280px] object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
 
-                    {/* 2x2 Grid of Smaller Images */}
-                    {slide.images.length > 1 && (
-                      <div className="grid grid-cols-2 gap-4">
-                        {slide.images.slice(1, 5).map((img, idx) => (
-                          <div 
-                            key={idx}
-                            className="relative group overflow-hidden rounded-xl border-2 border-border hover:border-accent transition-all duration-300 shadow-lg hover:shadow-xl"
-                          >
-                            <img 
-                              src={img} 
-                              alt={`Device Detail ${idx + 1}`}
-                              className="w-full h-[140px] object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {/* 2x2 Grid of Smaller Images */}
+                        {slide.images.length > 1 && (
+                          <div className="grid grid-cols-2 gap-4">
+                            {slide.images.slice(1, 5).map((img, idx) => (
+                              <div 
+                                key={idx}
+                                className="relative group overflow-hidden rounded-xl border-2 border-border hover:border-accent transition-all duration-300 shadow-lg hover:shadow-xl"
+                              >
+                                <img 
+                                  src={img} 
+                                  alt={`Device Detail ${idx + 1}`}
+                                  className="w-full h-[140px] object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
