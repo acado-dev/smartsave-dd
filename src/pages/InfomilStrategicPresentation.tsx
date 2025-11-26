@@ -764,50 +764,50 @@ export default function InfomilStrategicPresentation() {
           )}
 
           {slide.type === "content" && (
-            <div className="space-y-10 animate-in fade-in duration-500 relative">
+            <div className="space-y-6 animate-in fade-in duration-500 relative">
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
               {slide.icon && (
                 <div className="absolute top-1/2 right-10 opacity-10">
                   <slide.icon className="w-64 h-64 text-primary" />
                 </div>
               )}
-              <div className="space-y-4">
-                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
-                <div className="flex items-start gap-6">
+              <div className="space-y-3">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-base">{slide.subtitle}</p>}
+                <div className="flex items-start gap-4">
                   {slide.icon && (
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
-                      <slide.icon className="w-10 h-10 text-white" />
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-8 h-8 text-white" />
                     </div>
                   )}
-                  <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
               {slide.framework && (
-                <div className="inline-block p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl mb-6">
-                  <p className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
+                <div className="inline-block p-4 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/30 rounded-2xl mb-4">
+                  <p className="text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{slide.framework}</p>
                 </div>
               )}
               {slide.images ? (
                 // Two-column layout: Content left, Images right
-                <div className="flex gap-8 pl-12 pr-8 items-start">
+                <div className="flex gap-6 pl-8 pr-6 items-start">
                   {/* Left Column - Content Points */}
-                  <div className="flex-[2] space-y-5">
+                  <div className="flex-[2] space-y-3">
                     {slide.points?.map((point, idx) => (
                       <div 
                         key={idx}
-                        className="bg-gradient-to-br from-accent/10 to-primary/5 rounded-xl p-6 border border-accent/30 flex items-center gap-5 hover:border-accent/50 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group"
+                        className="bg-gradient-to-br from-accent/10 to-primary/5 rounded-xl p-4 border border-accent/30 flex items-center gap-4 hover:border-accent/50 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group"
                       >
-                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                          <span className="text-2xl font-bold text-white">{idx + 1}</span>
+                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <span className="text-xl font-bold text-white">{idx + 1}</span>
                         </div>
-                        <span className="text-2xl text-foreground leading-tight font-medium">{point}</span>
+                        <span className="text-lg text-foreground leading-tight font-medium">{point}</span>
                       </div>
                     ))}
                     
                     {/* Note field if exists */}
                     {slide.note && (
-                      <div className="mt-6 p-5 bg-gradient-to-br from-primary/15 to-accent/10 rounded-xl border-2 border-primary/40">
-                        <p className="text-xl text-foreground/90 italic leading-relaxed">{slide.note}</p>
+                      <div className="mt-4 p-4 bg-gradient-to-br from-primary/15 to-accent/10 rounded-xl border-2 border-primary/40">
+                        <p className="text-base text-foreground/90 italic leading-relaxed">{slide.note}</p>
                       </div>
                     )}
                   </div>
@@ -816,7 +816,7 @@ export default function InfomilStrategicPresentation() {
                   <div className="w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent self-stretch" />
 
                   {/* Right Column - Images Gallery */}
-                  <div className="flex-[3] space-y-5">
+                  <div className="flex-[3] space-y-3">
                     {slide.images.length === 2 ? (
                       // Special layout for 2 images: small first, large second
                       <>
@@ -824,7 +824,7 @@ export default function InfomilStrategicPresentation() {
                           <img 
                             src={slide.images[0]} 
                             alt="Smart Device 1"
-                            className="w-full h-[140px] object-contain bg-card/50 group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-[120px] object-contain bg-card/50 group-hover:scale-105 transition-transform duration-500"
                           />
                           <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
@@ -832,7 +832,7 @@ export default function InfomilStrategicPresentation() {
                           <img 
                             src={slide.images[1]} 
                             alt="Smart Device 2"
-                            className="w-full h-[380px] object-cover group-hover:scale-105 transition-transform duration-700"
+                            className="w-full h-[320px] object-cover group-hover:scale-105 transition-transform duration-700"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
@@ -844,14 +844,14 @@ export default function InfomilStrategicPresentation() {
                           <img 
                             src={slide.images[0]} 
                             alt="Presto ESL Main"
-                            className="w-full h-[280px] object-cover group-hover:scale-105 transition-transform duration-700"
+                            className="w-full h-[220px] object-cover group-hover:scale-105 transition-transform duration-700"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
 
                         {/* 2x2 Grid of Smaller Images */}
                         {slide.images.length > 1 && (
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-2 gap-3">
                             {slide.images.slice(1, 5).map((img, idx) => (
                               <div 
                                 key={idx}
@@ -860,7 +860,7 @@ export default function InfomilStrategicPresentation() {
                                 <img 
                                   src={img} 
                                   alt={`Device Detail ${idx + 1}`}
-                                  className="w-full h-[140px] object-cover group-hover:scale-110 transition-transform duration-500"
+                                  className="w-full h-[110px] object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                               </div>
@@ -1294,98 +1294,98 @@ export default function InfomilStrategicPresentation() {
           )}
 
           {slide.type === "perishables-flow" && (
-            <div className="space-y-8 animate-in fade-in duration-500 relative">
+            <div className="space-y-5 animate-in fade-in duration-500 relative">
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
               
               {/* Header */}
-              <div className="space-y-4">
-                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
-                <div className="flex items-start gap-6">
+              <div className="space-y-2">
+                {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-base">{slide.subtitle}</p>}
+                <div className="flex items-start gap-4">
                   {slide.icon && (
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
-                      <slide.icon className="w-10 h-10 text-white" />
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <slide.icon className="w-7 h-7 text-white" />
                     </div>
                   )}
-                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
 
               {/* Flow Diagram */}
-              <div className="grid grid-cols-4 gap-6 py-6">
+              <div className="grid grid-cols-4 gap-4 py-4">
                 {/* Column 1: Inputs */}
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-primary mb-4">Inputs</h3>
-                  <div className="space-y-3">
+                <div className="space-y-3">
+                  <h3 className="text-lg font-bold text-primary mb-2">Inputs</h3>
+                  <div className="space-y-2">
                     {slide.inputs?.map((input, idx) => (
-                      <div key={idx} className="bg-gradient-to-br from-card to-card/50 border border-border rounded-lg p-3 text-center hover:border-primary/50 transition-all">
-                        <p className="text-base font-medium text-foreground">{input}</p>
+                      <div key={idx} className="bg-gradient-to-br from-card to-card/50 border border-border rounded-lg p-2 text-center hover:border-primary/50 transition-all">
+                        <p className="text-sm font-medium text-foreground">{input}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Column 2: Algorithm Cloud */}
-                <div className="flex flex-col items-center justify-center space-y-4">
+                <div className="flex flex-col items-center justify-center space-y-3">
                   <div className="relative">
-                    <div className="bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-primary/40 rounded-3xl p-8 relative">
-                      <Cloud className="w-16 h-16 text-primary/30 absolute top-2 right-2" />
-                      <div className="text-center space-y-2 relative z-10">
-                        <p className="text-lg font-bold text-primary">{slide.algorithmTitle}</p>
-                        <p className="text-2xl font-bold text-foreground">{slide.algorithmSubtitle}</p>
+                    <div className="bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-primary/40 rounded-3xl p-5 relative">
+                      <Cloud className="w-12 h-12 text-primary/30 absolute top-1 right-1" />
+                      <div className="text-center space-y-1 relative z-10">
+                        <p className="text-sm font-bold text-primary">{slide.algorithmTitle}</p>
+                        <p className="text-lg font-bold text-foreground">{slide.algorithmSubtitle}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <ArrowRight className="w-8 h-8 text-primary animate-pulse" />
-                    <ArrowRight className="w-8 h-8 text-primary animate-pulse" />
+                  <div className="flex items-center gap-1">
+                    <ArrowRight className="w-6 h-6 text-primary animate-pulse" />
+                    <ArrowRight className="w-6 h-6 text-primary animate-pulse" />
                   </div>
                 </div>
 
                 {/* Column 3: Outputs */}
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-accent mb-4">{slide.outputsTitle}</h3>
-                  <div className="space-y-3">
+                <div className="space-y-3">
+                  <h3 className="text-lg font-bold text-accent mb-2">{slide.outputsTitle}</h3>
+                  <div className="space-y-2">
                     {slide.outputs?.map((output, idx) => (
-                      <div key={idx} className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-lg p-4 hover:border-accent/50 transition-all">
-                        <p className="text-base font-semibold text-foreground">{output}</p>
+                      <div key={idx} className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-lg p-3 hover:border-accent/50 transition-all">
+                        <p className="text-sm font-semibold text-foreground">{output}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Column 4: Chart */}
-                <div className="bg-card border border-border rounded-xl p-4">
-                  <ResponsiveContainer width="100%" height={280}>
+                <div className="bg-card border border-border rounded-xl p-3">
+                  <ResponsiveContainer width="100%" height={220}>
                     <ComposedChart data={perishablesChartData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                       <XAxis 
                         dataKey="hour" 
                         stroke="hsl(var(--muted-foreground))"
-                        tick={{ fontSize: 10 }}
+                        tick={{ fontSize: 9 }}
                       />
                       <YAxis 
                         yAxisId="left"
                         stroke="hsl(var(--primary))"
-                        tick={{ fontSize: 10 }}
-                        label={{ value: 'Qty on Shelf', angle: -90, position: 'insideLeft', style: { fontSize: 10 } }}
+                        tick={{ fontSize: 9 }}
+                        label={{ value: 'Qty on Shelf', angle: -90, position: 'insideLeft', style: { fontSize: 9 } }}
                       />
                       <YAxis 
                         yAxisId="right"
                         orientation="right"
                         stroke="hsl(var(--accent))"
-                        tick={{ fontSize: 10 }}
-                        label={{ value: 'Price ($)', angle: 90, position: 'insideRight', style: { fontSize: 10 } }}
+                        tick={{ fontSize: 9 }}
+                        label={{ value: 'Price ($)', angle: 90, position: 'insideRight', style: { fontSize: 9 } }}
                         domain={[0, 6]}
                       />
                       <Tooltip 
                         contentStyle={{ 
                           backgroundColor: 'hsl(var(--card))', 
                           border: '1px solid hsl(var(--border))',
-                          fontSize: '12px'
+                          fontSize: '11px'
                         }}
                       />
                       <Legend 
-                        wrapperStyle={{ fontSize: '11px' }}
+                        wrapperStyle={{ fontSize: '10px' }}
                       />
                       <Bar 
                         yAxisId="left"
@@ -1409,10 +1409,10 @@ export default function InfomilStrategicPresentation() {
               </div>
 
               {/* Bottom Points */}
-              <ul className="space-y-4 pl-28">
+              <ul className="space-y-2 pl-20">
                 {slide.points?.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-5 text-xl text-foreground/90 group">
-                    <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-2 group-hover:scale-125 transition-transform" />
+                  <li key={idx} className="flex items-start gap-4 text-base text-foreground/90 group">
+                    <span className="w-2 h-2 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0 mt-2 group-hover:scale-125 transition-transform" />
                     <span className="leading-relaxed">{point}</span>
                   </li>
                 ))}
@@ -1420,9 +1420,9 @@ export default function InfomilStrategicPresentation() {
 
               {/* Tagline */}
               {slide.tagline && (
-                <div className="mt-6 p-6 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
+                <div className="mt-4 p-4 bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-2xl relative overflow-hidden">
                   <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
-                  <p className="text-xl font-semibold text-foreground relative">{slide.tagline}</p>
+                  <p className="text-base font-semibold text-foreground relative">{slide.tagline}</p>
                 </div>
               )}
             </div>
@@ -1430,35 +1430,35 @@ export default function InfomilStrategicPresentation() {
 
 
           {slide.type === "closing" && (
-            <div className="text-center space-y-12 animate-in fade-in duration-500 relative">
+            <div className="text-center space-y-8 animate-in fade-in duration-500 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 rounded-3xl -z-10" />
               <div className="absolute top-10 left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl" />
               <div className="absolute bottom-10 right-10 w-48 h-48 bg-accent/20 rounded-full blur-3xl" />
               
-              <div className="space-y-8 pt-8">
-                <div className="flex items-center justify-center gap-6 mb-8">
-                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent">
-                    <Rocket className="w-10 h-10 text-white" />
+              <div className="space-y-6 pt-6">
+                <div className="flex items-center justify-center gap-6 mb-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent">
+                    <Rocket className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight px-4">
+                <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight px-4">
                   {slide.title}
                 </h2>
               </div>
               
-              <ul className="space-y-6 max-w-4xl mx-auto pt-8">
+              <ul className="space-y-4 max-w-4xl mx-auto pt-6">
                 {slide.points?.map((point, idx) => (
-                  <li key={idx} className="flex items-start gap-5 text-2xl text-foreground/90 group justify-center">
-                    <CheckCircle className="w-7 h-7 text-primary flex-shrink-0 mt-1 group-hover:scale-125 transition-transform" />
+                  <li key={idx} className="flex items-start gap-4 text-lg text-foreground/90 group justify-center">
+                    <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1 group-hover:scale-125 transition-transform" />
                     <span className="leading-relaxed text-left">{point}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="pt-12 flex items-center justify-center gap-8">
-                <img src={displayDataLogo} alt="DisplayData" className="h-20 opacity-70" />
-                <div className="text-4xl text-muted-foreground/30">×</div>
-                <img src={infomilLogo} alt="Infomil" className="h-20 opacity-70" />
+              <div className="pt-8 flex items-center justify-center gap-8">
+                <img src={displayDataLogo} alt="DisplayData" className="h-16 opacity-70" />
+                <div className="text-3xl text-muted-foreground/30">×</div>
+                <img src={infomilLogo} alt="Infomil" className="h-16 opacity-70" />
               </div>
             </div>
           )}
