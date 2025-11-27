@@ -996,47 +996,108 @@ export default function InfomilStrategicPresentation() {
           )}
 
           {slide.type === "advantages" && (
-            <div className="space-y-10 animate-in fade-in duration-500 relative">
+            <div className="space-y-8 animate-in fade-in duration-500 relative">
               <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-              <div className="space-y-4 text-center">
-                <h2 className="text-5xl md:text-6xl font-bold text-foreground">{slide.title}</h2>
+              <div className="absolute top-1/3 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+              
+              {/* Title with visual emphasis */}
+              <div className="space-y-4 text-center relative">
+                <div className="flex items-center justify-center gap-6 mb-4">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center animate-pulse">
+                    <Shield className="w-8 h-8 text-white" />
+                  </div>
+                  <ArrowRight className="w-8 h-8 text-primary" />
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center animate-pulse">
+                    <Zap className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-500 via-primary to-accent bg-clip-text text-transparent">{slide.title}</h2>
               </div>
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
                 {/* Infomil Benefits */}
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                      <Shield className="w-8 h-8 text-white" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 rounded-3xl transform -rotate-1" />
+                  <div className="relative bg-card/50 backdrop-blur border-2 border-blue-500/20 rounded-3xl p-6 space-y-6 hover:border-blue-500/40 transition-all duration-300">
+                    <div className="flex items-center gap-4 pb-4 border-b border-blue-500/20">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                        <Shield className="w-7 h-7 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-foreground">For Infomil</h3>
+                        <p className="text-sm text-muted-foreground">Strategic Advantages</p>
+                      </div>
                     </div>
-                    <h3 className="text-3xl font-bold text-foreground">Benefits for Infomil</h3>
+                    <div className="space-y-4">
+                      {slide.infomilBenefits?.map((benefit, idx) => (
+                        <div key={idx} className="group relative">
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <div className="relative flex items-start gap-3 p-3 rounded-xl">
+                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mt-0.5">
+                              <span className="text-white font-bold text-sm">{idx + 1}</span>
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-base text-foreground leading-relaxed">{benefit}</p>
+                            </div>
+                            <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-4 border-t border-blue-500/10 flex items-center justify-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm font-semibold text-blue-500">Competitive Edge Secured</span>
+                    </div>
                   </div>
-                  <ul className="space-y-5">
-                    {slide.infomilBenefits?.map((benefit, idx) => (
-                      <li key={idx} className="flex items-start gap-4 text-xl text-foreground/90 group">
-                        <CheckCircle className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1 group-hover:scale-125 transition-transform" />
-                        <span className="leading-relaxed">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
 
                 {/* Store Benefits */}
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center">
-                      <Zap className="w-8 h-8 text-white" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 rounded-3xl transform rotate-1" />
+                  <div className="relative bg-card/50 backdrop-blur border-2 border-primary/20 rounded-3xl p-6 space-y-6 hover:border-primary/40 transition-all duration-300">
+                    <div className="flex items-center gap-4 pb-4 border-b border-primary/20">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-lg">
+                        <Zap className="w-7 h-7 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-foreground">For Stores</h3>
+                        <p className="text-sm text-muted-foreground">Operational Benefits</p>
+                      </div>
                     </div>
-                    <h3 className="text-3xl font-bold text-foreground">Benefits for Stores</h3>
+                    <div className="space-y-4">
+                      {slide.storeBenefits?.map((benefit, idx) => (
+                        <div key={idx} className="group relative">
+                          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <div className="relative flex items-start gap-3 p-3 rounded-xl">
+                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center mt-0.5">
+                              <span className="text-white font-bold text-sm">{idx + 1}</span>
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-base text-foreground leading-relaxed">{benefit}</p>
+                            </div>
+                            <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-4 border-t border-primary/10 flex items-center justify-center gap-2">
+                      <Rocket className="w-5 h-5 text-primary" />
+                      <span className="text-sm font-semibold text-primary">Zero Disruption, Maximum Value</span>
+                    </div>
                   </div>
-                  <ul className="space-y-5">
-                    {slide.storeBenefits?.map((benefit, idx) => (
-                      <li key={idx} className="flex items-start gap-4 text-xl text-foreground/90 group">
-                        <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1 group-hover:scale-125 transition-transform" />
-                        <span className="leading-relaxed">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
+                </div>
+              </div>
+
+              {/* Bottom visual connector */}
+              <div className="flex items-center justify-center gap-8 pt-4">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="w-3 h-3 rounded-full bg-blue-500" />
+                  <span>Win-Win Partnership</span>
+                </div>
+                <div className="w-24 h-px bg-gradient-to-r from-blue-500 via-primary to-accent" />
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="w-3 h-3 rounded-full bg-primary" />
+                  <span>Mutual Growth</span>
                 </div>
               </div>
             </div>
