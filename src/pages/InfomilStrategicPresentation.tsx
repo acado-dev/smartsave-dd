@@ -431,30 +431,22 @@ const slides = [
       {
         title: "Planogram Integration:",
         benefits: [
-          "Faster ESL assignment",
-          "ESL assignment on empty shelves",
-          "Saves resource costs",
-          "Increases revenue",
+          "Faster ESL assignment on empty shelves",
+          "Increases revenue & saves resource costs",
         ],
       },
       {
         title: "Gap Analysis:",
         benefits: [
-          "Identifies gaps",
-          "Notifies store operations",
-          "Improves customer experience",
-          "Recommends location changes",
+          "Real-time gap identification",
+          "Improves customer experience & recommends actions",
         ],
       },
       {
         title: "ePlanogram Compliance:",
         benefits: [
-          "Identifies gaps",
-          "Identifies misplaced products",
-          "Identifies slow moving products",
-          "Notifies store operations",
-          "Improves Customer experience",
-          "Increases revenue",
+          "Identifies gaps & misplaced products",
+          "Notifies operations & increases revenue",
         ],
       },
     ],
