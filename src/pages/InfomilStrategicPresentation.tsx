@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket, ArrowRight, Cloud, Lightbulb, RefreshCw, Link, Clock, Monitor, Package, Grid, Server, Star, Calendar } from "lucide-react";
+import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket, ArrowRight, Cloud, Lightbulb, RefreshCw, Link, Clock, Monitor, Package, Grid, Server, Star, Calendar, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart } from "recharts";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 import infomilLogo from "@/assets/infomil-logo.webp";
@@ -604,6 +605,7 @@ const slides = [
 export default function InfomilStrategicPresentation() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -651,6 +653,14 @@ export default function InfomilStrategicPresentation() {
           <div className="text-base text-muted-foreground font-medium">
             Slide {currentSlide + 1} of {slides.length}
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="transition-all"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
           <Button variant="outline" size="sm" onClick={toggleFullscreen}>
             {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
           </Button>
