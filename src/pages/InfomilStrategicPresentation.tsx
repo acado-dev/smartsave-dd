@@ -1466,22 +1466,22 @@ export default function InfomilStrategicPresentation() {
       </main>
 
       {/* Navigation */}
-      <footer className="bg-card border-t border-border px-8 py-6 flex items-center justify-between">
+      <footer className="bg-card border-t border-border px-8 py-2 flex items-center justify-between">
         <Button
           variant="outline"
-          size="lg"
+          size="sm"
           onClick={() => setCurrentSlide(Math.max(0, currentSlide - 1))}
           disabled={currentSlide === 0}
         >
-          <ChevronLeft className="w-5 h-5 mr-2" />
+          <ChevronLeft className="w-4 h-4 mr-1" />
           Previous
         </Button>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`w-3 h-3 rounded-full transition-all ${
+              className={`w-2 h-2 rounded-full transition-all ${
                 idx === currentSlide
                   ? "bg-primary scale-125"
                   : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
@@ -1492,12 +1492,12 @@ export default function InfomilStrategicPresentation() {
         </div>
         <Button
           variant="outline"
-          size="lg"
+          size="sm"
           onClick={() => setCurrentSlide(Math.min(slides.length - 1, currentSlide + 1))}
           disabled={currentSlide === slides.length - 1}
         >
           Next
-          <ChevronRight className="w-5 h-5 ml-2" />
+          <ChevronRight className="w-4 h-4 ml-1" />
         </Button>
       </footer>
     </div>
