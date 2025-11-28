@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { TrendingUp, DollarSign, Target, Award, MapPin, Building2, ExternalLink } from "lucide-react";
+import { TrendingUp, DollarSign, Target, Award, MapPin, Building2, ExternalLink, BarChart3, Calendar } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 import { FilterBar } from "@/components/esl/FilterBar";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
 
 const revenueData = [
@@ -21,6 +22,13 @@ const storePerformance = [
   { store: "Birmingham", revenue: 71000, efficiency: 88 },
   { store: "Edinburgh", revenue: 68000, efficiency: 92 },
   { store: "Glasgow", revenue: 64000, efficiency: 87 },
+];
+
+const productUpdateFrequency = [
+  { product: "Fresh Milk 2L", dailyUpdates: 4, weeklyUpdates: 28, monthlyUpdates: 120, category: "Dairy" },
+  { product: "Organic Bananas", dailyUpdates: 3, weeklyUpdates: 21, monthlyUpdates: 90, category: "Produce" },
+  { product: "Premium Coffee", dailyUpdates: 2, weeklyUpdates: 14, monthlyUpdates: 60, category: "Beverages" },
+  { product: "Artisan Bread", dailyUpdates: 5, weeklyUpdates: 35, monthlyUpdates: 150, category: "Bakery" },
 ];
 
 export default function SeniorManagementView() {
@@ -177,6 +185,50 @@ export default function SeniorManagementView() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Product Update Analytics */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-accent" />
+            Product Update Frequency Analytics
+          </CardTitle>
+          <CardDescription>Track how often products receive price updates to optimize sales strategy</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {productUpdateFrequency.map((item, index) => (
+              <div key={index} className="p-4 rounded-lg border bg-card">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h4 className="font-semibold text-foreground">{item.product}</h4>
+                    <p className="text-sm text-muted-foreground">{item.category}</p>
+                  </div>
+                  <Badge>{item.monthlyUpdates} updates/month</Badge>
+                </div>
+                <div className="grid grid-cols-3 gap-3 text-center">
+                  <div className="p-2 rounded bg-accent/10">
+                    <div className="text-xs text-muted-foreground mb-1">Daily Avg</div>
+                    <div className="text-lg font-bold text-accent">{item.dailyUpdates}</div>
+                  </div>
+                  <div className="p-2 rounded bg-primary/10">
+                    <div className="text-xs text-muted-foreground mb-1">Weekly</div>
+                    <div className="text-lg font-bold text-primary">{item.weeklyUpdates}</div>
+                  </div>
+                  <div className="p-2 rounded bg-success/10">
+                    <div className="text-xs text-muted-foreground mb-1">Monthly</div>
+                    <div className="text-lg font-bold text-success">{item.monthlyUpdates}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Button variant="outline" className="w-full mt-4">
+            <Calendar className="h-4 w-4 mr-2" />
+            Generate Full Update Report
+          </Button>
+        </CardContent>
+      </Card>
 
       {/* Geographic Overview */}
       <Card>
