@@ -101,7 +101,7 @@ const slides = [
       {
         icon: Target,
         title: "Future-Proof Demand",
-        description: "Solutions needed without infrastructure changes or heavy investments",
+        description: "Solutions needed without heavy infrastructure changes or investments",
         color: "from-blue-500 to-cyan-500",
         metric: "Urgent"
       },
