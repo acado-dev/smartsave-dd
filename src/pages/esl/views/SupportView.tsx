@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { AlertTriangle, Battery, WifiOff, Monitor, Server, Activity, ExternalLink } from "lucide-react";
+import { AlertTriangle, Battery, WifiOff, Monitor, Server, Activity, ExternalLink, Image, Radio, FileCheck, Wrench, PackageX } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,22 @@ const alerts = [
   { id: 3, severity: "critical", message: "Communicator offline - Store #2025", time: "23 min ago", store: "Aldershot" },
   { id: 4, severity: "warning", message: "Azure CPU utilization above 80%", time: "35 min ago", store: "Infrastructure" },
   { id: 5, severity: "info", message: "Firmware update available for 2,456 labels", time: "1 hour ago", store: "System" },
+];
+
+const locationDiagnostics = [
+  { location: "London Central", dataFilesReceived: 342, imagesGenerated: 338, imagesFailed: 4, displaysUpdated: 334, displaysFailed: 8, avgRSSI: -72, status: "warning" },
+  { location: "Manchester", dataFilesReceived: 298, imagesGenerated: 298, imagesFailed: 0, displaysUpdated: 295, displaysFailed: 3, avgRSSI: -68, status: "good" },
+  { location: "Birmingham", dataFilesReceived: 276, imagesGenerated: 271, imagesFailed: 5, displaysUpdated: 268, displaysFailed: 8, avgRSSI: -75, status: "warning" },
+];
+
+const imageGenerationIssues = [
+  { product: "Nescafe French Roast", sku: "123688", location: "London Central", reason: "Template parsing error", time: "15 min ago", suggestion: "Check template rules configuration" },
+  { product: "Premium Milk 2L", sku: "456123", location: "Birmingham", reason: "Image size exceeded", time: "32 min ago", suggestion: "Resize product image to max 800x600" },
+];
+
+const communicatorDiagnostics = [
+  { location: "Aldershot", status: "offline", lastSeen: "23 min ago", issue: "No ethernet response", suggestion: "Check ethernet cable connection and router status" },
+  { location: "Cardiff Bay", status: "degraded", lastSeen: "2 min ago", issue: "High latency (>500ms)", suggestion: "Check network congestion or upgrade bandwidth" },
 ];
 
 export default function SupportView() {
@@ -155,38 +171,125 @@ export default function SupportView() {
         </CardContent>
       </Card>
 
+      {/* Location Diagnostics */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileCheck className="h-5 w-5 text-accent" />
+            Location ESL Diagnostics
+          </CardTitle>
+          <CardDescription>Data files, image generation, and display update tracking by location</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {locationDiagnostics.map((location, index) => (
+              <div key={index} className="p-4 rounded-lg border bg-card">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-semibold text-foreground">{location.location}</h4>
+                  <Badge variant={location.status === "good" ? "default" : "secondary"}>
+                    {location.status === "good" ? "Healthy" : "Needs Attention"}
+                  </Badge>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                  <div className="flex flex-col">
+                    <span className="text-muted-foreground">Data Files</span>
+                    <span className="text-lg font-bold text-accent">{location.dataFilesReceived}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-muted-foreground">Images Gen.</span>
+                    <span className="text-lg font-bold text-foreground">{location.imagesGenerated}</span>
+                    {location.imagesFailed > 0 && (
+                      <span className="text-xs text-destructive">{location.imagesFailed} failed</span>
+                    )}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-muted-foreground">Displays Updated</span>
+                    <span className="text-lg font-bold text-success">{location.displaysUpdated}</span>
+                    {location.displaysFailed > 0 && (
+                      <span className="text-xs text-warning">{location.displaysFailed} failed</span>
+                    )}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-muted-foreground">Avg RSSI</span>
+                    <span className={`text-lg font-bold ${location.avgRSSI > -70 ? 'text-success' : location.avgRSSI > -75 ? 'text-warning' : 'text-destructive'}`}>
+                      {location.avgRSSI} dBm
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Image Generation Issues */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Image className="h-5 w-5 text-warning" />
+            Image Generation Failures
+          </CardTitle>
+          <CardDescription>Failed image generation with diagnostic suggestions</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {imageGenerationIssues.map((issue, index) => (
+              <div key={index} className="p-4 rounded-lg border bg-warning/5 border-warning/20">
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h4 className="font-semibold text-foreground">{issue.product}</h4>
+                    <p className="text-sm text-muted-foreground">SKU: {issue.sku} • {issue.location}</p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">{issue.time}</span>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm">
+                    <AlertTriangle className="h-4 w-4 text-warning" />
+                    <span className="text-warning font-medium">Reason: {issue.reason}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm p-2 rounded bg-accent/10">
+                    <Wrench className="h-4 w-4 text-accent" />
+                    <span className="text-foreground"><strong>Suggestion:</strong> {issue.suggestion}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Infrastructure Status */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Server className="h-5 w-5 text-accent" />
-              Azure Infrastructure
+              <Radio className="h-5 w-5 text-accent" />
+              RF Signal Analysis
             </CardTitle>
-            <CardDescription>Cloud resource utilization</CardDescription>
+            <CardDescription>RSSI monitoring and signal quality recommendations</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-card border">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">CPU Utilization</div>
-                  <div className="text-2xl font-bold text-foreground mt-1">47%</div>
+              <div className="p-3 rounded-lg bg-success/10 border border-success/20">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-muted-foreground">Excellent Signal (&gt; -70 dBm)</span>
+                  <span className="text-lg font-bold text-success">45 stores</span>
                 </div>
-                <Badge variant="secondary">Normal</Badge>
+                <p className="text-xs text-muted-foreground">Optimal RF performance</p>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-card border">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Memory Usage</div>
-                  <div className="text-2xl font-bold text-foreground mt-1">66%</div>
+              <div className="p-3 rounded-lg bg-warning/10 border border-warning/20">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-muted-foreground">Fair Signal (-70 to -75 dBm)</span>
+                  <span className="text-lg font-bold text-warning">12 stores</span>
                 </div>
-                <Badge variant="secondary">Normal</Badge>
+                <p className="text-xs text-muted-foreground">Consider adding RF repeaters in affected areas</p>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-card border">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Active Connections</div>
-                  <div className="text-2xl font-bold text-foreground mt-1">3,847</div>
+              <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-muted-foreground">Weak Signal (&lt; -75 dBm)</span>
+                  <span className="text-lg font-bold text-destructive">3 stores</span>
                 </div>
-                <Badge className="bg-success text-success-foreground">Healthy</Badge>
+                <p className="text-xs text-muted-foreground">Urgent: Check antenna placement and add coverage</p>
               </div>
             </div>
           </CardContent>
@@ -194,36 +297,84 @@ export default function SupportView() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Communicator Status</CardTitle>
-            <CardDescription>Gateway health across stores</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <PackageX className="h-5 w-5 text-destructive" />
+              RMA Recommendations
+            </CardTitle>
+            <CardDescription>Displays requiring return merchandise authorization</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-card border">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Online Communicators</div>
-                  <div className="text-2xl font-bold text-foreground mt-1">122 / 127</div>
+            <div className="space-y-3">
+              <div className="p-4 rounded-lg bg-destructive/5 border border-destructive/20">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-semibold text-foreground">Missing Displays (Not Found)</h4>
+                  <Badge variant="destructive">47 units</Badge>
                 </div>
-                <Badge className="bg-success text-success-foreground">96.1%</Badge>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Displays not found on floor or back office after 7+ days
+                </p>
+                <Button variant="outline" size="sm" className="w-full">
+                  Generate RMA Request
+                </Button>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-card border">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Offline Communicators</div>
-                  <div className="text-2xl font-bold text-destructive mt-1">5</div>
+
+              <div className="p-4 rounded-lg bg-warning/5 border border-warning/20">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-semibold text-foreground">Persistent Failures</h4>
+                  <Badge variant="secondary">23 units</Badge>
                 </div>
-                <Badge variant="destructive">Attention</Badge>
-              </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-card border">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Avg Response Time</div>
-                  <div className="text-2xl font-bold text-foreground mt-1">127ms</div>
-                </div>
-                <Badge variant="secondary">Good</Badge>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Failed updates 10+ times despite troubleshooting
+                </p>
+                <Button variant="outline" size="sm" className="w-full">
+                  Review for RMA
+                </Button>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
+
+      {/* Communicator Diagnostics */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Server className="h-5 w-5 text-accent" />
+            Communicator Diagnostics & Troubleshooting
+          </CardTitle>
+          <CardDescription>Gateway issues with actionable solutions</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {communicatorDiagnostics.map((comm, index) => (
+              <div key={index} className="p-4 rounded-lg border bg-card">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h4 className="font-semibold text-foreground">{comm.location}</h4>
+                    <p className="text-sm text-muted-foreground">Last seen: {comm.lastSeen}</p>
+                  </div>
+                  <Badge variant={comm.status === "offline" ? "destructive" : "secondary"}>
+                    {comm.status.toUpperCase()}
+                  </Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm">
+                    <AlertTriangle className="h-4 w-4 text-destructive" />
+                    <span className="text-foreground"><strong>Issue:</strong> {comm.issue}</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded bg-accent/10">
+                    <Wrench className="h-4 w-4 text-accent mt-0.5" />
+                    <div>
+                      <strong className="text-foreground">Troubleshooting Steps:</strong>
+                      <p className="text-muted-foreground mt-1">{comm.suggestion}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

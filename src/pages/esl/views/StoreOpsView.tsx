@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Store, Package, DollarSign, Users, ShoppingCart, TrendingUp } from "lucide-react";
+import { Store, Package, DollarSign, Users, ShoppingCart, TrendingUp, AlertTriangle, MapPin, Wrench, Search } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +23,12 @@ const lowStockAlerts = [
   { product: "Soft Drinks - Aisle 1", quantity: 12, reorderPoint: 50, bay: "1", shelf: "3" },
   { product: "Chips - Aisle 2", quantity: 8, reorderPoint: 40, bay: "2", shelf: "4" },
   { product: "Candy - Aisle 2", quantity: 15, reorderPoint: 45, bay: "2", shelf: "2" },
+];
+
+const displayLocationIssues = [
+  { displayId: "ESL-4726", product: "Nescafe French Roast", location: "Aisle 3, Bay 2, Shelf 4", issue: "Display not responding to updates", suggestion: "Check if display is still mounted. If found, verify battery level. If not found, check back office." },
+  { displayId: "ESL-8934", product: "Premium Milk 2L", location: "Dairy Section, Bay 1, Shelf 2", issue: "Signal too weak", suggestion: "Check for metal obstructions nearby. Consider relocating RF base or adding repeater." },
+  { displayId: "ESL-2341", product: "Organic Bananas", location: "Produce, Bay 4, Shelf 3", issue: "Display missing for 3 days", suggestion: "Search floor thoroughly, then check back office. If still not found, mark for RMA after 7 days." },
 ];
 
 export default function StoreOpsView() {
@@ -141,6 +147,62 @@ export default function StoreOpsView() {
                     <span className="text-accent font-bold">${update.newPrice}</span>
                     <span className="text-muted-foreground">• {update.reason}</span>
                     <span className="text-muted-foreground">• {update.time}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Display Location & Troubleshooting */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-warning" />
+            Display Issues - Staff Action Required
+          </CardTitle>
+          <CardDescription>Failed updates with step-by-step troubleshooting for floor staff</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {displayLocationIssues.map((issue, index) => (
+              <div key={index} className="p-4 rounded-lg border bg-warning/5 border-warning/20">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="font-semibold text-foreground">{issue.product}</h4>
+                      <Badge variant="outline">{issue.displayId}</Badge>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      <span>{issue.location}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2 text-sm">
+                    <AlertTriangle className="h-4 w-4 text-warning mt-0.5" />
+                    <div>
+                      <strong className="text-foreground">Problem:</strong>
+                      <p className="text-muted-foreground">{issue.issue}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded bg-accent/10">
+                    <Wrench className="h-4 w-4 text-accent mt-0.5" />
+                    <div className="flex-1">
+                      <strong className="text-foreground">What to do:</strong>
+                      <p className="text-muted-foreground mt-1">{issue.suggestion}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="flex-1">
+                      <Search className="h-4 w-4 mr-2" />
+                      Mark as Found
+                    </Button>
+                    <Button variant="outline" size="sm" className="flex-1">
+                      Not Found
+                    </Button>
                   </div>
                 </div>
               </div>

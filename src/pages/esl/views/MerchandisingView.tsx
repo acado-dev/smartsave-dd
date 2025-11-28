@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Package, CheckCircle2, AlertCircle, TrendingDown, BarChart3, Grid3x3 } from "lucide-react";
+import { Package, CheckCircle2, AlertCircle, TrendingDown, BarChart3, Grid3x3, Tag, Percent, Crown } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +21,14 @@ const categoryCompliance = [
   { category: "Dairy", compliance: 89, items: 1456 },
   { category: "Bakery", compliance: 91, items: 1234 },
   { category: "Produce", compliance: 85, items: 1678 },
+];
+
+const templateRulesData = [
+  { product: "Premium Coffee 12oz", sku: "123688", template: "Standard", pricing: "Regular", updates: 45 },
+  { product: "Fresh Milk 2L", sku: "456123", template: "Discount", pricing: "20% Off", updates: 67 },
+  { product: "Organic Bananas", sku: "789456", template: "Loyalty", pricing: "Member Price", updates: 34 },
+  { product: "Artisan Bread", sku: "321654", template: "Discount", pricing: "Buy 1 Get 1", updates: 89 },
+  { product: "Premium Cheese", sku: "654987", template: "Loyalty", pricing: "Points 2X", updates: 23 },
 ];
 
 export default function MerchandisingView() {
@@ -120,6 +128,75 @@ export default function MerchandisingView() {
                 </Button>
               </div>
             ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Template Rules Dashboard */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Tag className="h-5 w-5 text-accent" />
+            Template Rules & Pricing Strategy
+          </CardTitle>
+          <CardDescription>Track which products use discount, loyalty, or standard pricing templates</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {templateRulesData.map((item, index) => (
+              <div key={index} className="p-4 rounded-lg border bg-card">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="font-semibold text-foreground">{item.product}</h4>
+                      <Badge variant="outline" className="text-xs">
+                        {item.sku}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      {item.template === "Standard" && (
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <Tag className="h-3.5 w-3.5" />
+                          <span>Standard Template</span>
+                        </div>
+                      )}
+                      {item.template === "Discount" && (
+                        <div className="flex items-center gap-1.5 text-warning">
+                          <Percent className="h-3.5 w-3.5" />
+                          <span className="font-medium">Discount Active</span>
+                        </div>
+                      )}
+                      {item.template === "Loyalty" && (
+                        <div className="flex items-center gap-1.5 text-accent">
+                          <Crown className="h-3.5 w-3.5" />
+                          <span className="font-medium">Loyalty Program</span>
+                        </div>
+                      )}
+                      <span className="text-muted-foreground">•</span>
+                      <span className="text-muted-foreground">{item.pricing}</span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xs text-muted-foreground">Updates</div>
+                    <div className="text-lg font-bold text-accent">{item.updates}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            <div className="p-3 rounded-lg bg-card border text-center">
+              <div className="text-2xl font-bold text-muted-foreground mb-1">2,847</div>
+              <div className="text-xs text-muted-foreground">Standard</div>
+            </div>
+            <div className="p-3 rounded-lg bg-warning/10 border border-warning/20 text-center">
+              <div className="text-2xl font-bold text-warning mb-1">456</div>
+              <div className="text-xs text-muted-foreground">Discount</div>
+            </div>
+            <div className="p-3 rounded-lg bg-accent/10 border border-accent/20 text-center">
+              <div className="text-2xl font-bold text-accent mb-1">234</div>
+              <div className="text-xs text-muted-foreground">Loyalty</div>
+            </div>
           </div>
         </CardContent>
       </Card>
