@@ -694,7 +694,7 @@ export default function InfomilStrategicPresentation() {
           )}
 
           {slide.type === "infographic" && (
-            <div className="space-y-8 animate-in fade-in duration-500 relative">
+            <div className="space-y-4 animate-in fade-in duration-500 relative">
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
               {slide.icon && (
                 <div className="absolute top-1/2 right-10 opacity-5">
@@ -703,7 +703,7 @@ export default function InfomilStrategicPresentation() {
               )}
               
               {/* Header */}
-              <div className="space-y-3 mb-6">
+              <div className="space-y-2 mb-4">
                 {slide.subtitle && <p className="text-primary font-bold uppercase tracking-wider text-lg">{slide.subtitle}</p>}
                 <div className="flex items-start gap-4">
                   {slide.icon && (
@@ -711,7 +711,7 @@ export default function InfomilStrategicPresentation() {
                       <slide.icon className="w-8 h-8 text-white" />
                     </div>
                   )}
-                  <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">{slide.title}</h2>
+                  <h2 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">{slide.title}</h2>
                 </div>
               </div>
 
@@ -722,7 +722,7 @@ export default function InfomilStrategicPresentation() {
                 slide.cards.length === 5 ? 'grid-cols-6' : 
                 slide.cards.length === 6 ? 'grid-cols-3' : 
                 'grid-cols-2'
-              } gap-4 px-4`}>
+              } gap-3 px-2`}>
                 {slide.cards.map((card: any, idx: number) => (
                   <div 
                     key={idx}
@@ -730,34 +730,34 @@ export default function InfomilStrategicPresentation() {
                       slide.cards.length === 5 ? (idx < 3 ? 'col-span-2' : 'col-span-3') : 
                       slide.cards.length === 6 ? 'col-span-1' : 
                       ''
-                    } group relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-5 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300`}
+                    } group relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-4 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300`}
                   >
                     {/* Background pattern */}
-                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-white/20 opacity-100" />
                     
                     {/* Icon */}
-                    <div className="mb-4 relative">
-                      <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <card.icon className="w-7 h-7 text-white" />
+                    <div className="mb-3 relative">
+                      <div className="w-12 h-12 rounded-xl bg-black/10 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <card.icon className="w-6 h-6 text-black" />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="space-y-2 relative">
-                      <h3 className="text-xl font-bold text-white leading-tight">{card.title}</h3>
-                      <p className="text-base text-white/90 leading-relaxed">{card.description}</p>
+                    <div className="space-y-1.5 relative">
+                      <h3 className="text-2xl font-bold text-black leading-tight">{card.title}</h3>
+                      <p className="text-lg text-black/90 leading-snug font-medium">{card.description}</p>
                       
                       {/* Metric badge if exists */}
                       {card.metric && (
-                        <div className="inline-block mt-3 px-3 py-1 bg-white/25 backdrop-blur-md rounded-full border border-white/30">
-                          <span className="text-sm font-bold text-white">{card.metric}</span>
+                        <div className="inline-block mt-2 px-3 py-1 bg-black/15 backdrop-blur-md rounded-full border border-black/30">
+                          <span className="text-sm font-bold text-black">{card.metric}</span>
                         </div>
                       )}
                     </div>
 
                     {/* Number indicator */}
-                    <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                      <span className="text-xl font-bold text-white">{idx + 1}</span>
+                    <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/15 backdrop-blur-sm flex items-center justify-center border border-black/30">
+                      <span className="text-lg font-bold text-black">{idx + 1}</span>
                     </div>
                   </div>
                 ))}
