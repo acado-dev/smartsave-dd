@@ -124,7 +124,7 @@ const slides = [
       {
         icon: Lightbulb,
         title: "Enable Innovation",
-        description: "Without replacing existing infrastructure",
+        description: "Without replacing existing infrastructure entirely",
         color: "from-yellow-500 to-orange-500"
       },
       {
