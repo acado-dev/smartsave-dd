@@ -15,20 +15,12 @@ import prestoEsl5 from "@/assets/presto-esl-5.jpeg";
 import smartDeviceBluetooth from "@/assets/smart-device-bluetooth.png";
 import smartDeviceAnalytics from "@/assets/smart-device-analytics.png";
 
-// Chart data for perishables flow
+// Chart data for perishables flow (simplified to 5 steps)
 const perishablesChartData = [
   { hour: "6.00", qty: 100, price: 5.00 },
-  { hour: "7.00", qty: 95, price: 5.00 },
-  { hour: "8.00", qty: 85, price: 5.00 },
-  { hour: "9.00", qty: 80, price: 4.50 },
-  { hour: "10.00", qty: 70, price: 4.50 },
-  { hour: "11.00", qty: 60, price: 4.00 },
-  { hour: "12.00", qty: 50, price: 4.00 },
+  { hour: "10.00", qty: 70, price: 4.00 },
   { hour: "13.00", qty: 40, price: 3.00 },
-  { hour: "14.00", qty: 30, price: 3.00 },
-  { hour: "15.00", qty: 20, price: 2.00 },
-  { hour: "16.00", qty: 10, price: 2.00 },
-  { hour: "17.00", qty: 5, price: 1.00 },
+  { hour: "16.00", qty: 15, price: 2.00 },
   { hour: "18.00", qty: 2, price: 1.00 },
 ];
 
@@ -1747,7 +1739,7 @@ export default function InfomilStrategicPresentation() {
               </div>
 
               {/* Flow Diagram */}
-              <div className="grid grid-cols-4 gap-4 py-4">
+              <div className="grid grid-cols-[1fr_1fr_1fr_1.8fr] gap-4 py-4">
                 {/* Column 1: Inputs */}
                 <div className="space-y-3">
                   <h3 className="text-lg font-bold text-primary mb-2">Inputs</h3>
@@ -1791,7 +1783,7 @@ export default function InfomilStrategicPresentation() {
 
                 {/* Column 4: Chart */}
                 <div className="bg-card border border-border rounded-xl p-3">
-                  <ResponsiveContainer width="100%" height={220}>
+                  <ResponsiveContainer width="100%" height={240}>
                     <ComposedChart data={perishablesChartData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                       <XAxis 
