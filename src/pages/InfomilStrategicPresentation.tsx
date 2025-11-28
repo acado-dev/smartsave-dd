@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket, ArrowRight, Cloud, Lightbulb, RefreshCw, Link, Clock, Monitor, Package, Grid, Server, Star, Calendar, Moon, Sun } from "lucide-react";
+import { ChevronLeft, ChevronRight, Building2, TrendingUp, AlertTriangle, Target, Cpu, Database, Brain, Handshake, Sparkles, Maximize, Minimize, Users, Zap, CheckCircle, Shield, Layers, Rocket, ArrowRight, Cloud, Lightbulb, RefreshCw, Link, Clock, Monitor, Package, Grid, Server, Star, Calendar, Moon, Sun, Download } from "lucide-react";
 import { useTheme } from "next-themes";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart } from "recharts";
+import pptxgen from "pptxgenjs";
+import { toast } from "sonner";
 import displayDataLogo from "@/assets/displaydata-logo.png";
 import infomilLogo from "@/assets/infomil-logo.webp";
 import prestoEsl1 from "@/assets/presto-esl-1.jpeg";
@@ -597,7 +599,371 @@ const slides = [
 export default function InfomilStrategicPresentation() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const { theme, setTheme } = useTheme();
+
+  const exportToPPT = async () => {
+    setIsExporting(true);
+    toast.info("Generating PowerPoint presentation...");
+    
+    try {
+      const pptx = new pptxgen();
+      
+      // Configure presentation
+      pptx.author = "DisplayData & Infomil";
+      pptx.company = "DisplayData";
+      pptx.title = "Strategic Alignment Session";
+      pptx.subject = "Building the Future of In-Store Digital Intelligence";
+      
+      // Define layout (16:9)
+      pptx.layout = "LAYOUT_16x9";
+      
+      // Iterate through slides
+      for (const slideData of slides) {
+        const pptSlide = pptx.addSlide();
+        
+        // Add logos to all slides
+        pptSlide.addImage({ 
+          path: displayDataLogo, 
+          x: 0.3, 
+          y: 0.3, 
+          w: 1.2, 
+          h: 0.4 
+        });
+        pptSlide.addImage({ 
+          path: infomilLogo, 
+          x: 12.0, 
+          y: 0.3, 
+          w: 1.2, 
+          h: 0.4 
+        });
+        
+        // Title slide
+        if (slideData.type === "title") {
+          pptSlide.background = { color: "1a1a2e" };
+          pptSlide.addText(slideData.title, {
+            x: 1.5,
+            y: 2.5,
+            w: 10,
+            h: 1.5,
+            fontSize: 44,
+            bold: true,
+            color: "FFFFFF",
+            align: "center",
+            valign: "middle"
+          });
+          pptSlide.addText(slideData.subtitle, {
+            x: 1.5,
+            y: 4.2,
+            w: 10,
+            h: 0.6,
+            fontSize: 24,
+            color: "94A3B8",
+            align: "center",
+            valign: "middle"
+          });
+        }
+        
+        // Infographic slides
+        else if (slideData.type === "infographic") {
+          pptSlide.addText(slideData.title, {
+            x: 0.5,
+            y: 1.2,
+            w: 12,
+            h: 0.8,
+            fontSize: 32,
+            bold: true,
+            color: "1E293B",
+            align: "left"
+          });
+          
+          if (slideData.subtitle) {
+            pptSlide.addText(slideData.subtitle, {
+              x: 0.5,
+              y: 0.9,
+              w: 12,
+              h: 0.3,
+              fontSize: 14,
+              bold: true,
+              color: "3B82F6",
+              align: "left"
+            });
+          }
+          
+          // Add cards in grid
+          const cards = slideData.cards || [];
+          const cols = cards.length === 6 ? 3 : 2;
+          const cardWidth = (13 - 0.5 * (cols + 1)) / cols;
+          const cardHeight = 1.8;
+          
+          cards.forEach((card: any, idx: number) => {
+            const col = idx % cols;
+            const row = Math.floor(idx / cols);
+            const x = 0.5 + col * (cardWidth + 0.5);
+            const y = 2.3 + row * (cardHeight + 0.4);
+            
+            // Card background with gradient colors
+            const colorMap: any = {
+              "from-blue-500 to-cyan-500": "3B82F6",
+              "from-purple-500 to-pink-500": "A855F7",
+              "from-orange-500 to-red-500": "F97316",
+              "from-green-500 to-emerald-500": "10B981",
+              "from-red-500 to-orange-500": "EF4444",
+              "from-purple-500 to-indigo-500": "A855F7",
+              "from-yellow-500 to-amber-500": "F59E0B"
+            };
+            
+            pptSlide.addShape(pptx.ShapeType.roundRect, {
+              x, y,
+              w: cardWidth,
+              h: cardHeight,
+              fill: { color: colorMap[card.color] || "3B82F6" },
+              line: { color: "FFFFFF", width: 0 }
+            });
+            
+            // Card title
+            pptSlide.addText(card.title, {
+              x: x + 0.2,
+              y: y + 0.3,
+              w: cardWidth - 0.4,
+              h: 0.4,
+              fontSize: 18,
+              bold: true,
+              color: "FFFFFF"
+            });
+            
+            // Card description
+            pptSlide.addText(card.description, {
+              x: x + 0.2,
+              y: y + 0.8,
+              w: cardWidth - 0.4,
+              h: 0.8,
+              fontSize: 14,
+              color: "FFFFFF"
+            });
+            
+            // Number indicator
+            pptSlide.addText((idx + 1).toString(), {
+              x: x + cardWidth - 0.5,
+              y: y + 0.1,
+              w: 0.4,
+              h: 0.4,
+              fontSize: 16,
+              bold: true,
+              color: "FFFFFF",
+              align: "center",
+              valign: "middle"
+            });
+            
+            // Metric badge if exists
+            if (card.metric) {
+              pptSlide.addText(card.metric, {
+                x: x + 0.2,
+                y: y + cardHeight - 0.5,
+                w: cardWidth - 0.4,
+                h: 0.3,
+                fontSize: 12,
+                bold: true,
+                color: "FFFFFF"
+              });
+            }
+          });
+        }
+        
+        // Two-column slides
+        else if (slideData.type === "two-column") {
+          pptSlide.addText(slideData.title, {
+            x: 0.5,
+            y: 1.2,
+            w: 12,
+            h: 0.8,
+            fontSize: 32,
+            bold: true,
+            color: "1E293B",
+            align: "left"
+          });
+          
+          if (slideData.subtitle) {
+            pptSlide.addText(slideData.subtitle, {
+              x: 0.5,
+              y: 0.9,
+              w: 12,
+              h: 0.3,
+              fontSize: 14,
+              bold: true,
+              color: "3B82F6",
+              align: "left"
+            });
+          }
+          
+          // Left column - cards
+          const cards = slideData.cards || [];
+          cards.forEach((card: any, idx: number) => {
+            const y = 2.5 + idx * 1.3;
+            
+            pptSlide.addText(`${idx + 1}. ${card.title}`, {
+              x: 0.5,
+              y,
+              w: 5.5,
+              h: 0.4,
+              fontSize: 16,
+              bold: true,
+              color: "1E293B"
+            });
+            
+            pptSlide.addText(card.description, {
+              x: 0.5,
+              y: y + 0.5,
+              w: 5.5,
+              h: 0.6,
+              fontSize: 13,
+              color: "475569"
+            });
+          });
+          
+          // Right column - images
+          if (slideData.images) {
+            pptSlide.addImage({ 
+              path: slideData.images[0], 
+              x: 6.5, 
+              y: 2.3, 
+              w: 6.5, 
+              h: 3.0 
+            });
+          }
+        }
+        
+        // Flow diagram slides (perishables-flow)
+        else if (slideData.type === "perishables-flow") {
+          pptSlide.addText(slideData.title, {
+            x: 0.5,
+            y: 1.0,
+            w: 12,
+            h: 0.6,
+            fontSize: 28,
+            bold: true,
+            color: "1E293B",
+            align: "left"
+          });
+          
+          // Add inputs column
+          pptSlide.addText("Inputs:", {
+            x: 0.5,
+            y: 2.0,
+            w: 2.5,
+            h: 0.4,
+            fontSize: 14,
+            bold: true,
+            color: "3B82F6"
+          });
+          
+          slideData.inputs?.forEach((input: string, idx: number) => {
+            pptSlide.addText(`• ${input}`, {
+              x: 0.5,
+              y: 2.5 + idx * 0.4,
+              w: 2.5,
+              h: 0.4,
+              fontSize: 11,
+              color: "475569"
+            });
+          });
+          
+          // Add algorithm box
+          pptSlide.addShape(pptx.ShapeType.roundRect, {
+            x: 3.5,
+            y: 2.0,
+            w: 6.0,
+            h: 2.5,
+            fill: { color: "E0F2FE" },
+            line: { color: "3B82F6", width: 2 }
+          });
+          
+          pptSlide.addText(slideData.algorithmTitle || "Algorithm", {
+            x: 4.0,
+            y: 2.5,
+            w: 5.0,
+            h: 1.5,
+            fontSize: 16,
+            bold: true,
+            color: "1E293B",
+            align: "center",
+            valign: "middle"
+          });
+          
+          // Add outputs column
+          pptSlide.addText("Outputs:", {
+            x: 10.5,
+            y: 2.0,
+            w: 2.5,
+            h: 0.4,
+            fontSize: 14,
+            bold: true,
+            color: "10B981"
+          });
+          
+          slideData.outputs?.forEach((output: string, idx: number) => {
+            pptSlide.addText(`• ${output}`, {
+              x: 10.5,
+              y: 2.5 + idx * 0.4,
+              w: 2.5,
+              h: 0.4,
+              fontSize: 11,
+              color: "475569"
+            });
+          });
+          
+          // Add bottom points
+          slideData.points?.forEach((point: string, idx: number) => {
+            pptSlide.addText(`• ${point}`, {
+              x: 1.0,
+              y: 5.0 + idx * 0.35,
+              w: 11,
+              h: 0.35,
+              fontSize: 11,
+              color: "475569"
+            });
+          });
+        }
+        
+        // Closing slide
+        else if (slideData.type === "closing") {
+          pptSlide.background = { color: "F8FAFC" };
+          
+          pptSlide.addText(slideData.title, {
+            x: 1.5,
+            y: 2.0,
+            w: 10,
+            h: 1.2,
+            fontSize: 36,
+            bold: true,
+            color: "1E293B",
+            align: "center",
+            valign: "middle"
+          });
+          
+          slideData.points?.forEach((point: string, idx: number) => {
+            pptSlide.addText(`✓ ${point}`, {
+              x: 2.0,
+              y: 3.5 + idx * 0.5,
+              w: 9,
+              h: 0.4,
+              fontSize: 14,
+              color: "475569"
+            });
+          });
+        }
+      }
+      
+      // Save presentation
+      await pptx.writeFile({ fileName: "Infomil_Strategic_Presentation.pptx" });
+      toast.success("PowerPoint presentation exported successfully!");
+    } catch (error) {
+      console.error("Error exporting to PPT:", error);
+      toast.error("Failed to export presentation. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -645,6 +1011,16 @@ export default function InfomilStrategicPresentation() {
           <div className="text-base text-muted-foreground font-medium">
             Slide {currentSlide + 1} of {slides.length}
           </div>
+          <Button
+            variant="default"
+            size="sm"
+            onClick={exportToPPT}
+            disabled={isExporting}
+            className="gap-2"
+          >
+            <Download className="h-4 w-4" />
+            {isExporting ? "Exporting..." : "Export to PPT"}
+          </Button>
           <Button
             variant="outline"
             size="sm"
