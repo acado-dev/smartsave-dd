@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Monitor, Wifi, Image, Calendar, PlayCircle, Settings, Upload, Link as LinkIcon } from "lucide-react";
+import { Monitor, Wifi, Image, Calendar, PlayCircle, Settings, Upload, Link as LinkIcon, Plus, FolderOpen } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function MediaManagement() {
@@ -21,11 +21,11 @@ export default function MediaManagement() {
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => navigate(isAdminWorkspace ? '/admin/cms-integration' : '/management/media-management')}>
               <LinkIcon className="mr-2 h-4 w-4" />
               Connect CMS
             </Button>
-            <Button className="bg-gradient-primary shadow-elevated">
+            <Button className="bg-gradient-primary shadow-elevated" onClick={() => navigate(isAdminWorkspace ? '/admin/media-library' : '/management/media-management')}>
               <Upload className="mr-2 h-4 w-4" />
               Upload Media
             </Button>
@@ -112,7 +112,7 @@ export default function MediaManagement() {
                   <li>• Content sync enabled</li>
                   <li>• API connection active</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/media-management' : '/management/media-management')}>Configure CMS</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/cms-integration' : '/management/media-management')}>Configure CMS</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -125,7 +125,7 @@ export default function MediaManagement() {
                   <li>• 248 assets stored</li>
                   <li>• Auto-optimization enabled</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/media-management' : '/management/media-management')}>Manage Library</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/media-library' : '/management/media-management')}>Manage Library</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">

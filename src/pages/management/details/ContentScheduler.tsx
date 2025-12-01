@@ -32,7 +32,10 @@ export default function ContentScheduler() {
               </p>
             </div>
           </div>
-          <Button className="bg-gradient-primary shadow-elevated">
+          <Button 
+            className="bg-gradient-primary shadow-elevated"
+            onClick={() => navigate(isAdminWorkspace ? '/admin/campaign-creator' : '/management/details/content-scheduler')}
+          >
             <Plus className="mr-2 h-4 w-4" />
             Create Campaign
           </Button>

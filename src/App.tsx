@@ -45,6 +45,9 @@ import ESLSolution from "./pages/management/ESLSolution";
 import RetailSentry from "./pages/management/details/RetailSentry";
 import StoreSentry from "./pages/management/details/StoreSentry";
 import FreshnessAnalysisDemo from "./pages/demo/FreshnessAnalysisDemo";
+import MediaLibrary from "./pages/admin/advertising/MediaLibrary";
+import CampaignCreator from "./pages/admin/advertising/CampaignCreator";
+import CMSIntegration from "./pages/admin/advertising/CMSIntegration";
 import SmartStoreDashboard from "./pages/smartstore/Dashboard";
 import SmartStoreInventory from "./pages/smartstore/Inventory";
 import SmartStoreExpiringItems from "./pages/smartstore/ExpiringItems";
@@ -88,6 +91,9 @@ const App = () => (
           <Route path="/admin/media-management" element={<AdminLayout><MediaManagement /></AdminLayout>} />
           <Route path="/admin/display-management" element={<AdminLayout><DisplayManagement /></AdminLayout>} />
           <Route path="/admin/content-scheduler" element={<AdminLayout><ContentScheduler /></AdminLayout>} />
+          <Route path="/admin/media-library" element={<AdminLayout><MediaLibrary /></AdminLayout>} />
+          <Route path="/admin/campaign-creator" element={<AdminLayout><CampaignCreator /></AdminLayout>} />
+          <Route path="/admin/cms-integration" element={<AdminLayout><CMSIntegration /></AdminLayout>} />
           <Route path="/admin/dynamic-pricing" element={<AdminLayout><DynamicPricing /></AdminLayout>} />
           <Route path="/admin/pricing-rules" element={<AdminLayout><PricingRules /></AdminLayout>} />
           <Route path="/admin/algorithm-settings" element={<AdminLayout><AlgorithmSettings /></AdminLayout>} />
