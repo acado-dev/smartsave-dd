@@ -24,7 +24,7 @@ export default function SmartStoreDynamicPricing() {
           <h1 className="text-3xl font-bold text-foreground">Dynamic Pricing</h1>
           <p className="text-muted-foreground mt-1">Automated pricing strategies to optimize revenue and reduce waste</p>
         </div>
-        <Button onClick={() => navigate('/management/details/pricing-rules')}>
+        <Button onClick={() => navigate('/smartstore/pricing-rules')}>
           Create New Rule
         </Button>
       </div>
