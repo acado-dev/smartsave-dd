@@ -56,6 +56,7 @@ import SmartStoreLowSalability from "./pages/smartstore/LowSalability";
 import SmartStoreAnalytics from "./pages/smartstore/Analytics";
 import SmartStoreMarketplace from "./pages/smartstore/Marketplace";
 import SmartStorePricingOptimization from "./pages/smartstore/PricingOptimization";
+import SmartStorePricingRules from "./pages/smartstore/PricingRules";
 import InfomilPresentation from "./pages/InfomilPresentation";
 import InfomilStrategicPresentation from "./pages/InfomilStrategicPresentation";
 
@@ -124,6 +125,7 @@ const App = () => (
           <Route path="/smartstore/analytics" element={<SmartStoreLayout><SmartStoreAnalytics /></SmartStoreLayout>} />
           <Route path="/smartstore/marketplace" element={<SmartStoreLayout><SmartStoreMarketplace /></SmartStoreLayout>} />
           <Route path="/smartstore/pricing-optimization" element={<SmartStoreLayout><SmartStorePricingOptimization /></SmartStoreLayout>} />
+          <Route path="/smartstore/pricing-rules" element={<SmartStoreLayout><SmartStorePricingRules /></SmartStoreLayout>} />
           
           {/* Demo Routes */}
           <Route path="/demo/freshness-analysis" element={<FreshnessAnalysisDemo />} />
