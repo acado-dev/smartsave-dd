@@ -34,7 +34,7 @@ export default function PlanogramCompliance() {
 
         {/* Key Metrics */}
         <div className="grid gap-6 md:grid-cols-4">
-          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
+          <Card className="shadow-card border-accent/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-gaps' : '/management/planogram-compliance')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -49,7 +49,7 @@ export default function PlanogramCompliance() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-warning/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
+          <Card className="shadow-card border-warning/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-gaps' : '/management/planogram-compliance')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -64,7 +64,7 @@ export default function PlanogramCompliance() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card border-destructive/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
+          <Card className="shadow-card border-destructive/20 cursor-pointer hover:shadow-elevated transition-shadow" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-gaps' : '/management/planogram-compliance')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -112,7 +112,7 @@ export default function PlanogramCompliance() {
                   <li>• Shelf bar codes mapped</li>
                   <li>• Zone tracking active</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>Configure Locations</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-locations' : '/management/planogram-compliance')}>Configure Locations</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -125,7 +125,7 @@ export default function PlanogramCompliance() {
                   <li>• Facing data synced</li>
                   <li>• Real-time updates enabled</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>View Integration</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-locations' : '/management/planogram-compliance')}>View Integration</Button>
               </div>
 
               <div className="rounded-lg border border-border p-4 space-y-3">
@@ -151,7 +151,7 @@ export default function PlanogramCompliance() {
                   <li>• Real-time alerts enabled</li>
                   <li>• Task assignment active</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>App Settings</Button>
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-locations' : '/management/planogram-compliance')}>App Settings</Button>
               </div>
             </div>
           </CardContent>
@@ -173,7 +173,7 @@ export default function PlanogramCompliance() {
                 { location: "Bay C-15, Shelf 1", issue: "Low stock", items: "Bread section", severity: "high", image: "Camera 5" },
                 { location: "Bay A-03, Shelf 4", issue: "Missing facings", items: "Dairy products", severity: "medium", image: "Camera 2" },
               ].map((gap, i) => (
-                <div key={i} className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-4">
+                <div key={i} className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-4 cursor-pointer hover:bg-muted/50" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-gaps' : '/management/planogram-compliance')}>
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
                       <MapPin className="h-6 w-6 text-primary" />
@@ -190,11 +190,11 @@ export default function PlanogramCompliance() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => navigate(isAdminWorkspace ? '/admin/camera-feeds' : '/management/details/camera-feeds')}>
+                    <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); navigate(isAdminWorkspace ? '/admin/camera-feeds' : '/management/details/camera-feeds'); }}>
                       <Eye className="mr-2 h-4 w-4" />
                       View Image
                     </Button>
-                    <Button size="sm" onClick={() => navigate(isAdminWorkspace ? '/admin/planogram-compliance' : '/management/planogram-compliance')}>
+                    <Button size="sm" onClick={(e) => { e.stopPropagation(); navigate(isAdminWorkspace ? '/admin/planogram-gaps' : '/management/planogram-compliance'); }}>
                       Assign Task
                     </Button>
                   </div>
