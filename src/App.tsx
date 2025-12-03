@@ -48,6 +48,8 @@ import FreshnessAnalysisDemo from "./pages/demo/FreshnessAnalysisDemo";
 import MediaLibrary from "./pages/admin/advertising/MediaLibrary";
 import CampaignCreator from "./pages/admin/advertising/CampaignCreator";
 import CMSIntegration from "./pages/admin/advertising/CMSIntegration";
+import PlanogramGapDetails from "./pages/admin/planogram/GapDetails";
+import PlanogramLocationConfig from "./pages/admin/planogram/LocationConfig";
 import SmartStoreDashboard from "./pages/smartstore/Dashboard";
 import SmartStoreInventory from "./pages/smartstore/Inventory";
 import SmartStoreExpiringItems from "./pages/smartstore/ExpiringItems";
@@ -87,6 +89,8 @@ const App = () => (
           <Route path="/admin/retail-sentry" element={<AdminLayout><RetailSentry /></AdminLayout>} />
           <Route path="/admin/store-sentry" element={<AdminLayout><StoreSentry /></AdminLayout>} />
           <Route path="/admin/planogram-compliance" element={<AdminLayout><PlanogramCompliance /></AdminLayout>} />
+          <Route path="/admin/planogram-gaps" element={<AdminLayout><PlanogramGapDetails /></AdminLayout>} />
+          <Route path="/admin/planogram-locations" element={<AdminLayout><PlanogramLocationConfig /></AdminLayout>} />
           <Route path="/admin/camera-feeds" element={<AdminLayout><CameraFeeds /></AdminLayout>} />
           <Route path="/admin/media-management" element={<AdminLayout><MediaManagement /></AdminLayout>} />
           <Route path="/admin/display-management" element={<AdminLayout><DisplayManagement /></AdminLayout>} />
