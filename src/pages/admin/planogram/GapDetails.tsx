@@ -177,7 +177,7 @@ export default function PlanogramGapDetails() {
                         <div className="flex justify-end gap-2">
                           <Button
                             variant="outline"
-                            size="xs"
+                            size="sm"
                             onClick={(e) => {
                               e.stopPropagation();
                               navigate("/admin/camera-feeds");
@@ -187,7 +187,7 @@ export default function PlanogramGapDetails() {
                             View
                           </Button>
                           <Button
-                            size="xs"
+                            size="sm"
                             onClick={(e) => {
                               e.stopPropagation();
                               // In a real app we would open a side panel or task editor here
