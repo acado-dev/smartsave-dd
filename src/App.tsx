@@ -72,6 +72,9 @@ import HandheldJobs from "./pages/handheld/HandheldJobs";
 import HandheldSettings from "./pages/handheld/HandheldSettings";
 import HandheldAlerts from "./pages/handheld/HandheldAlerts";
 import AssignESL from "./pages/handheld/operations/AssignESL";
+import OnlineESLs from "./pages/handheld/status/OnlineESLs";
+import OfflineESLs from "./pages/handheld/status/OfflineESLs";
+import LowBatteryESLs from "./pages/handheld/status/LowBatteryESLs";
 
 const queryClient = new QueryClient();
 
@@ -157,6 +160,9 @@ const App = () => (
             <Route index element={<HandheldHome />} />
             <Route path="operations" element={<HandheldOperations />} />
             <Route path="operations/assign" element={<AssignESL />} />
+            <Route path="status/online" element={<OnlineESLs />} />
+            <Route path="status/offline" element={<OfflineESLs />} />
+            <Route path="status/low-battery" element={<LowBatteryESLs />} />
             <Route path="health" element={<HandheldHealth />} />
             <Route path="jobs" element={<HandheldJobs />} />
             <Route path="settings" element={<HandheldSettings />} />
