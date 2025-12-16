@@ -50,7 +50,7 @@ export default function ZabkaExpiringItems() {
     const hours = getHoursUntilExpiry(item.expiryDate);
     const discount = getSuggestedDiscount(hours);
     setDiscountPercentage(discount.toString());
-    setEslMessage(`PROMOCJA - ${discount}% TANIEJ! Ograniczona ilość!`);
+    setEslMessage(`CLEARANCE SALE - ${discount}% OFF! Limited Stock!`);
     setShowPreview(false);
     setDiscountDialogOpen(true);
   };
@@ -62,8 +62,8 @@ export default function ZabkaExpiringItems() {
 
   const confirmDiscount = () => {
     toast({
-      title: "Zniżka Zastosowana na ESL",
-      description: `${discountPercentage}% zniżki na ${selectedItem.name} wysłane do etykiet elektronicznych.`,
+      title: "Discount Applied to ESL",
+      description: `${discountPercentage}% discount applied to ${selectedItem.name} and pushed to electronic shelf labels.`,
     });
     setDiscountDialogOpen(false);
     setDiscountPercentage("");
@@ -73,8 +73,8 @@ export default function ZabkaExpiringItems() {
 
   const confirmDonation = () => {
     toast({
-      title: "Darowizna Zaplanowana",
-      description: `${selectedItem.name} zaplanowane do darowizny dla ${donationOrg} z odbiorem ${pickupDate}.`,
+      title: "Donation Scheduled",
+      description: `${selectedItem.name} scheduled for donation to ${donationOrg} with pickup on ${pickupDate}.`,
     });
     setDonateDialogOpen(false);
     setDonationOrg("");
@@ -99,8 +99,8 @@ export default function ZabkaExpiringItems() {
   const handleBulkDiscount = () => {
     if (selectedItems.length === 0) {
       toast({
-        title: "Brak Wybranych Produktów",
-        description: "Wybierz co najmniej jeden produkt do zastosowania zniżki.",
+        title: "No Items Selected",
+        description: "Please select at least one item to apply bulk discount.",
         variant: "destructive",
       });
       return;
@@ -114,7 +114,7 @@ export default function ZabkaExpiringItems() {
         const discount = getSuggestedDiscount(hours);
         configs[id] = {
           discount: discount.toString(),
-          eslMessage: `PROMOCJA - ${discount}% TANIEJ! Ograniczona ilość!`
+          eslMessage: `CLEARANCE SALE - ${discount}% OFF! Limited Stock!`
         };
       }
     });
@@ -136,8 +136,8 @@ export default function ZabkaExpiringItems() {
   const confirmBulkDiscount = () => {
     const itemsWithDiscount = Object.keys(itemConfigs).filter(id => itemConfigs[id].discount);
     toast({
-      title: "Zniżki Zbiorcze Zastosowane",
-      description: `Zniżki zastosowane do ${itemsWithDiscount.length} produktów i wysłane do ESL.`,
+      title: "Bulk Discount Applied",
+      description: `Discounts applied to ${itemsWithDiscount.length} items and pushed to ESL.`,
     });
     setBulkDiscountDialogOpen(false);
     setSelectedItems([]);
@@ -154,48 +154,44 @@ export default function ZabkaExpiringItems() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Produkty Wygasające</h1>
-        <p className="text-muted-foreground mt-1">Monitoruj i zarządzaj produktami zbliżającymi się do wygaśnięcia</p>
+        <h1 className="text-3xl font-bold text-foreground">Expiring Items</h1>
+        <p className="text-muted-foreground mt-1">Monitor and manage items approaching expiration</p>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Wygasa Dzisiaj</CardTitle>
+            <CardTitle className="text-sm font-medium">Expiring Today</CardTitle>
             <AlertTriangle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {todayItems.length}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Wymagana natychmiastowa akcja</p>
+            <div className="text-2xl font-bold">{todayItems.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">Immediate action required</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Wygasa Jutro</CardTitle>
+            <CardTitle className="text-sm font-medium">Expiring Tomorrow</CardTitle>
             <Clock className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {tomorrowItems.length}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Zaplanuj strategie cenowe</p>
+            <div className="text-2xl font-bold">{tomorrowItems.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">Plan pricing strategies</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Potencjalna Strata</CardTitle>
+            <CardTitle className="text-sm font-medium">Potential Value Loss</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               PLN {expiringItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(0)}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Bez interwencji</p>
+            <p className="text-xs text-muted-foreground mt-1">Without intervention</p>
           </CardContent>
         </Card>
       </div>
@@ -205,23 +201,23 @@ export default function ZabkaExpiringItems() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle>Produkty Wymagające Uwagi</CardTitle>
+              <CardTitle>Items Requiring Attention</CardTitle>
               <CardDescription>
-                {selectedItems.length > 0 ? `${selectedItems.length} produktów wybranych` : 'Produkty zbliżające się do daty wygaśnięcia'}
+                {selectedItems.length > 0 ? `${selectedItems.length} items selected` : 'Products approaching expiration date'}
               </CardDescription>
             </div>
             <div className="flex gap-2">
               {selectedItems.length > 0 && (
                 <Button onClick={handleBulkDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
                   <Tag className="h-4 w-4 mr-2" />
-                  Zniżka Zbiorcza ({selectedItems.length})
+                  Apply Bulk Discount ({selectedItems.length})
                 </Button>
               )}
               <Button variant="outline" onClick={() => navigate('/zabka/donations')}>
-                Zaplanuj Darowiznę
+                Schedule Donation
               </Button>
               <Button variant="outline" onClick={() => navigate('/zabka/dynamic-pricing')}>
-                Dynamiczne Ceny
+                Dynamic Pricing
               </Button>
             </div>
           </div>
@@ -237,14 +233,14 @@ export default function ZabkaExpiringItems() {
                       onCheckedChange={toggleSelectAll}
                     />
                   </TableHead>
-                  <TableHead>Produkt</TableHead>
-                  <TableHead>Kategoria</TableHead>
-                  <TableHead className="text-right">Ilość</TableHead>
-                  <TableHead className="text-right">Cena</TableHead>
-                  <TableHead>Godziny</TableHead>
-                  <TableHead className="text-right">Potencjalna Strata</TableHead>
-                  <TableHead>Sugerowana Akcja</TableHead>
-                  <TableHead className="text-right">Akcje</TableHead>
+                  <TableHead>Product</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead className="text-right">Quantity</TableHead>
+                  <TableHead className="text-right">Price</TableHead>
+                  <TableHead>Hours Left</TableHead>
+                  <TableHead className="text-right">Potential Loss</TableHead>
+                  <TableHead>Suggested Action</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -267,7 +263,7 @@ export default function ZabkaExpiringItems() {
                       <TableCell className="text-right">PLN {item.price.toFixed(2)}</TableCell>
                       <TableCell>
                         <Badge variant={hoursLeft <= 8 ? "destructive" : "secondary"}>
-                          {hoursLeft <= 0 ? 'Teraz' : `${hoursLeft}h`}
+                          {hoursLeft <= 0 ? 'Now' : `${hoursLeft}h`}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right text-destructive font-medium">
@@ -275,18 +271,18 @@ export default function ZabkaExpiringItems() {
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="bg-primary/10">
-                          {discount}% zniżki
+                          {discount}% discount
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex gap-2 justify-end">
                           <Button size="sm" variant="outline" onClick={() => handleDonate(item)}>
                             <Truck className="h-3 w-3 mr-1" />
-                            Daruj
+                            Donate
                           </Button>
                           <Button size="sm" onClick={() => handleApplyDiscount(item)} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
                             <Tag className="h-3 w-3 mr-1" />
-                            Zniżka
+                            Discount
                           </Button>
                         </div>
                       </TableCell>
@@ -305,29 +301,29 @@ export default function ZabkaExpiringItems() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Tag className="h-5 w-5 text-[hsl(152,60%,35%)]" />
-              Konfiguruj Zniżkę ESL
+              Configure ESL Discount
             </DialogTitle>
             <DialogDescription>
-              Ustaw zniżkę, dostosuj wiadomość ESL i podgląd etykiety
+              Set discount, customize ESL message, and preview the label
             </DialogDescription>
           </DialogHeader>
           {selectedItem && (
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Szczegóły Produktu</Label>
+                <Label className="text-sm font-medium">Product Details</Label>
                 <div className="p-3 rounded-lg bg-muted">
                   <p className="font-semibold">{selectedItem.name}</p>
-                  <p className="text-sm text-muted-foreground">Aktualna Cena: PLN {selectedItem.price.toFixed(2)}</p>
-                  <p className="text-sm text-muted-foreground">Ilość: {selectedItem.quantity}</p>
+                  <p className="text-sm text-muted-foreground">Current Price: PLN {selectedItem.price.toFixed(2)}</p>
+                  <p className="text-sm text-muted-foreground">Quantity: {selectedItem.quantity}</p>
                   <p className="text-sm text-muted-foreground">
-                    Wygasa: {new Date(selectedItem.expiryDate).toLocaleString()}
+                    Expires: {new Date(selectedItem.expiryDate).toLocaleString()}
                   </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="discount">Procent Zniżki (%)</Label>
+                  <Label htmlFor="discount">Discount Percentage (%)</Label>
                   <Input
                     id="discount"
                     type="number"
@@ -335,11 +331,11 @@ export default function ZabkaExpiringItems() {
                     max="100"
                     value={discountPercentage}
                     onChange={(e) => setDiscountPercentage(e.target.value)}
-                    placeholder="Wprowadź zniżkę %"
+                    placeholder="Enter discount %"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Nowa Cena</Label>
+                  <Label>New Price</Label>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-[hsl(152,60%,95%)] border border-[hsl(152,60%,35%)]">
                     <span className="text-lg font-bold text-[hsl(152,60%,25%)]">
                       PLN {discountPercentage ? (selectedItem.price * (1 - parseFloat(discountPercentage) / 100)).toFixed(2) : selectedItem.price.toFixed(2)}
@@ -347,7 +343,7 @@ export default function ZabkaExpiringItems() {
                     {discountPercentage && (
                       <Badge variant="destructive" className="text-xs">
                         <Percent className="h-3 w-3 mr-1" />
-                        {discountPercentage}% TANIEJ
+                        {discountPercentage}% OFF
                       </Badge>
                     )}
                   </div>
@@ -355,17 +351,17 @@ export default function ZabkaExpiringItems() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="esl-message">Wiadomość Promocyjna ESL</Label>
+                <Label htmlFor="esl-message">ESL Promotional Message</Label>
                 <Textarea
                   id="esl-message"
                   value={eslMessage}
                   onChange={(e) => setEslMessage(e.target.value)}
-                  placeholder="Wprowadź wiadomość promocyjną dla wyświetlacza ESL"
+                  placeholder="Enter promotional message for ESL display"
                   rows={2}
                   maxLength={100}
                 />
                 <p className="text-xs text-muted-foreground">
-                  {eslMessage.length}/100 znaków
+                  {eslMessage.length}/100 characters
                 </p>
               </div>
 
@@ -375,14 +371,14 @@ export default function ZabkaExpiringItems() {
                 className="w-full"
               >
                 <Monitor className="h-4 w-4 mr-2" />
-                {showPreview ? "Ukryj" : "Pokaż"} Podgląd ESL
+                {showPreview ? "Hide" : "Show"} ESL Preview
               </Button>
 
               {showPreview && (
                 <div className="space-y-2">
                   <Label className="text-sm font-medium flex items-center gap-2">
                     <Monitor className="h-4 w-4" />
-                    Podgląd Wyświetlacza ESL
+                    ESL Display Preview
                   </Label>
                   <div className="border-2 border-muted rounded-lg p-6 bg-white text-black space-y-3">
                     <div className="flex justify-between items-start border-b-2 border-black pb-2">
@@ -396,7 +392,7 @@ export default function ZabkaExpiringItems() {
                       {discountPercentage && parseFloat(discountPercentage) > 0 && (
                         <div className="flex items-center gap-2">
                           <span className="text-sm line-through text-gray-500">PLN {selectedItem.price.toFixed(2)}</span>
-                          <Badge className="bg-red-600 text-white text-xs">{discountPercentage}% TANIEJ</Badge>
+                          <Badge className="bg-red-600 text-white text-xs">{discountPercentage}% OFF</Badge>
                         </div>
                       )}
                       <div className="flex items-baseline gap-1">
@@ -426,8 +422,8 @@ export default function ZabkaExpiringItems() {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDiscountDialogOpen(false)}>Anuluj</Button>
-            <Button onClick={confirmDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Zastosuj Zniżkę</Button>
+            <Button variant="outline" onClick={() => setDiscountDialogOpen(false)}>Cancel</Button>
+            <Button onClick={confirmDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Apply Discount</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -438,35 +434,35 @@ export default function ZabkaExpiringItems() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Truck className="h-5 w-5 text-[hsl(152,60%,35%)]" />
-              Zaplanuj Darowiznę
+              Schedule Donation
             </DialogTitle>
-            <DialogDescription>Przekaż produkty organizacji charytatywnej</DialogDescription>
+            <DialogDescription>Donate products to a charity organization</DialogDescription>
           </DialogHeader>
           {selectedItem && (
             <div className="grid gap-4 py-4">
               <div className="p-3 rounded-lg bg-muted">
                 <p className="font-semibold">{selectedItem.name}</p>
-                <p className="text-sm text-muted-foreground">Ilość: {selectedItem.quantity} sztuk</p>
-                <p className="text-sm text-muted-foreground">Wartość: PLN {(selectedItem.price * selectedItem.quantity).toFixed(2)}</p>
+                <p className="text-sm text-muted-foreground">Quantity: {selectedItem.quantity} units</p>
+                <p className="text-sm text-muted-foreground">Value: PLN {(selectedItem.price * selectedItem.quantity).toFixed(2)}</p>
               </div>
 
               <div className="space-y-2">
-                <Label>Organizacja</Label>
+                <Label>Organization</Label>
                 <Select value={donationOrg} onValueChange={setDonationOrg}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Wybierz organizację" />
+                    <SelectValue placeholder="Select organization" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="caritas">Caritas Polska</SelectItem>
-                    <SelectItem value="pck">Polski Czerwony Krzyż</SelectItem>
-                    <SelectItem value="banki-zywnosci">Banki Żywności</SelectItem>
-                    <SelectItem value="other">Inna organizacja</SelectItem>
+                    <SelectItem value="caritas">Caritas Poland</SelectItem>
+                    <SelectItem value="pck">Polish Red Cross</SelectItem>
+                    <SelectItem value="banki-zywnosci">Food Banks</SelectItem>
+                    <SelectItem value="other">Other organization</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="pickup-date">Data Odbioru</Label>
+                <Label htmlFor="pickup-date">Pickup Date</Label>
                 <Input
                   id="pickup-date"
                   type="date"
@@ -476,20 +472,20 @@ export default function ZabkaExpiringItems() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="notes">Uwagi</Label>
+                <Label htmlFor="notes">Notes</Label>
                 <Textarea
                   id="notes"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Dodatkowe informacje..."
+                  placeholder="Additional information..."
                   rows={3}
                 />
               </div>
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDonateDialogOpen(false)}>Anuluj</Button>
-            <Button onClick={confirmDonation} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Zaplanuj Darowiznę</Button>
+            <Button variant="outline" onClick={() => setDonateDialogOpen(false)}>Cancel</Button>
+            <Button onClick={confirmDonation} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Schedule Donation</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -498,19 +494,19 @@ export default function ZabkaExpiringItems() {
       <Dialog open={bulkDiscountDialogOpen} onOpenChange={setBulkDiscountDialogOpen}>
         <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Konfiguruj Zniżki Zbiorcze</DialogTitle>
-            <DialogDescription>Ustaw zniżki dla wybranych produktów</DialogDescription>
+            <DialogTitle>Configure Bulk Discounts</DialogTitle>
+            <DialogDescription>Set discounts for selected products</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Produkt</TableHead>
-                  <TableHead className="text-right">Aktualna Cena</TableHead>
-                  <TableHead>Zniżka %</TableHead>
-                  <TableHead className="text-right">Nowa Cena</TableHead>
-                  <TableHead>Wiadomość ESL</TableHead>
-                  <TableHead>Podgląd</TableHead>
+                  <TableHead>Product</TableHead>
+                  <TableHead className="text-right">Current Price</TableHead>
+                  <TableHead>Discount %</TableHead>
+                  <TableHead className="text-right">New Price</TableHead>
+                  <TableHead>ESL Message</TableHead>
+                  <TableHead>Preview</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -540,7 +536,7 @@ export default function ZabkaExpiringItems() {
                           value={config.eslMessage}
                           onChange={(e) => updateItemConfig(id, 'eslMessage', e.target.value)}
                           className="w-48"
-                          placeholder="Wiadomość..."
+                          placeholder="Message..."
                         />
                       </TableCell>
                       <TableCell>
@@ -556,19 +552,19 @@ export default function ZabkaExpiringItems() {
 
             {previewItemId && (
               <div className="border rounded-lg p-4">
-                <h4 className="font-medium mb-2">Podgląd ESL</h4>
+                <h4 className="font-medium mb-2">ESL Preview</h4>
                 {(() => {
                   const item = expiringItems.find(i => i.id === previewItemId);
                   const config = itemConfigs[previewItemId];
                   if (!item || !config) return null;
                   return (
                     <div className="border-2 border-muted rounded-lg p-4 bg-white text-black max-w-xs">
-                      <div className="text-xs font-semibold text-[hsl(152,60%,25%)] border-b pb-1 mb-2">ŻABKA</div>
+                      <div className="text-xs font-semibold text-[hsl(152,60%,25%)] border-b pb-1 mb-2">ZABKA</div>
                       <h3 className="font-bold">{item.name}</h3>
                       {config.discount && (
                         <div className="flex items-center gap-2 mt-1">
                           <span className="line-through text-gray-500">PLN {item.price.toFixed(2)}</span>
-                          <Badge className="bg-red-600 text-white text-xs">{config.discount}% TANIEJ</Badge>
+                          <Badge className="bg-red-600 text-white text-xs">{config.discount}% OFF</Badge>
                         </div>
                       )}
                       <div className="text-2xl font-bold text-red-600 mt-1">
@@ -586,8 +582,8 @@ export default function ZabkaExpiringItems() {
             )}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setBulkDiscountDialogOpen(false)}>Anuluj</Button>
-            <Button onClick={confirmBulkDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Zastosuj Wszystkie Zniżki</Button>
+            <Button variant="outline" onClick={() => setBulkDiscountDialogOpen(false)}>Cancel</Button>
+            <Button onClick={confirmBulkDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Apply All Discounts</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
