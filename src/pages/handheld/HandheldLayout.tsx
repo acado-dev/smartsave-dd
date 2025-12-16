@@ -24,7 +24,7 @@ export default function HandheldLayout() {
             <Cpu className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="font-semibold text-sm">DisplayData HHT</h1>
+            <h1 className="font-semibold text-sm">DD Hub</h1>
             <p className="text-xs text-primary-foreground/70">Store #127 - Milan Central</p>
           </div>
         </div>
