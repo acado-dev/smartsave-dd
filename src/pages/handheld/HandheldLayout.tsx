@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Home, Cpu, Battery, ClipboardList, Settings, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import ddLogo from "@/assets/displaydata-logo.png";
 
 const navItems = [
   { path: "/handheld", icon: Home, label: "Home" },
@@ -19,13 +20,11 @@ export default function HandheldLayout() {
     <div className="min-h-screen bg-background flex flex-col max-w-md mx-auto border-x border-border">
       {/* Status Bar */}
       <header className="sticky top-0 z-50 bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary-foreground/20 flex items-center justify-center">
-            <Cpu className="h-5 w-5" />
-          </div>
+        <div className="flex items-center gap-3">
+          <img src={ddLogo} alt="DD Hub" className="h-8 w-auto brightness-0 invert" />
           <div>
-            <h1 className="font-semibold text-sm">DD Hub</h1>
-            <p className="text-xs text-primary-foreground/70">Store #127 - Milan Central</p>
+            <h1 className="font-bold text-sm">DD Hub</h1>
+            <p className="text-[10px] text-primary-foreground/80 tracking-wide">One App. Total Store Control.</p>
           </div>
         </div>
         <button 
