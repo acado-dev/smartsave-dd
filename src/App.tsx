@@ -64,6 +64,14 @@ import SmartStorePricingOptimization from "./pages/smartstore/PricingOptimizatio
 import SmartStorePricingRules from "./pages/smartstore/PricingRules";
 import InfomilPresentation from "./pages/InfomilPresentation";
 import InfomilStrategicPresentation from "./pages/InfomilStrategicPresentation";
+import HandheldLayout from "./pages/handheld/HandheldLayout";
+import HandheldHome from "./pages/handheld/HandheldHome";
+import HandheldOperations from "./pages/handheld/HandheldOperations";
+import HandheldHealth from "./pages/handheld/HandheldHealth";
+import HandheldJobs from "./pages/handheld/HandheldJobs";
+import HandheldSettings from "./pages/handheld/HandheldSettings";
+import HandheldAlerts from "./pages/handheld/HandheldAlerts";
+import AssignESL from "./pages/handheld/operations/AssignESL";
 
 const queryClient = new QueryClient();
 
@@ -143,6 +151,17 @@ const App = () => (
           {/* Presentation Routes */}
           <Route path="/presentation/infomil" element={<InfomilPresentation />} />
           <Route path="/presentation/infomil-strategic" element={<InfomilStrategicPresentation />} />
+          
+          {/* Handheld HHT App Routes */}
+          <Route path="/handheld" element={<HandheldLayout />}>
+            <Route index element={<HandheldHome />} />
+            <Route path="operations" element={<HandheldOperations />} />
+            <Route path="operations/assign" element={<AssignESL />} />
+            <Route path="health" element={<HandheldHealth />} />
+            <Route path="jobs" element={<HandheldJobs />} />
+            <Route path="settings" element={<HandheldSettings />} />
+            <Route path="alerts" element={<HandheldAlerts />} />
+          </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
