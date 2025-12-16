@@ -45,9 +45,9 @@ const priorityActions = [
 ];
 
 const healthMetrics = [
-  { label: "Online", value: 2847, total: 2891, icon: Wifi, color: "text-green-500" },
-  { label: "Offline", value: 44, total: 2891, icon: WifiOff, color: "text-destructive" },
-  { label: "Low Battery", value: 67, total: 2891, icon: Battery, color: "text-amber-500" },
+  { label: "Online", value: 2847, total: 2891, icon: Wifi, color: "text-green-500", route: "/handheld/status/online" },
+  { label: "Offline", value: 44, total: 2891, icon: WifiOff, color: "text-destructive", route: "/handheld/status/offline" },
+  { label: "Low Battery", value: 67, total: 2891, icon: Battery, color: "text-amber-500", route: "/handheld/status/low-battery" },
 ];
 
 export default function HandheldHome() {
@@ -99,7 +99,7 @@ export default function HandheldHome() {
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-2">
         {healthMetrics.map((metric) => (
-          <Card key={metric.label} className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => navigate("/handheld/health")}>
+          <Card key={metric.label} className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => navigate(metric.route)}>
             <CardContent className="p-3 text-center">
               <metric.icon className={cn("h-5 w-5 mx-auto mb-1", metric.color)} />
               <p className="text-xl font-bold">{metric.value}</p>
