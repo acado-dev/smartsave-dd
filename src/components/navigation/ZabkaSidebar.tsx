@@ -38,7 +38,7 @@ export function ZabkaSidebar() {
           <img src={zabkaLogo} alt="Żabka" className="h-10 w-auto object-contain" />
           <div className="flex flex-col">
             <span className="text-xl font-bold text-white">Żabka</span>
-            <span className="text-xs text-[hsl(152,30%,70%)]">Convenience Management</span>
+            <span className="text-xs text-[hsl(152,30%,70%)]">Perishable Waste Management</span>
           </div>
         </div>
       </SidebarHeader>
