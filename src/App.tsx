@@ -72,6 +72,15 @@ import HandheldJobs from "./pages/handheld/HandheldJobs";
 import HandheldSettings from "./pages/handheld/HandheldSettings";
 import HandheldAlerts from "./pages/handheld/HandheldAlerts";
 import AssignESL from "./pages/handheld/operations/AssignESL";
+import UnassignESL from "./pages/handheld/operations/UnassignESL";
+import MultiAssignESL from "./pages/handheld/operations/MultiAssignESL";
+import ReplaceESL from "./pages/handheld/operations/ReplaceESL";
+import RefreshESL from "./pages/handheld/operations/RefreshESL";
+import FlashESL from "./pages/handheld/operations/FlashESL";
+import PageChangeESL from "./pages/handheld/operations/PageChangeESL";
+import InquireESL from "./pages/handheld/operations/InquireESL";
+import AddESL from "./pages/handheld/operations/AddESL";
+import DeleteESL from "./pages/handheld/operations/DeleteESL";
 import OnlineESLs from "./pages/handheld/status/OnlineESLs";
 import OfflineESLs from "./pages/handheld/status/OfflineESLs";
 import LowBatteryESLs from "./pages/handheld/status/LowBatteryESLs";
@@ -160,6 +169,15 @@ const App = () => (
             <Route index element={<HandheldHome />} />
             <Route path="operations" element={<HandheldOperations />} />
             <Route path="operations/assign" element={<AssignESL />} />
+            <Route path="operations/unassign" element={<UnassignESL />} />
+            <Route path="operations/multi-assign" element={<MultiAssignESL />} />
+            <Route path="operations/replace" element={<ReplaceESL />} />
+            <Route path="operations/refresh" element={<RefreshESL />} />
+            <Route path="operations/flash" element={<FlashESL />} />
+            <Route path="operations/page-change" element={<PageChangeESL />} />
+            <Route path="operations/inquire" element={<InquireESL />} />
+            <Route path="operations/add" element={<AddESL />} />
+            <Route path="operations/delete" element={<DeleteESL />} />
             <Route path="status/online" element={<OnlineESLs />} />
             <Route path="status/offline" element={<OfflineESLs />} />
             <Route path="status/low-battery" element={<LowBatteryESLs />} />
