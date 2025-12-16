@@ -21,7 +21,6 @@ export default function ZabkaPricingOptimization() {
   const [optimizationData, setOptimizationData] = useState<OptimizationData[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // Filter items that need attention (expiring soon or overstocked)
   const itemsNeedingAttention = zabkaInventory.filter(
     item => item.status === 'expiring-soon' || item.quantity > 50
   );
@@ -56,8 +55,8 @@ export default function ZabkaPricingOptimization() {
 
   const handleApplyStrategy = () => {
     toast({
-      title: "Strategia Cenowa Zastosowana",
-      description: `Dynamiczne ceny dla ${selectedItem.name} zostały wysłane do wszystkich etykiet ESL.`,
+      title: "Pricing Strategy Applied",
+      description: `Dynamic pricing for ${selectedItem.name} has been pushed to all ESL displays.`,
     });
     setDialogOpen(false);
   };
@@ -72,13 +71,13 @@ export default function ZabkaPricingOptimization() {
         <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
           <p className="font-semibold text-sm">{payload[0].payload.time}</p>
           <p className="text-sm text-muted-foreground mt-1">
-            Ilość: <span className="font-medium text-foreground">{payload[0].value} szt.</span>
+            Quantity: <span className="font-medium text-foreground">{payload[0].value} units</span>
           </p>
           <p className="text-sm text-muted-foreground">
-            Cena: <span className="font-medium text-[hsl(152,60%,35%)]">PLN {payload[1].value}</span>
+            Price: <span className="font-medium text-[hsl(152,60%,35%)]">PLN {payload[1].value}</span>
           </p>
           <p className="text-sm text-muted-foreground">
-            Zniżka: <span className="font-medium text-destructive">{payload[0].payload.discount}%</span>
+            Discount: <span className="font-medium text-destructive">{payload[0].payload.discount}%</span>
           </p>
         </div>
       );
@@ -90,14 +89,14 @@ export default function ZabkaPricingOptimization() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Optymalizacja Cen</h1>
+          <h1 className="text-3xl font-bold text-foreground">Pricing Optimization</h1>
           <p className="text-muted-foreground mt-1">
-            Rekomendacje cenowe AI do wyprzedaży zapasów w godzinach pracy sklepu
+            AI-powered hourly pricing recommendations to clear inventory during store hours
           </p>
         </div>
         <Button className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
           <Zap className="h-4 w-4 mr-2" />
-          Zastosuj Wszystkie Rekomendacje
+          Apply All Recommendations
         </Button>
       </div>
 
@@ -109,7 +108,7 @@ export default function ZabkaPricingOptimization() {
               <Package className="h-8 w-8 text-[hsl(152,60%,35%)]" />
               <div>
                 <p className="text-2xl font-bold">{itemsNeedingAttention.length}</p>
-                <p className="text-sm text-muted-foreground">Do Optymalizacji</p>
+                <p className="text-sm text-muted-foreground">Items to Optimize</p>
               </div>
             </div>
           </CardContent>
@@ -123,7 +122,7 @@ export default function ZabkaPricingOptimization() {
                 <p className="text-2xl font-bold">
                   {itemsNeedingAttention.reduce((sum, item) => sum + item.quantity, 0)}
                 </p>
-                <p className="text-sm text-muted-foreground">Sztuk Zagrożonych</p>
+                <p className="text-sm text-muted-foreground">Total Units at Risk</p>
               </div>
             </div>
           </CardContent>
@@ -134,8 +133,8 @@ export default function ZabkaPricingOptimization() {
             <div className="flex items-center gap-4">
               <Clock className="h-8 w-8 text-blue-500" />
               <div>
-                <p className="text-2xl font-bold">16h</p>
-                <p className="text-sm text-muted-foreground">Okno Optymalizacji</p>
+                <p className="text-2xl font-bold">16 hrs</p>
+                <p className="text-sm text-muted-foreground">Optimization Window</p>
               </div>
             </div>
           </CardContent>
@@ -149,7 +148,7 @@ export default function ZabkaPricingOptimization() {
                 <p className="text-2xl font-bold">
                   PLN {itemsNeedingAttention.reduce((sum, item) => sum + (item.price * item.quantity * 0.6), 0).toFixed(0)}
                 </p>
-                <p className="text-sm text-muted-foreground">Potencjalny Odzysk</p>
+                <p className="text-sm text-muted-foreground">Potential Recovery</p>
               </div>
             </div>
           </CardContent>
@@ -159,9 +158,9 @@ export default function ZabkaPricingOptimization() {
       {/* Items Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Produkty Wymagające Optymalizacji Cen</CardTitle>
+          <CardTitle>Items Requiring Price Optimization</CardTitle>
           <CardDescription>
-            Kliknij na produkt, aby zobaczyć strategię cenową i harmonogram wyprzedaży
+            Click on any item to see the hourly pricing strategy and inventory clearance timeline
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -169,13 +168,13 @@ export default function ZabkaPricingOptimization() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Produkt</TableHead>
-                  <TableHead>Kategoria</TableHead>
-                  <TableHead className="text-right">Ilość</TableHead>
-                  <TableHead className="text-right">Aktualna Cena</TableHead>
+                  <TableHead>Product</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead className="text-right">Current Quantity</TableHead>
+                  <TableHead className="text-right">Current Price</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Potencjalna Wartość</TableHead>
-                  <TableHead className="text-right">Akcje</TableHead>
+                  <TableHead className="text-right">Potential Value</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -187,7 +186,7 @@ export default function ZabkaPricingOptimization() {
                     <TableCell className="text-right">PLN {item.price.toFixed(2)}</TableCell>
                     <TableCell>
                       <Badge variant={item.status === 'expiring-soon' ? 'destructive' : 'secondary'}>
-                        {item.status === 'expiring-soon' ? 'Wygasa' : 'Nadmiar'}
+                        {item.status === 'expiring-soon' ? 'Expiring Soon' : 'Overstocked'}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right font-medium text-[hsl(152,60%,35%)]">
@@ -200,7 +199,7 @@ export default function ZabkaPricingOptimization() {
                         className="gap-1 bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]"
                       >
                         <Zap className="h-3 w-3" />
-                        Zobacz Strategię
+                        View Strategy
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -217,10 +216,10 @@ export default function ZabkaPricingOptimization() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-xl">
               <Zap className="h-5 w-5 text-[hsl(152,60%,35%)]" />
-              Strategia Optymalizacji Cen
+              Pricing Optimization Strategy
             </DialogTitle>
             <DialogDescription>
-              Godzinowe rekomendacje cenowe do wyprzedaży zapasów w godzinach pracy sklepu
+              Hourly pricing recommendations to clear inventory during store operating hours
             </DialogDescription>
           </DialogHeader>
 
@@ -231,19 +230,19 @@ export default function ZabkaPricingOptimization() {
                 <CardContent className="pt-6">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
-                      <p className="text-sm text-muted-foreground">Produkt</p>
+                      <p className="text-sm text-muted-foreground">Product</p>
                       <p className="font-semibold text-lg">{selectedItem.name}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Początkowa Ilość</p>
-                      <p className="font-semibold text-lg">{selectedItem.quantity} szt.</p>
+                      <p className="text-sm text-muted-foreground">Initial Quantity</p>
+                      <p className="font-semibold text-lg">{selectedItem.quantity} units</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Cena Początkowa</p>
+                      <p className="text-sm text-muted-foreground">Starting Price</p>
                       <p className="font-semibold text-lg">PLN {selectedItem.price.toFixed(2)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Prognozowany Przychód</p>
+                      <p className="text-sm text-muted-foreground">Projected Revenue</p>
                       <p className="font-semibold text-lg text-[hsl(152,60%,35%)]">
                         PLN {getTotalValue(optimizationData).toFixed(2)}
                       </p>
@@ -255,9 +254,9 @@ export default function ZabkaPricingOptimization() {
               {/* Graph */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-base">Oś Czasu Ilości i Ceny</CardTitle>
+                  <CardTitle className="text-base">Quantity & Price Timeline</CardTitle>
                   <CardDescription>
-                    Redukcja zapasów z dynamicznym dostosowaniem cen w ciągu dnia
+                    Real-time inventory reduction with dynamic pricing throughout the day
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -273,14 +272,14 @@ export default function ZabkaPricingOptimization() {
                         yAxisId="left"
                         stroke="hsl(var(--muted-foreground))"
                         style={{ fontSize: '12px' }}
-                        label={{ value: 'Ilość (szt.)', angle: -90, position: 'insideLeft' }}
+                        label={{ value: 'Quantity (units)', angle: -90, position: 'insideLeft' }}
                       />
                       <YAxis 
                         yAxisId="right" 
                         orientation="right"
                         stroke="hsl(152, 60%, 35%)"
                         style={{ fontSize: '12px' }}
-                        label={{ value: 'Cena (PLN)', angle: 90, position: 'insideRight' }}
+                        label={{ value: 'Price (PLN)', angle: 90, position: 'insideRight' }}
                       />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend />
@@ -289,7 +288,7 @@ export default function ZabkaPricingOptimization() {
                         yAxisId="left"
                         stroke="hsl(var(--destructive))" 
                         strokeDasharray="3 3"
-                        label="Cel: Wyprzedaż"
+                        label="Target: Clear Stock"
                       />
                       <Line 
                         yAxisId="left"
@@ -297,7 +296,7 @@ export default function ZabkaPricingOptimization() {
                         dataKey="quantity" 
                         stroke="hsl(var(--destructive))" 
                         strokeWidth={3}
-                        name="Pozostała Ilość"
+                        name="Remaining Quantity"
                         dot={{ fill: 'hsl(var(--destructive))', r: 5 }}
                       />
                       <Line 
@@ -306,7 +305,7 @@ export default function ZabkaPricingOptimization() {
                         dataKey="suggestedPrice" 
                         stroke="hsl(152, 60%, 35%)" 
                         strokeWidth={3}
-                        name="Sugerowana Cena"
+                        name="Suggested Price"
                         dot={{ fill: 'hsl(152, 60%, 35%)', r: 5 }}
                       />
                     </LineChart>
@@ -317,19 +316,19 @@ export default function ZabkaPricingOptimization() {
               {/* Pricing Schedule Table */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-base">Szczegółowy Harmonogram Cenowy</CardTitle>
-                  <CardDescription>Podział godzinowy rekomendowanych działań</CardDescription>
+                  <CardTitle className="text-base">Detailed Pricing Schedule</CardTitle>
+                  <CardDescription>Hour-by-hour breakdown of recommended actions</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="rounded-md border">
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Godzina</TableHead>
-                          <TableHead className="text-right">Docelowa Ilość</TableHead>
-                          <TableHead className="text-right">Sugerowana Cena</TableHead>
-                          <TableHead className="text-right">Zniżka</TableHead>
-                          <TableHead className="text-right">Przychód w Przedziale</TableHead>
+                          <TableHead>Time</TableHead>
+                          <TableHead className="text-right">Target Quantity</TableHead>
+                          <TableHead className="text-right">Suggested Price</TableHead>
+                          <TableHead className="text-right">Discount</TableHead>
+                          <TableHead className="text-right">Interval Revenue</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -341,7 +340,7 @@ export default function ZabkaPricingOptimization() {
                           return (
                             <TableRow key={data.time}>
                               <TableCell className="font-medium">{data.time}</TableCell>
-                              <TableCell className="text-right">{data.quantity} szt.</TableCell>
+                              <TableCell className="text-right">{data.quantity} units</TableCell>
                               <TableCell className="text-right font-medium text-[hsl(152,60%,35%)]">
                                 PLN {data.suggestedPrice}
                               </TableCell>
@@ -365,10 +364,10 @@ export default function ZabkaPricingOptimization() {
               {/* Action Buttons */}
               <div className="flex gap-3 justify-end">
                 <Button variant="outline" onClick={() => setDialogOpen(false)}>
-                  Zamknij
+                  Close
                 </Button>
                 <Button onClick={handleApplyStrategy} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
-                  Zastosuj Strategię do ESL
+                  Apply Pricing Strategy to ESL
                 </Button>
               </div>
             </div>
@@ -379,22 +378,22 @@ export default function ZabkaPricingOptimization() {
       {/* Summary Recommendations */}
       <Card>
         <CardHeader>
-          <CardTitle>Podsumowanie Strategii Cenowej</CardTitle>
-          <CardDescription>Kluczowe rekomendacje na dzisiaj</CardDescription>
+          <CardTitle>Pricing Strategy Summary</CardTitle>
+          <CardDescription>Key recommendations for today</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="p-4 bg-[hsl(152,60%,95%)] dark:bg-[hsl(152,60%,10%)] rounded-lg">
-            <p className="font-medium text-[hsl(152,60%,25%)]">Wieczorne Okno Rabatowe</p>
+            <p className="font-medium text-[hsl(152,60%,25%)]">Evening Discount Window</p>
             <p className="text-sm text-muted-foreground mt-1">
-              Zastosuj 25-40% zniżki na gorące dania od 18:00. Dane historyczne pokazują 78% wskaźnik wyprzedaży 
-              przy tym harmonogramie.
+              Apply 25-40% discounts to hot food items starting at 18:00. Historical data shows 78% clearance rate 
+              with this timing.
             </p>
           </div>
           <div className="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-            <p className="font-medium text-blue-700">Błyskawiczna Wyprzedaż Pieczywa</p>
+            <p className="font-medium text-blue-700">Bakery Flash Sale</p>
             <p className="text-sm text-muted-foreground mt-1">
-              Rekomendujemy 50% zniżki na produkty piekarnicze o 20:00. Ten czas przyciąga wieczornych klientów 
-              i osiąga prawie całkowitą wyprzedaż.
+              Recommend 50% off bakery items at 20:00. This timing captures evening shoppers and achieves 
+              near-complete clearance.
             </p>
           </div>
         </CardContent>
