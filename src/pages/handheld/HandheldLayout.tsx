@@ -21,7 +21,7 @@ export default function HandheldLayout() {
       {/* Status Bar */}
       <header className="sticky top-0 z-50 bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={ddHubLogo} alt="DD Hub" className="h-10 w-auto" />
+          <img src={ddHubLogo} alt="DD Hub" className="h-12 w-auto" />
           <p className="text-[10px] text-primary-foreground/80 tracking-wide">One App. Total Store Control.</p>
         </div>
         <button 
