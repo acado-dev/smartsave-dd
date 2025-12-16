@@ -1,7 +1,8 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Home, Cpu, Battery, ClipboardList, Settings, Bell, LayoutGrid } from "lucide-react";
+import { Home, Cpu, Battery, ClipboardList, Settings, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import ddHubLogo from "@/assets/ddhub-logo.png";
 
 const navItems = [
   { path: "/handheld", icon: Home, label: "Home" },
@@ -10,13 +11,6 @@ const navItems = [
   { path: "/handheld/jobs", icon: ClipboardList, label: "Jobs" },
   { path: "/handheld/settings", icon: Settings, label: "Settings" },
 ];
-
-// DD Hub Logo Icon Component
-const DDHubLogo = () => (
-  <div className="w-8 h-8 rounded-lg bg-primary-foreground flex items-center justify-center shadow-sm">
-    <span className="text-primary font-black text-xs tracking-tighter">DD</span>
-  </div>
-);
 
 export default function HandheldLayout() {
   const location = useLocation();
@@ -27,11 +21,8 @@ export default function HandheldLayout() {
       {/* Status Bar */}
       <header className="sticky top-0 z-50 bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <DDHubLogo />
-          <div>
-            <h1 className="font-bold text-sm">DD Hub</h1>
-            <p className="text-[10px] text-primary-foreground/80 tracking-wide">One App. Total Store Control.</p>
-          </div>
+          <img src={ddHubLogo} alt="DD Hub" className="h-10 w-auto brightness-0 invert" />
+          <p className="text-[10px] text-primary-foreground/80 tracking-wide">One App. Total Store Control.</p>
         </div>
         <button 
           onClick={() => navigate("/handheld/alerts")}
