@@ -155,6 +155,19 @@ const App = () => (
           <Route path="/management/details/algorithm-settings" element={<ManagementLayout><AlgorithmSettings /></ManagementLayout>} />
           <Route path="/management/details/rule-history" element={<ManagementLayout><RuleHistory /></ManagementLayout>} />
           
+          {/* Zabka Routes */}
+          <Route path="/zabka" element={<ZabkaLayout><ZabkaDashboard /></ZabkaLayout>} />
+          <Route path="/zabka/inventory" element={<ZabkaLayout><ZabkaInventory /></ZabkaLayout>} />
+          <Route path="/zabka/expiring-items" element={<ZabkaLayout><ZabkaExpiringItems /></ZabkaLayout>} />
+          <Route path="/zabka/waste-tracking" element={<ZabkaLayout><ZabkaWasteTracking /></ZabkaLayout>} />
+          <Route path="/zabka/donations" element={<ZabkaLayout><ZabkaDonations /></ZabkaLayout>} />
+          <Route path="/zabka/discounts" element={<ZabkaLayout><ZabkaDiscounts /></ZabkaLayout>} />
+          <Route path="/zabka/dynamic-pricing" element={<ZabkaLayout><ZabkaDynamicPricing /></ZabkaLayout>} />
+          <Route path="/zabka/low-salability" element={<ZabkaLayout><ZabkaLowSalability /></ZabkaLayout>} />
+          <Route path="/zabka/analytics" element={<ZabkaLayout><ZabkaAnalytics /></ZabkaLayout>} />
+          <Route path="/zabka/marketplace" element={<ZabkaLayout><ZabkaMarketplace /></ZabkaLayout>} />
+          <Route path="/zabka/pricing-optimization" element={<ZabkaLayout><ZabkaPricingOptimization /></ZabkaLayout>} />
+          
           {/* SmartStore Routes */}
           <Route path="/smartstore" element={<SmartStoreLayout><SmartStoreDashboard /></SmartStoreLayout>} />
           <Route path="/smartstore/inventory" element={<SmartStoreLayout><SmartStoreInventory /></SmartStoreLayout>} />
