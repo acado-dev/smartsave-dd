@@ -66,8 +66,8 @@ const notifications = [
     location: "Gdańsk",
     title: "High Waste Alert",
     message: "Bakery waste increased 45% this week. Apply 30% discount on items expiring within 24 hours.",
-    action: "Apply Discount",
-    actionPath: "/zabka/discounts",
+    action: "View Store",
+    actionPath: "/zabkagroup/stores",
     time: "10 min ago",
   },
   {
@@ -77,8 +77,8 @@ const notifications = [
     location: "Warsaw, Wola",
     title: "Expiring Items Action Required",
     message: "89 sandwiches expiring today. Recommend immediate 35% markdown.",
-    action: "View Items",
-    actionPath: "/zabka/expiring-items",
+    action: "View Store",
+    actionPath: "/zabkagroup/stores",
     time: "25 min ago",
   },
   {
@@ -89,7 +89,7 @@ const notifications = [
     title: "Donation Pickup Scheduled",
     message: "Banki Żywności pickup confirmed for 6:00 PM. Prepare 45kg of bakery items.",
     action: "View Details",
-    actionPath: "/zabka/donations",
+    actionPath: "/zabkagroup/notifications",
     time: "1 hour ago",
   },
   {
@@ -110,8 +110,8 @@ const notifications = [
     location: "Poznań",
     title: "Dynamic Pricing Recommendation",
     message: "Hot food counter showing slow movement. Apply time-based pricing for evening hours.",
-    action: "Configure Pricing",
-    actionPath: "/zabka/dynamic-pricing",
+    action: "View Performance",
+    actionPath: "/zabkagroup/performance",
     time: "3 hours ago",
   },
   {
@@ -246,7 +246,7 @@ export default function ZabkaGroupDashboard() {
           subtitle="Across all stores"
           trend={{ value: "15% less", positive: true }}
           icon={Trash2}
-          onClick={() => navigate('/zabka/waste-tracking')}
+          onClick={() => navigate('/zabkagroup/performance')}
         />
         <StatCard
           title="Items Expiring Today"
@@ -254,7 +254,7 @@ export default function ZabkaGroupDashboard() {
           subtitle="Requiring attention"
           trend={{ value: "12% more", positive: false }}
           icon={AlertTriangle}
-          onClick={() => navigate('/zabka/expiring-items')}
+          onClick={() => navigate('/zabkagroup/notifications')}
         />
         <StatCard
           title="Waste Prevented"
@@ -262,7 +262,7 @@ export default function ZabkaGroupDashboard() {
           subtitle="Through interventions"
           trend={{ value: "28% more", positive: true }}
           icon={Leaf}
-          onClick={() => navigate('/zabka/donations')}
+          onClick={() => navigate('/zabkagroup/performance')}
         />
         <StatCard
           title="Revenue Recovered"
@@ -270,7 +270,7 @@ export default function ZabkaGroupDashboard() {
           subtitle="From discounted items"
           trend={{ value: "18% more", positive: true }}
           icon={DollarSign}
-          onClick={() => navigate('/zabka/discounts')}
+          onClick={() => navigate('/zabkagroup/performance')}
         />
       </div>
 
