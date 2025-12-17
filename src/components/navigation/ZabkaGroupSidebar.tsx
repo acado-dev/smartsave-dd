@@ -1,4 +1,4 @@
-import { Building2, BarChart3, Bell, Store, Users, Settings } from "lucide-react";
+import { Building2, BarChart3, Bell, Store } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -57,23 +57,6 @@ export function ZabkaGroupSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-[hsl(152,30%,55%)]">Quick Links</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={() => navigate("/zabka")}
-                  tooltip="Single Store View"
-                  className="text-[hsl(152,20%,75%)] hover:bg-[hsl(152,50%,20%)] hover:text-white"
-                >
-                  <Users className="h-4 w-4" />
-                  <span>Store Operations</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );

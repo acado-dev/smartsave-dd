@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Store, MapPin, Search, ExternalLink, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Store, MapPin, Search, BarChart3, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const stores = [
@@ -255,18 +255,18 @@ export default function ZabkaGroupStoreManagement() {
                   <Button 
                     size="sm" 
                     className="flex-1 bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]"
-                    onClick={() => navigate('/zabka')}
+                    onClick={() => navigate('/zabkagroup/performance')}
                   >
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    Open Store
+                    <BarChart3 className="h-3 w-3 mr-1" />
+                    View Details
                   </Button>
                   <Button 
                     size="sm" 
                     variant="outline"
                     className="flex-1"
-                    onClick={() => navigate('/zabkagroup/performance')}
+                    onClick={() => navigate('/zabkagroup/notifications')}
                   >
-                    View Analytics
+                    View Alerts
                   </Button>
                 </div>
               </div>
