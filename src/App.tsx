@@ -15,7 +15,12 @@ import { ManagementLayout } from "./components/layouts/ManagementLayout";
 import { AdminLayout } from "./components/layouts/AdminLayout";
 import { SmartStoreLayout } from "./components/layouts/SmartStoreLayout";
 import { ZabkaLayout } from "./components/layouts/ZabkaLayout";
+import { ZabkaGroupLayout } from "./components/layouts/ZabkaGroupLayout";
 import ZabkaDashboard from "./pages/zabka/Dashboard";
+import ZabkaGroupDashboard from "./pages/zabkagroup/Dashboard";
+import ZabkaGroupStorePerformance from "./pages/zabkagroup/StorePerformance";
+import ZabkaGroupNotifications from "./pages/zabkagroup/Notifications";
+import ZabkaGroupStoreManagement from "./pages/zabkagroup/StoreManagement";
 import ZabkaInventory from "./pages/zabka/Inventory";
 import ZabkaExpiringItems from "./pages/zabka/ExpiringItems";
 import ZabkaWasteTracking from "./pages/zabka/WasteTracking";
@@ -167,6 +172,12 @@ const App = () => (
           <Route path="/zabka/analytics" element={<ZabkaLayout><ZabkaAnalytics /></ZabkaLayout>} />
           <Route path="/zabka/marketplace" element={<ZabkaLayout><ZabkaMarketplace /></ZabkaLayout>} />
           <Route path="/zabka/pricing-optimization" element={<ZabkaLayout><ZabkaPricingOptimization /></ZabkaLayout>} />
+          
+          {/* Zabka Group Routes */}
+          <Route path="/zabkagroup" element={<ZabkaGroupLayout><ZabkaGroupDashboard /></ZabkaGroupLayout>} />
+          <Route path="/zabkagroup/performance" element={<ZabkaGroupLayout><ZabkaGroupStorePerformance /></ZabkaGroupLayout>} />
+          <Route path="/zabkagroup/notifications" element={<ZabkaGroupLayout><ZabkaGroupNotifications /></ZabkaGroupLayout>} />
+          <Route path="/zabkagroup/stores" element={<ZabkaGroupLayout><ZabkaGroupStoreManagement /></ZabkaGroupLayout>} />
           
           {/* SmartStore Routes */}
           <Route path="/smartstore" element={<SmartStoreLayout><SmartStoreDashboard /></SmartStoreLayout>} />

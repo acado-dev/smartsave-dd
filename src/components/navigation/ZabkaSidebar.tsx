@@ -14,17 +14,17 @@ import {
 import zabkaLogo from "@/assets/zabka-logo-new.png";
 
 const menuItems = [
-  { title: "Group Dashboard", icon: Home, path: "/zabka", group: "group" },
-  { title: "Store Analytics", icon: BarChart3, path: "/zabka/analytics", group: "store" },
-  { title: "Inventory", icon: Package, path: "/zabka/inventory", group: "store" },
-  { title: "Expiring Items", icon: AlertTriangle, path: "/zabka/expiring-items", group: "store" },
-  { title: "Pricing Optimization", icon: Zap, path: "/zabka/pricing-optimization", group: "store" },
-  { title: "Waste Tracking", icon: Trash2, path: "/zabka/waste-tracking", group: "store" },
-  { title: "Donations", icon: Heart, path: "/zabka/donations", group: "store" },
-  { title: "Discounts", icon: Percent, path: "/zabka/discounts", group: "store" },
-  { title: "Dynamic Pricing", icon: DollarSign, path: "/zabka/dynamic-pricing", group: "store" },
-  { title: "Low Salability", icon: TrendingDown, path: "/zabka/low-salability", group: "store" },
-  { title: "Marketplace", icon: Store, path: "/zabka/marketplace", group: "store" },
+  { title: "Dashboard", icon: Home, path: "/zabka" },
+  { title: "Analytics", icon: BarChart3, path: "/zabka/analytics" },
+  { title: "Inventory", icon: Package, path: "/zabka/inventory" },
+  { title: "Expiring Items", icon: AlertTriangle, path: "/zabka/expiring-items" },
+  { title: "Pricing Optimization", icon: Zap, path: "/zabka/pricing-optimization" },
+  { title: "Waste Tracking", icon: Trash2, path: "/zabka/waste-tracking" },
+  { title: "Donations", icon: Heart, path: "/zabka/donations" },
+  { title: "Discounts", icon: Percent, path: "/zabka/discounts" },
+  { title: "Dynamic Pricing", icon: DollarSign, path: "/zabka/dynamic-pricing" },
+  { title: "Low Salability", icon: TrendingDown, path: "/zabka/low-salability" },
+  { title: "Marketplace", icon: Store, path: "/zabka/marketplace" },
 ];
 
 export function ZabkaSidebar() {
@@ -38,13 +38,13 @@ export function ZabkaSidebar() {
           <img src={zabkaLogo} alt="Żabka" className="h-10 w-auto object-contain" />
           <div className="flex flex-col">
             <span className="text-xl font-bold text-white">Żabka</span>
-            <span className="text-xs text-[hsl(152,30%,70%)]">Perishable Waste Management</span>
+            <span className="text-xs text-[hsl(152,30%,70%)]">Store #12847</span>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[hsl(152,30%,60%)]">Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[hsl(152,30%,60%)]">Store Operations</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
