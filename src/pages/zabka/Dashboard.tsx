@@ -379,10 +379,15 @@ export default function ZabkaDashboard() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base">Store Compliance Scores</CardTitle>
+              <CardDescription className="text-xs">Click to view store details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {storePerformance.slice(0, 4).map((store, idx) => (
-                <div key={idx} className="flex items-center justify-between">
+                <div 
+                  key={idx} 
+                  className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                  onClick={() => navigate(`/zabka/analytics?store=${store.store.replace('#', '')}`)}
+                >
                   <span className="text-sm font-medium">Store {store.store}</span>
                   <div className="flex items-center gap-2">
                     <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
@@ -397,6 +402,7 @@ export default function ZabkaDashboard() {
                     <span className={`text-sm font-medium ${store.compliance >= 90 ? 'text-[hsl(152,60%,35%)]' : store.compliance >= 80 ? 'text-yellow-500' : 'text-red-500'}`}>
                       {store.compliance}%
                     </span>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
                   </div>
                 </div>
               ))}
@@ -499,9 +505,17 @@ export default function ZabkaDashboard() {
                   <Button 
                     className="w-full mt-2 bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]" 
                     size="sm"
-                    onClick={() => navigate('/zabka/expiring-items')}
+                    onClick={() => navigate(`/zabka/expiring-items?store=${store.store.replace('#', '')}`)}
                   >
                     Take Action
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="w-full" 
+                    size="sm"
+                    onClick={() => navigate(`/zabka/analytics?store=${store.store.replace('#', '')}`)}
+                  >
+                    View Store Details
                   </Button>
                 </CardContent>
               </Card>

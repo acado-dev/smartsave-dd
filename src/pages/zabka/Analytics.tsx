@@ -1,9 +1,12 @@
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, TrendingUp, Download, Calendar } from "lucide-react";
+import { BarChart3, TrendingUp, Download, Calendar, Store as StoreIcon } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
+import { StoreSelector, getStoreName, getStoreLocation } from "@/components/zabka/StoreSelector";
 
 const revenueData = [
   { day: "Mon", revenue: 24500, target: 25000 },
@@ -34,14 +37,30 @@ const wasteReductionTrend = [
 ];
 
 export default function ZabkaAnalytics() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialStore = searchParams.get("store") || "12847";
+  const [selectedStore, setSelectedStore] = useState(initialStore);
+
+  const handleStoreChange = (storeId: string) => {
+    setSelectedStore(storeId);
+    setSearchParams({ store: storeId });
+  };
+
   return (
     <div className="p-6 space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Analytics</h1>
-          <p className="text-muted-foreground mt-1">Store performance and insights</p>
+          <div className="flex items-center gap-2 mb-1">
+            <StoreIcon className="h-6 w-6 text-[hsl(152,60%,35%)]" />
+            <h1 className="text-3xl font-bold text-foreground">{getStoreName(selectedStore)} Analytics</h1>
+          </div>
+          <p className="text-muted-foreground">{getStoreLocation(selectedStore)} • Store performance and insights</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-3">
+          <StoreSelector 
+            selectedStore={selectedStore} 
+            onStoreChange={handleStoreChange}
+          />
           <Button variant="outline">
             <Calendar className="h-4 w-4 mr-2" />
             Date Range

@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,15 +9,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertTriangle, Clock, DollarSign, Tag, Truck, Monitor, Percent } from "lucide-react";
+import { AlertTriangle, Clock, DollarSign, Tag, Truck, Monitor, Percent, Store as StoreIcon } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { zabkaInventory } from "@/data/zabkaInventory";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { StoreSelector, getStoreName, getStoreLocation } from "@/components/zabka/StoreSelector";
 
 export default function ZabkaExpiringItems() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialStore = searchParams.get("store") || "12847";
+  const [selectedStore, setSelectedStore] = useState(initialStore);
+  
   const expiringItems = zabkaInventory.filter(item => item.status === 'expiring-soon');
   
   const [discountDialogOpen, setDiscountDialogOpen] = useState(false);
@@ -31,6 +36,11 @@ export default function ZabkaExpiringItems() {
   const [bulkDiscountDialogOpen, setBulkDiscountDialogOpen] = useState(false);
   const [itemConfigs, setItemConfigs] = useState<Record<string, { discount: string; eslMessage: string }>>({});
   const [previewItemId, setPreviewItemId] = useState<string | null>(null);
+
+  const handleStoreChange = (storeId: string) => {
+    setSelectedStore(storeId);
+    setSearchParams({ store: storeId });
+  };
   
   const getHoursUntilExpiry = (expiryDate: string) => {
     const hours = Math.ceil((new Date(expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60));
@@ -153,9 +163,18 @@ export default function ZabkaExpiringItems() {
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Expiring Items</h1>
-        <p className="text-muted-foreground mt-1">Monitor and manage items approaching expiration</p>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <StoreIcon className="h-6 w-6 text-[hsl(152,60%,35%)]" />
+            <h1 className="text-3xl font-bold text-foreground">{getStoreName(selectedStore)} Expiring Items</h1>
+          </div>
+          <p className="text-muted-foreground">{getStoreLocation(selectedStore)} • Monitor items approaching expiration</p>
+        </div>
+        <StoreSelector 
+          selectedStore={selectedStore} 
+          onStoreChange={handleStoreChange}
+        />
       </div>
 
       {/* Summary Cards */}
