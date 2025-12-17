@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,17 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertTriangle, Clock, DollarSign, Tag, Truck, Monitor, Percent, Store as StoreIcon } from "lucide-react";
+import { AlertTriangle, Clock, DollarSign, Tag, Truck, Monitor, Percent } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { zabkaInventory } from "@/data/zabkaInventory";
 import { toast } from "@/hooks/use-toast";
-import { StoreSelector, getStoreName, getStoreLocation } from "@/components/zabka/StoreSelector";
 
 export default function ZabkaExpiringItems() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const initialStore = searchParams.get("store") || "12847";
-  const [selectedStore, setSelectedStore] = useState(initialStore);
   
   const expiringItems = zabkaInventory.filter(item => item.status === 'expiring-soon');
   
@@ -36,11 +32,6 @@ export default function ZabkaExpiringItems() {
   const [bulkDiscountDialogOpen, setBulkDiscountDialogOpen] = useState(false);
   const [itemConfigs, setItemConfigs] = useState<Record<string, { discount: string; eslMessage: string }>>({});
   const [previewItemId, setPreviewItemId] = useState<string | null>(null);
-
-  const handleStoreChange = (storeId: string) => {
-    setSelectedStore(storeId);
-    setSearchParams({ store: storeId });
-  };
   
   const getHoursUntilExpiry = (expiryDate: string) => {
     const hours = Math.ceil((new Date(expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60));
@@ -165,16 +156,9 @@ export default function ZabkaExpiringItems() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <StoreIcon className="h-6 w-6 text-[hsl(152,60%,35%)]" />
-            <h1 className="text-3xl font-bold text-foreground">{getStoreName(selectedStore)} Expiring Items</h1>
-          </div>
-          <p className="text-muted-foreground">{getStoreLocation(selectedStore)} • Monitor items approaching expiration</p>
+          <h1 className="text-3xl font-bold text-foreground">Expiring Items</h1>
+          <p className="text-muted-foreground mt-1">Store #12847 • Warsaw, Mokotów • Monitor items approaching expiration</p>
         </div>
-        <StoreSelector 
-          selectedStore={selectedStore} 
-          onStoreChange={handleStoreChange}
-        />
       </div>
 
       {/* Summary Cards */}
@@ -411,29 +395,24 @@ export default function ZabkaExpiringItems() {
                       {discountPercentage && parseFloat(discountPercentage) > 0 && (
                         <div className="flex items-center gap-2">
                           <span className="text-sm line-through text-gray-500">PLN {selectedItem.price.toFixed(2)}</span>
-                          <Badge className="bg-red-600 text-white text-xs">{discountPercentage}% OFF</Badge>
+                          <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded font-bold">
+                            -{discountPercentage}%
+                          </span>
                         </div>
                       )}
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-4xl font-bold text-red-600">
-                          PLN {discountPercentage ? (selectedItem.price * (1 - parseFloat(discountPercentage) / 100)).toFixed(2) : selectedItem.price.toFixed(2)}
-                        </span>
+                      <div className="text-3xl font-black">
+                        PLN {discountPercentage ? (selectedItem.price * (1 - parseFloat(discountPercentage) / 100)).toFixed(2) : selectedItem.price.toFixed(2)}
                       </div>
                     </div>
 
                     {eslMessage && (
-                      <div className="bg-yellow-100 border border-yellow-400 rounded p-2">
-                        <p className="text-sm font-bold text-center text-yellow-800">{eslMessage}</p>
+                      <div className="bg-yellow-300 text-black text-center py-2 px-3 font-bold text-sm rounded">
+                        {eslMessage}
                       </div>
                     )}
 
-                    <div className="border-t border-gray-300 pt-2">
-                      <div className="flex gap-[2px] h-8 items-end">
-                        {Array.from({ length: 30 }).map((_, i) => (
-                          <div key={i} className="flex-1 bg-black" style={{ height: `${Math.random() * 60 + 40}%` }} />
-                        ))}
-                      </div>
-                      <div className="text-center text-xs font-mono mt-1">{selectedItem.sku}</div>
+                    <div className="border-t border-gray-300 pt-2 text-center">
+                      <div className="text-xs text-gray-600 font-mono">{selectedItem.sku}</div>
                     </div>
                   </div>
                 </div>
@@ -441,8 +420,12 @@ export default function ZabkaExpiringItems() {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDiscountDialogOpen(false)}>Cancel</Button>
-            <Button onClick={confirmDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Apply Discount</Button>
+            <Button variant="outline" onClick={() => setDiscountDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
+              Apply Discount & Update ESL
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -455,154 +438,182 @@ export default function ZabkaExpiringItems() {
               <Truck className="h-5 w-5 text-[hsl(152,60%,35%)]" />
               Schedule Donation
             </DialogTitle>
-            <DialogDescription>Donate products to a charity organization</DialogDescription>
+            <DialogDescription>
+              Arrange donation pickup for expiring items
+            </DialogDescription>
           </DialogHeader>
           {selectedItem && (
             <div className="grid gap-4 py-4">
               <div className="p-3 rounded-lg bg-muted">
                 <p className="font-semibold">{selectedItem.name}</p>
-                <p className="text-sm text-muted-foreground">Quantity: {selectedItem.quantity} units</p>
-                <p className="text-sm text-muted-foreground">Value: PLN {(selectedItem.price * selectedItem.quantity).toFixed(2)}</p>
+                <p className="text-sm text-muted-foreground">Quantity: {selectedItem.quantity}</p>
               </div>
 
               <div className="space-y-2">
-                <Label>Organization</Label>
+                <Label htmlFor="org">Donation Organization</Label>
                 <Select value={donationOrg} onValueChange={setDonationOrg}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select organization" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="caritas">Caritas Poland</SelectItem>
-                    <SelectItem value="pck">Polish Red Cross</SelectItem>
-                    <SelectItem value="banki-zywnosci">Food Banks</SelectItem>
-                    <SelectItem value="other">Other organization</SelectItem>
+                  <SelectContent className="bg-background">
+                    <SelectItem value="banki-zywnosci">Banki Żywności</SelectItem>
+                    <SelectItem value="caritas">Caritas Polska</SelectItem>
+                    <SelectItem value="pck">Polski Czerwony Krzyż</SelectItem>
+                    <SelectItem value="foodsharing">Foodsharing Polska</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="pickup-date">Pickup Date</Label>
+                <Label htmlFor="pickup">Pickup Date & Time</Label>
                 <Input
-                  id="pickup-date"
-                  type="date"
+                  id="pickup"
+                  type="datetime-local"
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="notes">Notes</Label>
+                <Label htmlFor="notes">Additional Notes</Label>
                 <Textarea
                   id="notes"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Additional information..."
+                  placeholder="Any special instructions..."
                   rows={3}
                 />
               </div>
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDonateDialogOpen(false)}>Cancel</Button>
-            <Button onClick={confirmDonation} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Schedule Donation</Button>
+            <Button variant="outline" onClick={() => setDonateDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmDonation} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
+              Schedule Donation
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       {/* Bulk Discount Dialog */}
       <Dialog open={bulkDiscountDialogOpen} onOpenChange={setBulkDiscountDialogOpen}>
-        <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Configure Bulk Discounts</DialogTitle>
-            <DialogDescription>Set discounts for selected products</DialogDescription>
+            <DialogTitle className="flex items-center gap-2">
+              <Tag className="h-5 w-5 text-[hsl(152,60%,35%)]" />
+              Configure Bulk ESL Discounts
+            </DialogTitle>
+            <DialogDescription>
+              Set individual discounts and ESL messages for each selected item
+            </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead className="text-right">Current Price</TableHead>
-                  <TableHead>Discount %</TableHead>
-                  <TableHead className="text-right">New Price</TableHead>
-                  <TableHead>ESL Message</TableHead>
-                  <TableHead>Preview</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {selectedItems.map(id => {
-                  const item = expiringItems.find(i => i.id === id);
-                  if (!item) return null;
-                  const config = itemConfigs[id] || { discount: '', eslMessage: '' };
-                  const newPrice = config.discount ? (item.price * (1 - parseFloat(config.discount) / 100)).toFixed(2) : item.price.toFixed(2);
-                  
-                  return (
-                    <TableRow key={id}>
-                      <TableCell className="font-medium">{item.name}</TableCell>
-                      <TableCell className="text-right">PLN {item.price.toFixed(2)}</TableCell>
-                      <TableCell>
-                        <Input
-                          type="number"
-                          min="0"
-                          max="100"
-                          value={config.discount}
-                          onChange={(e) => updateItemConfig(id, 'discount', e.target.value)}
-                          className="w-20"
-                        />
-                      </TableCell>
-                      <TableCell className="text-right font-bold text-[hsl(152,60%,25%)]">PLN {newPrice}</TableCell>
-                      <TableCell>
-                        <Input
-                          value={config.eslMessage}
-                          onChange={(e) => updateItemConfig(id, 'eslMessage', e.target.value)}
-                          className="w-48"
-                          placeholder="Message..."
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Button size="sm" variant="ghost" onClick={() => setPreviewItemId(previewItemId === id ? null : id)}>
-                          <Monitor className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-
-            {previewItemId && (
-              <div className="border rounded-lg p-4">
-                <h4 className="font-medium mb-2">ESL Preview</h4>
-                {(() => {
-                  const item = expiringItems.find(i => i.id === previewItemId);
-                  const config = itemConfigs[previewItemId];
-                  if (!item || !config) return null;
-                  return (
-                    <div className="border-2 border-muted rounded-lg p-4 bg-white text-black max-w-xs">
-                      <div className="text-xs font-semibold text-[hsl(152,60%,25%)] border-b pb-1 mb-2">ZABKA</div>
-                      <h3 className="font-bold">{item.name}</h3>
-                      {config.discount && (
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="line-through text-gray-500">PLN {item.price.toFixed(2)}</span>
-                          <Badge className="bg-red-600 text-white text-xs">{config.discount}% OFF</Badge>
-                        </div>
-                      )}
-                      <div className="text-2xl font-bold text-red-600 mt-1">
-                        PLN {(item.price * (1 - parseFloat(config.discount || '0') / 100)).toFixed(2)}
-                      </div>
-                      {config.eslMessage && (
-                        <div className="bg-yellow-100 border border-yellow-400 rounded p-1 mt-2">
-                          <p className="text-xs font-bold text-center text-yellow-800">{config.eslMessage}</p>
-                        </div>
-                      )}
+          
+          <div className="space-y-4 py-4">
+            <div className="rounded-md border max-h-[400px] overflow-y-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Product</TableHead>
+                    <TableHead className="text-right">Current Price</TableHead>
+                    <TableHead className="w-24">Discount %</TableHead>
+                    <TableHead className="text-right">New Price</TableHead>
+                    <TableHead>ESL Message</TableHead>
+                    <TableHead className="w-20">Preview</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {selectedItems.map(id => {
+                    const item = expiringItems.find(i => i.id === id);
+                    if (!item) return null;
+                    const config = itemConfigs[id] || { discount: '', eslMessage: '' };
+                    const newPrice = config.discount 
+                      ? (item.price * (1 - parseFloat(config.discount) / 100)).toFixed(2)
+                      : item.price.toFixed(2);
+                    
+                    return (
+                      <TableRow key={id}>
+                        <TableCell className="font-medium">{item.name}</TableCell>
+                        <TableCell className="text-right">PLN {item.price.toFixed(2)}</TableCell>
+                        <TableCell>
+                          <Input
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={config.discount}
+                            onChange={(e) => updateItemConfig(id, 'discount', e.target.value)}
+                            className="w-20"
+                          />
+                        </TableCell>
+                        <TableCell className="text-right font-bold text-[hsl(152,60%,35%)]">
+                          PLN {newPrice}
+                        </TableCell>
+                        <TableCell>
+                          <Input
+                            value={config.eslMessage}
+                            onChange={(e) => updateItemConfig(id, 'eslMessage', e.target.value)}
+                            placeholder="ESL message"
+                            className="min-w-[200px]"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => setPreviewItemId(previewItemId === id ? null : id)}
+                          >
+                            <Monitor className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+            
+            {previewItemId && (() => {
+              const item = expiringItems.find(i => i.id === previewItemId);
+              const config = itemConfigs[previewItemId];
+              if (!item || !config) return null;
+              
+              return (
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">ESL Preview: {item.name}</Label>
+                  <div className="border-2 border-muted rounded-lg p-4 bg-white text-black max-w-sm mx-auto">
+                    <div className="border-b border-gray-300 pb-2 mb-2">
+                      <h3 className="font-bold text-sm">{item.name}</h3>
                     </div>
-                  );
-                })()}
-              </div>
-            )}
+                    {config.discount && parseFloat(config.discount) > 0 && (
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs line-through text-gray-500">PLN {item.price.toFixed(2)}</span>
+                        <span className="bg-red-600 text-white text-xs px-1 py-0.5 rounded font-bold">
+                          -{config.discount}%
+                        </span>
+                      </div>
+                    )}
+                    <div className="text-2xl font-black">
+                      PLN {config.discount ? (item.price * (1 - parseFloat(config.discount) / 100)).toFixed(2) : item.price.toFixed(2)}
+                    </div>
+                    {config.eslMessage && (
+                      <div className="bg-yellow-300 text-black text-center py-1 px-2 font-bold text-xs rounded mt-2">
+                        {config.eslMessage}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
+          
           <DialogFooter>
-            <Button variant="outline" onClick={() => setBulkDiscountDialogOpen(false)}>Cancel</Button>
-            <Button onClick={confirmBulkDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">Apply All Discounts</Button>
+            <Button variant="outline" onClick={() => setBulkDiscountDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmBulkDiscount} className="bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
+              Apply All Discounts & Update ESL
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

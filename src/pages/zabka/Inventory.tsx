@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,23 +6,14 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Filter, Download, Plus, Wifi, Battery, Clock, Monitor, Package, Store as StoreIcon } from "lucide-react";
+import { Search, Filter, Download, Plus, Wifi, Battery, Clock, Monitor, Package } from "lucide-react";
 import { zabkaInventory, zabkaCategories, type ZabkaProduct } from "@/data/zabkaInventory";
-import { StoreSelector, getStoreName, getStoreLocation } from "@/components/zabka/StoreSelector";
 
 export default function ZabkaInventory() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const initialStore = searchParams.get("store") || "12847";
-  const [selectedStore, setSelectedStore] = useState(initialStore);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [selectedItem, setSelectedItem] = useState<ZabkaProduct | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  const handleStoreChange = (storeId: string) => {
-    setSelectedStore(storeId);
-    setSearchParams({ store: storeId });
-  };
 
   const handleViewItem = (item: ZabkaProduct) => {
     setSelectedItem(item);
@@ -96,17 +86,10 @@ export default function ZabkaInventory() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <StoreIcon className="h-6 w-6 text-[hsl(152,60%,35%)]" />
-            <h1 className="text-3xl font-bold text-foreground">{getStoreName(selectedStore)} Inventory</h1>
-          </div>
-          <p className="text-muted-foreground">{getStoreLocation(selectedStore)} • Track and manage store inventory</p>
+          <h1 className="text-3xl font-bold text-foreground">Inventory Management</h1>
+          <p className="text-muted-foreground mt-1">Store #12847 • Warsaw, Mokotów • Track and manage inventory</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <StoreSelector 
-            selectedStore={selectedStore} 
-            onStoreChange={handleStoreChange}
-          />
           <Button variant="outline" onClick={exportToCSV}>
             <Download className="h-4 w-4 mr-2" />
             Export CSV
@@ -206,7 +189,7 @@ export default function ZabkaInventory() {
                 <Filter className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-background">
                 <SelectItem value="all">All Categories</SelectItem>
                 {zabkaCategories.map((cat) => (
                   <SelectItem key={cat.id} value={cat.name}>{cat.name}</SelectItem>
@@ -379,25 +362,29 @@ export default function ZabkaInventory() {
 
                   {/* Barcode Simulation */}
                   <div className="border-t border-gray-300 pt-2">
-                    <div className="flex gap-[2px] h-12 items-end">
+                    <div className="flex gap-0.5">
                       {Array.from({ length: 30 }).map((_, i) => (
                         <div
                           key={i}
-                          className="flex-1 bg-black"
-                          style={{ height: `${Math.random() * 60 + 40}%` }}
+                          className="bg-black"
+                          style={{
+                            width: Math.random() > 0.5 ? '2px' : '1px',
+                            height: '24px'
+                          }}
                         />
                       ))}
                     </div>
-                    <div className="text-center text-xs font-mono mt-1">
-                      {selectedItem.sku}
-                    </div>
+                    <div className="text-xs text-center mt-1 font-mono">{selectedItem.sku}</div>
                   </div>
+                </div>
 
-                  {/* Additional Info */}
-                  <div className="flex justify-between text-xs text-gray-600 mt-2">
-                    <span>Exp: {new Date(selectedItem.expiryDate).toLocaleDateString()}</span>
-                    <span>Fresh: {selectedItem.freshnessScore}%</span>
-                  </div>
+                <div className="mt-4 flex gap-2">
+                  <Button className="flex-1 bg-[hsl(152,60%,25%)] hover:bg-[hsl(152,60%,30%)]">
+                    Refresh ESL
+                  </Button>
+                  <Button variant="outline" className="flex-1">
+                    Edit Label
+                  </Button>
                 </div>
               </div>
             </div>
