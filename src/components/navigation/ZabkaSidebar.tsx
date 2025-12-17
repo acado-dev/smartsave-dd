@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import zabkaLogo from "@/assets/zabka-logo.png";
+import zabkaLogo from "@/assets/zabka-logo-new.png";
 
 const menuItems = [
   { title: "Dashboard", icon: Home, path: "/zabka" },
