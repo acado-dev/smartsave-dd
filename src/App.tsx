@@ -101,6 +101,14 @@ import DeleteESL from "./pages/handheld/operations/DeleteESL";
 import OnlineESLs from "./pages/handheld/status/OnlineESLs";
 import OfflineESLs from "./pages/handheld/status/OfflineESLs";
 import LowBatteryESLs from "./pages/handheld/status/LowBatteryESLs";
+import HHTLightLayout from "./pages/hhtlight/HHTLightLayout";
+import HHTLightDashboard from "./pages/hhtlight/HHTLightDashboard";
+import HHTLightOperations from "./pages/hhtlight/HHTLightOperations";
+import HHTLightSettings from "./pages/hhtlight/HHTLightSettings";
+import HHTLightBatteryCritical from "./pages/hhtlight/HHTLightBatteryCritical";
+import HHTLightUpdateFailures from "./pages/hhtlight/HHTLightUpdateFailures";
+import HHTLightAPStatus from "./pages/hhtlight/HHTLightAPStatus";
+import HHTLightOvernightStatus from "./pages/hhtlight/HHTLightOvernightStatus";
 
 const queryClient = new QueryClient();
 
@@ -221,6 +229,17 @@ const App = () => (
             <Route path="jobs" element={<HandheldJobs />} />
             <Route path="settings" element={<HandheldSettings />} />
             <Route path="alerts" element={<HandheldAlerts />} />
+          </Route>
+          
+          {/* HHT Light App Routes */}
+          <Route path="/HHTLight" element={<HHTLightLayout />}>
+            <Route index element={<HHTLightDashboard />} />
+            <Route path="operations" element={<HHTLightOperations />} />
+            <Route path="settings" element={<HHTLightSettings />} />
+            <Route path="battery-critical" element={<HHTLightBatteryCritical />} />
+            <Route path="update-failures" element={<HHTLightUpdateFailures />} />
+            <Route path="ap-status" element={<HHTLightAPStatus />} />
+            <Route path="overnight-status" element={<HHTLightOvernightStatus />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
