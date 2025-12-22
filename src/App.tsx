@@ -246,6 +246,17 @@ const App = () => (
           <Route path="/HHTLight" element={<HHTLightLayout />}>
             <Route index element={<HHTLightDashboard />} />
             <Route path="operations" element={<HHTLightOperations />} />
+            <Route path="operations/assign" element={<HHTLightAssignESL />} />
+            <Route path="operations/unassign" element={<HHTLightUnassignESL />} />
+            <Route path="operations/multi-assign" element={<HHTLightMultiAssignESL />} />
+            <Route path="operations/replace" element={<HHTLightReplaceESL />} />
+            <Route path="operations/refresh" element={<HHTLightRefreshESL />} />
+            <Route path="operations/flash" element={<HHTLightFlashESL />} />
+            <Route path="operations/page-change" element={<HHTLightPageChangeESL />} />
+            <Route path="operations/inquire" element={<HHTLightInquireESL />} />
+            <Route path="operations/add" element={<HHTLightAddESL />} />
+            <Route path="operations/delete" element={<HHTLightDeleteESL />} />
+            <Route path="alerts" element={<HHTLightAlerts />} />
             <Route path="settings" element={<HHTLightSettings />} />
             <Route path="battery-critical" element={<HHTLightBatteryCritical />} />
             <Route path="update-failures" element={<HHTLightUpdateFailures />} />
