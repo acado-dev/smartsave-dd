@@ -77,27 +77,64 @@ const priorityActions = [
   }
 ];
 
+// Label status data
+const labelStatus = {
+  online: 1789,
+  offline: 44,
+  lowBattery: 67,
+  updating: 12
+};
+
 export default function HHTLightDashboard() {
   const navigate = useNavigate();
 
   return (
     <div className="p-4 space-y-4">
-      {/* Store Header */}
+      {/* Store Header with Label Stats */}
       <Card className="bg-gradient-to-br from-primary/10 via-background to-background border-primary/20">
         <CardContent className="pt-4">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-bold">{storeInfo.name}</h2>
-              <p className="text-sm text-muted-foreground">{storeInfo.location}</p>
-            </div>
-            <div className="text-right">
               <p className="text-2xl font-bold text-primary">{storeInfo.totalLabels}</p>
               <p className="text-xs text-muted-foreground">Total Labels</p>
             </div>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <RefreshCw className="h-3 w-3" />
+              <span>Sync: {storeInfo.lastSync}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <RefreshCw className="h-3 w-3" />
-            <span>Last sync: {storeInfo.lastSync}</span>
+          
+          {/* Label Status Grid */}
+          <div className="grid grid-cols-4 gap-2">
+            <div 
+              className="p-2 bg-green-500/10 rounded-lg text-center cursor-pointer hover:bg-green-500/20 transition-colors"
+              onClick={() => navigate("/HHTLight/status/online")}
+            >
+              <Wifi className="h-4 w-4 text-green-500 mx-auto mb-1" />
+              <p className="text-sm font-bold text-green-600">{labelStatus.online}</p>
+              <p className="text-[10px] text-muted-foreground">Online</p>
+            </div>
+            <div 
+              className="p-2 bg-destructive/10 rounded-lg text-center cursor-pointer hover:bg-destructive/20 transition-colors"
+              onClick={() => navigate("/HHTLight/status/offline")}
+            >
+              <WifiOff className="h-4 w-4 text-destructive mx-auto mb-1" />
+              <p className="text-sm font-bold text-destructive">{labelStatus.offline}</p>
+              <p className="text-[10px] text-muted-foreground">Offline</p>
+            </div>
+            <div 
+              className="p-2 bg-amber-500/10 rounded-lg text-center cursor-pointer hover:bg-amber-500/20 transition-colors"
+              onClick={() => navigate("/HHTLight/battery-critical")}
+            >
+              <Battery className="h-4 w-4 text-amber-500 mx-auto mb-1" />
+              <p className="text-sm font-bold text-amber-600">{labelStatus.lowBattery}</p>
+              <p className="text-[10px] text-muted-foreground">Low Batt</p>
+            </div>
+            <div className="p-2 bg-primary/10 rounded-lg text-center">
+              <RefreshCw className="h-4 w-4 text-primary mx-auto mb-1" />
+              <p className="text-sm font-bold text-primary">{labelStatus.updating}</p>
+              <p className="text-[10px] text-muted-foreground">Updating</p>
+            </div>
           </div>
         </CardContent>
       </Card>
