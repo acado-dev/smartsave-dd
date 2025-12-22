@@ -109,6 +109,17 @@ import HHTLightBatteryCritical from "./pages/hhtlight/HHTLightBatteryCritical";
 import HHTLightUpdateFailures from "./pages/hhtlight/HHTLightUpdateFailures";
 import HHTLightAPStatus from "./pages/hhtlight/HHTLightAPStatus";
 import HHTLightOvernightStatus from "./pages/hhtlight/HHTLightOvernightStatus";
+import HHTLightAlerts from "./pages/hhtlight/HHTLightAlerts";
+import HHTLightAssignESL from "./pages/hhtlight/operations/HHTLightAssignESL";
+import HHTLightUnassignESL from "./pages/hhtlight/operations/HHTLightUnassignESL";
+import HHTLightMultiAssignESL from "./pages/hhtlight/operations/HHTLightMultiAssignESL";
+import HHTLightReplaceESL from "./pages/hhtlight/operations/HHTLightReplaceESL";
+import HHTLightRefreshESL from "./pages/hhtlight/operations/HHTLightRefreshESL";
+import HHTLightFlashESL from "./pages/hhtlight/operations/HHTLightFlashESL";
+import HHTLightPageChangeESL from "./pages/hhtlight/operations/HHTLightPageChangeESL";
+import HHTLightInquireESL from "./pages/hhtlight/operations/HHTLightInquireESL";
+import HHTLightAddESL from "./pages/hhtlight/operations/HHTLightAddESL";
+import HHTLightDeleteESL from "./pages/hhtlight/operations/HHTLightDeleteESL";
 
 const queryClient = new QueryClient();
 
