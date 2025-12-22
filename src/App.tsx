@@ -120,6 +120,8 @@ import HHTLightPageChangeESL from "./pages/hhtlight/operations/HHTLightPageChang
 import HHTLightInquireESL from "./pages/hhtlight/operations/HHTLightInquireESL";
 import HHTLightAddESL from "./pages/hhtlight/operations/HHTLightAddESL";
 import HHTLightDeleteESL from "./pages/hhtlight/operations/HHTLightDeleteESL";
+import HHTLightOnlineESLs from "./pages/hhtlight/status/HHTLightOnlineESLs";
+import HHTLightOfflineESLs from "./pages/hhtlight/status/HHTLightOfflineESLs";
 
 const queryClient = new QueryClient();
 
@@ -262,6 +264,8 @@ const App = () => (
             <Route path="update-failures" element={<HHTLightUpdateFailures />} />
             <Route path="ap-status" element={<HHTLightAPStatus />} />
             <Route path="overnight-status" element={<HHTLightOvernightStatus />} />
+            <Route path="status/online" element={<HHTLightOnlineESLs />} />
+            <Route path="status/offline" element={<HHTLightOfflineESLs />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
