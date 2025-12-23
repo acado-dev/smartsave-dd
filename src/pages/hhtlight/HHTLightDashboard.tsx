@@ -89,58 +89,58 @@ export default function HHTLightDashboard() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6">
       {/* Store Header with Label Stats */}
       <Card className="bg-gradient-to-br from-primary/10 via-background to-background border-primary/20">
-        <CardContent className="pt-4">
-          <div className="flex items-center justify-between mb-4">
+        <CardContent className="pt-4 md:pt-6">
+          <div className="flex items-center justify-between mb-4 md:mb-6">
             <div>
-              <p className="text-2xl font-bold text-primary">{storeInfo.totalLabels}</p>
-              <p className="text-xs text-muted-foreground">Total Labels</p>
+              <p className="text-2xl md:text-3xl font-bold text-primary">{storeInfo.totalLabels}</p>
+              <p className="text-xs md:text-sm text-muted-foreground">Total Labels</p>
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <RefreshCw className="h-3 w-3" />
+            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+              <RefreshCw className="h-3 w-3 md:h-4 md:w-4" />
               <span>Sync: {storeInfo.lastSync}</span>
             </div>
           </div>
           
           {/* Label Status Grid */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-2 md:gap-4">
             <div 
-              className="p-2 bg-green-500/10 rounded-lg text-center cursor-pointer hover:bg-green-500/20 transition-colors"
+              className="p-2 md:p-4 bg-green-500/10 rounded-lg text-center cursor-pointer hover:bg-green-500/20 transition-colors"
               onClick={() => navigate("/HHTLight/status/online")}
             >
-              <Wifi className="h-4 w-4 text-green-500 mx-auto mb-1" />
-              <p className="text-sm font-bold text-green-600">{labelStatus.online}</p>
-              <p className="text-[10px] text-muted-foreground">Online</p>
+              <Wifi className="h-4 w-4 md:h-6 md:w-6 text-green-500 mx-auto mb-1" />
+              <p className="text-sm md:text-lg font-bold text-green-600">{labelStatus.online}</p>
+              <p className="text-[10px] md:text-xs text-muted-foreground">Online</p>
             </div>
             <div 
-              className="p-2 bg-destructive/10 rounded-lg text-center cursor-pointer hover:bg-destructive/20 transition-colors"
+              className="p-2 md:p-4 bg-destructive/10 rounded-lg text-center cursor-pointer hover:bg-destructive/20 transition-colors"
               onClick={() => navigate("/HHTLight/status/offline")}
             >
-              <WifiOff className="h-4 w-4 text-destructive mx-auto mb-1" />
-              <p className="text-sm font-bold text-destructive">{labelStatus.offline}</p>
-              <p className="text-[10px] text-muted-foreground">Offline</p>
+              <WifiOff className="h-4 w-4 md:h-6 md:w-6 text-destructive mx-auto mb-1" />
+              <p className="text-sm md:text-lg font-bold text-destructive">{labelStatus.offline}</p>
+              <p className="text-[10px] md:text-xs text-muted-foreground">Offline</p>
             </div>
             <div 
-              className="p-2 bg-amber-500/10 rounded-lg text-center cursor-pointer hover:bg-amber-500/20 transition-colors"
+              className="p-2 md:p-4 bg-amber-500/10 rounded-lg text-center cursor-pointer hover:bg-amber-500/20 transition-colors"
               onClick={() => navigate("/HHTLight/battery-critical")}
             >
-              <Battery className="h-4 w-4 text-amber-500 mx-auto mb-1" />
-              <p className="text-sm font-bold text-amber-600">{labelStatus.lowBattery}</p>
-              <p className="text-[10px] text-muted-foreground">Low Batt</p>
+              <Battery className="h-4 w-4 md:h-6 md:w-6 text-amber-500 mx-auto mb-1" />
+              <p className="text-sm md:text-lg font-bold text-amber-600">{labelStatus.lowBattery}</p>
+              <p className="text-[10px] md:text-xs text-muted-foreground">Low Batt</p>
             </div>
-            <div className="p-2 bg-primary/10 rounded-lg text-center">
-              <RefreshCw className="h-4 w-4 text-primary mx-auto mb-1" />
-              <p className="text-sm font-bold text-primary">{labelStatus.updating}</p>
-              <p className="text-[10px] text-muted-foreground">Updating</p>
+            <div className="p-2 md:p-4 bg-primary/10 rounded-lg text-center">
+              <RefreshCw className="h-4 w-4 md:h-6 md:w-6 text-primary mx-auto mb-1" />
+              <p className="text-sm md:text-lg font-bold text-primary">{labelStatus.updating}</p>
+              <p className="text-[10px] md:text-xs text-muted-foreground">Updating</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Key Store Metrics - 4 Critical Questions */}
-      <div className="space-y-3">
+      {/* Key Store Metrics - Responsive Grid for Tablet */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         {/* Battery Replacement Needed */}
         <Card 
           className={cn(
@@ -149,20 +149,20 @@ export default function HHTLightDashboard() {
           )}
           onClick={() => navigate("/HHTLight/battery-critical")}
         >
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
+          <CardContent className="p-4 md:p-5">
+            <div className="flex items-start gap-3 md:gap-4">
               <div className={cn(
-                "w-12 h-12 rounded-lg flex items-center justify-center shrink-0",
+                "w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center shrink-0",
                 storeMetrics.batteryReplacement.critical > 0 
                   ? "bg-destructive/10 text-destructive" 
                   : "bg-amber-500/10 text-amber-500"
               )}>
-                <BatteryWarning className="h-6 w-6" />
+                <BatteryWarning className="h-6 w-6 md:h-7 md:w-7" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium">Battery Replacement</p>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <p className="font-medium md:text-lg">Battery Replacement</p>
+                  <ChevronRight className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
                 </div>
                 <p className="text-sm text-muted-foreground mt-0.5">
                   How many displays need battery replacing?
@@ -189,20 +189,20 @@ export default function HHTLightDashboard() {
           )}
           onClick={() => navigate("/HHTLight/update-failures")}
         >
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
+          <CardContent className="p-4 md:p-5">
+            <div className="flex items-start gap-3 md:gap-4">
               <div className={cn(
-                "w-12 h-12 rounded-lg flex items-center justify-center shrink-0",
+                "w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center shrink-0",
                 storeMetrics.priceUpdateFailures.count > 0 
                   ? "bg-amber-500/10 text-amber-500" 
                   : "bg-green-500/10 text-green-500"
               )}>
-                <FileWarning className="h-6 w-6" />
+                <FileWarning className="h-6 w-6 md:h-7 md:w-7" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium">Incorrect Prices</p>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <p className="font-medium md:text-lg">Incorrect Prices</p>
+                  <ChevronRight className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
                 </div>
                 <p className="text-sm text-muted-foreground mt-0.5">
                   Displays not showing correct price due to update failure
@@ -238,20 +238,20 @@ export default function HHTLightDashboard() {
           )}
           onClick={() => navigate("/HHTLight/ap-status")}
         >
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
+          <CardContent className="p-4 md:p-5">
+            <div className="flex items-start gap-3 md:gap-4">
               <div className={cn(
-                "w-12 h-12 rounded-lg flex items-center justify-center shrink-0",
+                "w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center shrink-0",
                 storeMetrics.accessPoints.offline > 0 
                   ? "bg-amber-500/10 text-amber-500" 
                   : "bg-green-500/10 text-green-500"
               )}>
-                <Radio className="h-6 w-6" />
+                <Radio className="h-6 w-6 md:h-7 md:w-7" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium">Access Points</p>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <p className="font-medium md:text-lg">Access Points</p>
+                  <ChevronRight className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
                 </div>
                 <p className="text-sm text-muted-foreground mt-0.5">
                   Are the access points in my store working?
@@ -281,20 +281,20 @@ export default function HHTLightDashboard() {
           )}
           onClick={() => navigate("/HHTLight/overnight-status")}
         >
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
+          <CardContent className="p-4 md:p-5">
+            <div className="flex items-start gap-3 md:gap-4">
               <div className={cn(
-                "w-12 h-12 rounded-lg flex items-center justify-center shrink-0",
+                "w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center shrink-0",
                 storeMetrics.overnightUpdate.success 
                   ? "bg-green-500/10 text-green-500" 
                   : "bg-destructive/10 text-destructive"
               )}>
-                <Clock className="h-6 w-6" />
+                <Clock className="h-6 w-6 md:h-7 md:w-7" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium">Last Night's Update</p>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <p className="font-medium md:text-lg">Last Night's Update</p>
+                  <ChevronRight className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
                 </div>
                 <p className="text-sm text-muted-foreground mt-0.5">
                   Did the price update sent last night work?
@@ -331,63 +331,73 @@ export default function HHTLightDashboard() {
         </Card>
       </div>
 
-      {/* Priority Actions */}
-      {priorityActions.length > 0 && (
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-amber-500" />
-              Actions Required
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {priorityActions.map((action) => (
-              <div
-                key={action.id}
-                className={cn(
-                  "p-3 rounded-lg border cursor-pointer transition-colors",
-                  action.severity === "critical" && "bg-destructive/5 border-destructive/30 hover:bg-destructive/10",
-                  action.severity === "warning" && "bg-amber-500/5 border-amber-500/30 hover:bg-amber-500/10"
-                )}
-                onClick={() => navigate(action.route)}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm">{action.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{action.description}</p>
+      {/* Priority Actions & Quick Operations - Side by Side on Tablet */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        {/* Priority Actions */}
+        {priorityActions.length > 0 && (
+          <Card className="lg:col-span-2">
+            <CardHeader className="pb-2 md:pb-4">
+              <CardTitle className="text-base md:text-lg flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-amber-500" />
+                Actions Required
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 md:space-y-3">
+              {priorityActions.map((action) => (
+                <div
+                  key={action.id}
+                  className={cn(
+                    "p-3 md:p-4 rounded-lg border cursor-pointer transition-colors",
+                    action.severity === "critical" && "bg-destructive/5 border-destructive/30 hover:bg-destructive/10",
+                    action.severity === "warning" && "bg-amber-500/5 border-amber-500/30 hover:bg-amber-500/10"
+                  )}
+                  onClick={() => navigate(action.route)}
+                >
+                  <div className="flex items-start justify-between gap-2 md:gap-4">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm md:text-base">{action.title}</p>
+                      <p className="text-xs md:text-sm text-muted-foreground mt-0.5">{action.description}</p>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      variant={action.severity === "critical" ? "destructive" : "outline"}
+                      className="shrink-0 h-7 md:h-9 text-xs md:text-sm"
+                    >
+                      {action.action}
+                    </Button>
                   </div>
-                  <Button 
-                    size="sm" 
-                    variant={action.severity === "critical" ? "destructive" : "outline"}
-                    className="shrink-0 h-7 text-xs"
-                  >
-                    {action.action}
-                  </Button>
                 </div>
-              </div>
-            ))}
+              ))}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Quick Operations */}
+        <Card className="lg:col-span-1">
+          <CardHeader className="pb-2 md:pb-4">
+            <CardTitle className="text-base md:text-lg">Quick Operations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-2 md:gap-3">
+              <Button
+                variant="outline"
+                className="flex flex-col items-center gap-2 h-auto py-4 md:py-5"
+                onClick={() => navigate("/HHTLight/operations")}
+              >
+                <RefreshCw className="h-5 w-5 md:h-6 md:w-6" />
+                <span className="text-xs md:text-sm">Refresh Labels</span>
+              </Button>
+              <Button
+                variant="outline"
+                className="flex flex-col items-center gap-2 h-auto py-4 md:py-5"
+                onClick={() => navigate("/HHTLight/operations")}
+              >
+                <Battery className="h-5 w-5 md:h-6 md:w-6" />
+                <span className="text-xs md:text-sm">Replace Battery</span>
+              </Button>
+            </div>
           </CardContent>
         </Card>
-      )}
-
-      {/* Quick Operations */}
-      <div className="grid grid-cols-2 gap-2">
-        <Button
-          variant="outline"
-          className="flex flex-col items-center gap-2 h-auto py-4"
-          onClick={() => navigate("/HHTLight/operations")}
-        >
-          <RefreshCw className="h-5 w-5" />
-          <span className="text-xs">Refresh Labels</span>
-        </Button>
-        <Button
-          variant="outline"
-          className="flex flex-col items-center gap-2 h-auto py-4"
-          onClick={() => navigate("/HHTLight/operations")}
-        >
-          <Battery className="h-5 w-5" />
-          <span className="text-xs">Replace Battery</span>
-        </Button>
       </div>
     </div>
   );
