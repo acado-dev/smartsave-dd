@@ -137,6 +137,12 @@ import ITHNCommandPageChangeESL from "./pages/ithncommand/operations/ITHNCommand
 import ITHNCommandInquireESL from "./pages/ithncommand/operations/ITHNCommandInquireESL";
 import ITHNCommandAddESL from "./pages/ithncommand/operations/ITHNCommandAddESL";
 import ITHNCommandDeleteESL from "./pages/ithncommand/operations/ITHNCommandDeleteESL";
+import ITHNCommandBatteryCritical from "./pages/ithncommand/ITHNCommandBatteryCritical";
+import ITHNCommandUpdateFailures from "./pages/ithncommand/ITHNCommandUpdateFailures";
+import ITHNCommandAPStatus from "./pages/ithncommand/ITHNCommandAPStatus";
+import ITHNCommandOvernightStatus from "./pages/ithncommand/ITHNCommandOvernightStatus";
+import ITHNCommandOnlineESLs from "./pages/ithncommand/status/ITHNCommandOnlineESLs";
+import ITHNCommandOfflineESLs from "./pages/ithncommand/status/ITHNCommandOfflineESLs";
 
 const queryClient = new QueryClient();
 
@@ -299,12 +305,12 @@ const App = () => (
             <Route path="operations/delete" element={<ITHNCommandDeleteESL />} />
             <Route path="alerts" element={<ITHNCommandAlerts />} />
             <Route path="settings" element={<ITHNCommandSettings />} />
-            <Route path="battery-critical" element={<HHTLightBatteryCritical />} />
-            <Route path="update-failures" element={<HHTLightUpdateFailures />} />
-            <Route path="ap-status" element={<HHTLightAPStatus />} />
-            <Route path="overnight-status" element={<HHTLightOvernightStatus />} />
-            <Route path="status/online" element={<HHTLightOnlineESLs />} />
-            <Route path="status/offline" element={<HHTLightOfflineESLs />} />
+            <Route path="battery-critical" element={<ITHNCommandBatteryCritical />} />
+            <Route path="update-failures" element={<ITHNCommandUpdateFailures />} />
+            <Route path="ap-status" element={<ITHNCommandAPStatus />} />
+            <Route path="overnight-status" element={<ITHNCommandOvernightStatus />} />
+            <Route path="status/online" element={<ITHNCommandOnlineESLs />} />
+            <Route path="status/offline" element={<ITHNCommandOfflineESLs />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
