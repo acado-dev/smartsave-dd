@@ -122,6 +122,11 @@ import HHTLightAddESL from "./pages/hhtlight/operations/HHTLightAddESL";
 import HHTLightDeleteESL from "./pages/hhtlight/operations/HHTLightDeleteESL";
 import HHTLightOnlineESLs from "./pages/hhtlight/status/HHTLightOnlineESLs";
 import HHTLightOfflineESLs from "./pages/hhtlight/status/HHTLightOfflineESLs";
+import ITHNCommandLayout from "./pages/ithncommand/ITHNCommandLayout";
+import ITHNCommandDashboard from "./pages/ithncommand/ITHNCommandDashboard";
+import ITHNCommandOperations from "./pages/ithncommand/ITHNCommandOperations";
+import ITHNCommandSettings from "./pages/ithncommand/ITHNCommandSettings";
+import ITHNCommandAlerts from "./pages/ithncommand/ITHNCommandAlerts";
 
 const queryClient = new QueryClient();
 
@@ -260,6 +265,30 @@ const App = () => (
             <Route path="operations/delete" element={<HHTLightDeleteESL />} />
             <Route path="alerts" element={<HHTLightAlerts />} />
             <Route path="settings" element={<HHTLightSettings />} />
+            <Route path="battery-critical" element={<HHTLightBatteryCritical />} />
+            <Route path="update-failures" element={<HHTLightUpdateFailures />} />
+            <Route path="ap-status" element={<HHTLightAPStatus />} />
+            <Route path="overnight-status" element={<HHTLightOvernightStatus />} />
+            <Route path="status/online" element={<HHTLightOnlineESLs />} />
+            <Route path="status/offline" element={<HHTLightOfflineESLs />} />
+          </Route>
+          
+          {/* ITHN Command App Routes - Compact HHT for 3.2"-7" screens */}
+          <Route path="/ITHNCommand" element={<ITHNCommandLayout />}>
+            <Route index element={<ITHNCommandDashboard />} />
+            <Route path="operations" element={<ITHNCommandOperations />} />
+            <Route path="operations/assign" element={<HHTLightAssignESL />} />
+            <Route path="operations/unassign" element={<HHTLightUnassignESL />} />
+            <Route path="operations/multi-assign" element={<HHTLightMultiAssignESL />} />
+            <Route path="operations/replace" element={<HHTLightReplaceESL />} />
+            <Route path="operations/refresh" element={<HHTLightRefreshESL />} />
+            <Route path="operations/flash" element={<HHTLightFlashESL />} />
+            <Route path="operations/page-change" element={<HHTLightPageChangeESL />} />
+            <Route path="operations/inquire" element={<HHTLightInquireESL />} />
+            <Route path="operations/add" element={<HHTLightAddESL />} />
+            <Route path="operations/delete" element={<HHTLightDeleteESL />} />
+            <Route path="alerts" element={<ITHNCommandAlerts />} />
+            <Route path="settings" element={<ITHNCommandSettings />} />
             <Route path="battery-critical" element={<HHTLightBatteryCritical />} />
             <Route path="update-failures" element={<HHTLightUpdateFailures />} />
             <Route path="ap-status" element={<HHTLightAPStatus />} />
