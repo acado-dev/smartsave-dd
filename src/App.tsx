@@ -127,6 +127,16 @@ import ITHNCommandDashboard from "./pages/ithncommand/ITHNCommandDashboard";
 import ITHNCommandOperations from "./pages/ithncommand/ITHNCommandOperations";
 import ITHNCommandSettings from "./pages/ithncommand/ITHNCommandSettings";
 import ITHNCommandAlerts from "./pages/ithncommand/ITHNCommandAlerts";
+import ITHNCommandAssignESL from "./pages/ithncommand/operations/ITHNCommandAssignESL";
+import ITHNCommandUnassignESL from "./pages/ithncommand/operations/ITHNCommandUnassignESL";
+import ITHNCommandMultiAssignESL from "./pages/ithncommand/operations/ITHNCommandMultiAssignESL";
+import ITHNCommandReplaceESL from "./pages/ithncommand/operations/ITHNCommandReplaceESL";
+import ITHNCommandRefreshESL from "./pages/ithncommand/operations/ITHNCommandRefreshESL";
+import ITHNCommandFlashESL from "./pages/ithncommand/operations/ITHNCommandFlashESL";
+import ITHNCommandPageChangeESL from "./pages/ithncommand/operations/ITHNCommandPageChangeESL";
+import ITHNCommandInquireESL from "./pages/ithncommand/operations/ITHNCommandInquireESL";
+import ITHNCommandAddESL from "./pages/ithncommand/operations/ITHNCommandAddESL";
+import ITHNCommandDeleteESL from "./pages/ithncommand/operations/ITHNCommandDeleteESL";
 
 const queryClient = new QueryClient();
 
@@ -273,20 +283,20 @@ const App = () => (
             <Route path="status/offline" element={<HHTLightOfflineESLs />} />
           </Route>
           
-          {/* ITHN Command App Routes - Compact HHT for 3.2"-7" screens */}
+{/* ITHN Command App Routes - Compact HHT for 3.2"-7" screens */}
           <Route path="/ITHNCommand" element={<ITHNCommandLayout />}>
             <Route index element={<ITHNCommandDashboard />} />
             <Route path="operations" element={<ITHNCommandOperations />} />
-            <Route path="operations/assign" element={<HHTLightAssignESL />} />
-            <Route path="operations/unassign" element={<HHTLightUnassignESL />} />
-            <Route path="operations/multi-assign" element={<HHTLightMultiAssignESL />} />
-            <Route path="operations/replace" element={<HHTLightReplaceESL />} />
-            <Route path="operations/refresh" element={<HHTLightRefreshESL />} />
-            <Route path="operations/flash" element={<HHTLightFlashESL />} />
-            <Route path="operations/page-change" element={<HHTLightPageChangeESL />} />
-            <Route path="operations/inquire" element={<HHTLightInquireESL />} />
-            <Route path="operations/add" element={<HHTLightAddESL />} />
-            <Route path="operations/delete" element={<HHTLightDeleteESL />} />
+            <Route path="operations/assign" element={<ITHNCommandAssignESL />} />
+            <Route path="operations/unassign" element={<ITHNCommandUnassignESL />} />
+            <Route path="operations/multi-assign" element={<ITHNCommandMultiAssignESL />} />
+            <Route path="operations/replace" element={<ITHNCommandReplaceESL />} />
+            <Route path="operations/refresh" element={<ITHNCommandRefreshESL />} />
+            <Route path="operations/flash" element={<ITHNCommandFlashESL />} />
+            <Route path="operations/page-change" element={<ITHNCommandPageChangeESL />} />
+            <Route path="operations/inquire" element={<ITHNCommandInquireESL />} />
+            <Route path="operations/add" element={<ITHNCommandAddESL />} />
+            <Route path="operations/delete" element={<ITHNCommandDeleteESL />} />
             <Route path="alerts" element={<ITHNCommandAlerts />} />
             <Route path="settings" element={<ITHNCommandSettings />} />
             <Route path="battery-critical" element={<HHTLightBatteryCritical />} />
