@@ -1,6 +1,19 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-type ScreenSize = "3.2" | "5" | "7";
+type ScreenSize = "3.2" | "5" | "7" | "browser";
+
+interface ScreenDimensions {
+  width: string;
+  height: string;
+  label: string;
+}
+
+export const screenDimensions: Record<ScreenSize, ScreenDimensions> = {
+  "3.2": { width: "320px", height: "480px", label: '3.2"' },
+  "5": { width: "360px", height: "640px", label: '5"' },
+  "7": { width: "480px", height: "800px", label: '7"' },
+  "browser": { width: "100%", height: "100%", label: "Browser/Tablet" },
+};
 
 interface ITHNCommandContextType {
   screenSize: ScreenSize;
