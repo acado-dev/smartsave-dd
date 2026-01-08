@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Shield, Users, TrendingUp, Wrench, Tag, Store as StoreIcon, Megaphone } from "lucide-react";
-import displayDataLogo from "@/assets/displaydata-logo.png";
-import smartSaveLogo from "@/assets/smartsave-logo.png";
+import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
 
 const roles = [
   { 
@@ -61,16 +60,16 @@ export default function ESLLogin() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl shadow-elevated">
         <CardHeader className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <img src={smartSaveLogo} alt="SmartSave" className="h-8 w-auto object-contain" />
-            <img src={displayDataLogo} alt="DisplayData" className="h-7 w-auto object-contain" />
+          <div className="flex flex-col items-center gap-2 mb-4">
+            <img src={ithinaCommandLogo} alt="ITHINA Command" className="h-16 w-auto object-contain" />
+            <p className="text-xs text-muted-foreground">Powered by Displaydata</p>
           </div>
           <div className="flex items-center justify-center gap-2">
             <Shield className="h-8 w-8 text-accent" />
-            <CardTitle className="text-3xl font-bold">ESL Management Dashboard</CardTitle>
+            <CardTitle className="text-3xl font-bold">ITHINA Command</CardTitle>
           </div>
           <CardDescription className="text-base">
-            Select your role to access the AI-enabled Intelligent Shelf Label dashboard
+            Select your role to access the Intelligent Things of Network dashboard
           </CardDescription>
         </CardHeader>
         
