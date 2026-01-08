@@ -7,8 +7,7 @@ import SupportView from "./views/SupportView";
 import MarketingView from "./views/MarketingView";
 import MerchandisingView from "./views/MerchandisingView";
 import StoreOpsView from "./views/StoreOpsView";
-import displayDataLogo from "@/assets/displaydata-logo.png";
-import smartSaveLogo from "@/assets/smartsave-logo.png";
+import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
 
 const roleNames: Record<string, string> = {
   "senior-management": "Senior Management",
@@ -48,9 +47,12 @@ export default function ESLDashboard() {
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <img src={displayDataLogo} alt="DisplayData" className="h-6 w-auto object-contain" />
+            <img src={ithinaCommandLogo} alt="ITHINA Command" className="h-10 w-auto object-contain" />
             <div className="h-6 w-px bg-border" />
-            <h1 className="text-xl font-bold text-foreground">ESL Management</h1>
+            <div>
+              <h1 className="text-xl font-bold text-foreground">ITHINA Command</h1>
+              <p className="text-xs text-muted-foreground">Powered by Displaydata</p>
+            </div>
             <div className="ml-4 px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium flex items-center gap-2">
               <Users className="h-3.5 w-3.5" />
               {roleNames[role]}
@@ -71,7 +73,6 @@ export default function ESLDashboard() {
               Store View
             </Button>
             <div className="h-6 w-px bg-border" />
-            <img src={smartSaveLogo} alt="SmartSave" className="h-5 w-auto object-contain" />
             <Button variant="outline" size="sm" onClick={handleSwitchRole}>
               Switch Role
             </Button>

@@ -7,7 +7,7 @@ import {
   ArrowLeft, Tag, Wifi, Battery, RefreshCw, AlertTriangle, Activity,
   Clock, Building, Zap, BarChart3, Settings, Search, DollarSign, Plus
 } from "lucide-react";
-import displayDataLogo from "@/assets/displaydata-logo.png";
+import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
 
 // Store-specific data
 const storeData = {
@@ -78,7 +78,8 @@ export default function ESLStoreDashboard() {
               Back
             </Button>
             <div className="h-6 w-px bg-border" />
-            <img src={displayDataLogo} alt="DisplayData" className="h-6 w-auto object-contain" />
+            <img src={ithinaCommandLogo} alt="ITHINA Command" className="h-8 w-auto object-contain" />
+            <p className="text-xs text-muted-foreground">Powered by Displaydata</p>
           </div>
         </div>
       </header>
