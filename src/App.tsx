@@ -46,6 +46,9 @@ import MediaManagement from "./pages/management/MediaManagement";
 import DynamicPricing from "./pages/management/DynamicPricing";
 import ESLLogin from "./pages/esl/ESLLogin";
 import ESLDashboard from "./pages/esl/ESLDashboard";
+import ESLOperationsCenter from "./pages/esl/ESLOperationsCenter";
+import ESLMultiStoreDashboard from "./pages/esl/ESLMultiStoreDashboard";
+import ESLStoreDashboard from "./pages/esl/ESLStoreDashboard";
 import RevenueDetails from "./pages/esl/details/RevenueDetails";
 import SystemHealthDetails from "./pages/esl/details/SystemHealthDetails";
 import CampaignsDetails from "./pages/esl/details/CampaignsDetails";
@@ -183,6 +186,9 @@ const App = () => (
           <Route path="/admin/freshness-analysis" element={<AdminLayout><FreshnessAnalysis /></AdminLayout>} />
           <Route path="/esl/login" element={<ESLLogin />} />
           <Route path="/esl/dashboard" element={<ESLDashboard />} />
+          <Route path="/esl/operations" element={<ESLOperationsCenter />} />
+          <Route path="/esl/multi-store" element={<ESLMultiStoreDashboard />} />
+          <Route path="/esl/store/:storeId" element={<ESLStoreDashboard />} />
           <Route path="/esl/details/revenue" element={<RevenueDetails />} />
           <Route path="/esl/details/system-health" element={<SystemHealthDetails />} />
           <Route path="/esl/details/campaigns" element={<CampaignsDetails />} />
