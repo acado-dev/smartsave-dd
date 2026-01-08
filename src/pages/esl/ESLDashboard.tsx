@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users } from "lucide-react";
+import { LogOut, Users, Building2, LayoutGrid, Store } from "lucide-react";
 import SeniorManagementView from "./views/SeniorManagementView";
 import SupportView from "./views/SupportView";
 import MarketingView from "./views/MarketingView";
@@ -56,7 +56,21 @@ export default function ESLDashboard() {
               {roleNames[role]}
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {/* Quick Navigation Buttons */}
+            <Button variant="outline" size="sm" onClick={() => navigate("/esl/operations")}>
+              <LayoutGrid className="h-4 w-4 mr-2" />
+              Operations
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate("/esl/multi-store")}>
+              <Building2 className="h-4 w-4 mr-2" />
+              Multi-Store
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate("/esl/store/001")}>
+              <Store className="h-4 w-4 mr-2" />
+              Store View
+            </Button>
+            <div className="h-6 w-px bg-border" />
             <img src={smartSaveLogo} alt="SmartSave" className="h-5 w-auto object-contain" />
             <Button variant="outline" size="sm" onClick={handleSwitchRole}>
               Switch Role
