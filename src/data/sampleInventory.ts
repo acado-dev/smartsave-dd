@@ -1,3 +1,10 @@
+// Helper function to get date string in YYYY-MM-DD format
+function getDateString(daysFromNow: number): string {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromNow);
+  return date.toISOString().split('T')[0];
+}
+
 export interface InventoryItem {
   id: string;
   name: string;
@@ -28,8 +35,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 0.89,
     cost: 0.45,
     location: "Produce Section A",
-    receivedDate: "2025-01-08",
-    expiryDate: "2025-01-15",
+    receivedDate: getDateString(-3), // 3 days ago
+    expiryDate: getDateString(4), // 4 days from now
     optimal_temp: "58-60°F",
     keywords: ["banana", "yellow", "curved", "bunch", "organic"]
   },
@@ -44,8 +51,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.99,
     cost: 1.10,
     location: "Produce Section A",
-    receivedDate: "2025-01-05",
-    expiryDate: "2025-01-25",
+    receivedDate: getDateString(-6), // 6 days ago
+    expiryDate: getDateString(14), // 14 days from now
     optimal_temp: "30-35°F",
     keywords: ["apple", "red", "round", "delicious", "fruit"]
   },
@@ -60,8 +67,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 4.99,
     cost: 2.50,
     location: "Produce Section B",
-    receivedDate: "2025-01-10",
-    expiryDate: "2025-01-14",
+    receivedDate: getDateString(-1), // 1 day ago
+    expiryDate: getDateString(3), // 3 days from now
     optimal_temp: "32-36°F",
     keywords: ["strawberry", "red", "berry", "berries", "small", "seeds"]
   },
@@ -76,8 +83,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.49,
     cost: 0.75,
     location: "Produce Section A",
-    receivedDate: "2025-01-07",
-    expiryDate: "2025-01-21",
+    receivedDate: getDateString(-4), // 4 days ago
+    expiryDate: getDateString(10), // 10 days from now
     optimal_temp: "38-48°F",
     keywords: ["orange", "citrus", "round", "navel", "vitamin"]
   },
@@ -92,8 +99,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 6.99,
     cost: 3.50,
     location: "Produce Section C",
-    receivedDate: "2025-01-09",
-    expiryDate: "2025-01-16",
+    receivedDate: getDateString(-2), // 2 days ago
+    expiryDate: getDateString(5), // 5 days from now
     optimal_temp: "50-60°F",
     keywords: ["watermelon", "green", "large", "striped", "melon"]
   },
@@ -110,8 +117,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 2.49,
     cost: 1.25,
     location: "Produce Section D",
-    receivedDate: "2025-01-09",
-    expiryDate: "2025-01-16",
+    receivedDate: getDateString(-2), // 2 days ago
+    expiryDate: getDateString(5), // 5 days from now
     optimal_temp: "55-70°F",
     keywords: ["tomato", "red", "oval", "roma", "vegetable"]
   },
@@ -126,8 +133,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.99,
     cost: 0.90,
     location: "Produce Section D",
-    receivedDate: "2025-01-10",
-    expiryDate: "2025-01-17",
+    receivedDate: getDateString(-1), // 1 day ago
+    expiryDate: getDateString(6), // 6 days from now
     optimal_temp: "32-35°F",
     keywords: ["lettuce", "green", "leafy", "salad", "leaves"]
   },
@@ -142,8 +149,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.79,
     cost: 0.85,
     location: "Produce Section D",
-    receivedDate: "2025-01-08",
-    expiryDate: "2025-01-22",
+    receivedDate: getDateString(-3), // 3 days ago
+    expiryDate: getDateString(11), // 11 days from now
     optimal_temp: "32-40°F",
     keywords: ["carrot", "orange", "long", "root", "organic"]
   },
@@ -158,8 +165,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 2.99,
     cost: 1.50,
     location: "Produce Section D",
-    receivedDate: "2025-01-09",
-    expiryDate: "2025-01-16",
+    receivedDate: getDateString(-2), // 2 days ago
+    expiryDate: getDateString(5), // 5 days from now
     optimal_temp: "45-50°F",
     keywords: ["pepper", "bell", "colorful", "red", "yellow", "green", "vegetable"]
   },
@@ -174,8 +181,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 2.29,
     cost: 1.15,
     location: "Produce Section D",
-    receivedDate: "2025-01-10",
-    expiryDate: "2025-01-17",
+    receivedDate: getDateString(-1), // 1 day ago
+    expiryDate: getDateString(6), // 6 days from now
     optimal_temp: "32-35°F",
     keywords: ["broccoli", "green", "crown", "florets", "vegetable"]
   },
@@ -192,8 +199,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 4.99,
     cost: 2.75,
     location: "Dairy Cooler A",
-    receivedDate: "2025-01-09",
-    expiryDate: "2025-01-19",
+    receivedDate: getDateString(-2), // 2 days ago
+    expiryDate: getDateString(8), // 8 days from now
     optimal_temp: "34-38°F",
     keywords: ["milk", "gallon", "white", "jug", "dairy", "whole"]
   },
@@ -208,8 +215,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 5.49,
     cost: 2.90,
     location: "Dairy Cooler B",
-    receivedDate: "2025-01-08",
-    expiryDate: "2025-01-29",
+    receivedDate: getDateString(-3), // 3 days ago
+    expiryDate: getDateString(18), // 18 days from now
     optimal_temp: "34-38°F",
     keywords: ["yogurt", "greek", "white", "container", "dairy", "culture"]
   },
@@ -224,8 +231,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 7.99,
     cost: 4.25,
     location: "Dairy Cooler B",
-    receivedDate: "2025-01-07",
-    expiryDate: "2025-02-07",
+    receivedDate: getDateString(-4), // 4 days ago
+    expiryDate: getDateString(27), // 27 days from now
     optimal_temp: "34-38°F",
     keywords: ["cheese", "cheddar", "yellow", "block", "dairy", "aged"]
   },
@@ -240,8 +247,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 5.99,
     cost: 3.25,
     location: "Dairy Cooler A",
-    receivedDate: "2025-01-09",
-    expiryDate: "2025-03-09",
+    receivedDate: getDateString(-2), // 2 days ago
+    expiryDate: getDateString(58), // ~2 months from now
     optimal_temp: "34-38°F",
     keywords: ["butter", "unsalted", "yellow", "stick", "dairy", "cream"]
   },
@@ -256,8 +263,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 3.99,
     cost: 2.10,
     location: "Dairy Cooler A",
-    receivedDate: "2025-01-10",
-    expiryDate: "2025-01-31",
+    receivedDate: getDateString(-1), // 1 day ago
+    expiryDate: getDateString(20), // 20 days from now
     optimal_temp: "33-40°F",
     keywords: ["egg", "eggs", "dozen", "carton", "white", "brown", "shell"]
   },
@@ -272,8 +279,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 4.49,
     cost: 2.40,
     location: "Dairy Cooler B",
-    receivedDate: "2025-01-09",
-    expiryDate: "2025-01-23",
+    receivedDate: getDateString(-2), // 2 days ago
+    expiryDate: getDateString(12), // 12 days from now
     optimal_temp: "34-38°F",
     keywords: ["cream", "heavy", "white", "carton", "dairy", "whipping"]
   }
