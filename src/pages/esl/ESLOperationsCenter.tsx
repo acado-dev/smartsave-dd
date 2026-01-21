@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Link2, LinkIcon, Layers, RefreshCw, Zap, LayoutGrid, Search, Plus, Trash2, ArrowRight, ArrowUpDown, ChevronUp, ChevronDown } from "lucide-react";
-import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 
 const operations = [
   { 
@@ -120,7 +120,7 @@ export default function ESLOperationsCenter() {
               Back
             </Button>
             <div className="h-6 w-px bg-border" />
-            <img src={ithinaCommandLogo} alt="ITHINA Command" className="h-8 w-auto object-contain" />
+            <img src={ithinaLogo} alt="ITHINA" className="h-8 w-auto object-contain" />
             <p className="text-xs text-muted-foreground">Powered by Displaydata</p>
           </div>
         </div>
