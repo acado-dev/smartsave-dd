@@ -243,19 +243,8 @@ export default function FreshnessAnalysis() {
         ? Math.floor((new Date().getTime() - new Date(identified.receivedDate).getTime()) / (1000 * 60 * 60 * 24))
         : Math.floor(Math.random() * 5) + 1;
 
-      // Calculate freshness score (higher is better)
-      let baseFreshness = 95 - (daysInStorage * 5);
-      
-      // Category-specific adjustments
-      if (identified?.category === "fruits") {
-        baseFreshness -= daysInStorage * 3;
-      } else if (identified?.category === "vegetables") {
-        baseFreshness -= daysInStorage * 4;
-      } else if (identified?.category === "dairy") {
-        baseFreshness = daysUntilExpiry > 7 ? 90 : (daysUntilExpiry / 7) * 90;
-      }
-      
-      baseFreshness = Math.max(40, Math.min(98, baseFreshness));
+      // Calculate freshness score - fixed at 43% for demonstration
+      let baseFreshness = 43;
       
       // Calculate price adjustments
       let priceMultiplier = 1.0;
