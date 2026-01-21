@@ -2,7 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { SmartStoreSidebar } from "@/components/navigation/SmartStoreSidebar";
 import { Menu } from "lucide-react";
 import smartStoreLogo from "@/assets/ddsmartstore-logo.png";
-import displayDataLogo from "@/assets/displaydata-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 
 interface SmartStoreLayoutProps {
   children: React.ReactNode;
@@ -25,7 +25,7 @@ export function SmartStoreLayout({ children }: SmartStoreLayoutProps) {
                   <div className="flex items-center gap-2 mt-0.5">
                     <img src={smartStoreLogo} alt="SmartStore" className="h-5 w-auto object-contain" />
                     <span className="text-xs text-muted-foreground">powered by</span>
-                    <img src={displayDataLogo} alt="DisplayData" className="h-4 w-auto object-contain" />
+                    <img src={ithinaLogo} alt="Ithina" className="h-4 w-auto object-contain" />
                   </div>
                 </div>
               </div>
