@@ -2,7 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ManagementSidebar } from "@/components/navigation/ManagementSidebar";
 import { Menu } from "lucide-react";
 import smartSaveLogo from "@/assets/smartsave-logo.png";
-import displayDataLogo from "@/assets/displaydata-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 
 interface ManagementLayoutProps {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ export function ManagementLayout({ children }: ManagementLayoutProps) {
               </SidebarTrigger>
               <div className="flex items-center gap-3">
                 <img src={smartSaveLogo} alt="SmartSave" className="h-6 w-auto object-contain" />
-                <img src={displayDataLogo} alt="DisplayData" className="h-5 w-auto object-contain" />
+                <img src={ithinaLogo} alt="Ithina" className="h-5 w-auto object-contain" />
               </div>
             </div>
           </header>
