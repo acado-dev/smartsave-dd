@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Shield, Users, TrendingUp, Wrench, Tag, Store as StoreIcon, Megaphone } from "lucide-react";
-import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 
 const roles = [
   { 
@@ -61,7 +61,7 @@ export default function ESLLogin() {
       <Card className="w-full max-w-2xl shadow-elevated">
         <CardHeader className="text-center space-y-4">
           <div className="flex flex-col items-center gap-2 mb-4">
-            <img src={ithinaCommandLogo} alt="ITHINA Command" className="h-16 w-auto object-contain" />
+            <img src={ithinaLogo} alt="ITHINA" className="h-16 w-auto object-contain" />
             <p className="text-xs text-muted-foreground">Powered by Displaydata</p>
           </div>
           <div className="flex items-center justify-center gap-2">
