@@ -2,7 +2,7 @@ import { useState } from "react";
 import FreshnessAnalysis from "../management/details/FreshnessAnalysis";
 import buceesLogo from "@/assets/bucees-logo.webp";
 import smartsaveLogo from "@/assets/smartsave-logo.png";
-import displaydataLogo from "@/assets/displaydata-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 import { Button } from "@/components/ui/button";
 import { Maximize, Minimize } from "lucide-react";
 
@@ -30,7 +30,7 @@ const FreshnessAnalysisDemo = () => {
               <div className="h-8 w-px bg-border" />
               <img src={smartsaveLogo} alt="SmartSave" className="h-10 w-auto object-contain" />
               <div className="h-8 w-px bg-border" />
-              <img src={displaydataLogo} alt="DisplayData" className="h-10 w-auto object-contain" />
+              <img src={ithinaLogo} alt="Ithina" className="h-10 w-auto object-contain" />
             </div>
             <div className="flex items-center gap-4">
               <div className="text-sm text-muted-foreground">
