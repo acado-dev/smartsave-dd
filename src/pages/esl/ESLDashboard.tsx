@@ -7,7 +7,7 @@ import SupportView from "./views/SupportView";
 import MarketingView from "./views/MarketingView";
 import MerchandisingView from "./views/MerchandisingView";
 import StoreOpsView from "./views/StoreOpsView";
-import ithinaLogo from "@/assets/ithina-logo.png";
+import ithinaLogoWhite from "@/assets/ithina-logo-white.png";
 
 const roleNames: Record<string, string> = {
   "senior-management": "Senior Management",
@@ -44,39 +44,39 @@ export default function ESLDashboard() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 border-b border-secondary/20 bg-secondary">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <img src={ithinaLogo} alt="ITHINA" className="h-10 w-auto object-contain" />
-            <div className="h-6 w-px bg-border" />
+            <img src={ithinaLogoWhite} alt="ITHINA" className="h-10 w-auto object-contain" />
+            <div className="h-6 w-px bg-primary-foreground/30" />
             <div>
-              <h1 className="text-xl font-bold text-foreground">ITHINA Command</h1>
-              <p className="text-xs text-muted-foreground">Powered by Displaydata</p>
+              <h1 className="text-xl font-bold text-primary-foreground">ITHINA Command</h1>
+              <p className="text-xs text-primary-foreground/60">Powered by Displaydata</p>
             </div>
-            <div className="ml-4 px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium flex items-center gap-2">
+            <div className="ml-4 px-3 py-1 rounded-full bg-primary-foreground/10 text-primary-foreground text-sm font-medium flex items-center gap-2">
               <Users className="h-3.5 w-3.5" />
               {roleNames[role]}
             </div>
           </div>
           <div className="flex items-center gap-2">
             {/* Quick Navigation Buttons */}
-            <Button variant="outline" size="sm" onClick={() => navigate("/esl/operations")}>
+            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate("/esl/operations")}>
               <LayoutGrid className="h-4 w-4 mr-2" />
               Operations
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate("/esl/multi-store")}>
+            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate("/esl/multi-store")}>
               <Building2 className="h-4 w-4 mr-2" />
               Multi-Store
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate("/esl/store/001")}>
+            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate("/esl/store/001")}>
               <Store className="h-4 w-4 mr-2" />
               Store View
             </Button>
-            <div className="h-6 w-px bg-border" />
-            <Button variant="outline" size="sm" onClick={handleSwitchRole}>
+            <div className="h-6 w-px bg-primary-foreground/30" />
+            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={handleSwitchRole}>
               Switch Role
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/10" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-2" />
               Logout
             </Button>
