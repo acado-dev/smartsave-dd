@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --muted: 210 20% 96%;
     --muted-foreground: 222 20% 45%;
 
-    --accent: 4 84% 58%;
+    --accent: 187 70% 42%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -53,7 +53,7 @@ All colors MUST be HSL.
     /* Custom tokens */
     --gradient-primary: linear-gradient(135deg, hsl(4 84% 49%), hsl(4 84% 60%));
     --gradient-secondary: linear-gradient(135deg, hsl(222 47% 16%), hsl(222 47% 24%));
-    --gradient-accent: linear-gradient(135deg, hsl(4 84% 49%), hsl(4 84% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(187 70% 42%), hsl(187 70% 52%));
     --gradient-hero: linear-gradient(135deg, hsl(4 84% 49% / 0.08), hsl(142 76% 36% / 0.08));
     --shadow-card: 0 2px 8px -2px hsl(4 84% 49% / 0.08);
     --shadow-elevated: 0 8px 24px -6px hsl(4 84% 49% / 0.12);
@@ -78,7 +78,7 @@ All colors MUST be HSL.
     --muted: 222 47% 16%;
     --muted-foreground: 210 30% 60%;
 
-    --accent: 4 84% 55%;
+    --accent: 187 70% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
