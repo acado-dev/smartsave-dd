@@ -12,8 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import buceesLogo from "@/assets/bucees-logo.webp";
-import smartSaveLogo from "@/assets/smartsave-logo.png";
-import displayDataLogo from "@/assets/displaydata-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 
 const marketplaceItems = [
   { id: 1, name: "Organic Bananas", category: "Produce", store: "Buc-ee's", location: "Downtown Store", originalPrice: 3.99, discountedPrice: 1.99, discount: 50, expiryDays: 2, stock: 25, image: "🍌" },
@@ -240,11 +239,10 @@ export default function Marketplace() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h3 className="text-3xl font-bold mb-3">Powered by Leading Technology</h3>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">SmartSave™ and DisplayData ESL systems work together to reduce waste, optimize pricing, and maximize value</p>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Ithina's intelligent retail solutions work together to reduce waste, optimize pricing, and maximize value</p>
           </div>
           <div className="flex justify-center items-center gap-16 mb-8">
-            <img src={smartSaveLogo} alt="SmartSave" className="h-14 grayscale hover:grayscale-0 transition-all hover:scale-110" />
-            <img src={displayDataLogo} alt="DisplayData" className="h-14 grayscale hover:grayscale-0 transition-all hover:scale-110" />
+            <img src={ithinaLogo} alt="Ithina" className="h-14 grayscale hover:grayscale-0 transition-all hover:scale-110" />
           </div>
         </div>
       </footer>

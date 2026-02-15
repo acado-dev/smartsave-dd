@@ -41,14 +41,14 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    --sidebar-background: 152 45% 18%;
+    --sidebar-background: 222 47% 14%;
     --sidebar-foreground: 210 40% 90%;
-    --sidebar-primary: 142 76% 36%;
+    --sidebar-primary: 4 84% 49%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 152 45% 22%;
+    --sidebar-accent: 222 47% 20%;
     --sidebar-accent-foreground: 210 40% 90%;
-    --sidebar-border: 152 45% 25%;
-    --sidebar-ring: 142 76% 36%;
+    --sidebar-border: 222 47% 22%;
+    --sidebar-ring: 4 84% 49%;
     
     /* Custom tokens */
     --gradient-primary: linear-gradient(135deg, hsl(4 84% 49%), hsl(4 84% 60%));
@@ -91,14 +91,14 @@ All colors MUST be HSL.
     --input: 222 47% 16%;
     --ring: 4 84% 55%;
     
-    --sidebar-background: 152 45% 14%;
+    --sidebar-background: 222 47% 10%;
     --sidebar-foreground: 210 40% 90%;
-    --sidebar-primary: 142 76% 45%;
+    --sidebar-primary: 4 84% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 152 45% 18%;
+    --sidebar-accent: 222 47% 16%;
     --sidebar-accent-foreground: 210 40% 90%;
-    --sidebar-border: 152 45% 20%;
-    --sidebar-ring: 142 76% 45%;
+    --sidebar-border: 222 47% 18%;
+    --sidebar-ring: 4 84% 55%;
     
     --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
     --shadow-elevated: 0 8px 24px -6px hsl(0 0% 0% / 0.4);
