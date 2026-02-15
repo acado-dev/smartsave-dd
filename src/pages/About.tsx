@@ -12,8 +12,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/navigation/Header";
-import smartSaveLogo from "@/assets/smartsave-logo.png";
-import displayDataLogo from "@/assets/displaydata-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 
 const About = () => {
   return (
@@ -25,11 +24,10 @@ const About = () => {
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
             <div className="mb-8 flex items-center gap-4 justify-center">
-              <img src={smartSaveLogo} alt="SmartSave" className="h-24 w-auto object-contain" />
-              <img src={displayDataLogo} alt="DisplayData" className="h-16 w-auto object-contain" />
+              <img src={ithinaLogo} alt="Ithina" className="h-24 w-auto object-contain" />
             </div>
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
-              About SmartSave
+              About Ithina
             </h1>
             <p className="mb-10 max-w-3xl mx-auto text-xl text-muted-foreground">
               Revolutionizing retail food management through intelligent technology and sustainable practices
@@ -44,18 +42,18 @@ const About = () => {
           <h2 className="mb-6 text-3xl font-bold text-foreground text-center lg:text-4xl">Our Story</h2>
           <div className="space-y-6 text-lg text-muted-foreground">
             <p>
-              SmartSave by DisplayData was born from a simple observation: billions of pounds of perfectly good food 
+              Ithina was born from a simple observation: billions of pounds of perfectly good food 
               go to waste every year while retailers struggle with narrow profit margins and consumers seek fresher, 
               more sustainable options.
             </p>
             <p>
               We realized that the solution wasn't just about better technology—it was about creating an intelligent 
               ecosystem that benefits everyone in the food supply chain. From advanced inventory forecasting and 
-              dynamic pricing to real-time expiration tracking and automated donation programs, SmartSave brings 
+              dynamic pricing to real-time expiration tracking and automated donation programs, Ithina brings 
               together cutting-edge solutions that work in harmony.
             </p>
             <p>
-              Today, SmartSave powers retail operations across multiple markets, helping businesses maximize 
+              Today, Ithina powers retail operations across multiple markets, helping businesses maximize 
               profitability while minimizing environmental impact. Our platform has prevented millions of pounds 
               of food waste, saved retailers substantial costs, and helped communities access fresh food more affordably.
             </p>
@@ -120,7 +118,7 @@ const About = () => {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold text-foreground lg:text-4xl">
-              Why Choose SmartSave
+              Why Choose Ithina
             </h2>
             <p className="text-lg text-muted-foreground">
               More than just software—a complete transformation partner
@@ -214,7 +212,7 @@ const About = () => {
             Join Us in Building a Sustainable Future
           </h2>
           <p className="mb-8 text-lg text-muted-foreground">
-            Partner with SmartSave and transform your retail operations while making a positive impact on the planet
+            Partner with Ithina and transform your retail operations while making a positive impact on the planet
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button asChild size="lg" className="bg-gradient-primary shadow-elevated">

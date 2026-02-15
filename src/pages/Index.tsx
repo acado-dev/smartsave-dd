@@ -27,8 +27,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/navigation/Header";
-import smartSaveLogo from "@/assets/smartsave-logo.png";
-import displayDataLogo from "@/assets/displaydata-logo.png";
+import ithinaLogo from "@/assets/ithina-logo.png";
 
 const valuePropositions = [
   {
@@ -87,8 +86,7 @@ const Index = () => {
             {/* Left Column - Static Content */}
             <div className="space-y-8 animate-fade-in">
               <div className="flex items-center gap-4 flex-wrap">
-                <img src={smartSaveLogo} alt="SmartSave" className="h-16 w-auto object-contain" />
-                <img src={displayDataLogo} alt="DisplayData" className="h-10 w-auto object-contain" />
+                <img src={ithinaLogo} alt="Ithina" className="h-16 w-auto object-contain" />
               </div>
               
               <div className="space-y-4">
