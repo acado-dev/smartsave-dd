@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import ithinaLogo from "@/assets/ithina-logo.png";
+import ithinaLogoWhite from "@/assets/ithina-logo-white.png";
 
 const menuItems = [
   { title: "Dashboard", icon: Home, path: "/smartstore" },
@@ -35,7 +35,7 @@ export function SmartStoreSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
         <div className="flex items-center gap-3">
-          <img src={ithinaLogo} alt="Ithina" className="h-10 w-10 object-contain" />
+          <img src={ithinaLogoWhite} alt="Ithina" className="h-10 w-10 object-contain" />
           <div className="flex flex-col">
             <span className="text-xl font-bold text-primary">ITHINA</span>
             <span className="text-xs text-muted-foreground">Perishable Waste Management</span>

@@ -14,7 +14,7 @@ import {
   TrendingUp,
   DollarSign,
 } from "lucide-react";
-import buceesLogo from "@/assets/bucees-logo.webp";
+import ithinaLogoWhite from "@/assets/ithina-logo-white.png";
 import {
   Sidebar,
   SidebarContent,
@@ -79,11 +79,11 @@ export function AdminSidebar() {
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex flex-col items-center gap-2">
-          <img src={buceesLogo} alt="BUC-EE'S" className="h-12 w-auto object-contain" />
+          <img src={ithinaLogoWhite} alt="ITHINA" className="h-12 w-auto object-contain" />
           {!collapsed && (
             <div className="text-center">
-              <span className="text-lg font-bold text-sidebar-foreground">Admin</span>
-              <p className="text-xs text-muted-foreground">Configuration</p>
+              <span className="text-lg font-bold text-sidebar-foreground">ITHINA</span>
+              <p className="text-xs text-muted-foreground">Admin Configuration</p>
             </div>
           )}
         </div>
