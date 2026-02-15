@@ -35,7 +35,7 @@ export default function SmartStoreDonations() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Donated</CardTitle>
-            <Heart className="h-4 w-4 text-green-500" />
+            <Heart className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">156 kg</div>
@@ -51,8 +51,8 @@ export default function SmartStoreDonations() {
           <CardContent>
             <div className="text-2xl font-bold">176</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />
-              <span className="text-green-500">18% more</span> vs last month
+              <TrendingUp className="h-3 w-3 text-accent" />
+              <span className="text-accent">18% more</span> vs last month
             </p>
           </CardContent>
         </Card>
@@ -60,10 +60,10 @@ export default function SmartStoreDonations() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Value Recovered</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-500" />
+            <TrendingUp className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-500">$729.80</div>
+            <div className="text-2xl font-bold text-accent">$729.80</div>
             <p className="text-xs text-muted-foreground mt-1">Tax benefits this month</p>
           </CardContent>
         </Card>
@@ -95,8 +95,8 @@ export default function SmartStoreDonations() {
             {upcomingDonations.map((donation, idx) => (
               <div key={idx} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                 <div className="flex items-start gap-4">
-                  <div className="p-2 rounded-full bg-green-500/10">
-                    <Heart className="h-5 w-5 text-green-500" />
+                  <div className="p-2 rounded-full bg-accent/10">
+                    <Heart className="h-5 w-5 text-accent" />
                   </div>
                   <div>
                     <p className="font-medium">{donation.organization}</p>

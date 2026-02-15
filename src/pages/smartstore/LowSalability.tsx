@@ -201,8 +201,8 @@ export default function SmartStoreLowSalability() {
             </div>
 
             <div className="flex items-start gap-4 p-4 bg-muted/50 rounded-lg">
-              <div className="p-2 rounded-full bg-green-500/10">
-                <DollarSign className="h-5 w-5 text-green-500" />
+              <div className="p-2 rounded-full bg-accent/10">
+                <DollarSign className="h-5 w-5 text-accent" />
               </div>
               <div className="flex-1">
                 <p className="font-medium">Launch Targeted Campaign</p>

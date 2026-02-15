@@ -67,8 +67,8 @@ export default function SmartStoreDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">12,483</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <ArrowUpRight className="h-3 w-3 text-green-500" />
-              <span className="text-green-500">+8.2%</span> from last week
+              <ArrowUpRight className="h-3 w-3 text-accent" />
+              <span className="text-accent">+8.2%</span> from last week
             </p>
           </CardContent>
         </Card>
@@ -81,8 +81,8 @@ export default function SmartStoreDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">$45,231</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <ArrowUpRight className="h-3 w-3 text-green-500" />
-              <span className="text-green-500">+12.3%</span> from last week
+              <ArrowUpRight className="h-3 w-3 text-accent" />
+              <span className="text-accent">+12.3%</span> from last week
             </p>
           </CardContent>
         </Card>
@@ -95,8 +95,8 @@ export default function SmartStoreDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">68.4%</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <ArrowDownRight className="h-3 w-3 text-red-500" />
-              <span className="text-red-500">-2.1%</span> from last week
+              <ArrowDownRight className="h-3 w-3 text-destructive" />
+              <span className="text-destructive">-2.1%</span> from last week
             </p>
           </CardContent>
         </Card>
@@ -256,7 +256,7 @@ export default function SmartStoreDashboard() {
         <CardContent>
           <div className="space-y-4">
             {[
-              { action: "Donation Scheduled", items: "Fresh Bakery Items", impact: "45 kg saved", time: "2 hours ago", icon: Heart, color: "text-green-500" },
+              { action: "Donation Scheduled", items: "Fresh Bakery Items", impact: "45 kg saved", time: "2 hours ago", icon: Heart, color: "text-accent" },
               { action: "Dynamic Pricing Applied", items: "Food-to-Go", impact: "$234 revenue", time: "5 hours ago", icon: DollarSign, color: "text-blue-500" },
               { action: "Discount Applied", items: "Fresh Produce", impact: "78 items sold", time: "1 day ago", icon: TrendingDown, color: "text-purple-500" },
             ].map((activity, idx) => (

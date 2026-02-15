@@ -40,8 +40,8 @@ export default function SmartStoreAnalytics() {
           <CardContent>
             <div className="text-2xl font-bold">$316,459</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />
-              <span className="text-green-500">+12.3%</span> vs last month
+              <TrendingUp className="h-3 w-3 text-accent" />
+              <span className="text-accent">+12.3%</span> vs last month
             </p>
           </CardContent>
         </Card>
@@ -54,8 +54,8 @@ export default function SmartStoreAnalytics() {
           <CardContent>
             <div className="text-2xl font-bold">$89,432</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <TrendingDown className="h-3 w-3 text-red-500" />
-              <span className="text-red-500">-3.2%</span> vs last month
+              <TrendingDown className="h-3 w-3 text-destructive" />
+              <span className="text-destructive">-3.2%</span> vs last month
             </p>
           </CardContent>
         </Card>
@@ -63,13 +63,13 @@ export default function SmartStoreAnalytics() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Waste Reduction</CardTitle>
-            <Trash2 className="h-4 w-4 text-green-500" />
+            <Trash2 className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">41.2%</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />
-              <span className="text-green-500">+8.5%</span> improvement
+              <TrendingUp className="h-3 w-3 text-accent" />
+              <span className="text-accent">+8.5%</span> improvement
             </p>
           </CardContent>
         </Card>
@@ -77,13 +77,13 @@ export default function SmartStoreAnalytics() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Donations Impact</CardTitle>
-            <Heart className="h-4 w-4 text-green-500" />
+            <Heart className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">156 kg</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />
-              <span className="text-green-500">+18%</span> vs last month
+              <TrendingUp className="h-3 w-3 text-accent" />
+              <span className="text-accent">+18%</span> vs last month
             </p>
           </CardContent>
         </Card>
@@ -101,10 +101,10 @@ export default function SmartStoreAnalytics() {
               <div>
                 <div className="flex justify-between mb-2">
                   <span className="text-sm font-medium">Waste Prevented</span>
-                  <span className="text-sm text-green-500 font-medium">234 kg</span>
+                  <span className="text-sm text-accent font-medium">234 kg</span>
                 </div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500" style={{ width: '78%' }} />
+                  <div className="h-full bg-accent" style={{ width: '78%' }} />
                 </div>
               </div>
               <div>
@@ -139,10 +139,10 @@ export default function SmartStoreAnalytics() {
               <div>
                 <div className="flex justify-between mb-2">
                   <span className="text-sm font-medium">Dynamic Pricing</span>
-                  <span className="text-sm text-green-500 font-medium">$12,482</span>
+                  <span className="text-sm text-accent font-medium">$12,482</span>
                 </div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500" style={{ width: '67%' }} />
+                  <div className="h-full bg-accent" style={{ width: '67%' }} />
                 </div>
               </div>
               <div>
@@ -190,14 +190,14 @@ export default function SmartStoreAnalytics() {
                     <div className="flex gap-4">
                       <span className="text-sm text-muted-foreground">Revenue: {cat.revenue}</span>
                       <span className="text-sm text-muted-foreground">Waste: {cat.waste}</span>
-                      <span className={`text-sm font-medium ${cat.wasteReduction > 15 ? 'text-green-500' : 'text-yellow-500'}`}>
+                      <span className={`text-sm font-medium ${cat.wasteReduction > 15 ? 'text-accent' : 'text-yellow-500'}`}>
                         -{cat.wasteReduction}%
                       </span>
                     </div>
                   </div>
                   <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                     <div 
-                      className={`h-full ${cat.wasteReduction > 15 ? 'bg-green-500' : 'bg-yellow-500'}`}
+                      className={`h-full ${cat.wasteReduction > 15 ? 'bg-accent' : 'bg-yellow-500'}`}
                       style={{ width: `${cat.wasteReduction * 3}%` }}
                     />
                   </div>
@@ -218,7 +218,7 @@ export default function SmartStoreAnalytics() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">CO₂ Emissions Saved</p>
-              <p className="text-3xl font-bold text-green-500">458 kg</p>
+              <p className="text-3xl font-bold text-accent">458 kg</p>
               <p className="text-xs text-muted-foreground">Equivalent to planting 12 trees</p>
             </div>
             <div className="space-y-2">

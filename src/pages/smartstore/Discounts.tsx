@@ -42,13 +42,13 @@ export default function SmartStoreDiscounts() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Items Sold</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-green-500" />
+            <ShoppingCart className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">342</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />
-              <span className="text-green-500">+24%</span> this week
+              <TrendingUp className="h-3 w-3 text-accent" />
+              <span className="text-accent">+24%</span> this week
             </p>
           </CardContent>
         </Card>
@@ -67,10 +67,10 @@ export default function SmartStoreDiscounts() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Waste Prevented</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-500" />
+            <TrendingUp className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-500">89 kg</div>
+            <div className="text-2xl font-bold text-accent">89 kg</div>
             <p className="text-xs text-muted-foreground mt-1">Through discounting</p>
           </CardContent>
         </Card>
@@ -108,7 +108,7 @@ export default function SmartStoreDiscounts() {
                     <TableCell className="text-right text-muted-foreground line-through">
                       ${discount.originalPrice.toFixed(2)}
                     </TableCell>
-                    <TableCell className="text-right font-medium text-green-500">
+                    <TableCell className="text-right font-medium text-accent">
                       ${discount.newPrice.toFixed(2)}
                     </TableCell>
                     <TableCell>{discount.applied}</TableCell>
@@ -170,7 +170,7 @@ export default function SmartStoreDiscounts() {
                       <TableCell className="text-right">
                         <Badge variant="secondary">{suggestedDiscount}%</Badge>
                       </TableCell>
-                      <TableCell className="text-right font-medium text-green-500">
+                      <TableCell className="text-right font-medium text-accent">
                         ${newPrice.toFixed(2)}
                       </TableCell>
                       <TableCell className="text-right">

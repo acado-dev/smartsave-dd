@@ -56,10 +56,10 @@ export default function SmartStoreDynamicPricing() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Revenue Impact</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-500" />
+            <TrendingUp className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-500">+18.5%</div>
+            <div className="text-2xl font-bold text-accent">+18.5%</div>
             <p className="text-xs text-muted-foreground mt-1">Compared to static pricing</p>
           </CardContent>
         </Card>
@@ -169,7 +169,7 @@ export default function SmartStoreDynamicPricing() {
                       <Badge variant="outline">{rule.trigger}</Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <span className={rule.adjustment.startsWith('-') ? 'text-green-500' : 'text-blue-500'}>
+                      <span className={rule.adjustment.startsWith('-') ? 'text-accent' : 'text-blue-500'}>
                         {rule.adjustment}
                       </span>
                     </TableCell>
@@ -205,7 +205,7 @@ export default function SmartStoreDynamicPricing() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Revenue Generated</p>
-              <p className="text-3xl font-bold text-green-500">$12,482</p>
+              <p className="text-3xl font-bold text-accent">$12,482</p>
               <p className="text-xs text-muted-foreground">From dynamic pricing this month</p>
             </div>
             <div className="space-y-2">
