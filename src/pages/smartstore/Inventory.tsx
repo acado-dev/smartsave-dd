@@ -77,7 +77,7 @@ export default function SmartStoreInventory() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'fresh':
-        return <Badge className="bg-green-500">Fresh</Badge>;
+        return <Badge className="bg-accent text-accent-foreground">Fresh</Badge>;
       case 'expiring-soon':
         return <Badge variant="destructive">Expiring Soon</Badge>;
       case 'expired':
@@ -111,7 +111,7 @@ export default function SmartStoreInventory() {
       {/* Category Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {smartStoreCategories.map((category) => (
-          <Card key={category.id} className="hover:bg-accent transition-colors cursor-pointer">
+          <Card key={category.id} className="hover:bg-accent/10 transition-colors cursor-pointer">
             <CardContent className="pt-6">
               <p className="text-2xl font-bold">{category.count}</p>
               <p className="text-sm text-muted-foreground mt-1">{category.name}</p>
@@ -179,7 +179,7 @@ export default function SmartStoreInventory() {
                       <div className="flex items-center justify-end gap-2">
                         <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
                           <div 
-                            className={`h-full ${item.freshnessScore > 80 ? 'bg-green-500' : item.freshnessScore > 60 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                            className={`h-full ${item.freshnessScore > 80 ? 'bg-accent' : item.freshnessScore > 60 ? 'bg-yellow-500' : 'bg-destructive'}`}
                             style={{ width: `${item.freshnessScore}%` }}
                           />
                         </div>
