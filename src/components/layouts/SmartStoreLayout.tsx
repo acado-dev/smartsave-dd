@@ -24,32 +24,35 @@ export function SmartStoreLayout({ children }: SmartStoreLayoutProps) {
               <SidebarTrigger>
                 <Menu className="h-5 w-5 text-primary-foreground" />
               </SidebarTrigger>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-primary-foreground">SmartStore</span>
-                <span className="text-xs text-primary-foreground/60">— Downtown Branch</span>
+              <div className="flex-1" />
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-primary-foreground">SmartStore</span>
+                  <span className="text-xs text-primary-foreground/60">— Downtown Branch</span>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center justify-center h-8 w-8 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors">
+                      <Store className="h-4 w-4 text-primary-foreground" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48 bg-popover z-50">
+                    <DropdownMenuItem className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Settings
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="cursor-pointer text-destructive">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center justify-center h-8 w-8 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors">
-                    <Store className="h-4 w-4 text-primary-foreground" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-popover z-50">
-                  <DropdownMenuItem className="cursor-pointer">
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer text-destructive">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </header>
           <main className="flex-1">
