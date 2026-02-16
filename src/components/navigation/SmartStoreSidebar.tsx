@@ -36,7 +36,7 @@ export function SmartStoreSidebar() {
       <SidebarHeader className="border-b px-6 py-5">
         <div className="flex flex-col items-center gap-2">
           <img src={ithinaLogoWhite} alt="Ithina" className="h-14 w-auto object-contain" />
-          <span className="text-xs font-medium text-muted-foreground tracking-wide">Perishable Waste Management</span>
+          <span className="text-xs font-semibold text-sidebar-primary-foreground tracking-wide">Perishable Waste Management</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
