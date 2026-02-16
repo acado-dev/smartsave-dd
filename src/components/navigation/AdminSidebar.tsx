@@ -79,12 +79,9 @@ export function AdminSidebar() {
     <Sidebar className={collapsed ? "w-16" : "w-64"}>
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex flex-col items-center gap-2">
-          <img src={ithinaLogoWhite} alt="ITHINA" className="h-12 w-auto object-contain" />
+          <img src={ithinaLogoWhite} alt="ITHINA" className="h-14 w-auto object-contain" />
           {!collapsed && (
-            <div className="text-center">
-              <span className="text-lg font-bold text-sidebar-foreground">ITHINA</span>
-              <p className="text-xs text-muted-foreground">Admin Configuration</p>
-            </div>
+            <span className="text-xs font-semibold text-sidebar-primary-foreground tracking-wide text-center">Perishable Waste Management</span>
           )}
         </div>
       </SidebarHeader>
