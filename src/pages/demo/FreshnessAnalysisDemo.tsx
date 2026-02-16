@@ -1,6 +1,5 @@
 import { useState } from "react";
 import FreshnessAnalysis from "../management/details/FreshnessAnalysis";
-import buceesLogo from "@/assets/bucees-logo.webp";
 import ithinaLogo from "@/assets/ithina-logo.png";
 import { Button } from "@/components/ui/button";
 import { Maximize, Minimize } from "lucide-react";
@@ -24,15 +23,12 @@ const FreshnessAnalysisDemo = () => {
       <header className="border-b bg-card">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between gap-8">
-            <div className="flex items-center gap-8">
-              <img src={buceesLogo} alt="Buc-ee's" className="h-12 w-auto object-contain" />
-              <div className="h-8 w-px bg-border" />
-              <img src={ithinaLogo} alt="Ithina" className="h-10 w-auto object-contain" />
+            <div className="flex items-center gap-4">
               <img src={ithinaLogo} alt="Ithina" className="h-10 w-auto object-contain" />
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-sm text-muted-foreground">
-                AI Freshness Analysis Demo
+              <div className="text-sm font-semibold text-foreground">
+                AI Freshness Analysis Engine
               </div>
               <Button 
                 variant="outline" 
