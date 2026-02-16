@@ -33,13 +33,10 @@ export function SmartStoreSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="border-b px-6 py-4">
-        <div className="flex items-center gap-3">
-          <img src={ithinaLogoWhite} alt="Ithina" className="h-10 w-10 object-contain" />
-          <div className="flex flex-col">
-            <span className="text-xl font-bold text-primary">ITHINA</span>
-            <span className="text-xs text-muted-foreground">Perishable Waste Management</span>
-          </div>
+      <SidebarHeader className="border-b px-6 py-5">
+        <div className="flex flex-col items-center gap-2">
+          <img src={ithinaLogoWhite} alt="Ithina" className="h-14 w-auto object-contain" />
+          <span className="text-xs font-medium text-muted-foreground tracking-wide">Perishable Waste Management</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
