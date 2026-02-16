@@ -65,6 +65,8 @@ import ESLSolution from "./pages/management/ESLSolution";
 import RetailSentry from "./pages/management/details/RetailSentry";
 import StoreSentry from "./pages/management/details/StoreSentry";
 import FreshnessAnalysisDemo from "./pages/demo/FreshnessAnalysisDemo";
+import FreshnessLanding from "./pages/freshness/FreshnessLanding";
+import FreshnessMobileAnalysis from "./pages/freshness/FreshnessMobileAnalysis";
 import MediaLibrary from "./pages/admin/advertising/MediaLibrary";
 import CampaignCreator from "./pages/admin/advertising/CampaignCreator";
 import CMSIntegration from "./pages/admin/advertising/CMSIntegration";
@@ -243,6 +245,10 @@ const App = () => (
           
           {/* Demo Routes */}
           <Route path="/demo/freshness-analysis" element={<FreshnessAnalysisDemo />} />
+          
+          {/* Mobile Freshness App */}
+          <Route path="/freshness" element={<FreshnessLanding />} />
+          <Route path="/freshness/analysis" element={<FreshnessMobileAnalysis />} />
           
           {/* Presentation Routes */}
           <Route path="/presentation/infomil" element={<InfomilPresentation />} />
