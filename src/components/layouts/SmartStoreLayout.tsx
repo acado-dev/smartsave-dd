@@ -18,10 +18,9 @@ export function SmartStoreLayout({ children }: SmartStoreLayoutProps) {
               <SidebarTrigger>
                 <Menu className="h-5 w-5 text-primary-foreground" />
               </SidebarTrigger>
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-primary-foreground">Perishable Waste Management</span>
-                <div className="h-5 w-px bg-primary-foreground/30" />
-                <img src={ithinaLogoWhite} alt="Ithina" className="h-7 w-auto object-contain" />
+              <div className="flex flex-col items-center">
+                <img src={ithinaLogoWhite} alt="Ithina" className="h-8 w-auto object-contain" />
+                <span className="text-[10px] font-medium text-primary-foreground/70 tracking-wide">Perishable Waste Management</span>
               </div>
             </div>
           </header>
