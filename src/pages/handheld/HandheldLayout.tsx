@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
+import ithinaLogoWhite from "@/assets/ithina-logo-white-full.png";
 import { useState } from "react";
 
 const navItems = [
@@ -28,14 +28,11 @@ export default function HandheldLayout() {
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
       {/* Tablet Sidebar - Hidden on mobile, visible on md+ */}
-      <aside className="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-border bg-card">
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center gap-3">
-            <img src={ithinaCommandLogo} alt="Command" className="h-10 w-auto" />
-            <div>
-              <p className="text-sm font-semibold">Command</p>
-              <p className="text-xs text-muted-foreground">Store Operations</p>
-            </div>
+      <aside className="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-border" style={{ backgroundColor: 'hsl(222, 47%, 14%)' }}>
+        <div className="p-4 border-b border-white/10">
+          <div className="flex flex-col items-center gap-2">
+            <img src={ithinaLogoWhite} alt="Ithina" className="h-12 w-auto object-contain" />
+            <span className="text-xs font-semibold text-white/90 tracking-wide">Store Operations</span>
           </div>
         </div>
         
@@ -50,8 +47,8 @@ export default function HandheldLayout() {
                 className={cn(
                   "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left",
                   isActive 
-                    ? "bg-primary text-primary-foreground" 
-                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                    ? "bg-white/15 text-white" 
+                    : "text-white/60 hover:bg-white/10 hover:text-white"
                 )}
               >
                 <item.icon className="h-5 w-5" />
@@ -61,10 +58,10 @@ export default function HandheldLayout() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-white/10">
           <Button
             variant="outline"
-            className="w-full justify-start gap-3"
+            className="w-full justify-start gap-3 border-white/20 text-white hover:bg-white/10 hover:text-white"
             onClick={() => navigate("/handheld/alerts")}
           >
             <Bell className="h-5 w-5" />
@@ -77,23 +74,20 @@ export default function HandheldLayout() {
       {/* Mobile/Tablet Container */}
       <div className="flex-1 flex flex-col max-w-3xl md:max-w-none mx-auto w-full">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-primary text-primary-foreground px-4 py-3">
+        <header className="sticky top-0 z-50 px-4 py-3 text-white" style={{ backgroundColor: 'hsl(222, 47%, 14%)' }}>
           <div className="flex items-center justify-between">
             {/* Mobile menu button */}
             <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
               <SheetTrigger asChild className="md:hidden">
-                <button className="p-2 rounded-full hover:bg-primary-foreground/10 transition-colors">
+                <button className="p-2 rounded-full hover:bg-white/10 transition-colors">
                   <Menu className="h-5 w-5" />
                 </button>
               </SheetTrigger>
               <SheetContent side="left" className="w-72 p-0">
-                <div className="p-4 border-b border-border bg-primary text-primary-foreground">
-                  <div className="flex items-center gap-3">
-                    <img src={ithinaCommandLogo} alt="Command" className="h-10 w-auto" />
-                    <div>
-                      <p className="text-sm font-semibold">Command</p>
-                      <p className="text-xs text-primary-foreground/80">Store Operations</p>
-                    </div>
+                <div className="p-4 border-b border-white/10 text-white" style={{ backgroundColor: 'hsl(222, 47%, 14%)' }}>
+                  <div className="flex flex-col items-center gap-2">
+                    <img src={ithinaLogoWhite} alt="Ithina" className="h-12 w-auto object-contain" />
+                    <span className="text-xs font-semibold text-white/90 tracking-wide">Store Operations</span>
                   </div>
                 </div>
                 <nav className="p-4 space-y-2">
@@ -133,8 +127,8 @@ export default function HandheldLayout() {
 
             {/* Store name - mobile */}
             <div className="flex items-center gap-3 md:hidden">
-              <img src={ithinaCommandLogo} alt="Command" className="h-10 w-auto" />
-              <p className="text-sm font-semibold text-primary-foreground">Store #127 — Milan Central</p>
+              <img src={ithinaLogoWhite} alt="Ithina" className="h-8 w-auto object-contain" />
+              <p className="text-sm font-semibold text-white">Store #127 — Milan Central</p>
             </div>
 
             {/* Tablet header title */}
@@ -145,7 +139,7 @@ export default function HandheldLayout() {
             {/* Alert button - mobile */}
             <button 
               onClick={() => navigate("/handheld/alerts")}
-              className="relative p-2 rounded-full hover:bg-primary-foreground/10 transition-colors md:hidden"
+              className="relative p-2 rounded-full hover:bg-white/10 transition-colors md:hidden"
             >
               <Bell className="h-5 w-5" />
               <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-destructive text-destructive-foreground">
@@ -157,7 +151,7 @@ export default function HandheldLayout() {
             <div className="hidden md:flex items-center gap-2">
               <button 
                 onClick={() => navigate("/handheld/alerts")}
-                className="relative p-2 rounded-full hover:bg-primary-foreground/10 transition-colors"
+                className="relative p-2 rounded-full hover:bg-white/10 transition-colors"
               >
                 <Bell className="h-5 w-5" />
                 <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-destructive text-destructive-foreground">
