@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import ddHubLogo from "@/assets/ddhub-logo.png";
+import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
 import { useState } from "react";
 
 const navItems = [
@@ -31,10 +31,10 @@ export default function HandheldLayout() {
       <aside className="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-border bg-card">
         <div className="p-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <img src={ddHubLogo} alt="DD Hub" className="h-10 w-auto" />
+            <img src={ithinaCommandLogo} alt="Command" className="h-10 w-auto" />
             <div>
-              <p className="text-sm font-semibold">DD Hub</p>
-              <p className="text-xs text-muted-foreground">One App. Total Control.</p>
+              <p className="text-sm font-semibold">Command</p>
+              <p className="text-xs text-muted-foreground">Store Operations</p>
             </div>
           </div>
         </div>
@@ -89,10 +89,10 @@ export default function HandheldLayout() {
               <SheetContent side="left" className="w-72 p-0">
                 <div className="p-4 border-b border-border bg-primary text-primary-foreground">
                   <div className="flex items-center gap-3">
-                    <img src={ddHubLogo} alt="DD Hub" className="h-10 w-auto" />
+                    <img src={ithinaCommandLogo} alt="Command" className="h-10 w-auto" />
                     <div>
-                      <p className="text-sm font-semibold">DD Hub</p>
-                      <p className="text-xs text-primary-foreground/80">One App. Total Control.</p>
+                      <p className="text-sm font-semibold">Command</p>
+                      <p className="text-xs text-primary-foreground/80">Store Operations</p>
                     </div>
                   </div>
                 </div>
@@ -131,15 +131,15 @@ export default function HandheldLayout() {
               </SheetContent>
             </Sheet>
 
-            {/* Logo and tagline - mobile */}
+            {/* Store name - mobile */}
             <div className="flex items-center gap-3 md:hidden">
-              <img src={ddHubLogo} alt="DD Hub" className="h-12 w-auto" />
-              <p className="text-[10px] text-primary-foreground/80 tracking-wide">One App. Total Store Control.</p>
+              <img src={ithinaCommandLogo} alt="Command" className="h-10 w-auto" />
+              <p className="text-sm font-semibold text-primary-foreground">Store #127 — Milan Central</p>
             </div>
 
             {/* Tablet header title */}
             <div className="hidden md:block">
-              <h1 className="text-lg font-semibold">Handheld Terminal</h1>
+              <h1 className="text-lg font-semibold">Store #127 — Milan Central</h1>
             </div>
 
             {/* Alert button - mobile */}
