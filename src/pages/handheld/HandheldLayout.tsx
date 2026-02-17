@@ -38,7 +38,7 @@ export default function HandheldLayout() {
         <div className="p-5 border-b border-white/10">
           <div className="flex flex-col items-center gap-2">
             <img src={ithinaLogoWhite} alt="Ithina" className="h-14 w-auto object-contain" />
-            <span className="text-[11px] font-semibold text-white/80 tracking-widest uppercase">Store Operations</span>
+            <span className="text-[11px] font-semibold text-white/80 tracking-widest uppercase">Command</span>
           </div>
         </div>
         
@@ -94,7 +94,7 @@ export default function HandheldLayout() {
                 <div className="p-5 border-b border-white/10 text-white" style={{ backgroundColor: ITHINA_NAVY }}>
                   <div className="flex flex-col items-center gap-2">
                     <img src={ithinaLogoWhite} alt="Ithina" className="h-12 w-auto object-contain" />
-                    <span className="text-[11px] font-semibold text-white/80 tracking-widest uppercase">Store Operations</span>
+                    <span className="text-[11px] font-semibold text-white/80 tracking-widest uppercase">Command</span>
                   </div>
                 </div>
                 <nav className="p-3 space-y-1">
