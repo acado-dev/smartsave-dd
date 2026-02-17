@@ -28,6 +28,9 @@ import {
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
+const ITHINA_NAVY = "hsl(205, 55%, 18%)";
+const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+
 export default function HandheldSettings() {
   const { toast } = useToast();
   const [language, setLanguage] = useState("en");
@@ -56,16 +59,16 @@ export default function HandheldSettings() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold">Settings</h2>
+        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>Settings</h2>
         <p className="text-sm text-muted-foreground">App preferences and sync status</p>
       </div>
 
       {/* User Profile */}
-      <Card>
+      <Card className="border-slate-200">
         <CardContent className="pt-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <User className="h-6 w-6 text-primary" />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${ITHINA_TEAL}15` }}>
+              <User className="h-6 w-6" style={{ color: ITHINA_TEAL }} />
             </div>
             <div className="flex-1">
               <p className="font-medium">{userInfo.name}</p>
@@ -87,15 +90,15 @@ export default function HandheldSettings() {
       </Card>
 
       {/* Sync Status */}
-      <Card>
+      <Card className="border-slate-200">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             {syncStatus === "online" ? (
-              <Wifi className="h-4 w-4 text-green-500" />
+              <Wifi className="h-4 w-4 text-emerald-500" />
             ) : syncStatus === "syncing" ? (
               <RefreshCw className="h-4 w-4 text-amber-500 animate-spin" />
             ) : (
-              <WifiOff className="h-4 w-4 text-destructive" />
+              <WifiOff className="h-4 w-4 text-orange-500" />
             )}
             Sync Status
           </CardTitle>
@@ -111,9 +114,9 @@ export default function HandheldSettings() {
             <Badge 
               variant="outline" 
               className={cn(
-                syncStatus === "online" && "text-green-500 border-green-500",
-                syncStatus === "syncing" && "text-amber-500 border-amber-500",
-                syncStatus === "offline" && "text-destructive border-destructive"
+                syncStatus === "online" && "text-emerald-500 border-emerald-400",
+                syncStatus === "syncing" && "text-amber-500 border-amber-400",
+                syncStatus === "offline" && "text-orange-500 border-orange-400"
               )}
             >
               {syncStatus}
@@ -121,7 +124,7 @@ export default function HandheldSettings() {
           </div>
           <Button 
             variant="outline" 
-            className="w-full" 
+            className="w-full border-slate-200" 
             onClick={handleSync}
             disabled={syncStatus === "syncing"}
           >
@@ -136,12 +139,11 @@ export default function HandheldSettings() {
       </Card>
 
       {/* Preferences */}
-      <Card>
+      <Card className="border-slate-200">
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Preferences</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Language */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Globe className="h-4 w-4 text-muted-foreground" />
@@ -158,41 +160,25 @@ export default function HandheldSettings() {
               </SelectContent>
             </Select>
           </div>
-
-          {/* Notifications */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Bell className="h-4 w-4 text-muted-foreground" />
               <Label htmlFor="notifications">Push Notifications</Label>
             </div>
-            <Switch
-              id="notifications"
-              checked={notifications}
-              onCheckedChange={setNotifications}
-            />
+            <Switch id="notifications" checked={notifications} onCheckedChange={setNotifications} />
           </div>
-
-          {/* Dark Mode */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              {darkMode ? (
-                <Moon className="h-4 w-4 text-muted-foreground" />
-              ) : (
-                <Sun className="h-4 w-4 text-muted-foreground" />
-              )}
+              {darkMode ? <Moon className="h-4 w-4 text-muted-foreground" /> : <Sun className="h-4 w-4 text-muted-foreground" />}
               <Label htmlFor="darkMode">Dark Mode</Label>
             </div>
-            <Switch
-              id="darkMode"
-              checked={darkMode}
-              onCheckedChange={setDarkMode}
-            />
+            <Switch id="darkMode" checked={darkMode} onCheckedChange={setDarkMode} />
           </div>
         </CardContent>
       </Card>
 
       {/* Role-based Access */}
-      <Card>
+      <Card className="border-slate-200">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             <Shield className="h-4 w-4" />
@@ -222,7 +208,7 @@ export default function HandheldSettings() {
       </Card>
 
       {/* App Info */}
-      <Card>
+      <Card className="border-slate-200">
         <CardContent className="pt-4">
           <div className="space-y-2 text-sm text-muted-foreground">
             <div className="flex justify-between">
@@ -242,7 +228,7 @@ export default function HandheldSettings() {
       </Card>
 
       {/* Logout */}
-      <Button variant="destructive" className="w-full">
+      <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">
         <LogOut className="h-4 w-4 mr-2" />
         Sign Out
       </Button>

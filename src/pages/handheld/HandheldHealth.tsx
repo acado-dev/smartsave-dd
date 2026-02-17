@@ -21,6 +21,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const ITHINA_NAVY = "hsl(205, 55%, 18%)";
+const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+
 const aisleData = [
   { id: "A1", name: "Aisle 1 - Produce", total: 145, healthy: 140, warning: 4, critical: 1 },
   { id: "A2", name: "Aisle 2 - Dairy", total: 198, healthy: 185, warning: 10, critical: 3 },
@@ -60,30 +63,30 @@ export default function HandheldHealth() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold">Battery Intelligence</h2>
+        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>Battery Intelligence</h2>
         <p className="text-sm text-muted-foreground">Monitor and plan battery replacements</p>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-3 gap-2">
-        <Card className="bg-green-500/10 border-green-500/30">
+        <Card className="bg-emerald-50 border-emerald-200">
           <CardContent className="p-3 text-center">
-            <BatteryFull className="h-5 w-5 mx-auto mb-1 text-green-500" />
-            <p className="text-xl font-bold text-green-600">{totalHealthy}</p>
+            <BatteryFull className="h-5 w-5 mx-auto mb-1 text-emerald-500" />
+            <p className="text-xl font-bold text-emerald-600">{totalHealthy}</p>
             <p className="text-xs text-muted-foreground">Healthy</p>
           </CardContent>
         </Card>
-        <Card className="bg-amber-500/10 border-amber-500/30">
+        <Card className="bg-amber-50 border-amber-200">
           <CardContent className="p-3 text-center">
             <BatteryMedium className="h-5 w-5 mx-auto mb-1 text-amber-500" />
             <p className="text-xl font-bold text-amber-600">{totalWarning}</p>
             <p className="text-xs text-muted-foreground">Warning</p>
           </CardContent>
         </Card>
-        <Card className="bg-destructive/10 border-destructive/30">
+        <Card className="bg-orange-50 border-orange-200">
           <CardContent className="p-3 text-center">
-            <BatteryWarning className="h-5 w-5 mx-auto mb-1 text-destructive" />
-            <p className="text-xl font-bold text-destructive">{totalCritical}</p>
+            <BatteryWarning className="h-5 w-5 mx-auto mb-1 text-orange-500" />
+            <p className="text-xl font-bold text-orange-600">{totalCritical}</p>
             <p className="text-xs text-muted-foreground">Critical</p>
           </CardContent>
         </Card>
@@ -94,7 +97,7 @@ export default function HandheldHealth() {
           <TabsTrigger value="overview">By Aisle</TabsTrigger>
           <TabsTrigger value="critical">
             Critical
-            <Badge variant="destructive" className="ml-1 h-4 px-1 text-xs">{totalCritical}</Badge>
+            <Badge className="ml-1 h-4 px-1 text-xs bg-orange-500 text-white">{totalCritical}</Badge>
           </TabsTrigger>
         </TabsList>
 
@@ -104,7 +107,7 @@ export default function HandheldHealth() {
             return (
               <Card 
                 key={aisle.id}
-                className="cursor-pointer hover:bg-accent/50 transition-colors"
+                className="cursor-pointer hover:shadow-md transition-all border-slate-200"
                 onClick={() => setSelectedAisle(selectedAisle === aisle.id ? null : aisle.id)}
               >
                 <CardContent className="p-3">
@@ -115,10 +118,10 @@ export default function HandheldHealth() {
                     </div>
                     <div className="flex items-center gap-1">
                       {aisle.critical > 0 && (
-                        <Badge variant="destructive" className="h-5 text-xs">{aisle.critical}</Badge>
+                        <Badge className="h-5 text-xs bg-orange-500 text-white">{aisle.critical}</Badge>
                       )}
                       {aisle.warning > 0 && (
-                        <Badge variant="outline" className="h-5 text-xs text-amber-600 border-amber-500">{aisle.warning}</Badge>
+                        <Badge variant="outline" className="h-5 text-xs text-amber-600 border-amber-400">{aisle.warning}</Badge>
                       )}
                     </div>
                   </div>
@@ -127,14 +130,15 @@ export default function HandheldHealth() {
                       <span>{aisle.total} ESLs</span>
                       <span>{healthPercent}% healthy</span>
                     </div>
-                    <Progress 
-                      value={healthPercent} 
-                      className={cn(
-                        "h-2",
-                        healthPercent < 90 && "[&>div]:bg-amber-500",
-                        healthPercent < 80 && "[&>div]:bg-destructive"
-                      )} 
-                    />
+                    <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+                      <div 
+                        className="h-full rounded-full transition-all"
+                        style={{ 
+                          width: `${healthPercent}%`, 
+                          backgroundColor: healthPercent >= 90 ? ITHINA_TEAL : healthPercent >= 80 ? '#f59e0b' : '#f97316'
+                        }} 
+                      />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -143,12 +147,12 @@ export default function HandheldHealth() {
         </TabsContent>
 
         <TabsContent value="critical" className="mt-4 space-y-2">
-          <Card className="bg-destructive/5 border-destructive/20 mb-4">
+          <Card className="bg-orange-50 border-orange-200 mb-4">
             <CardContent className="p-3">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
+                <AlertTriangle className="h-5 w-5 text-orange-500" />
                 <div>
-                  <p className="font-medium text-sm">{totalCritical} ESLs need immediate attention</p>
+                  <p className="font-medium text-sm text-orange-700">{totalCritical} ESLs need immediate attention</p>
                   <p className="text-xs text-muted-foreground">Batteries below 10% - replace within 3 days</p>
                 </div>
               </div>
@@ -160,13 +164,13 @@ export default function HandheldHealth() {
             return (
               <Card 
                 key={esl.id}
-                className="cursor-pointer hover:bg-accent/50 transition-colors"
+                className="cursor-pointer hover:shadow-md transition-all border-slate-200"
                 onClick={() => navigate(`/handheld/operations/replace?esl=${esl.id}`)}
               >
                 <CardContent className="p-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center">
-                      <BatteryIcon className="h-5 w-5 text-destructive" />
+                    <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center">
+                      <BatteryIcon className="h-5 w-5 text-orange-500" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
@@ -180,7 +184,7 @@ export default function HandheldHealth() {
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <p className="text-lg font-bold text-destructive">{esl.battery}%</p>
+                      <p className="text-lg font-bold text-orange-600">{esl.battery}%</p>
                       <p className="text-xs text-muted-foreground">{esl.daysLeft}d left</p>
                     </div>
                   </div>
@@ -189,7 +193,7 @@ export default function HandheldHealth() {
             );
           })}
 
-          <Button className="w-full" variant="destructive">
+          <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">
             Plan Bulk Replacement ({totalCritical} ESLs)
           </Button>
         </TabsContent>
