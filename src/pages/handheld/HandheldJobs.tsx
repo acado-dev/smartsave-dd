@@ -28,6 +28,9 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 
+const ITHINA_NAVY = "hsl(205, 55%, 18%)";
+const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+
 const jobStats = {
   total: 1275,
   completed: 1247,
@@ -134,9 +137,9 @@ export default function HandheldJobs() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "text-green-500";
+      case "completed": return "text-emerald-500";
       case "pending": return "text-amber-500";
-      case "failed": return "text-destructive";
+      case "failed": return "text-orange-500";
       default: return "text-muted-foreground";
     }
   };
@@ -144,26 +147,28 @@ export default function HandheldJobs() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold">Job Control Center</h2>
+        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>Job Control Center</h2>
         <p className="text-sm text-muted-foreground">Monitor and manage ESL jobs</p>
       </div>
 
       {/* Stats Overview */}
-      <Card>
+      <Card className="border-slate-200">
         <CardContent className="pt-4">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <p className="text-2xl font-bold">{completionRate}%</p>
+              <p className="text-2xl font-bold" style={{ color: ITHINA_NAVY }}>{completionRate}%</p>
               <p className="text-xs text-muted-foreground">Completion Rate</p>
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-right text-sm">
               <span className="text-muted-foreground">Total:</span>
               <span className="font-medium">{jobStats.total}</span>
               <span className="text-muted-foreground">Failed:</span>
-              <span className="font-medium text-destructive">{jobStats.failed}</span>
+              <span className="font-medium text-orange-500">{jobStats.failed}</span>
             </div>
           </div>
-          <Progress value={completionRate} className="h-2" />
+          <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+            <div className="h-full rounded-full" style={{ width: `${completionRate}%`, backgroundColor: ITHINA_TEAL }} />
+          </div>
           {jobStats.slaBreaches > 0 && (
             <div className="mt-3 flex items-center gap-2 text-amber-600 text-xs">
               <AlertTriangle className="h-3 w-3" />
@@ -175,10 +180,10 @@ export default function HandheldJobs() {
 
       {/* Failure Summary */}
       {jobStats.failed > 0 && (
-        <Card className="bg-destructive/5 border-destructive/20">
+        <Card className="bg-orange-50 border-orange-200">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <XCircle className="h-4 w-4 text-destructive" />
+              <XCircle className="h-4 w-4 text-orange-500" />
               Failure Analysis
             </CardTitle>
           </CardHeader>
@@ -189,7 +194,7 @@ export default function HandheldJobs() {
                   <item.icon className="h-4 w-4 text-muted-foreground" />
                   <span>{item.reason}</span>
                 </div>
-                <Badge variant="outline" className="text-destructive border-destructive">
+                <Badge variant="outline" className="text-orange-600 border-orange-400">
                   {item.count}
                 </Badge>
               </div>
@@ -207,7 +212,7 @@ export default function HandheldJobs() {
           </TabsTrigger>
           <TabsTrigger value="failed">
             Failed
-            <Badge variant="destructive" className="ml-1 h-4 px-1 text-xs">{jobStats.failed}</Badge>
+            <Badge className="ml-1 h-4 px-1 text-xs bg-orange-500 text-white">{jobStats.failed}</Badge>
           </TabsTrigger>
         </TabsList>
 
@@ -221,8 +226,8 @@ export default function HandheldJobs() {
                   <Card 
                     key={job.id}
                     className={cn(
-                      "cursor-pointer hover:bg-accent/50 transition-colors",
-                      job.status === "failed" && "border-destructive/30"
+                      "cursor-pointer hover:shadow-md transition-all border-slate-200",
+                      job.status === "failed" && "border-orange-200"
                     )}
                     onClick={() => setSelectedJob(job)}
                   >
@@ -230,9 +235,9 @@ export default function HandheldJobs() {
                       <div className="flex items-center gap-3">
                         <div className={cn(
                           "w-10 h-10 rounded-lg flex items-center justify-center",
-                          job.status === "completed" && "bg-green-500/10",
-                          job.status === "pending" && "bg-amber-500/10",
-                          job.status === "failed" && "bg-destructive/10"
+                          job.status === "completed" && "bg-emerald-50",
+                          job.status === "pending" && "bg-amber-50",
+                          job.status === "failed" && "bg-orange-50"
                         )}>
                           <StatusIcon className={cn("h-5 w-5", getStatusColor(job.status))} />
                         </div>
@@ -248,7 +253,7 @@ export default function HandheldJobs() {
                             {job.failedCount > 0 && (
                               <>
                                 <span>•</span>
-                                <span className="text-destructive">{job.failedCount} failed</span>
+                                <span className="text-orange-500">{job.failedCount} failed</span>
                               </>
                             )}
                           </div>
@@ -256,7 +261,7 @@ export default function HandheldJobs() {
                         <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
                       </div>
                       {job.reason && (
-                        <div className="mt-2 p-2 bg-destructive/5 rounded text-xs text-destructive">
+                        <div className="mt-2 p-2 bg-orange-50 rounded text-xs text-orange-700">
                           {job.reason}
                         </div>
                       )}
@@ -275,7 +280,9 @@ export default function HandheldJobs() {
             <ScrollArea className="h-full pr-4">
               <SheetHeader className="text-left mb-4">
                 <div className="flex items-center gap-2">
-                  <Badge variant={selectedJob.status === "failed" ? "destructive" : "secondary"}>
+                  <Badge className={cn(
+                    selectedJob.status === "failed" ? "bg-orange-500 text-white" : "bg-slate-100 text-slate-700"
+                  )}>
                     {selectedJob.status}
                   </Badge>
                   <Badge variant="outline">{selectedJob.id}</Badge>
@@ -287,12 +294,12 @@ export default function HandheldJobs() {
               </SheetHeader>
 
               {selectedJob.reason && (
-                <Card className="bg-destructive/5 border-destructive/20 mb-4">
+                <Card className="bg-orange-50 border-orange-200 mb-4">
                   <CardContent className="p-3">
                     <div className="flex items-start gap-2">
-                      <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+                      <AlertTriangle className="h-5 w-5 text-orange-500 shrink-0 mt-0.5" />
                       <div>
-                        <p className="font-medium text-sm text-destructive">Root Cause</p>
+                        <p className="font-medium text-sm text-orange-700">Root Cause</p>
                         <p className="text-sm mt-1">{selectedJob.reason}</p>
                       </div>
                     </div>
@@ -301,12 +308,12 @@ export default function HandheldJobs() {
               )}
 
               {selectedJob.recommendation && (
-                <Card className="bg-primary/5 border-primary/20 mb-4">
+                <Card className="mb-4" style={{ backgroundColor: `${ITHINA_TEAL}08`, borderColor: `${ITHINA_TEAL}30` }}>
                   <CardContent className="p-3">
                     <div className="flex items-start gap-2">
-                      <ArrowUpRight className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <ArrowUpRight className="h-5 w-5 shrink-0 mt-0.5" style={{ color: ITHINA_TEAL }} />
                       <div>
-                        <p className="font-medium text-sm text-primary">Recommended Action</p>
+                        <p className="font-medium text-sm" style={{ color: ITHINA_TEAL }}>Recommended Action</p>
                         <p className="text-sm mt-1">{selectedJob.recommendation}</p>
                       </div>
                     </div>
@@ -323,9 +330,9 @@ export default function HandheldJobs() {
                         <span className="text-xs text-muted-foreground w-16 shrink-0">{event.time}</span>
                         <div className={cn(
                           "w-2 h-2 rounded-full shrink-0",
-                          event.status === "success" && "bg-green-500",
+                          event.status === "success" && "bg-emerald-500",
                           event.status === "pending" && "bg-amber-500",
-                          event.status === "failed" && "bg-destructive"
+                          event.status === "failed" && "bg-orange-500"
                         )} />
                         <span>{event.event}</span>
                       </div>
@@ -347,7 +354,7 @@ export default function HandheldJobs() {
 
               {selectedJob.status === "failed" && (
                 <div className="flex gap-2 mt-6">
-                  <Button className="flex-1" variant="default">
+                  <Button className="flex-1 text-white" style={{ backgroundColor: ITHINA_TEAL }}>
                     <RefreshCw className="h-4 w-4 mr-2" />
                     Retry Job
                   </Button>

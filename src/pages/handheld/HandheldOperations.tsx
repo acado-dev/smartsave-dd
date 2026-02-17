@@ -16,6 +16,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+const ITHINA_NAVY = "hsl(205, 55%, 18%)";
+
 const operationGroups = [
   {
     title: "ESL Assignment",
@@ -49,7 +52,7 @@ const operationGroups = [
         label: "Replace", 
         description: "Swap ESL device",
         badge: "12 low battery",
-        badgeVariant: "destructive" as const,
+        badgeColor: "orange",
         route: "/handheld/operations/replace"
       },
     ]
@@ -114,7 +117,7 @@ export default function HandheldOperations() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold">ESL Operations</h2>
+        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>ESL Operations</h2>
         <p className="text-sm text-muted-foreground">Select an operation to begin</p>
       </div>
 
@@ -127,22 +130,27 @@ export default function HandheldOperations() {
             {group.operations.map((op) => (
               <Card 
                 key={op.id}
-                className="cursor-pointer hover:bg-accent/50 transition-colors active:scale-[0.98]"
+                className="cursor-pointer hover:shadow-md transition-all border-slate-200 active:scale-[0.98]"
                 onClick={() => navigate(op.route)}
               >
                 <CardContent className="p-3">
                   <div className="flex items-center gap-3">
-                    <div className={cn(
-                      "w-10 h-10 rounded-lg flex items-center justify-center shrink-0",
-                      "bg-primary/10 text-primary"
-                    )}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${ITHINA_TEAL}15`, color: ITHINA_TEAL }}
+                    >
                       <op.icon className="h-5 w-5" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <p className="font-medium text-sm">{op.label}</p>
                         {op.badge && (
-                          <Badge variant={op.badgeVariant} className="text-xs h-5">
+                          <Badge 
+                            variant={op.badgeVariant || "secondary"}
+                            className={cn(
+                              "text-xs h-5",
+                              (op as any).badgeColor === "orange" && "bg-orange-100 text-orange-700 border-orange-200"
+                            )}
+                          >
                             {op.badge}
                           </Badge>
                         )}

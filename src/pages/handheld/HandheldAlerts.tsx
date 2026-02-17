@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+
 const alerts = [
   {
     id: 1,
@@ -86,19 +88,19 @@ export default function HandheldAlerts() {
   };
 
   const getAlertStyle = (type: string, read: boolean) => {
-    if (read) return "bg-muted/30 border-border";
+    if (read) return "bg-muted/30 border-slate-200";
     switch (type) {
-      case "critical": return "bg-destructive/5 border-destructive/30";
-      case "warning": return "bg-amber-500/5 border-amber-500/30";
-      default: return "bg-primary/5 border-primary/30";
+      case "critical": return "bg-orange-50 border-orange-200";
+      case "warning": return "bg-amber-50 border-amber-200";
+      default: return "bg-sky-50 border-sky-200";
     }
   };
 
   const getIconColor = (type: string) => {
     switch (type) {
-      case "critical": return "text-destructive";
+      case "critical": return "text-orange-500";
       case "warning": return "text-amber-500";
-      default: return "text-primary";
+      default: return ITHINA_TEAL;
     }
   };
 
@@ -124,12 +126,12 @@ export default function HandheldAlerts() {
 
       {/* Critical Banner */}
       {criticalCount > 0 && (
-        <Card className="bg-destructive/10 border-destructive/30">
+        <Card className="bg-orange-50 border-orange-200">
           <CardContent className="p-3">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
+              <AlertTriangle className="h-5 w-5 text-orange-500" />
               <div className="flex-1">
-                <p className="font-medium text-sm text-destructive">{criticalCount} Critical Alerts</p>
+                <p className="font-medium text-sm text-orange-700">{criticalCount} Critical Alerts</p>
                 <p className="text-xs text-muted-foreground">Require immediate attention</p>
               </div>
             </div>
@@ -146,7 +148,7 @@ export default function HandheldAlerts() {
           <TabsTrigger value="unread">
             Unread
             {unreadCount > 0 && (
-              <Badge variant="destructive" className="ml-1 h-4 px-1 text-xs">{unreadCount}</Badge>
+              <Badge className="ml-1 h-4 px-1 text-xs bg-orange-500 text-white">{unreadCount}</Badge>
             )}
           </TabsTrigger>
           <TabsTrigger value="critical">Critical</TabsTrigger>
@@ -164,7 +166,7 @@ export default function HandheldAlerts() {
                 <Card 
                   key={alert.id}
                   className={cn(
-                    "cursor-pointer transition-colors",
+                    "cursor-pointer transition-all hover:shadow-md",
                     getAlertStyle(alert.type, alert.read)
                   )}
                   onClick={() => {
@@ -176,11 +178,11 @@ export default function HandheldAlerts() {
                     <div className="flex items-start gap-3">
                       <div className={cn(
                         "w-10 h-10 rounded-lg flex items-center justify-center shrink-0",
-                        alert.type === "critical" && "bg-destructive/10",
-                        alert.type === "warning" && "bg-amber-500/10",
-                        alert.type === "info" && "bg-primary/10"
+                        alert.type === "critical" && "bg-orange-100",
+                        alert.type === "warning" && "bg-amber-100",
+                        alert.type === "info" && "bg-sky-100"
                       )}>
-                        <alert.icon className={cn("h-5 w-5", getIconColor(alert.type))} />
+                        <alert.icon className="h-5 w-5" style={{ color: getIconColor(alert.type) }} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
@@ -191,7 +193,7 @@ export default function HandheldAlerts() {
                             {alert.title}
                           </p>
                           {!alert.read && (
-                            <div className="w-2 h-2 rounded-full bg-primary shrink-0 mt-1.5" />
+                            <div className="w-2 h-2 rounded-full shrink-0 mt-1.5" style={{ backgroundColor: ITHINA_TEAL }} />
                           )}
                         </div>
                         <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>
