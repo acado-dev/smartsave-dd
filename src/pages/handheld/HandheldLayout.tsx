@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ithinaLogoWhite from "@/assets/ithina-logo-white-full.png";
 import ithinaLogoColor from "@/assets/ithina-logo.png";
 import { useState } from "react";
+import IthinaAssistant from "@/components/handheld/IthinaAssistant";
 
 // Ithina brand colors
 const ITHINA_NAVY = "hsl(205, 55%, 18%)";
@@ -190,6 +191,9 @@ export default function HandheldLayout() {
           </div>
         </nav>
       </div>
+
+      {/* Ithina AI Assistant */}
+      <IthinaAssistant />
     </div>
   );
 }
