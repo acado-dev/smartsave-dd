@@ -98,17 +98,12 @@ const HandheldSplash = () => {
           alt="Ithina Command"
           className="w-44 md:w-56 h-auto object-contain drop-shadow-lg"
         />
-        <div className="space-y-1 mt-2">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
-            Ithina Command
-          </h1>
-          <h2
-            className="text-base md:text-lg font-semibold tracking-widest uppercase"
-            style={{ color: ITHINA_TEAL }}
-          >
-            Store Operations Platform
-          </h2>
-        </div>
+        <h1
+          className="text-3xl md:text-4xl font-bold tracking-widest uppercase mt-2"
+          style={{ color: ITHINA_TEAL }}
+        >
+          Command
+        </h1>
 
         <button
           onClick={() => navigate("/handheld/home")}
