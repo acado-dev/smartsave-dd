@@ -210,26 +210,26 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
   return (
     <div className="fixed inset-0 z-[80] flex flex-col bg-white overflow-hidden">
       {/* Flow Header */}
-      <div className="shrink-0 px-4 sm:px-10 py-3 sm:py-5 flex items-center gap-3 sm:gap-5 border-b border-slate-100"
+      <div className="shrink-0 px-4 md:px-8 py-3 md:py-4 flex items-center gap-3 md:gap-4 border-b border-slate-100"
         style={{ backgroundColor: ITHINA_NAVY }}>
-        <button onClick={onClose} className="p-2 sm:p-3 rounded-lg hover:bg-white/10 text-white/70 hover:text-white">
-          <ChevronLeft className="h-5 w-5 sm:h-8 sm:w-8" />
+        <button onClick={onClose} className="p-2 md:p-2.5 rounded-lg hover:bg-white/10 text-white/70 hover:text-white">
+          <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
         </button>
-        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-          <Apple className="h-5 w-5 sm:h-8 sm:w-8 text-orange-400 shrink-0" />
+        <div className="flex items-center gap-2 md:gap-3 min-w-0">
+          <Apple className="h-5 w-5 md:h-6 md:w-6 text-orange-400 shrink-0" />
           <div>
-            <h2 className="text-white font-bold text-base sm:text-2xl leading-tight">Perishable Markdown Flow</h2>
-            <p className="text-white/50 text-xs sm:text-base">18 items · Fresh produce section</p>
+            <h2 className="text-white font-bold text-base md:text-xl lg:text-2xl leading-tight">Perishable Markdown Flow</h2>
+            <p className="text-white/50 text-xs md:text-sm">18 items · Fresh produce section</p>
           </div>
         </div>
-        <div className="ml-auto flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-1 sm:py-2 rounded-full bg-white/10">
-          <span className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-white/70 text-xs sm:text-base font-medium">Live</span>
+        <div className="ml-auto flex items-center gap-2 px-3 md:px-4 py-1 md:py-1.5 rounded-full bg-white/10">
+          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-white/70 text-xs md:text-sm font-medium">Live</span>
         </div>
       </div>
 
       {/* Step Progress */}
-      <div className="shrink-0 px-4 sm:px-10 py-3 sm:py-5 bg-slate-50 border-b border-slate-100 overflow-x-auto">
+      <div className="shrink-0 px-4 md:px-8 py-3 md:py-4 bg-slate-50 border-b border-slate-100 overflow-x-auto">
         <div className="flex items-center gap-0 min-w-max">
           {stepLabels.map((s, idx) => {
             const isActive = s.key === step;
@@ -237,14 +237,14 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
             return (
               <div key={s.key} className="flex items-center">
                 <div className={cn(
-                  "flex items-center gap-1.5 sm:gap-3 px-3 sm:px-5 py-2 sm:py-3 rounded-full text-xs sm:text-lg font-semibold transition-all",
+                  "flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm lg:text-base font-semibold transition-all",
                   isActive ? "text-white shadow-md" : isDone ? "text-emerald-600 bg-emerald-50" : "text-slate-400 bg-slate-100"
                 )} style={isActive ? { backgroundColor: ITHINA_TEAL } : undefined}>
-                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5 sm:h-5 sm:w-5" /> : <s.icon className="h-3.5 w-3.5 sm:h-5 sm:w-5" />}
+                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> : <s.icon className="h-3.5 w-3.5 md:h-4 md:w-4" />}
                   {s.label}
                 </div>
                 {idx < stepLabels.length - 1 && (
-                  <ChevronRight className={cn("h-4 w-4 sm:h-6 sm:w-6 mx-1 sm:mx-2", isDone ? "text-emerald-400" : "text-slate-200")} />
+                  <ChevronRight className={cn("h-4 w-4 md:h-5 md:w-5 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
                 )}
               </div>
             );
@@ -254,34 +254,34 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
 
       {/* Step Content */}
       <ScrollArea className="flex-1 min-h-0">
-        <div className="p-4 sm:p-10">
+        <div className="p-4 md:p-6 lg:p-8">
 
           {/* ── STEP 1: REVIEW ── */}
           {step === "review" && (
-            <div className="space-y-4 sm:space-y-6">
+            <div className="space-y-4 md:space-y-5">
               {/* Summary cards */}
-              <div className="grid grid-cols-3 gap-3 sm:gap-5">
+              <div className="grid grid-cols-3 gap-3 md:gap-4">
                 {[
                   { label: "Items Flagged", value: items.length.toString(), color: "text-orange-600", bg: "bg-orange-50" },
                   { label: "Selected", value: selectedItems.length.toString(), color: "text-sky-600", bg: "bg-sky-50" },
                   { label: "Value to Recover", value: `€${totalWasteSaved.toFixed(0)}`, color: "text-emerald-600", bg: "bg-emerald-50" },
                 ].map(card => (
-                  <div key={card.label} className={cn("rounded-xl p-3 sm:p-6 text-center", card.bg)}>
-                    <div className={cn("text-xl sm:text-4xl font-black", card.color)}>{card.value}</div>
-                    <div className="text-xs sm:text-base text-slate-500 mt-0.5 sm:mt-1 font-medium">{card.label}</div>
+                  <div key={card.label} className={cn("rounded-xl p-3 md:p-4 text-center", card.bg)}>
+                    <div className={cn("text-xl md:text-2xl lg:text-3xl font-black", card.color)}>{card.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500 mt-0.5 font-medium">{card.label}</div>
                   </div>
                 ))}
               </div>
 
               {/* Ithina Recommendation Banner */}
-              <div className="rounded-xl p-4 sm:p-7 border-l-4 border-orange-500" style={{ backgroundColor: "hsl(205, 55%, 18%, 0.04)", borderLeftColor: ITHINA_TEAL }}>
-                <div className="flex items-start gap-3 sm:gap-4">
-                  <div className="h-9 w-9 sm:h-14 sm:w-14 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: ITHINA_TEAL }}>
-                    <Sparkles className="h-5 w-5 sm:h-7 sm:w-7 text-white" />
+              <div className="rounded-xl p-4 md:p-5 border-l-4" style={{ backgroundColor: "hsl(205, 55%, 18%, 0.04)", borderLeftColor: ITHINA_TEAL }}>
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 md:h-11 md:w-11 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: ITHINA_TEAL }}>
+                    <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm sm:text-xl font-bold text-slate-800">Ithina Recommendation</p>
-                    <p className="text-xs sm:text-base text-slate-500 mt-1 leading-relaxed">
+                    <p className="text-sm md:text-base lg:text-lg font-bold text-slate-800">Ithina Recommendation</p>
+                    <p className="text-xs md:text-sm lg:text-base text-slate-500 mt-1 leading-relaxed">
                       Apply <strong>30% markdown</strong> across {selectedItems.length} selected items to accelerate sell-through before best-before deadline. 
                       Estimated waste recovery: <strong>€{totalWasteSaved.toFixed(2)}</strong>. 
                       Algorithm confidence: <strong className="text-emerald-600">94%</strong>
@@ -291,40 +291,40 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
               </div>
 
               {/* Item list */}
-              <div className="space-y-2 sm:space-y-3">
+              <div className="space-y-2 md:space-y-3">
                 {items.map(item => {
                   const discount = Math.round(((item.current - item.suggested) / item.current) * 100);
                   return (
                     <div key={item.id}
                       onClick={() => toggleItem(item.id)}
                       className={cn(
-                        "rounded-xl border-2 p-3 sm:p-5 cursor-pointer transition-all flex items-center gap-3 sm:gap-5",
+                        "rounded-xl border-2 p-3 md:p-4 cursor-pointer transition-all flex items-center gap-3",
                         item.selected ? "border-orange-400 bg-orange-50/50" : "border-slate-100 bg-slate-50 opacity-60"
                       )}>
                       {/* Checkbox */}
                       <div className={cn(
-                        "h-5 w-5 sm:h-7 sm:w-7 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
+                        "h-5 w-5 md:h-6 md:w-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
                         item.selected ? "border-orange-500 bg-orange-500" : "border-slate-300 bg-white"
                       )}>
-                        {item.selected && <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 text-white" />}
+                        {item.selected && <CheckCircle2 className="h-3 w-3 text-white" />}
                       </div>
                       {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                          <span className="font-bold text-sm sm:text-xl text-slate-800">{item.name}</span>
-                          <Badge variant="outline" className="text-xs sm:text-sm">{item.category}</Badge>
-                          <span className="text-xs sm:text-sm text-orange-600 font-semibold flex items-center gap-1">
-                            <Clock className="h-3 w-3 sm:h-4 sm:w-4" />{item.expiry}
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-bold text-sm md:text-base lg:text-lg text-slate-800">{item.name}</span>
+                          <Badge variant="outline" className="text-xs">{item.category}</Badge>
+                          <span className="text-xs md:text-sm text-orange-600 font-semibold flex items-center gap-1">
+                            <Clock className="h-3 w-3" />{item.expiry}
                           </span>
                         </div>
-                        <div className="text-xs sm:text-base text-slate-400 mt-0.5">{item.qty} units · {item.sku}</div>
+                        <div className="text-xs md:text-sm text-slate-400 mt-0.5">{item.qty} units · {item.sku}</div>
                       </div>
                       {/* Pricing */}
                       <div className="text-right shrink-0">
-                        <div className="text-base sm:text-2xl font-black text-emerald-600">€{item.suggested.toFixed(2)}</div>
+                        <div className="text-base md:text-lg lg:text-xl font-black text-emerald-600">€{item.suggested.toFixed(2)}</div>
                         <div className="flex items-center gap-1.5 justify-end">
-                          <span className="text-xs sm:text-sm line-through text-slate-400">€{item.current.toFixed(2)}</span>
-                          <Badge className="text-[10px] sm:text-sm bg-orange-500 text-white border-0">-{discount}%</Badge>
+                          <span className="text-xs line-through text-slate-400">€{item.current.toFixed(2)}</span>
+                          <Badge className="text-[10px] md:text-xs bg-orange-500 text-white border-0">-{discount}%</Badge>
                         </div>
                       </div>
                     </div>
@@ -336,47 +336,47 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
 
           {/* ── STEP 2: EDIT PRICES ── */}
           {step === "edit" && (
-            <div className="space-y-4 sm:space-y-6">
-              <div className="rounded-xl p-4 sm:p-7 bg-sky-50 border border-sky-100">
-                <p className="text-sm sm:text-lg font-semibold text-sky-800">
+            <div className="space-y-4 md:space-y-5">
+              <div className="rounded-xl p-4 md:p-5 bg-sky-50 border border-sky-100">
+                <p className="text-sm md:text-base lg:text-lg font-semibold text-sky-800">
                   ✏️ You can override any AI-suggested price below. Changes will be reflected in the ESL preview.
                 </p>
               </div>
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {selectedItems.map(item => {
                   const displayPrice = item.editedPrice ?? item.suggested;
                   const discount = Math.round(((item.current - displayPrice) / item.current) * 100);
                   const isEdited = item.editedPrice !== undefined && item.editedPrice !== item.suggested;
                   return (
-                    <div key={item.id} className="rounded-xl border-2 border-slate-100 bg-white p-4 sm:p-6 space-y-3 sm:space-y-4">
+                    <div key={item.id} className="rounded-xl border-2 border-slate-100 bg-white p-4 md:p-5 space-y-3">
                       {/* Item header */}
                       <div className="flex items-center justify-between gap-3">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-sm sm:text-xl text-slate-800">{item.name}</span>
-                            {isEdited && <Badge className="text-[10px] sm:text-sm bg-sky-500 text-white border-0">Modified</Badge>}
+                            <span className="font-bold text-sm md:text-base lg:text-lg text-slate-800">{item.name}</span>
+                            {isEdited && <Badge className="text-[10px] md:text-xs bg-sky-500 text-white border-0">Modified</Badge>}
                           </div>
-                          <span className="text-xs sm:text-sm text-slate-400">{item.sku} · {item.qty} units</span>
+                          <span className="text-xs md:text-sm text-slate-400">{item.sku} · {item.qty} units</span>
                         </div>
                         <div className="text-right">
-                          <div className="text-xs sm:text-sm text-slate-400">Best before</div>
-                          <div className="text-xs sm:text-base text-orange-600 font-semibold">{item.expiry}</div>
+                          <div className="text-xs md:text-sm text-slate-400">Best before</div>
+                          <div className="text-xs md:text-sm text-orange-600 font-semibold">{item.expiry}</div>
                         </div>
                       </div>
                       {/* Price grid */}
-                      <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                        <div className="rounded-lg bg-slate-50 p-2 sm:p-4 text-center">
-                          <div className="text-xs sm:text-sm text-slate-400 mb-0.5">MRP</div>
-                          <div className="text-sm sm:text-xl font-bold text-slate-500 line-through">€{item.mrp.toFixed(2)}</div>
+                      <div className="grid grid-cols-3 gap-2 md:gap-3">
+                        <div className="rounded-lg bg-slate-50 p-2 md:p-3 text-center">
+                          <div className="text-xs md:text-sm text-slate-400 mb-0.5">MRP</div>
+                          <div className="text-sm md:text-base lg:text-lg font-bold text-slate-500 line-through">€{item.mrp.toFixed(2)}</div>
                         </div>
-                        <div className="rounded-lg bg-orange-50 p-2 sm:p-4 text-center">
-                          <div className="text-xs sm:text-sm text-orange-600 mb-0.5">AI Suggested</div>
-                          <div className="text-sm sm:text-xl font-bold text-orange-600">€{item.suggested.toFixed(2)}</div>
+                        <div className="rounded-lg bg-orange-50 p-2 md:p-3 text-center">
+                          <div className="text-xs md:text-sm text-orange-600 mb-0.5">AI Suggested</div>
+                          <div className="text-sm md:text-base lg:text-lg font-bold text-orange-600">€{item.suggested.toFixed(2)}</div>
                         </div>
-                        <div className={cn("rounded-lg p-2 sm:p-4 text-center border-2", isEdited ? "border-sky-400 bg-sky-50" : "border-emerald-200 bg-emerald-50")}>
-                          <div className="text-xs sm:text-sm text-slate-500 mb-1">Your Price</div>
+                        <div className={cn("rounded-lg p-2 md:p-3 text-center border-2", isEdited ? "border-sky-400 bg-sky-50" : "border-emerald-200 bg-emerald-50")}>
+                          <div className="text-xs md:text-sm text-slate-500 mb-1">Your Price</div>
                           <div className="flex items-center justify-center gap-1">
-                            <span className="text-sm sm:text-lg font-bold text-slate-600">€</span>
+                            <span className="text-sm md:text-base font-bold text-slate-600">€</span>
                             <input
                               type="number"
                               step="0.01"
@@ -385,18 +385,18 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
                               value={displayPrice.toFixed(2)}
                               onChange={e => updatePrice(item.id, e.target.value)}
                               onClick={e => e.stopPropagation()}
-                              className="w-16 sm:w-24 text-center text-sm sm:text-xl font-black bg-transparent border-b-2 border-slate-300 focus:border-sky-500 outline-none"
+                              className="w-16 md:w-20 text-center text-sm md:text-base lg:text-lg font-black bg-transparent border-b-2 border-slate-300 focus:border-sky-500 outline-none"
                             />
                           </div>
                         </div>
                       </div>
                       {/* Discount badge */}
                       <div className="flex items-center justify-between">
-                        <span className="text-xs sm:text-base text-slate-400">Discount applied: <strong className="text-orange-600">{discount}%</strong></span>
+                        <span className="text-xs md:text-sm text-slate-400">Discount applied: <strong className="text-orange-600">{discount}%</strong></span>
                         {isEdited && (
                           <button
                             onClick={() => updatePrice(item.id, item.suggested.toFixed(2))}
-                            className="text-xs sm:text-sm text-sky-600 font-semibold hover:underline"
+                            className="text-xs md:text-sm text-sky-600 font-semibold hover:underline"
                           >
                             Reset to AI suggestion
                           </button>
@@ -411,19 +411,19 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
 
           {/* ── STEP 3: ESL PREVIEW ── */}
           {step === "esl-preview" && (
-            <div className="space-y-4 sm:space-y-6">
-              <div className="rounded-xl p-4 sm:p-7 bg-violet-50 border border-violet-100 flex items-start gap-3 sm:gap-4">
-                <Monitor className="h-5 w-5 sm:h-8 sm:w-8 text-violet-600 shrink-0 mt-0.5" />
+            <div className="space-y-4 md:space-y-5">
+              <div className="rounded-xl p-4 md:p-5 bg-violet-50 border border-violet-100 flex items-start gap-3">
+                <Monitor className="h-5 w-5 md:h-6 md:w-6 text-violet-600 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm sm:text-xl font-bold text-violet-800">ESL Label Preview</p>
-                  <p className="text-xs sm:text-base text-violet-600">
+                  <p className="text-sm md:text-base lg:text-lg font-bold text-violet-800">ESL Label Preview</p>
+                  <p className="text-xs md:text-sm lg:text-base text-violet-600">
                     This is exactly how the Electronic Shelf Labels will appear in-store after applying prices. Tap any label to inspect it.
                   </p>
                 </div>
               </div>
 
               {/* Label grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                 {selectedItems.map(item => (
                   <div key={item.id}
                     onClick={() => setPreviewItem(previewItem?.id === item.id ? null : item)}
@@ -431,18 +431,18 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
                     <div className={cn("transition-transform", previewItem?.id === item.id ? "scale-110" : "group-hover:scale-105")}>
                       <ESLLabel item={item} />
                     </div>
-                    <span className="text-xs sm:text-sm text-slate-500 text-center font-medium">{item.name}</span>
+                    <span className="text-xs md:text-sm text-slate-500 text-center font-medium">{item.name}</span>
                   </div>
                 ))}
               </div>
 
               {/* Expanded preview */}
               {previewItem && (
-                <div className="rounded-2xl border-2 border-violet-200 bg-violet-50 p-4 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
+                <div className="rounded-2xl border-2 border-violet-200 bg-violet-50 p-4 md:p-6 flex flex-col md:flex-row items-center gap-5 md:gap-8">
                   <ESLLabel item={previewItem} size="lg" />
-                  <div className="flex-1 space-y-2 sm:space-y-3">
-                    <h3 className="text-base sm:text-2xl font-bold text-slate-800">{previewItem.name}</h3>
-                    <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">
+                  <div className="flex-1 space-y-2 md:space-y-3">
+                    <h3 className="text-base md:text-xl lg:text-2xl font-bold text-slate-800">{previewItem.name}</h3>
+                    <div className="grid grid-cols-2 gap-3 text-sm md:text-base">
                       {[
                         { label: "SKU", value: previewItem.sku },
                         { label: "Category", value: previewItem.category },
@@ -452,26 +452,26 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
                         { label: "New ESL price", value: `€${(previewItem.editedPrice ?? previewItem.suggested).toFixed(2)}`, highlight: true },
                       ].map(f => (
                         <div key={f.label}>
-                          <div className="text-xs sm:text-sm text-slate-400">{f.label}</div>
-                          <div className={cn("font-bold", f.highlight ? "text-emerald-600 text-lg sm:text-2xl" : "text-slate-700")}>{f.value}</div>
+                          <div className="text-xs md:text-sm text-slate-400">{f.label}</div>
+                          <div className={cn("font-bold", f.highlight ? "text-emerald-600 text-lg md:text-xl" : "text-slate-700")}>{f.value}</div>
                         </div>
                       ))}
                     </div>
                     <div className="flex items-center gap-2 pt-1">
-                      <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-green-400 animate-pulse" />
-                      <span className="text-xs sm:text-base text-green-600 font-semibold">ESL online · Signal: Strong</span>
+                      <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+                      <span className="text-xs md:text-sm text-green-600 font-semibold">ESL online · Signal: Strong</span>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Summary */}
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
-                <div className="flex items-center justify-between text-sm sm:text-lg">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 md:p-5">
+                <div className="flex items-center justify-between text-sm md:text-base lg:text-lg">
                   <span className="text-slate-600 font-medium">Labels to be updated</span>
                   <span className="font-black text-slate-900">{selectedItems.length} ESLs</span>
                 </div>
-                <div className="flex items-center justify-between text-sm sm:text-lg mt-2">
+                <div className="flex items-center justify-between text-sm md:text-base lg:text-lg mt-2">
                   <span className="text-slate-600 font-medium">Estimated value recovered</span>
                   <span className="font-black text-emerald-600">€{totalWasteSaved.toFixed(2)}</span>
                 </div>
@@ -481,28 +481,28 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
 
           {/* ── STEP 4: APPLIED ── */}
           {step === "applied" && (
-            <div className="flex flex-col items-center justify-center py-12 sm:py-24 text-center space-y-4 sm:space-y-6">
-              <div className="h-20 w-20 sm:h-32 sm:w-32 rounded-full bg-emerald-100 flex items-center justify-center">
-                <CheckCircle2 className="h-10 w-10 sm:h-16 sm:w-16 text-emerald-500" />
+            <div className="flex flex-col items-center justify-center py-12 md:py-20 text-center space-y-4 md:space-y-5">
+              <div className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-emerald-100 flex items-center justify-center">
+                <CheckCircle2 className="h-10 w-10 md:h-12 md:w-12 text-emerald-500" />
               </div>
               <div>
-                <h3 className="text-xl sm:text-4xl font-black text-slate-800">Prices Applied!</h3>
-                <p className="text-sm sm:text-xl text-slate-500 mt-2">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-slate-800">Prices Applied!</h3>
+                <p className="text-sm md:text-base lg:text-lg text-slate-500 mt-2">
                   {appliedCount} Electronic Shelf Labels updated successfully
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4 sm:gap-6 w-full max-w-xs sm:max-w-md">
+              <div className="grid grid-cols-2 gap-4 md:gap-5 w-full max-w-xs md:max-w-sm">
                 {[
                   { label: "ESLs Updated", value: appliedCount.toString(), color: "text-emerald-600", bg: "bg-emerald-50" },
                   { label: "Waste Saved", value: `€${totalWasteSaved.toFixed(0)}`, color: "text-sky-600", bg: "bg-sky-50" },
                 ].map(s => (
-                  <div key={s.label} className={cn("rounded-xl p-4 sm:p-6 text-center", s.bg)}>
-                    <div className={cn("text-2xl sm:text-4xl font-black", s.color)}>{s.value}</div>
-                    <div className="text-xs sm:text-base text-slate-500 mt-1">{s.label}</div>
+                  <div key={s.label} className={cn("rounded-xl p-4 md:p-5 text-center", s.bg)}>
+                    <div className={cn("text-2xl md:text-3xl font-black", s.color)}>{s.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500 mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
-              <p className="text-xs sm:text-base text-slate-400">
+              <p className="text-xs md:text-sm text-slate-400">
                 ✓ Prices live on ESL displays · ✓ Waste log updated · ✓ Manager notified
               </p>
             </div>
@@ -512,35 +512,35 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
 
       {/* Action Footer */}
       {step !== "applied" && (
-        <div className="shrink-0 p-4 sm:p-8 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
+        <div className="shrink-0 p-4 md:p-5 lg:p-6 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
           <Button
             variant="outline"
-            className="h-10 sm:h-16 text-sm sm:text-xl px-5 sm:px-10 font-semibold rounded-xl"
+            className="h-10 md:h-11 lg:h-12 text-sm md:text-base px-5 md:px-7 font-semibold rounded-xl"
             onClick={step === "review" ? onClose : () => {
               const idx = stepLabels.findIndex(s => s.key === step);
               setStep(stepLabels[idx - 1].key);
             }}
           >
-            <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6 mr-1" />
+            <ChevronLeft className="h-4 w-4 mr-1" />
             {step === "review" ? "Back to Assistant" : "Previous"}
           </Button>
 
-          <div className="flex items-center gap-2 text-xs sm:text-base text-slate-400 font-medium">
+          <div className="flex items-center gap-2 text-xs md:text-sm text-slate-400 font-medium">
             Step {stepIndex + 1} of {stepLabels.length}
           </div>
 
           {step === "esl-preview" ? (
             <Button
-              className="h-10 sm:h-16 text-sm sm:text-xl px-5 sm:px-10 font-bold rounded-xl text-white gap-2"
+              className="h-10 md:h-11 lg:h-12 text-sm md:text-base px-5 md:px-7 font-bold rounded-xl text-white gap-2"
               style={{ backgroundColor: ITHINA_TEAL }}
               onClick={handleApply}
             >
-              <Zap className="h-4 w-4 sm:h-6 sm:w-6" />
+              <Zap className="h-4 w-4" />
               Apply to {selectedItems.length} ESLs
             </Button>
           ) : (
             <Button
-              className="h-10 sm:h-16 text-sm sm:text-xl px-5 sm:px-10 font-bold rounded-xl text-white gap-2"
+              className="h-10 md:h-11 lg:h-12 text-sm md:text-base px-5 md:px-7 font-bold rounded-xl text-white gap-2"
               style={{ backgroundColor: ITHINA_NAVY }}
               onClick={() => {
                 const idx = stepLabels.findIndex(s => s.key === step);
@@ -549,7 +549,7 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
               disabled={step === "review" && selectedItems.length === 0}
             >
               Next
-              <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
+              <ChevronRight className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -557,6 +557,7 @@ function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComple
     </div>
   );
 }
+
 
 // ─── Main Ithina Assistant ────────────────────────────────────────────────────
 export default function IthinaAssistant() {
@@ -646,48 +647,48 @@ export default function IthinaAssistant() {
       >
         {/* Header */}
         <div 
-          className="flex items-center justify-between px-5 sm:px-10 py-4 sm:py-7 shrink-0"
+          className="flex items-center justify-between px-5 md:px-8 lg:px-10 py-4 md:py-5 lg:py-6 shrink-0"
           style={{ backgroundColor: ITHINA_NAVY }}
         >
-          <div className="flex items-center gap-4 sm:gap-6">
-            <div className="h-11 w-11 sm:h-20 sm:w-20 rounded-full bg-white/15 flex items-center justify-center">
-              <img src={ithinaLogo} alt="Ithina" className="h-7 w-7 sm:h-12 sm:w-12 object-contain" />
+          <div className="flex items-center gap-4 md:gap-5 lg:gap-6">
+            <div className="h-11 w-11 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full bg-white/15 flex items-center justify-center">
+              <img src={ithinaLogo} alt="Ithina" className="h-7 w-7 md:h-9 md:w-9 lg:h-10 lg:w-10 object-contain" />
             </div>
             <div>
-              <h2 className="text-white font-bold text-2xl sm:text-5xl">Ithina Assistant</h2>
-              <p className="text-white/60 text-sm sm:text-2xl mt-0.5 sm:mt-2">Retail Intelligence · 4P+C</p>
+              <h2 className="text-white font-bold text-2xl md:text-3xl lg:text-4xl">Ithina Assistant</h2>
+              <p className="text-white/60 text-sm md:text-base lg:text-lg mt-0.5">Retail Intelligence · 4P+C</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 sm:gap-5">
-            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-1.5 sm:py-3 rounded-full bg-white/10">
-              <span className="h-2 w-2 sm:h-3.5 sm:w-3.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-sm sm:text-xl text-white/70 font-medium">Live</span>
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="flex items-center gap-2 md:gap-3 px-3 md:px-5 py-1.5 md:py-2 rounded-full bg-white/10">
+              <span className="h-2 w-2 md:h-2.5 md:w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-sm md:text-base lg:text-lg text-white/70 font-medium">Live</span>
             </div>
             <button 
               onClick={() => setIsOpen(false)}
-              className="p-2 sm:p-4 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+              className="p-2 md:p-3 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors"
             >
-              <X className="h-6 w-6 sm:h-9 sm:w-9" />
+              <X className="h-6 w-6 md:h-7 md:w-7" />
             </button>
           </div>
         </div>
 
         {/* Domain Filter Chips */}
-        <div className="px-4 sm:px-10 py-3 sm:py-6 border-b border-slate-100 shrink-0 overflow-x-auto">
-          <div className="flex items-center gap-2 sm:gap-4">
+        <div className="px-4 md:px-8 lg:px-10 py-3 md:py-4 border-b border-slate-100 shrink-0 overflow-x-auto">
+          <div className="flex items-center gap-2 md:gap-3">
             <button
               onClick={() => setActiveDomain("all")}
               className={cn(
-                "px-4 sm:px-8 py-2 sm:py-4 rounded-full text-sm sm:text-2xl font-semibold transition-all whitespace-nowrap flex items-center gap-2 sm:gap-3",
+                "px-4 md:px-6 py-2 md:py-2.5 rounded-full text-sm md:text-base lg:text-lg font-semibold transition-all whitespace-nowrap flex items-center gap-2",
                 activeDomain === "all"
                   ? "text-white shadow-sm"
                   : "text-slate-500 bg-slate-100 hover:bg-slate-200"
               )}
               style={activeDomain === "all" ? { backgroundColor: ITHINA_TEAL } : undefined}
             >
-              <Filter className="h-4 w-4 sm:h-7 sm:w-7" />
+              <Filter className="h-4 w-4 md:h-5 md:w-5" />
               All
-              <Badge variant="secondary" className="h-5 sm:h-9 px-1.5 sm:px-3 text-xs sm:text-lg bg-white/20 text-inherit border-0">
+              <Badge variant="secondary" className="h-5 px-1.5 text-xs md:text-sm bg-white/20 text-inherit border-0">
                 {mockRecommendations.filter(r => !actionedIds.has(r.id)).length}
               </Badge>
             </button>
@@ -698,16 +699,16 @@ export default function IthinaAssistant() {
                   key={key}
                   onClick={() => setActiveDomain(key)}
                   className={cn(
-                    "px-4 sm:px-8 py-2 sm:py-4 rounded-full text-sm sm:text-2xl font-semibold transition-all whitespace-nowrap flex items-center gap-2 sm:gap-3",
+                    "px-4 md:px-6 py-2 md:py-2.5 rounded-full text-sm md:text-base lg:text-lg font-semibold transition-all whitespace-nowrap flex items-center gap-2",
                     activeDomain === key
                       ? `${cfg.bgColor} ${cfg.color} ring-1 ring-current/20`
                       : "text-slate-500 bg-slate-100 hover:bg-slate-200"
                   )}
                 >
-                  <cfg.icon className="h-4 w-4 sm:h-7 sm:w-7" />
+                  <cfg.icon className="h-4 w-4 md:h-5 md:w-5" />
                   {cfg.label}
                   {count > 0 && (
-                    <span className="text-xs sm:text-lg opacity-60">({count})</span>
+                    <span className="text-xs md:text-sm opacity-60">({count})</span>
                   )}
                 </button>
               );
@@ -716,23 +717,23 @@ export default function IthinaAssistant() {
         </div>
 
         {/* Summary Bar */}
-        <div className="px-5 sm:px-10 py-3 sm:py-5 bg-slate-50 border-b border-slate-100 shrink-0">
+        <div className="px-5 md:px-8 lg:px-10 py-3 md:py-4 bg-slate-50 border-b border-slate-100 shrink-0">
           <div className="flex items-center justify-between">
-            <p className="text-sm sm:text-2xl text-slate-500 font-semibold">
+            <p className="text-sm md:text-base lg:text-lg text-slate-500 font-semibold">
               {activeDomain === "all" ? "All Recommendations" : domainConfig[activeDomain as Exclude<Domain, "all">].label}
               {" · "}{filteredRecs.filter(r => !actionedIds.has(r.id)).length} pending
             </p>
-            <div className="flex items-center gap-4 sm:gap-8 text-xs sm:text-lg text-slate-400 font-medium">
-              <span className="flex items-center gap-1.5 sm:gap-2"><span className="h-2.5 w-2.5 sm:h-4 sm:w-4 rounded-full bg-orange-400" /> High</span>
-              <span className="flex items-center gap-1.5 sm:gap-2"><span className="h-2.5 w-2.5 sm:h-4 sm:w-4 rounded-full bg-sky-400" /> Medium</span>
-              <span className="flex items-center gap-1.5 sm:gap-2"><span className="h-2.5 w-2.5 sm:h-4 sm:w-4 rounded-full bg-slate-300" /> Low</span>
+            <div className="flex items-center gap-4 md:gap-6 text-xs md:text-sm lg:text-base text-slate-400 font-medium">
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-orange-400" /> High</span>
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-sky-400" /> Medium</span>
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-slate-300" /> Low</span>
             </div>
           </div>
         </div>
 
         {/* Recommendations List */}
         <ScrollArea className="flex-1 min-h-0">
-          <div className="p-4 sm:p-10 space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-8">
+          <div className="p-4 md:p-6 lg:p-8 space-y-3 md:grid md:grid-cols-2 md:gap-5 md:space-y-0 lg:gap-6">
             {filteredRecs.map((rec) => {
               const cfg = domainConfig[rec.domain as Exclude<Domain, "all">];
               const isActioned = actionedIds.has(rec.id);
@@ -740,61 +741,61 @@ export default function IthinaAssistant() {
                 <div
                   key={rec.id}
                   className={cn(
-                    "rounded-xl border-l-4 p-4 sm:p-8 transition-all",
+                    "rounded-xl border-l-4 p-4 md:p-5 lg:p-6 transition-all",
                     isActioned ? "border-l-emerald-500 bg-emerald-50/50 opacity-70" : priorityStyles[rec.priority]
                   )}
                 >
                   {/* Card Header */}
-                  <div className="flex items-start justify-between gap-2 mb-2 sm:mb-5">
-                    <div className="flex items-center gap-2.5 sm:gap-4">
-                      <div className={cn("h-8 w-8 sm:h-14 sm:w-14 rounded-lg flex items-center justify-center shrink-0", cfg.bgColor)}>
-                        <cfg.icon className={cn(cfg.color)} style={{ width: 20, height: 20 }} />
+                  <div className="flex items-start justify-between gap-2 mb-2 md:mb-3">
+                    <div className="flex items-center gap-2.5 md:gap-3">
+                      <div className={cn("h-8 w-8 md:h-10 md:w-10 rounded-lg flex items-center justify-center shrink-0", cfg.bgColor)}>
+                        <cfg.icon className={cn(cfg.color)} style={{ width: 18, height: 18 }} />
                       </div>
-                      <span className={cn("text-xs sm:text-lg font-bold uppercase tracking-wider", cfg.color)}>
+                      <span className={cn("text-xs md:text-sm lg:text-base font-bold uppercase tracking-wider", cfg.color)}>
                         {cfg.label}
                       </span>
                     </div>
-                    <span className="text-xs sm:text-base text-slate-400 whitespace-nowrap flex items-center gap-1 sm:gap-2">
-                      <Clock className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+                    <span className="text-xs md:text-sm text-slate-400 whitespace-nowrap flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5" />
                       {rec.timestamp}
                     </span>
                   </div>
 
                   {/* Title & Description */}
-                  <h4 className="text-base sm:text-2xl font-bold text-slate-800 mb-1.5 sm:mb-3 leading-snug">{rec.title}</h4>
-                  <p className="text-sm sm:text-lg text-slate-500 leading-relaxed mb-3 sm:mb-6">{rec.description}</p>
+                  <h4 className="text-base md:text-lg lg:text-xl font-bold text-slate-800 mb-1.5 md:mb-2 leading-snug">{rec.title}</h4>
+                  <p className="text-sm md:text-sm lg:text-base text-slate-500 leading-relaxed mb-3 md:mb-4">{rec.description}</p>
 
                   {/* Perishable flow hint */}
                   {rec.hasFlow && !isActioned && (
-                    <div className="flex items-center gap-1.5 text-xs sm:text-sm text-orange-600 font-semibold mb-3 sm:mb-4">
-                      <Zap className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <div className="flex items-center gap-1.5 text-xs md:text-sm text-orange-600 font-semibold mb-3">
+                      <Zap className="h-3 w-3 md:h-4 md:w-4" />
                       End-to-end flow: Review → Edit → ESL Preview → Apply
                     </div>
                   )}
 
                   {/* Impact & Action */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <TrendingUp className="h-4 w-4 sm:h-6 sm:w-6" style={{ color: ITHINA_TEAL }} />
-                      <span className="text-sm sm:text-xl font-bold" style={{ color: ITHINA_TEAL }}>{rec.impact}</span>
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 md:h-5 md:w-5" style={{ color: ITHINA_TEAL }} />
+                      <span className="text-sm md:text-base lg:text-lg font-bold" style={{ color: ITHINA_TEAL }}>{rec.impact}</span>
                     </div>
                     {isActioned ? (
-                      <span className="flex items-center gap-1.5 text-sm sm:text-lg text-emerald-600 font-semibold">
-                        <CheckCircle2 className="h-4 w-4 sm:h-6 sm:w-6" />
+                      <span className="flex items-center gap-1.5 text-sm md:text-base text-emerald-600 font-semibold">
+                        <CheckCircle2 className="h-4 w-4 md:h-5 md:w-5" />
                         Done
                       </span>
                     ) : (
                       <Button
                         size="sm"
                         className={cn(
-                          "h-9 sm:h-14 text-sm sm:text-lg px-4 sm:px-8 text-white rounded-lg gap-1.5 sm:gap-2 font-semibold",
+                          "h-9 md:h-10 lg:h-11 text-sm md:text-base px-4 md:px-5 text-white rounded-lg gap-1.5 font-semibold",
                           rec.hasFlow && "ring-2 ring-orange-400 ring-offset-1"
                         )}
                         style={{ backgroundColor: rec.hasFlow ? "#ea580c" : ITHINA_NAVY }}
                         onClick={() => handleAction(rec)}
                       >
                         {rec.action}
-                        <ArrowRight className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+                        <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
                       </Button>
                     )}
                   </div>
@@ -803,17 +804,17 @@ export default function IthinaAssistant() {
             })}
 
             {filteredRecs.length === 0 && (
-              <div className="text-center py-16 sm:col-span-2">
-                <CheckCircle2 className="h-14 w-14 sm:h-24 sm:w-24 mx-auto text-emerald-300 mb-3" />
-                <p className="text-base sm:text-3xl text-slate-500 font-semibold">All caught up!</p>
-                <p className="text-sm sm:text-xl text-slate-400 mt-1">No pending recommendations.</p>
+              <div className="text-center py-16 md:col-span-2">
+                <CheckCircle2 className="h-14 w-14 md:h-20 md:w-20 mx-auto text-emerald-300 mb-3" />
+                <p className="text-base md:text-xl lg:text-2xl text-slate-500 font-semibold">All caught up!</p>
+                <p className="text-sm md:text-base text-slate-400 mt-1">No pending recommendations.</p>
               </div>
             )}
           </div>
         </ScrollArea>
 
         {/* Input Area */}
-        <div className="p-4 sm:p-8 border-t border-slate-200 shrink-0 bg-white">
+        <div className="p-4 md:p-5 lg:p-6 border-t border-slate-200 shrink-0 bg-white">
           <div className="flex items-center gap-3">
             <div className="flex-1 relative">
               <input
@@ -821,7 +822,7 @@ export default function IthinaAssistant() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask Ithina anything…"
-                className="w-full pl-5 sm:pl-8 pr-12 sm:pr-20 py-3.5 sm:py-6 rounded-xl border border-slate-200 text-base sm:text-2xl focus:outline-none focus:ring-2 transition-all bg-slate-50"
+                className="w-full pl-5 pr-14 py-3.5 md:py-4 rounded-xl border border-slate-200 text-base md:text-lg focus:outline-none focus:ring-2 transition-all bg-slate-50"
                 style={{ ["--tw-ring-color" as string]: ITHINA_TEAL } as React.CSSProperties}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && inputValue.trim()) {
@@ -830,14 +831,14 @@ export default function IthinaAssistant() {
                 }}
               />
               <button 
-                className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-4 rounded-lg text-white transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 md:p-2.5 rounded-lg text-white transition-colors"
                 style={{ backgroundColor: inputValue.trim() ? ITHINA_TEAL : "hsl(205, 20%, 80%)" }}
               >
-                <Send className="h-4 w-4 sm:h-7 sm:w-7" />
+                <Send className="h-4 w-4 md:h-5 md:w-5" />
               </button>
             </div>
           </div>
-          <p className="text-xs sm:text-base text-slate-400 text-center mt-2 sm:mt-3 font-medium">
+          <p className="text-xs md:text-sm text-slate-400 text-center mt-2 font-medium">
             Powered by Ithina Retail Intelligence · 4P+C Framework
           </p>
         </div>
@@ -845,3 +846,4 @@ export default function IthinaAssistant() {
     </>
   );
 }
+
