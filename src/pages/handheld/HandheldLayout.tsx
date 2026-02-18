@@ -15,11 +15,11 @@ const ITHINA_NAVY_LIGHT = "hsl(205, 40%, 25%)";
 const ITHINA_TEAL = "hsl(195, 100%, 42%)";
 
 const navItems = [
-  { path: "/handheld", icon: Home, label: "Home" },
-  { path: "/handheld/operations", icon: Cpu, label: "Operations" },
-  { path: "/handheld/health", icon: Battery, label: "Health" },
-  { path: "/handheld/jobs", icon: ClipboardList, label: "Jobs" },
-  { path: "/handheld/settings", icon: Settings, label: "Settings" },
+  { path: "/handheld/home", icon: Home, label: "Home" },
+  { path: "/handheld/home/operations", icon: Cpu, label: "Operations" },
+  { path: "/handheld/home/health", icon: Battery, label: "Health" },
+  { path: "/handheld/home/jobs", icon: ClipboardList, label: "Jobs" },
+  { path: "/handheld/home/settings", icon: Settings, label: "Settings" },
 ];
 
 export default function HandheldLayout() {
@@ -46,7 +46,7 @@ export default function HandheldLayout() {
         <nav className="flex-1 p-3 space-y-1">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path || 
-              (item.path !== "/handheld" && location.pathname.startsWith(item.path));
+              (item.path !== "/handheld/home" && location.pathname.startsWith(item.path));
             return (
               <button
                 key={item.path}
@@ -70,7 +70,7 @@ export default function HandheldLayout() {
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 text-white/70 hover:text-white hover:bg-white/10"
-            onClick={() => navigate("/handheld/alerts")}
+            onClick={() => navigate("/handheld/home/alerts")}
           >
             <Bell className="h-5 w-5" />
             <span>Alerts</span>
@@ -101,7 +101,7 @@ export default function HandheldLayout() {
                 <nav className="p-3 space-y-1">
                   {navItems.map((item) => {
                     const isActive = location.pathname === item.path || 
-                      (item.path !== "/handheld" && location.pathname.startsWith(item.path));
+                      (item.path !== "/handheld/home" && location.pathname.startsWith(item.path));
                     return (
                       <button
                         key={item.path}
@@ -124,7 +124,7 @@ export default function HandheldLayout() {
                   <Button
                     variant="outline"
                     className="w-full justify-start gap-3"
-                    onClick={() => handleNavigation("/handheld/alerts")}
+                    onClick={() => handleNavigation("/handheld/home/alerts")}
                   >
                     <Bell className="h-5 w-5" />
                     <span>Alerts</span>
@@ -150,7 +150,7 @@ export default function HandheldLayout() {
 
             {/* Alert button */}
             <button 
-              onClick={() => navigate("/handheld/alerts")}
+              onClick={() => navigate("/handheld/home/alerts")}
               className="relative p-2 rounded-lg hover:bg-slate-100 transition-colors"
               style={{ color: ITHINA_NAVY }}
             >
@@ -172,7 +172,7 @@ export default function HandheldLayout() {
           <div className="flex items-center justify-around py-2">
             {navItems.map((item) => {
               const isActive = location.pathname === item.path || 
-                (item.path !== "/handheld" && location.pathname.startsWith(item.path));
+                (item.path !== "/handheld/home" && location.pathname.startsWith(item.path));
               return (
                 <button
                   key={item.path}
