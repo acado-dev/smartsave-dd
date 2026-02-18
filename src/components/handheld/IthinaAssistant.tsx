@@ -1124,7 +1124,7 @@ export default function IthinaAssistant() {
 
         {/* Recommendations List */}
         <ScrollArea className="flex-1 min-h-0">
-          <div className="p-3 md:p-4 lg:p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 content-start">
+          <div className="p-3 md:p-4 lg:p-5 flex flex-col gap-2.5 md:gap-3">
             {filteredRecs.map((rec) => {
               const cfg = domainConfig[rec.domain as Exclude<Domain, "all">];
               const isActioned = actionedIds.has(rec.id);
@@ -1206,7 +1206,7 @@ export default function IthinaAssistant() {
             })}
 
             {filteredRecs.length === 0 && (
-              <div className="text-center py-16 col-span-full">
+              <div className="text-center py-16">
                 <CheckCircle2 className="h-12 w-12 mx-auto text-emerald-300 mb-3" />
                 <p className="text-base md:text-lg text-slate-500 font-semibold">All caught up!</p>
                 <p className="text-sm text-slate-400 mt-1">No pending recommendations.</p>
