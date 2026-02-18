@@ -157,8 +157,8 @@ export default function IthinaAssistant() {
         ref={panelRef}
         className={cn(
           "fixed z-[70] transition-all duration-300 ease-out flex flex-col",
-          // Mobile: full width bottom sheet
-          "inset-x-0 bottom-0 max-h-[85vh] rounded-t-2xl",
+          // Mobile: full screen
+          "inset-x-0 inset-y-0",
           // Tablet: side panel
           "md:inset-x-auto md:right-4 md:top-4 md:bottom-4 md:w-[420px] md:rounded-2xl md:max-h-none",
           isOpen 
