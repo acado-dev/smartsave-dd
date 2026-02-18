@@ -377,22 +377,22 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
           <ChevronLeft className="h-5 w-5" />
         </button>
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="h-8 w-8 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-            <BarChart2 className="h-4 w-4 text-white" />
+          <div className="h-8 w-8 md:h-10 md:w-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+            <BarChart2 className="h-4 w-4 md:h-5 md:w-5 text-white" />
           </div>
           <div>
-            <h2 className="text-white font-bold text-base md:text-lg leading-tight">Price Optimisation Strategy</h2>
-            <p className="text-white/60 text-xs">Dairy & Fish · {priceOptItems.length} eligible SKUs</p>
+            <h2 className="text-white font-bold text-base md:text-xl leading-tight">Price Optimisation Strategy</h2>
+            <p className="text-white/60 text-xs md:text-sm">Dairy & Fish · {priceOptItems.length} eligible SKUs</p>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15">
-          <Sparkles className="h-3 w-3 text-white/80" />
-          <span className="text-white/80 text-xs font-medium">AI Powered</span>
+          <Sparkles className="h-3 w-3 md:h-4 md:w-4 text-white/80" />
+          <span className="text-white/80 text-xs md:text-sm font-medium">AI Powered</span>
         </div>
       </div>
 
       {/* Step Progress */}
-      <div className="shrink-0 px-4 md:px-7 py-2.5 bg-slate-50 border-b border-slate-100 overflow-x-auto">
+      <div className="shrink-0 px-4 md:px-7 py-2.5 md:py-3 bg-slate-50 border-b border-slate-100 overflow-x-auto">
         <div className="flex items-center gap-0 min-w-max">
           {stepLabels.map((s, idx) => {
             const isActive = s.key === step;
@@ -400,14 +400,14 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
             return (
               <div key={s.key} className="flex items-center">
                 <div className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all",
+                  "flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold transition-all",
                   isActive ? "text-white shadow-sm" : isDone ? "text-emerald-600 bg-emerald-50" : "text-slate-400 bg-slate-100"
                 )} style={isActive ? { backgroundColor: PRICE_OPT_BLUE } : undefined}>
-                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5" /> : <s.icon className="h-3.5 w-3.5" />}
+                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> : <s.icon className="h-3.5 w-3.5 md:h-4 md:w-4" />}
                   {s.label}
                 </div>
                 {idx < stepLabels.length - 1 && (
-                  <ChevronRight className={cn("h-4 w-4 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
+                  <ChevronRight className={cn("h-4 w-4 md:h-5 md:w-5 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
                 )}
               </div>
             );
@@ -420,53 +420,53 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
 
           {/* ── STEP 1: REVIEW ITEMS ── */}
           {step === "review" && (
-            <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-2.5">
+            <div className="space-y-3 md:space-y-4">
+              <div className="grid grid-cols-3 gap-2.5 md:gap-3">
                 {[
                   { label: "Eligible SKUs", value: items.length.toString(), color: "text-blue-600", bg: "bg-blue-50" },
                   { label: "Selected", value: selectedItems.length.toString(), color: "text-sky-600", bg: "bg-sky-50" },
                   { label: "Total Units", value: selectedItems.reduce((s, i) => s + i.qty, 0).toString(), color: "text-violet-600", bg: "bg-violet-50" },
                 ].map(c => (
-                  <div key={c.label} className={cn("rounded-xl p-3 text-center", c.bg)}>
-                    <div className={cn("text-2xl font-black", c.color)}>{c.value}</div>
-                    <div className="text-xs text-slate-500 mt-0.5 font-medium">{c.label}</div>
+                  <div key={c.label} className={cn("rounded-xl p-3 md:p-4 text-center", c.bg)}>
+                    <div className={cn("text-2xl md:text-3xl font-black", c.color)}>{c.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500 mt-0.5 font-medium">{c.label}</div>
                   </div>
                 ))}
               </div>
-              <div className="rounded-xl p-3.5 flex items-start gap-3 border-l-4" style={{ backgroundColor: "rgba(59,130,246,0.06)", borderLeftColor: PRICE_OPT_BLUE }}>
-                <div className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: PRICE_OPT_BLUE }}>
-                  <Sparkles className="h-4 w-4 text-white" />
+              <div className="rounded-xl p-3.5 md:p-5 flex items-start gap-3 border-l-4" style={{ backgroundColor: "rgba(59,130,246,0.06)", borderLeftColor: PRICE_OPT_BLUE }}>
+                <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: PRICE_OPT_BLUE }}>
+                  <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-800">Ithina Recommendation</p>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                  <p className="text-sm md:text-base font-bold text-slate-800">Ithina Recommendation</p>
+                  <p className="text-xs md:text-sm text-slate-500 mt-0.5 leading-relaxed">
                     Instead of a flat markdown, Ithina's algorithm calculates an <strong>hourly pricing schedule</strong> that maximises revenue recovery while guaranteeing sell-through by store close.
                   </p>
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 md:space-y-3">
                 {items.map(item => (
                   <div key={item.id}
                     onClick={() => toggleItem(item.id)}
-                    className={cn("rounded-xl border-2 p-3 cursor-pointer transition-all flex items-center gap-3",
+                    className={cn("rounded-xl border-2 p-3 md:p-4 cursor-pointer transition-all flex items-center gap-3",
                       item.selected ? "border-blue-400 bg-blue-50/40" : "border-slate-100 bg-slate-50 opacity-60")}>
-                    <div className={cn("h-5 w-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
+                    <div className={cn("h-5 w-5 md:h-6 md:w-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
                       item.selected ? "border-blue-500 bg-blue-500" : "border-slate-300 bg-white")}>
-                      {item.selected && <CheckCircle2 className="h-3 w-3 text-white" />}
+                      {item.selected && <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 text-white" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-sm text-slate-800">{item.name}</span>
-                        <Badge variant="outline" className="text-[10px]">{item.category}</Badge>
+                        <span className="font-bold text-sm md:text-base text-slate-800">{item.name}</span>
+                        <Badge variant="outline" className="text-[10px] md:text-xs">{item.category}</Badge>
                       </div>
                       <div className="flex items-center gap-3 mt-0.5">
-                        <span className="text-xs text-slate-400">{item.sku}</span>
-                        <span className="text-xs text-orange-600 font-semibold flex items-center gap-1"><Clock className="h-3 w-3" />{item.expiry}</span>
+                        <span className="text-xs md:text-sm text-slate-400">{item.sku}</span>
+                        <span className="text-xs md:text-sm text-orange-600 font-semibold flex items-center gap-1"><Clock className="h-3 w-3 md:h-3.5 md:w-3.5" />{item.expiry}</span>
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className="text-base font-black text-blue-600">€{item.current.toFixed(2)}</div>
-                      <div className="text-[10px] text-slate-400">{item.qty} units</div>
+                      <div className="text-base md:text-lg font-black text-blue-600">€{item.current.toFixed(2)}</div>
+                      <div className="text-[10px] md:text-xs text-slate-400">{item.qty} units</div>
                     </div>
                   </div>
                 ))}
@@ -476,12 +476,12 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
 
           {/* ── STEP 2: PRICING SCHEDULE ── */}
           {step === "schedule" && (
-            <div className="space-y-4">
-              <div className="rounded-xl p-3.5 bg-blue-50 border border-blue-100 flex items-start gap-3">
-                <Timer className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+            <div className="space-y-4 md:space-y-5">
+              <div className="rounded-xl p-3.5 md:p-5 bg-blue-50 border border-blue-100 flex items-start gap-3">
+                <Timer className="h-5 w-5 md:h-6 md:w-6 text-blue-600 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-bold text-blue-800">Hourly Pricing Schedule</p>
-                  <p className="text-xs text-blue-600 mt-0.5 leading-relaxed">
+                  <p className="text-sm md:text-base font-bold text-blue-800">Hourly Pricing Schedule</p>
+                  <p className="text-xs md:text-sm text-blue-600 mt-0.5 leading-relaxed">
                     Prices step down through the day. Each reduction is timed to match predicted customer traffic, maximising revenue at each window.
                   </p>
                 </div>
@@ -489,32 +489,32 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
               {selectedItems.map(item => (
                 <div key={item.id} className="rounded-xl border border-slate-200 overflow-hidden">
                   <div
-                    className="flex items-center justify-between px-4 py-3 cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors"
+                    className="flex items-center justify-between px-4 md:px-5 py-3 md:py-4 cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors"
                     onClick={() => setExpandedItem(expandedItem === item.id ? null : item.id)}>
-                    <div className="flex items-center gap-2.5">
-                      <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
-                        <ShoppingCart className="h-4 w-4 text-blue-600" />
+                    <div className="flex items-center gap-2.5 md:gap-3">
+                      <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                        <ShoppingCart className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-800">{item.name}</p>
-                        <p className="text-xs text-slate-500">{item.qty} units · {item.hourlyPrices.length} price steps</p>
+                        <p className="text-sm md:text-base font-bold text-slate-800">{item.name}</p>
+                        <p className="text-xs md:text-sm text-slate-500">{item.qty} units · {item.hourlyPrices.length} price steps</p>
                       </div>
                     </div>
-                    <ChevronRight className={cn("h-4 w-4 text-slate-400 transition-transform", expandedItem === item.id && "rotate-90")} />
+                    <ChevronRight className={cn("h-4 w-4 md:h-5 md:w-5 text-slate-400 transition-transform", expandedItem === item.id && "rotate-90")} />
                   </div>
                   {expandedItem === item.id && (
-                    <div className="px-4 pb-4 pt-2 space-y-2">
+                    <div className="px-4 md:px-5 pb-4 md:pb-5 pt-2 space-y-2 md:space-y-3">
                       {item.hourlyPrices.map((hp, idx) => {
                         const pct = Math.round(((item.current - hp.price) / item.current) * 100);
                         return (
                           <div key={idx} className="flex items-center gap-3">
-                            <div className="w-12 text-xs font-bold text-slate-500 shrink-0">{hp.hour}</div>
-                            <div className="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
+                            <div className="w-12 md:w-14 text-xs md:text-sm font-bold text-slate-500 shrink-0">{hp.hour}</div>
+                            <div className="flex-1 bg-slate-100 rounded-full h-2 md:h-2.5 overflow-hidden">
                               <div className="h-full rounded-full bg-blue-400 transition-all" style={{ width: `${(hp.expectedSales / 8) * 100}%` }} />
                             </div>
-                            <div className="text-sm font-black text-slate-800 w-12 text-right shrink-0">€{hp.price.toFixed(2)}</div>
-                            {pct > 0 && <Badge className="text-[9px] bg-red-100 text-red-600 border-0 shrink-0">-{pct}%</Badge>}
-                            <div className="text-[10px] text-slate-400 w-14 shrink-0">~{hp.expectedSales} sold</div>
+                            <div className="text-sm md:text-base font-black text-slate-800 w-12 md:w-14 text-right shrink-0">€{hp.price.toFixed(2)}</div>
+                            {pct > 0 && <Badge className="text-[9px] md:text-[10px] bg-red-100 text-red-600 border-0 shrink-0">-{pct}%</Badge>}
+                            <div className="text-[10px] md:text-xs text-slate-400 w-14 md:w-16 shrink-0">~{hp.expectedSales} sold</div>
                           </div>
                         );
                       })}
@@ -522,15 +522,15 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
                   )}
                 </div>
               ))}
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 md:p-5">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {[
                     { label: "Projected Revenue", value: `€${totalRevenue.toFixed(0)}`, color: "text-emerald-600" },
                     { label: "vs. Flat Markdown", value: `+€${uplift.toFixed(0)}`, color: "text-blue-600" },
                   ].map(f => (
                     <div key={f.label}>
-                      <div className="text-xs text-slate-400">{f.label}</div>
-                      <div className={cn("text-xl font-black mt-0.5", f.color)}>{f.value}</div>
+                      <div className="text-xs md:text-sm text-slate-400">{f.label}</div>
+                      <div className={cn("text-xl md:text-2xl font-black mt-0.5", f.color)}>{f.value}</div>
                     </div>
                   ))}
                 </div>
@@ -540,10 +540,10 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
 
           {/* ── STEP 3: STRATEGY ── */}
           {step === "strategy" && (
-            <div className="space-y-3">
-              <div className="rounded-xl p-3.5 bg-slate-50 border border-slate-200">
-                <p className="text-sm font-bold text-slate-700">Choose your optimisation goal</p>
-                <p className="text-xs text-slate-500 mt-0.5">This controls how aggressively prices step down through the day.</p>
+            <div className="space-y-3 md:space-y-4">
+              <div className="rounded-xl p-3.5 md:p-5 bg-slate-50 border border-slate-200">
+                <p className="text-sm md:text-base font-bold text-slate-700">Choose your optimisation goal</p>
+                <p className="text-xs md:text-sm text-slate-500 mt-0.5">This controls how aggressively prices step down through the day.</p>
               </div>
               {STRATEGY_OPTIONS.map(opt => {
                 const Icon = opt.icon;
@@ -551,18 +551,18 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
                 return (
                   <div key={opt.id}
                     onClick={() => setSelectedStrategy(opt.id)}
-                    className={cn("rounded-xl border-2 p-4 cursor-pointer transition-all",
+                    className={cn("rounded-xl border-2 p-4 md:p-5 cursor-pointer transition-all",
                       isSelected ? `${opt.border} ${opt.bg}` : "border-slate-100 bg-white hover:border-slate-200")}>
-                    <div className="flex items-start gap-3">
-                      <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center shrink-0", isSelected ? opt.bg : "bg-slate-100")}>
-                        <Icon className={cn("h-5 w-5", isSelected ? opt.color : "text-slate-400")} />
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <div className={cn("h-10 w-10 md:h-12 md:w-12 rounded-xl flex items-center justify-center shrink-0", isSelected ? opt.bg : "bg-slate-100")}>
+                        <Icon className={cn("h-5 w-5 md:h-6 md:w-6", isSelected ? opt.color : "text-slate-400")} />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm text-slate-800">{opt.label}</span>
-                          {isSelected && <Badge className="text-[10px] text-white border-0" style={{ backgroundColor: PRICE_OPT_BLUE }}>Selected</Badge>}
+                          <span className="font-bold text-sm md:text-base text-slate-800">{opt.label}</span>
+                          {isSelected && <Badge className="text-[10px] md:text-xs text-white border-0" style={{ backgroundColor: PRICE_OPT_BLUE }}>Selected</Badge>}
                         </div>
-                        <p className="text-xs text-slate-500 mt-1 leading-relaxed">{opt.description}</p>
+                        <p className="text-xs md:text-sm text-slate-500 mt-1 leading-relaxed">{opt.description}</p>
                       </div>
                     </div>
                   </div>
@@ -573,15 +573,15 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
 
           {/* ── STEP 4: ESL PREVIEW ── */}
           {step === "esl-preview" && (
-            <div className="space-y-4">
-              <div className="rounded-xl p-4 bg-violet-50 border border-violet-100 flex items-start gap-3">
-                <Monitor className="h-5 w-5 text-violet-600 shrink-0 mt-0.5" />
+            <div className="space-y-4 md:space-y-5">
+              <div className="rounded-xl p-4 md:p-5 bg-violet-50 border border-violet-100 flex items-start gap-3">
+                <Monitor className="h-5 w-5 md:h-6 md:w-6 text-violet-600 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-bold text-violet-800">ESL Preview — First Price Step</p>
-                  <p className="text-xs text-violet-600 leading-relaxed">Labels will show the current price step. ESLs update automatically every hour per the schedule.</p>
+                  <p className="text-sm md:text-base font-bold text-violet-800">ESL Preview — First Price Step</p>
+                  <p className="text-xs md:text-sm text-violet-600 leading-relaxed">Labels will show the current price step. ESLs update automatically every hour per the schedule.</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
                 {selectedItems.map(item => {
                   const firstStep = item.hourlyPrices[0];
                   const eslItem: PerishableItem = {
@@ -593,23 +593,23 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
                     <div key={item.id} className="flex flex-col items-center gap-2">
                       <ESLLabel item={eslItem} />
                       <div className="text-center">
-                        <p className="text-xs font-semibold text-slate-700">{item.name}</p>
-                        <p className="text-[10px] text-slate-400">{item.hourlyPrices.length} steps scheduled</p>
+                        <p className="text-xs md:text-sm font-semibold text-slate-700">{item.name}</p>
+                        <p className="text-[10px] md:text-xs text-slate-400">{item.hourlyPrices.length} steps scheduled</p>
                       </div>
                     </div>
                   );
                 })}
               </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <div className="flex items-center justify-between text-sm">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 md:p-5">
+                <div className="flex items-center justify-between text-sm md:text-base">
                   <span className="text-slate-600 font-medium">ESLs to be managed</span>
                   <span className="font-black text-slate-900">{selectedItems.length} labels</span>
                 </div>
-                <div className="flex items-center justify-between text-sm mt-2">
+                <div className="flex items-center justify-between text-sm md:text-base mt-2">
                   <span className="text-slate-600 font-medium">Strategy selected</span>
                   <span className="font-bold text-blue-600">{STRATEGY_OPTIONS.find(s => s.id === selectedStrategy)?.label}</span>
                 </div>
-                <div className="flex items-center justify-between text-sm mt-2">
+                <div className="flex items-center justify-between text-sm md:text-base mt-2">
                   <span className="text-slate-600 font-medium">Projected uplift vs flat MD</span>
                   <span className="font-black text-emerald-600">+€{uplift.toFixed(0)}</span>
                 </div>
@@ -619,28 +619,28 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
 
           {/* ── STEP 5: APPLIED ── */}
           {step === "applied" && (
-            <div className="flex flex-col items-center justify-center py-10 text-center space-y-4">
-              <div className="h-20 w-20 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(59,130,246,0.12)" }}>
-                <CheckCircle2 className="h-10 w-10 text-blue-500" />
+            <div className="flex flex-col items-center justify-center py-10 md:py-16 text-center space-y-4 md:space-y-5">
+              <div className="h-20 w-20 md:h-24 md:w-24 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(59,130,246,0.12)" }}>
+                <CheckCircle2 className="h-10 w-10 md:h-12 md:w-12 text-blue-500" />
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-black text-slate-800">Strategy Activated! 📈</h3>
-                <p className="text-sm text-slate-500 mt-1.5 max-w-sm mx-auto">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-slate-800">Strategy Activated! 📈</h3>
+                <p className="text-sm md:text-base text-slate-500 mt-1.5 max-w-sm mx-auto">
                   Hourly pricing schedule is live. ESLs will update automatically.
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
+              <div className="grid grid-cols-2 gap-4 md:gap-5 w-full max-w-xs md:max-w-sm">
                 {[
                   { label: "ESLs Managed", value: `${selectedItems.length}`, color: "text-blue-600", bg: "bg-blue-50" },
                   { label: "Revenue Uplift", value: `+€${uplift.toFixed(0)}`, color: "text-emerald-600", bg: "bg-emerald-50" },
                 ].map(s => (
-                  <div key={s.label} className={cn("rounded-xl p-4 text-center", s.bg)}>
-                    <div className={cn("text-2xl font-black", s.color)}>{s.value}</div>
-                    <div className="text-xs text-slate-500 mt-1">{s.label}</div>
+                  <div key={s.label} className={cn("rounded-xl p-4 md:p-5 text-center", s.bg)}>
+                    <div className={cn("text-2xl md:text-3xl font-black", s.color)}>{s.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500 mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-slate-400">✓ Schedule live · ✓ ESLs updating hourly · ✓ Manager notified</p>
+              <p className="text-xs md:text-sm text-slate-400">✓ Schedule live · ✓ ESLs updating hourly · ✓ Manager notified</p>
             </div>
           )}
         </div>
@@ -648,15 +648,15 @@ function PriceOptFlow({ onClose, onComplete }: { onClose: () => void; onComplete
 
       {/* Footer */}
       {step !== "applied" && (
-        <div className="shrink-0 p-4 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
-          <Button variant="outline" className="h-10 text-sm px-5 font-semibold rounded-xl"
+        <div className="shrink-0 p-4 md:p-5 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
+          <Button variant="outline" className="h-10 md:h-11 text-sm md:text-base px-5 md:px-6 font-semibold rounded-xl"
             onClick={step === "review" ? onClose : () => setStep(stepLabels[stepIndex - 1].key)}>
             <ChevronLeft className="h-4 w-4 mr-1" />
             {step === "review" ? "Back" : "Previous"}
           </Button>
-          <div className="text-xs text-slate-400 font-medium">Step {stepIndex + 1} of {stepLabels.length}</div>
+          <div className="text-xs md:text-sm text-slate-400 font-medium">Step {stepIndex + 1} of {stepLabels.length}</div>
           <Button
-            className="h-10 text-sm px-5 font-bold rounded-xl text-white gap-2"
+            className="h-10 md:h-11 text-sm md:text-base px-5 md:px-6 font-bold rounded-xl text-white gap-2"
             style={{ backgroundColor: selectedItems.length > 0 ? PRICE_OPT_BLUE : "hsl(221, 30%, 75%)" }}
             onClick={step === "esl-preview" ? handleApply : () => setStep(stepLabels[stepIndex + 1].key)}
             disabled={selectedItems.length === 0}>
@@ -703,27 +703,27 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
   return (
     <div className="fixed inset-0 z-[80] flex flex-col bg-white overflow-hidden">
       {/* Header */}
-      <div className="shrink-0 px-4 md:px-7 py-3 flex items-center gap-3" style={{ backgroundColor: LOW_SAL_AMBER }}>
+      <div className="shrink-0 px-4 md:px-7 py-3 md:py-4 flex items-center gap-3" style={{ backgroundColor: LOW_SAL_AMBER }}>
         <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white">
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
         </button>
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="h-8 w-8 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-            <TrendingDown className="h-4 w-4 text-white" />
+          <div className="h-8 w-8 md:h-10 md:w-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+            <TrendingDown className="h-4 w-4 md:h-5 md:w-5 text-white" />
           </div>
           <div>
-            <h2 className="text-white font-bold text-base md:text-lg leading-tight">Low Salability — Action Plan</h2>
-            <p className="text-white/60 text-xs">{lowSalItems.length} SKUs · Sell-through below 20%</p>
+            <h2 className="text-white font-bold text-base md:text-xl leading-tight">Low Salability — Action Plan</h2>
+            <p className="text-white/60 text-xs md:text-sm">{lowSalItems.length} SKUs · Sell-through below 20%</p>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15">
-          <AlertTriangle className="h-3 w-3 text-white/80" />
-          <span className="text-white/80 text-xs font-medium">Needs Attention</span>
+          <AlertTriangle className="h-3 w-3 md:h-4 md:w-4 text-white/80" />
+          <span className="text-white/80 text-xs md:text-sm font-medium">Needs Attention</span>
         </div>
       </div>
 
       {/* Step Progress */}
-      <div className="shrink-0 px-4 md:px-7 py-2.5 bg-slate-50 border-b border-slate-100 overflow-x-auto">
+      <div className="shrink-0 px-4 md:px-7 py-2.5 md:py-3 bg-slate-50 border-b border-slate-100 overflow-x-auto">
         <div className="flex items-center gap-0 min-w-max">
           {stepLabels.map((s, idx) => {
             const isActive = s.key === step;
@@ -731,14 +731,14 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
             return (
               <div key={s.key} className="flex items-center">
                 <div className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all",
+                  "flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold transition-all",
                   isActive ? "text-white shadow-sm" : isDone ? "text-emerald-600 bg-emerald-50" : "text-slate-400 bg-slate-100"
                 )} style={isActive ? { backgroundColor: LOW_SAL_AMBER } : undefined}>
-                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5" /> : <s.icon className="h-3.5 w-3.5" />}
+                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> : <s.icon className="h-3.5 w-3.5 md:h-4 md:w-4" />}
                   {s.label}
                 </div>
                 {idx < stepLabels.length - 1 && (
-                  <ChevronRight className={cn("h-4 w-4 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
+                  <ChevronRight className={cn("h-4 w-4 md:h-5 md:w-5 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
                 )}
               </div>
             );
@@ -751,61 +751,61 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
 
           {/* ── STEP 1: REVIEW ── */}
           {step === "review" && (
-            <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-2.5">
+            <div className="space-y-3 md:space-y-4">
+              <div className="grid grid-cols-3 gap-2.5 md:gap-3">
                 {[
                   { label: "Low-Sal SKUs", value: items.length.toString(), color: "text-amber-600", bg: "bg-amber-50" },
                   { label: "Selected", value: selectedItems.length.toString(), color: "text-sky-600", bg: "bg-sky-50" },
                   { label: "Stock at Risk", value: `€${items.reduce((s,i)=>s+i.qty*i.current,0).toFixed(0)}`, color: "text-red-600", bg: "bg-red-50" },
                 ].map(c => (
-                  <div key={c.label} className={cn("rounded-xl p-3 text-center", c.bg)}>
-                    <div className={cn("text-xl font-black", c.color)}>{c.value}</div>
-                    <div className="text-xs text-slate-500 mt-0.5 font-medium">{c.label}</div>
+                  <div key={c.label} className={cn("rounded-xl p-3 md:p-4 text-center", c.bg)}>
+                    <div className={cn("text-xl md:text-2xl font-black", c.color)}>{c.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500 mt-0.5 font-medium">{c.label}</div>
                   </div>
                 ))}
               </div>
-              <div className="rounded-xl p-3.5 flex items-start gap-3 border-l-4" style={{ backgroundColor: "rgba(245,158,11,0.06)", borderLeftColor: LOW_SAL_AMBER }}>
-                <div className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: LOW_SAL_AMBER }}>
-                  <Sparkles className="h-4 w-4 text-white" />
+              <div className="rounded-xl p-3.5 md:p-5 flex items-start gap-3 border-l-4" style={{ backgroundColor: "rgba(245,158,11,0.06)", borderLeftColor: LOW_SAL_AMBER }}>
+                <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: LOW_SAL_AMBER }}>
+                  <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-800">Ithina Recommendation</p>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                  <p className="text-sm md:text-base font-bold text-slate-800">Ithina Recommendation</p>
+                  <p className="text-xs md:text-sm text-slate-500 mt-0.5 leading-relaxed">
                     These items have had <strong>less than 20% sell-through for 3+ days</strong>. Ithina has suggested the optimal action per SKU — review and override if needed.
                   </p>
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 md:space-y-3">
                 {items.map(item => {
                   const action = LOW_SAL_ACTIONS[item.suggestedAction];
                   const ActionIcon = action.icon;
                   return (
                     <div key={item.id}
                       onClick={() => toggleItem(item.id)}
-                      className={cn("rounded-xl border-2 p-3 cursor-pointer transition-all",
+                      className={cn("rounded-xl border-2 p-3 md:p-4 cursor-pointer transition-all",
                         item.selected ? "border-amber-400 bg-amber-50/30" : "border-slate-100 bg-slate-50 opacity-60")}>
                       <div className="flex items-center gap-3">
-                        <div className={cn("h-5 w-5 rounded-md border-2 flex items-center justify-center shrink-0",
+                        <div className={cn("h-5 w-5 md:h-6 md:w-6 rounded-md border-2 flex items-center justify-center shrink-0",
                           item.selected ? "border-amber-500 bg-amber-500" : "border-slate-300 bg-white")}>
-                          {item.selected && <CheckCircle2 className="h-3 w-3 text-white" />}
+                          {item.selected && <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 text-white" />}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-bold text-sm text-slate-800">{item.name}</span>
-                            <Badge variant="outline" className="text-[10px]">{item.category}</Badge>
+                            <span className="font-bold text-sm md:text-base text-slate-800">{item.name}</span>
+                            <Badge variant="outline" className="text-[10px] md:text-xs">{item.category}</Badge>
                           </div>
                           <div className="flex items-center gap-3 mt-0.5 flex-wrap">
-                            <span className="text-xs text-slate-400">{item.sku}</span>
-                            <span className="text-xs text-red-600 font-semibold">{Math.round(item.sellThrough * 100)}% sell-through</span>
-                            <span className="text-xs text-slate-400">{item.daysLow}d low</span>
+                            <span className="text-xs md:text-sm text-slate-400">{item.sku}</span>
+                            <span className="text-xs md:text-sm text-red-600 font-semibold">{Math.round(item.sellThrough * 100)}% sell-through</span>
+                            <span className="text-xs md:text-sm text-slate-400">{item.daysLow}d low</span>
                           </div>
                         </div>
                         <div className="text-right shrink-0">
-                          <div className={cn("text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1", action.color, action.bg)}>
-                            <ActionIcon className="h-3 w-3" />
+                          <div className={cn("text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1", action.color, action.bg)}>
+                            <ActionIcon className="h-3 w-3 md:h-3.5 md:w-3.5" />
                             {action.label}
                           </div>
-                          <div className="text-xs text-slate-400 mt-1">{item.qty} units</div>
+                          <div className="text-xs md:text-sm text-slate-400 mt-1">{item.qty} units</div>
                         </div>
                       </div>
                     </div>
@@ -817,9 +817,9 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
 
           {/* ── STEP 2: CHOOSE ACTION ── */}
           {step === "choose-action" && (
-            <div className="space-y-4">
-              <div className="rounded-xl p-3.5 bg-amber-50 border border-amber-100">
-                <p className="text-sm font-semibold text-amber-800">
+            <div className="space-y-4 md:space-y-5">
+              <div className="rounded-xl p-3.5 md:p-5 bg-amber-50 border border-amber-100">
+                <p className="text-sm md:text-base font-semibold text-amber-800">
                   Ithina has pre-selected the best action for each item. You can override per SKU below.
                 </p>
               </div>
@@ -827,13 +827,13 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
                 const currentAction = getAction(item);
                 return (
                   <div key={item.id} className="rounded-xl border border-slate-200 overflow-hidden">
-                    <div className="flex items-center justify-between px-4 py-3 bg-slate-50">
+                    <div className="flex items-center justify-between px-4 md:px-5 py-3 md:py-4 bg-slate-50">
                       <div>
-                        <p className="text-sm font-bold text-slate-800">{item.name}</p>
-                        <p className="text-xs text-slate-500">{item.qty} units · €{item.current.toFixed(2)} each · {Math.round(item.sellThrough * 100)}% ST</p>
+                        <p className="text-sm md:text-base font-bold text-slate-800">{item.name}</p>
+                        <p className="text-xs md:text-sm text-slate-500">{item.qty} units · €{item.current.toFixed(2)} each · {Math.round(item.sellThrough * 100)}% ST</p>
                       </div>
                     </div>
-                    <div className="px-4 py-3 grid grid-cols-3 gap-2">
+                    <div className="px-4 md:px-5 py-3 md:py-4 grid grid-cols-3 gap-2 md:gap-3">
                       {(Object.entries(LOW_SAL_ACTIONS) as [typeof item.suggestedAction, typeof LOW_SAL_ACTIONS.bundle][]).map(([key, cfg]) => {
                         const Icon = cfg.icon;
                         const isSelected = currentAction === key;
@@ -841,11 +841,11 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
                         return (
                           <button key={key}
                             onClick={() => setOverride(item.id, key)}
-                            className={cn("rounded-lg p-2.5 border-2 text-left transition-all",
+                            className={cn("rounded-lg p-2.5 md:p-3 border-2 text-left transition-all",
                               isSelected ? `${cfg.border} ${cfg.bg}` : "border-slate-100 bg-white hover:border-slate-200")}>
-                            <Icon className={cn("h-4 w-4 mb-1", isSelected ? cfg.color : "text-slate-400")} />
-                            <p className={cn("text-[10px] font-bold", isSelected ? cfg.color : "text-slate-600")}>{cfg.label}</p>
-                            {isAI && <p className="text-[9px] text-slate-400 mt-0.5">AI pick</p>}
+                            <Icon className={cn("h-4 w-4 md:h-5 md:w-5 mb-1", isSelected ? cfg.color : "text-slate-400")} />
+                            <p className={cn("text-[10px] md:text-xs font-bold", isSelected ? cfg.color : "text-slate-600")}>{cfg.label}</p>
+                            {isAI && <p className="text-[9px] md:text-[10px] text-slate-400 mt-0.5">AI pick</p>}
                           </button>
                         );
                       })}
@@ -858,39 +858,39 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
 
           {/* ── STEP 3: CONFIRM ── */}
           {step === "confirm" && (
-            <div className="space-y-3">
-              <div className="rounded-xl p-3.5 bg-emerald-50 border border-emerald-200">
-                <p className="text-sm font-bold text-emerald-800">Ready to apply actions to {selectedItems.length} SKUs</p>
-                <p className="text-xs text-emerald-600 mt-0.5">Estimated value recovery: <strong>€{recoveryValue.toFixed(0)}</strong></p>
+            <div className="space-y-3 md:space-y-4">
+              <div className="rounded-xl p-3.5 md:p-5 bg-emerald-50 border border-emerald-200">
+                <p className="text-sm md:text-base font-bold text-emerald-800">Ready to apply actions to {selectedItems.length} SKUs</p>
+                <p className="text-xs md:text-sm text-emerald-600 mt-0.5">Estimated value recovery: <strong>€{recoveryValue.toFixed(0)}</strong></p>
               </div>
               {selectedItems.map(item => {
                 const action = LOW_SAL_ACTIONS[getAction(item)];
                 const ActionIcon = action.icon;
                 return (
-                  <div key={item.id} className="rounded-xl border border-slate-200 p-3.5 flex items-center gap-3">
-                    <div className={cn("h-9 w-9 rounded-xl flex items-center justify-center shrink-0", action.bg)}>
-                      <ActionIcon className={cn("h-4 w-4", action.color)} />
+                  <div key={item.id} className="rounded-xl border border-slate-200 p-3.5 md:p-4 flex items-center gap-3">
+                    <div className={cn("h-9 w-9 md:h-11 md:w-11 rounded-xl flex items-center justify-center shrink-0", action.bg)}>
+                      <ActionIcon className={cn("h-4 w-4 md:h-5 md:w-5", action.color)} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-slate-800">{item.name}</p>
-                      <p className="text-xs text-slate-500">{item.sku} · {item.qty} units</p>
+                      <p className="text-sm md:text-base font-bold text-slate-800">{item.name}</p>
+                      <p className="text-xs md:text-sm text-slate-500">{item.sku} · {item.qty} units</p>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className={cn("text-xs font-bold", action.color)}>{action.label}</div>
-                      <div className="text-[10px] text-slate-400">{action.description.slice(0, 24)}…</div>
+                      <div className={cn("text-xs md:text-sm font-bold", action.color)}>{action.label}</div>
+                      <div className="text-[10px] md:text-xs text-slate-400">{action.description.slice(0, 24)}…</div>
                     </div>
                   </div>
                 );
               })}
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 grid grid-cols-3 gap-3 text-center">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 md:p-5 grid grid-cols-3 gap-3 md:gap-4 text-center">
                 {[
                   { label: "Bundle", value: selectedItems.filter(i => getAction(i) === "bundle").length, color: "text-violet-600" },
                   { label: "Discount", value: selectedItems.filter(i => getAction(i) === "discount").length, color: "text-sky-600" },
                   { label: "Clearance", value: selectedItems.filter(i => getAction(i) === "clearance").length, color: "text-red-600" },
                 ].map(f => (
                   <div key={f.label}>
-                    <div className={cn("text-2xl font-black", f.color)}>{f.value}</div>
-                    <div className="text-xs text-slate-500">{f.label}</div>
+                    <div className={cn("text-2xl md:text-3xl font-black", f.color)}>{f.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500">{f.label}</div>
                   </div>
                 ))}
               </div>
@@ -899,28 +899,28 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
 
           {/* ── STEP 4: DONE ── */}
           {step === "done" && (
-            <div className="flex flex-col items-center justify-center py-10 text-center space-y-4">
-              <div className="h-20 w-20 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(245,158,11,0.12)" }}>
-                <CheckCircle2 className="h-10 w-10 text-amber-500" />
+            <div className="flex flex-col items-center justify-center py-10 md:py-16 text-center space-y-4 md:space-y-5">
+              <div className="h-20 w-20 md:h-24 md:w-24 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(245,158,11,0.12)" }}>
+                <CheckCircle2 className="h-10 w-10 md:h-12 md:w-12 text-amber-500" />
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-black text-slate-800">Actions Applied! 🎯</h3>
-                <p className="text-sm text-slate-500 mt-1.5 max-w-sm mx-auto">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-slate-800">Actions Applied! 🎯</h3>
+                <p className="text-sm md:text-base text-slate-500 mt-1.5 max-w-sm mx-auto">
                   {selectedItems.length} SKUs now have active action plans. ESLs and promotions will update shortly.
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
+              <div className="grid grid-cols-2 gap-4 md:gap-5 w-full max-w-xs md:max-w-sm">
                 {[
                   { label: "SKUs Actioned", value: selectedItems.length.toString(), color: "text-amber-600", bg: "bg-amber-50" },
                   { label: "Est. Recovery", value: `€${recoveryValue.toFixed(0)}`, color: "text-emerald-600", bg: "bg-emerald-50" },
                 ].map(s => (
-                  <div key={s.label} className={cn("rounded-xl p-4 text-center", s.bg)}>
-                    <div className={cn("text-2xl font-black", s.color)}>{s.value}</div>
-                    <div className="text-xs text-slate-500 mt-1">{s.label}</div>
+                  <div key={s.label} className={cn("rounded-xl p-4 md:p-5 text-center", s.bg)}>
+                    <div className={cn("text-2xl md:text-3xl font-black", s.color)}>{s.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500 mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-slate-400">✓ ESLs updated · ✓ Promotions scheduled · ✓ Waste log updated</p>
+              <p className="text-xs md:text-sm text-slate-400">✓ ESLs updated · ✓ Promotions scheduled · ✓ Waste log updated</p>
             </div>
           )}
         </div>
@@ -928,15 +928,15 @@ function LowSalFlow({ onClose, onComplete }: { onClose: () => void; onComplete: 
 
       {/* Footer */}
       {step !== "done" && (
-        <div className="shrink-0 p-4 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
-          <Button variant="outline" className="h-10 text-sm px-5 font-semibold rounded-xl"
+        <div className="shrink-0 p-4 md:p-5 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
+          <Button variant="outline" className="h-10 md:h-11 text-sm md:text-base px-5 md:px-6 font-semibold rounded-xl"
             onClick={step === "review" ? onClose : () => setStep(stepLabels[stepIndex - 1].key)}>
             <ChevronLeft className="h-4 w-4 mr-1" />
             {step === "review" ? "Back" : "Previous"}
           </Button>
-          <div className="text-xs text-slate-400 font-medium">Step {stepIndex + 1} of {stepLabels.length}</div>
+          <div className="text-xs md:text-sm text-slate-400 font-medium">Step {stepIndex + 1} of {stepLabels.length}</div>
           <Button
-            className="h-10 text-sm px-5 font-bold rounded-xl text-white gap-2"
+            className="h-10 md:h-11 text-sm md:text-base px-5 md:px-6 font-bold rounded-xl text-white gap-2"
             style={{ backgroundColor: selectedItems.length > 0 ? LOW_SAL_AMBER : "hsl(38, 30%, 75%)" }}
             onClick={step === "confirm" ? handleConfirm : () => setStep(stepLabels[stepIndex + 1].key)}
             disabled={selectedItems.length === 0}>
@@ -1017,26 +1017,26 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
 
   return (
     <div className="fixed inset-0 z-[80] flex flex-col bg-white overflow-hidden">
-      <div className="shrink-0 px-4 md:px-7 py-3 flex items-center gap-3" style={{ backgroundColor: DONATE_GREEN }}>
+      <div className="shrink-0 px-4 md:px-7 py-3 md:py-4 flex items-center gap-3" style={{ backgroundColor: DONATE_GREEN }}>
         <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white">
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
         </button>
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="h-8 w-8 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-            <Heart className="h-4 w-4 text-white" />
+          <div className="h-8 w-8 md:h-10 md:w-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+            <Heart className="h-4 w-4 md:h-5 md:w-5 text-white" />
           </div>
           <div>
-            <h2 className="text-white font-bold text-base md:text-lg leading-tight">Donate Items</h2>
-            <p className="text-white/60 text-xs">Bakery section · 6 eligible items</p>
+            <h2 className="text-white font-bold text-base md:text-xl leading-tight">Donate Items</h2>
+            <p className="text-white/60 text-xs md:text-sm">Bakery section · 6 eligible items</p>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15">
-          <Leaf className="h-3 w-3 text-white/80" />
-          <span className="text-white/80 text-xs font-medium">Zero Waste</span>
+          <Leaf className="h-3 w-3 md:h-4 md:w-4 text-white/80" />
+          <span className="text-white/80 text-xs md:text-sm font-medium">Zero Waste</span>
         </div>
       </div>
 
-      <div className="shrink-0 px-4 md:px-7 py-2.5 bg-slate-50 border-b border-slate-100 overflow-x-auto">
+      <div className="shrink-0 px-4 md:px-7 py-2.5 md:py-3 bg-slate-50 border-b border-slate-100 overflow-x-auto">
         <div className="flex items-center gap-0 min-w-max">
           {stepLabels.map((s, idx) => {
             const isActive = s.key === step;
@@ -1044,14 +1044,14 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
             return (
               <div key={s.key} className="flex items-center">
                 <div className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all",
+                  "flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold transition-all",
                   isActive ? "text-white shadow-sm" : isDone ? "text-emerald-600 bg-emerald-50" : "text-slate-400 bg-slate-100"
                 )} style={isActive ? { backgroundColor: DONATE_GREEN } : undefined}>
-                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5" /> : <s.icon className="h-3.5 w-3.5" />}
+                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> : <s.icon className="h-3.5 w-3.5 md:h-4 md:w-4" />}
                   {s.label}
                 </div>
                 {idx < stepLabels.length - 1 && (
-                  <ChevronRight className={cn("h-4 w-4 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
+                  <ChevronRight className={cn("h-4 w-4 md:h-5 md:w-5 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
                 )}
               </div>
             );
@@ -1062,53 +1062,53 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
       <ScrollArea className="flex-1 min-h-0">
         <div className="p-4 md:p-6 max-w-3xl mx-auto">
           {step === "select-items" && (
-            <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-2.5">
+            <div className="space-y-3 md:space-y-4">
+              <div className="grid grid-cols-3 gap-2.5 md:gap-3">
                 {[
                   { label: "Eligible Items", value: items.length.toString(), color: "text-emerald-600", bg: "bg-emerald-50" },
                   { label: "Selected", value: selectedItems.length.toString(), color: "text-sky-600", bg: "bg-sky-50" },
                   { label: "Total Units", value: totalQty.toString(), color: "text-violet-600", bg: "bg-violet-50" },
                 ].map(c => (
-                  <div key={c.label} className={cn("rounded-xl p-3 text-center", c.bg)}>
-                    <div className={cn("text-2xl font-black", c.color)}>{c.value}</div>
-                    <div className="text-xs text-slate-500 mt-0.5 font-medium">{c.label}</div>
+                  <div key={c.label} className={cn("rounded-xl p-3 md:p-4 text-center", c.bg)}>
+                    <div className={cn("text-2xl md:text-3xl font-black", c.color)}>{c.value}</div>
+                    <div className="text-xs md:text-sm text-slate-500 mt-0.5 font-medium">{c.label}</div>
                   </div>
                 ))}
               </div>
-              <div className="rounded-xl p-3.5 flex items-start gap-3 border-l-4" style={{ backgroundColor: "hsl(145, 63%, 42%, 0.06)", borderLeftColor: DONATE_GREEN }}>
-                <div className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: DONATE_GREEN }}>
-                  <Sparkles className="h-4 w-4 text-white" />
+              <div className="rounded-xl p-3.5 md:p-5 flex items-start gap-3 border-l-4" style={{ backgroundColor: "hsl(145, 63%, 42%, 0.06)", borderLeftColor: DONATE_GREEN }}>
+                <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: DONATE_GREEN }}>
+                  <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-800">Ithina Recommendation</p>
-                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                  <p className="text-sm md:text-base font-bold text-slate-800">Ithina Recommendation</p>
+                  <p className="text-xs md:text-sm text-slate-500 mt-0.5 leading-relaxed">
                     Select items expiring <strong>today</strong> first for maximum impact. Donation window closes at <strong>8:00 PM</strong>.
                   </p>
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 md:space-y-3">
                 {items.map(item => (
                   <div key={item.id}
                     onClick={() => toggleItem(item.id)}
-                    className={cn("rounded-xl border-2 p-3 cursor-pointer transition-all flex items-center gap-3",
+                    className={cn("rounded-xl border-2 p-3 md:p-4 cursor-pointer transition-all flex items-center gap-3",
                       item.selected ? "border-emerald-400 bg-emerald-50/40" : "border-slate-100 bg-slate-50 opacity-60")}>
-                    <div className={cn("h-5 w-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
+                    <div className={cn("h-5 w-5 md:h-6 md:w-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
                       item.selected ? "border-emerald-500 bg-emerald-500" : "border-slate-300 bg-white")}>
-                      {item.selected && <CheckCircle2 className="h-3 w-3 text-white" />}
+                      {item.selected && <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 text-white" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-sm text-slate-800">{item.name}</span>
-                        <Badge variant="outline" className="text-[10px]">{item.category}</Badge>
+                        <span className="font-bold text-sm md:text-base text-slate-800">{item.name}</span>
+                        <Badge variant="outline" className="text-[10px] md:text-xs">{item.category}</Badge>
                       </div>
                       <div className="flex items-center gap-3 mt-0.5">
-                        <span className="text-xs text-slate-400">{item.sku}</span>
-                        <span className="text-xs text-orange-600 font-semibold flex items-center gap-1"><Clock className="h-3 w-3" />{item.expiry}</span>
+                        <span className="text-xs md:text-sm text-slate-400">{item.sku}</span>
+                        <span className="text-xs md:text-sm text-orange-600 font-semibold flex items-center gap-1"><Clock className="h-3 w-3 md:h-3.5 md:w-3.5" />{item.expiry}</span>
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className="text-base font-black text-emerald-600">{item.qty}</div>
-                      <div className="text-[10px] text-slate-400">units</div>
+                      <div className="text-base md:text-lg font-black text-emerald-600">{item.qty}</div>
+                      <div className="text-[10px] md:text-xs text-slate-400">units</div>
                     </div>
                   </div>
                 ))}
@@ -1117,42 +1117,42 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
           )}
 
           {step === "choose-charity" && (
-            <div className="space-y-3">
-              <div className="rounded-xl p-3.5 bg-sky-50 border border-sky-100">
-                <p className="text-sm font-semibold text-sky-800">🤝 Select a verified charity partner near your store. All partners are pre-approved for food safety compliance.</p>
+            <div className="space-y-3 md:space-y-4">
+              <div className="rounded-xl p-3.5 md:p-5 bg-sky-50 border border-sky-100">
+                <p className="text-sm md:text-base font-semibold text-sky-800">🤝 Select a verified charity partner near your store. All partners are pre-approved for food safety compliance.</p>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-3 md:space-y-4">
                 {charityPartners.map(charity => {
                   const isSelected = selectedCharity?.id === charity.id;
                   return (
                     <div key={charity.id}
                       onClick={() => setSelectedCharity(charity)}
-                      className={cn("rounded-xl border-2 p-4 cursor-pointer transition-all",
+                      className={cn("rounded-xl border-2 p-4 md:p-5 cursor-pointer transition-all",
                         isSelected ? "border-emerald-400 bg-emerald-50/40 shadow-sm" : "border-slate-100 bg-white hover:border-slate-200")}>
-                      <div className="flex items-start gap-3">
-                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center shrink-0 transition-all", isSelected ? "bg-emerald-500" : "bg-slate-100")}>
-                          {charity.type === "Food Bank" ? <Building2 className={cn("h-5 w-5", isSelected ? "text-white" : "text-slate-500")} /> :
-                           charity.type === "Homeless Shelter" ? <Users className={cn("h-5 w-5", isSelected ? "text-white" : "text-slate-500")} /> :
-                           <Heart className={cn("h-5 w-5", isSelected ? "text-white" : "text-slate-500")} />}
+                      <div className="flex items-start gap-3 md:gap-4">
+                        <div className={cn("h-10 w-10 md:h-12 md:w-12 rounded-xl flex items-center justify-center shrink-0 transition-all", isSelected ? "bg-emerald-500" : "bg-slate-100")}>
+                          {charity.type === "Food Bank" ? <Building2 className={cn("h-5 w-5 md:h-6 md:w-6", isSelected ? "text-white" : "text-slate-500")} /> :
+                           charity.type === "Homeless Shelter" ? <Users className={cn("h-5 w-5 md:h-6 md:w-6", isSelected ? "text-white" : "text-slate-500")} /> :
+                           <Heart className={cn("h-5 w-5 md:h-6 md:w-6", isSelected ? "text-white" : "text-slate-500")} />}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-bold text-sm text-slate-800">{charity.name}</span>
-                            <Badge variant="outline" className="text-[10px]">{charity.type}</Badge>
-                            {isSelected && <Badge className="text-[10px] bg-emerald-500 text-white border-0">Selected</Badge>}
+                            <span className="font-bold text-sm md:text-base text-slate-800">{charity.name}</span>
+                            <Badge variant="outline" className="text-[10px] md:text-xs">{charity.type}</Badge>
+                            {isSelected && <Badge className="text-[10px] md:text-xs bg-emerald-500 text-white border-0">Selected</Badge>}
                           </div>
                           <div className="flex items-center gap-3 mt-1 flex-wrap">
-                            <span className="text-xs text-slate-500 flex items-center gap-1"><MapPin className="h-3 w-3" />{charity.distance}</span>
-                            <span className="text-xs text-slate-500 flex items-center gap-1"><Phone className="h-3 w-3" />{charity.contact}</span>
+                            <span className="text-xs md:text-sm text-slate-500 flex items-center gap-1"><MapPin className="h-3 w-3 md:h-3.5 md:w-3.5" />{charity.distance}</span>
+                            <span className="text-xs md:text-sm text-slate-500 flex items-center gap-1"><Phone className="h-3 w-3 md:h-3.5 md:w-3.5" />{charity.contact}</span>
                           </div>
                           <div className="flex items-center gap-1 mt-2 flex-wrap">
-                            <span className="text-[10px] text-slate-400 mr-1">Accepts:</span>
+                            <span className="text-[10px] md:text-xs text-slate-400 mr-1">Accepts:</span>
                             {charity.acceptsCategories.map(cat => (
-                              <span key={cat} className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-full font-medium">{cat}</span>
+                              <span key={cat} className="text-[10px] md:text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-full font-medium">{cat}</span>
                             ))}
                           </div>
                         </div>
-                        <div className="shrink-0 text-sm">{"⭐".repeat(charity.rating)}</div>
+                        <div className="shrink-0 text-sm md:text-base">{"⭐".repeat(charity.rating)}</div>
                       </div>
                     </div>
                   );
@@ -1162,57 +1162,57 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
           )}
 
           {step === "schedule" && selectedCharity && (
-            <div className="space-y-3">
-              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3.5 flex items-center gap-3">
-                <div className="h-9 w-9 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
-                  <Heart className="h-4 w-4 text-white" />
+            <div className="space-y-3 md:space-y-4">
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3.5 md:p-4 flex items-center gap-3">
+                <div className="h-9 w-9 md:h-11 md:w-11 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
+                  <Heart className="h-4 w-4 md:h-5 md:w-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-slate-800">{selectedCharity.name}</p>
-                  <p className="text-xs text-slate-500 flex items-center gap-1"><MapPin className="h-3 w-3" />{selectedCharity.distance} away · {selectedCharity.contact}</p>
+                  <p className="text-sm md:text-base font-bold text-slate-800">{selectedCharity.name}</p>
+                  <p className="text-xs md:text-sm text-slate-500 flex items-center gap-1"><MapPin className="h-3 w-3 md:h-3.5 md:w-3.5" />{selectedCharity.distance} away · {selectedCharity.contact}</p>
                 </div>
-                <button onClick={() => setStep("choose-charity")} className="text-xs text-sky-600 font-semibold hover:underline shrink-0">Change</button>
+                <button onClick={() => setStep("choose-charity")} className="text-xs md:text-sm text-sky-600 font-semibold hover:underline shrink-0">Change</button>
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-700 mb-2">Choose a pickup slot</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <p className="text-sm md:text-base font-bold text-slate-700 mb-2 md:mb-3">Choose a pickup slot</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
                   {pickupSlots.map(slot => (
                     <button key={slot.id}
                       disabled={!slot.available}
                       onClick={() => setSelectedSlot(slot.id)}
-                      className={cn("rounded-xl p-3 text-left transition-all border-2",
+                      className={cn("rounded-xl p-3 md:p-4 text-left transition-all border-2",
                         !slot.available && "opacity-40 cursor-not-allowed bg-slate-50 border-slate-100",
                         slot.available && selectedSlot === slot.id && "border-emerald-400 bg-emerald-50 shadow-sm",
                         slot.available && selectedSlot !== slot.id && "border-slate-100 bg-white hover:border-slate-200")}>
                       <div className="flex items-center gap-2">
-                        <CalendarClock className={cn("h-4 w-4 shrink-0", selectedSlot === slot.id ? "text-emerald-600" : "text-slate-400")} />
-                        <span className={cn("text-xs font-semibold", selectedSlot === slot.id ? "text-emerald-700" : "text-slate-700")}>{slot.time}</span>
+                        <CalendarClock className={cn("h-4 w-4 md:h-5 md:w-5 shrink-0", selectedSlot === slot.id ? "text-emerald-600" : "text-slate-400")} />
+                        <span className={cn("text-xs md:text-sm font-semibold", selectedSlot === slot.id ? "text-emerald-700" : "text-slate-700")}>{slot.time}</span>
                       </div>
-                      {!slot.available && <span className="text-[10px] text-slate-400 mt-1 block">Unavailable</span>}
-                      {slot.available && selectedSlot === slot.id && <span className="text-[10px] text-emerald-600 mt-1 block font-semibold">✓ Selected</span>}
+                      {!slot.available && <span className="text-[10px] md:text-xs text-slate-400 mt-1 block">Unavailable</span>}
+                      {slot.available && selectedSlot === slot.id && <span className="text-[10px] md:text-xs text-emerald-600 mt-1 block font-semibold">✓ Selected</span>}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="rounded-xl border border-slate-100 bg-slate-50 p-3.5 space-y-2">
-                <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Donation Summary</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <div><span className="text-slate-400 text-xs">Items</span><div className="font-bold text-slate-800 text-sm">{selectedItems.length} products</div></div>
-                  <div><span className="text-slate-400 text-xs">Total units</span><div className="font-bold text-slate-800 text-sm">{totalQty} units</div></div>
+              <div className="rounded-xl border border-slate-100 bg-slate-50 p-3.5 md:p-4 space-y-2">
+                <p className="text-xs md:text-sm font-bold text-slate-600 uppercase tracking-wider">Donation Summary</p>
+                <div className="grid grid-cols-2 gap-2 md:gap-3">
+                  <div><span className="text-slate-400 text-xs md:text-sm">Items</span><div className="font-bold text-slate-800 text-sm md:text-base">{selectedItems.length} products</div></div>
+                  <div><span className="text-slate-400 text-xs md:text-sm">Total units</span><div className="font-bold text-slate-800 text-sm md:text-base">{totalQty} units</div></div>
                 </div>
                 <div className="flex flex-wrap gap-1 pt-1">
                   {selectedItems.map(i => (
-                    <span key={i.id} className="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded-full">{i.name} ×{i.qty}</span>
+                    <span key={i.id} className="text-[10px] md:text-xs bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded-full">{i.name} ×{i.qty}</span>
                   ))}
                 </div>
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-600 block mb-1.5">Note to charity (optional)</label>
+                <label className="text-xs md:text-sm font-semibold text-slate-600 block mb-1.5">Note to charity (optional)</label>
                 <textarea
                   value={note}
                   onChange={e => setNote(e.target.value)}
                   placeholder="E.g. Items are packed in boxes near the bakery exit…"
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 h-20"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm md:text-base resize-none focus:outline-none focus:ring-2 h-20 md:h-24"
                   style={{ ["--tw-ring-color" as string]: DONATE_GREEN } as React.CSSProperties}
                 />
               </div>
@@ -1220,22 +1220,22 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
           )}
 
           {step === "confirmed" && selectedCharity && (
-            <div className="flex flex-col items-center justify-center py-8 text-center space-y-4">
-              <div className="h-20 w-20 rounded-full flex items-center justify-center" style={{ backgroundColor: "hsl(145, 63%, 42%, 0.12)" }}>
-                <Heart className="h-10 w-10" style={{ color: DONATE_GREEN }} />
+            <div className="flex flex-col items-center justify-center py-8 md:py-14 text-center space-y-4 md:space-y-5">
+              <div className="h-20 w-20 md:h-24 md:w-24 rounded-full flex items-center justify-center" style={{ backgroundColor: "hsl(145, 63%, 42%, 0.12)" }}>
+                <Heart className="h-10 w-10 md:h-12 md:w-12" style={{ color: DONATE_GREEN }} />
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-black text-slate-800">Pickup Scheduled! 💚</h3>
-                <p className="text-sm text-slate-500 mt-1.5 max-w-sm mx-auto">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-slate-800">Pickup Scheduled! 💚</h3>
+                <p className="text-sm md:text-base text-slate-500 mt-1.5 max-w-sm mx-auto">
                   <strong>{selectedCharity.name}</strong> will collect your donation at the selected time.
                 </p>
               </div>
-              <div className="w-full max-w-sm rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-4 text-left space-y-3">
+              <div className="w-full max-w-sm md:max-w-md rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-4 md:p-5 text-left space-y-3">
                 <div className="flex items-center gap-2">
-                  <Truck className="h-4 w-4 text-emerald-600" />
-                  <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Confirmation</span>
+                  <Truck className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
+                  <span className="text-xs md:text-sm font-bold text-emerald-700 uppercase tracking-wider">Confirmation</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 md:gap-3">
                   {[
                     { label: "Charity", value: selectedCharity.name },
                     { label: "Pickup slot", value: pickupSlots.find(s => s.id === selectedSlot)?.time ?? "—" },
@@ -1243,19 +1243,19 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
                     { label: "Units saved", value: `${totalQty} units` },
                   ].map(f => (
                     <div key={f.label}>
-                      <div className="text-[10px] text-slate-400">{f.label}</div>
-                      <div className="font-bold text-slate-800 text-sm">{f.value}</div>
+                      <div className="text-[10px] md:text-xs text-slate-400">{f.label}</div>
+                      <div className="font-bold text-slate-800 text-sm md:text-base">{f.value}</div>
                     </div>
                   ))}
                 </div>
                 {note && (
                   <div className="pt-1 border-t border-emerald-200">
-                    <div className="text-[10px] text-slate-400">Your note</div>
-                    <div className="text-xs text-slate-600 mt-0.5">{note}</div>
+                    <div className="text-[10px] md:text-xs text-slate-400">Your note</div>
+                    <div className="text-xs md:text-sm text-slate-600 mt-0.5">{note}</div>
                   </div>
                 )}
               </div>
-              <div className="flex flex-wrap justify-center gap-2 text-xs text-slate-400 font-medium">
+              <div className="flex flex-wrap justify-center gap-2 text-xs md:text-sm text-slate-400 font-medium">
                 <span>✓ Charity notified</span><span>·</span><span>✓ Waste log updated</span><span>·</span><span>✓ {totalQty} units saved from waste</span>
               </div>
             </div>
@@ -1264,15 +1264,15 @@ function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete
       </ScrollArea>
 
       {step !== "confirmed" && (
-        <div className="shrink-0 p-4 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
-          <Button variant="outline" className="h-10 text-sm px-5 font-semibold rounded-xl"
+        <div className="shrink-0 p-4 md:p-5 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
+          <Button variant="outline" className="h-10 md:h-11 text-sm md:text-base px-5 md:px-6 font-semibold rounded-xl"
             onClick={step === "select-items" ? onClose : prevStep}>
             <ChevronLeft className="h-4 w-4 mr-1" />
             {step === "select-items" ? "Back" : "Previous"}
           </Button>
-          <div className="text-xs text-slate-400 font-medium">Step {stepIndex + 1} of {stepLabels.length}</div>
+          <div className="text-xs md:text-sm text-slate-400 font-medium">Step {stepIndex + 1} of {stepLabels.length}</div>
           <Button
-            className="h-10 text-sm px-5 font-bold rounded-xl text-white gap-2"
+            className="h-10 md:h-11 text-sm md:text-base px-5 md:px-6 font-bold rounded-xl text-white gap-2"
             style={{ backgroundColor: canProceed() ? DONATE_GREEN : "hsl(145, 20%, 70%)" }}
             onClick={step === "schedule" ? handleConfirm : nextStep}
             disabled={!canProceed()}>
