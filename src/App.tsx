@@ -87,6 +87,7 @@ import SmartStorePricingRules from "./pages/smartstore/PricingRules";
 import InfomilPresentation from "./pages/InfomilPresentation";
 import InfomilStrategicPresentation from "./pages/InfomilStrategicPresentation";
 import HandheldLayout from "./pages/handheld/HandheldLayout";
+import HandheldSplash from "./pages/handheld/HandheldSplash";
 import HandheldHome from "./pages/handheld/HandheldHome";
 import HandheldOperations from "./pages/handheld/HandheldOperations";
 import HandheldHealth from "./pages/handheld/HandheldHealth";
@@ -255,7 +256,8 @@ const App = () => (
           <Route path="/presentation/infomil-strategic" element={<InfomilStrategicPresentation />} />
           
           {/* Handheld HHT App Routes */}
-          <Route path="/handheld" element={<HandheldLayout />}>
+          <Route path="/handheld" element={<HandheldSplash />} />
+          <Route path="/handheld/home" element={<HandheldLayout />}>
             <Route index element={<HandheldHome />} />
             <Route path="operations" element={<HandheldOperations />} />
             <Route path="operations/assign" element={<AssignESL />} />
