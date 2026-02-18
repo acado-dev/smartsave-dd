@@ -1038,26 +1038,26 @@ export default function IthinaAssistant() {
       >
         {/* Header */}
         <div 
-          className="flex items-center justify-between px-5 md:px-7 py-3 md:py-3.5 shrink-0"
+          className="flex items-center justify-between px-5 md:px-8 py-3 md:py-4 shrink-0"
           style={{ backgroundColor: ITHINA_NAVY }}
         >
-          <div className="flex items-center gap-3 md:gap-4">
-            <div className="h-9 w-9 md:h-11 md:w-11 rounded-full bg-white/15 flex items-center justify-center">
-              <img src={ithinaLogo} alt="Ithina" className="h-6 w-6 md:h-7 md:w-7 object-contain" />
+          <div className="flex items-center gap-3 md:gap-5">
+            <div className="h-9 w-9 md:h-13 md:w-13 rounded-full bg-white/15 flex items-center justify-center">
+              <img src={ithinaLogo} alt="Ithina" className="h-6 w-6 md:h-8 md:w-8 object-contain" />
             </div>
             <div>
-              <h2 className="text-white font-bold text-lg md:text-xl lg:text-2xl">Ithina Assistant</h2>
-              <p className="text-white/60 text-xs md:text-sm">Retail Intelligence · 4P+C</p>
+              <h2 className="text-white font-bold text-lg md:text-2xl lg:text-2xl">Ithina Assistant</h2>
+              <p className="text-white/60 text-xs md:text-base">Retail Intelligence · 4P+C</p>
             </div>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="flex items-center gap-1.5 md:gap-2 px-3 py-1 rounded-full bg-white/10">
+            <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1 md:py-1.5 rounded-full bg-white/10">
               <span className="h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-xs md:text-sm text-white/70 font-medium">Live</span>
+              <span className="text-xs md:text-base text-white/70 font-medium">Live</span>
             </div>
             <button 
               onClick={() => setIsOpen(false)}
-              className="p-1.5 md:p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+              className="p-1.5 md:p-2.5 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors"
             >
               <X className="h-5 w-5 md:h-6 md:w-6" />
             </button>
@@ -1065,21 +1065,21 @@ export default function IthinaAssistant() {
         </div>
 
         {/* Domain Filter Chips */}
-        <div className="px-4 md:px-6 py-2 md:py-2.5 border-b border-slate-100 shrink-0 overflow-x-auto">
-          <div className="flex items-center gap-1.5 md:gap-2">
+        <div className="px-4 md:px-6 py-2 md:py-3 border-b border-slate-100 shrink-0 overflow-x-auto">
+          <div className="flex items-center gap-1.5 md:gap-2.5">
             <button
               onClick={() => setActiveDomain("all")}
               className={cn(
-                "px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5",
+                "px-3 md:px-5 py-1.5 md:py-2 rounded-full text-xs md:text-base font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 md:gap-2",
                 activeDomain === "all"
                   ? "text-white shadow-sm"
                   : "text-slate-500 bg-slate-100 hover:bg-slate-200"
               )}
               style={activeDomain === "all" ? { backgroundColor: ITHINA_TEAL } : undefined}
             >
-              <Filter className="h-3.5 w-3.5" />
+              <Filter className="h-3.5 w-3.5 md:h-4 md:w-4" />
               All
-              <Badge variant="secondary" className="h-4 px-1 text-[10px] md:text-xs bg-white/20 text-inherit border-0">
+              <Badge variant="secondary" className="h-4 md:h-5 px-1 md:px-1.5 text-[10px] md:text-sm bg-white/20 text-inherit border-0">
                 {mockRecommendations.filter(r => !actionedIds.has(r.id)).length}
               </Badge>
             </button>
@@ -1090,16 +1090,16 @@ export default function IthinaAssistant() {
                   key={key}
                   onClick={() => setActiveDomain(key)}
                   className={cn(
-                    "px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5",
+                    "px-3 md:px-5 py-1.5 md:py-2 rounded-full text-xs md:text-base font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 md:gap-2",
                     activeDomain === key
                       ? `${cfg.bgColor} ${cfg.color} ring-1 ring-current/20`
                       : "text-slate-500 bg-slate-100 hover:bg-slate-200"
                   )}
                 >
-                  <cfg.icon className="h-3.5 w-3.5" />
+                  <cfg.icon className="h-3.5 w-3.5 md:h-4 md:w-4" />
                   {cfg.label}
                   {count > 0 && (
-                    <span className="text-[10px] md:text-xs opacity-60">({count})</span>
+                    <span className="text-[10px] md:text-sm opacity-60">({count})</span>
                   )}
                 </button>
               );
@@ -1108,19 +1108,20 @@ export default function IthinaAssistant() {
         </div>
 
         {/* Summary Bar */}
-        <div className="px-4 md:px-6 py-2 bg-slate-50 border-b border-slate-100 shrink-0">
+        <div className="px-4 md:px-6 py-2 md:py-2.5 bg-slate-50 border-b border-slate-100 shrink-0">
           <div className="flex items-center justify-between">
-            <p className="text-xs md:text-sm text-slate-500 font-semibold">
+            <p className="text-xs md:text-base text-slate-500 font-semibold">
               {activeDomain === "all" ? "All Recommendations" : domainConfig[activeDomain as Exclude<Domain, "all">].label}
               {" · "}{filteredRecs.filter(r => !actionedIds.has(r.id)).length} pending
             </p>
-            <div className="flex items-center gap-3 md:gap-4 text-xs text-slate-400 font-medium">
-              <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-orange-400" /> High</span>
-              <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-sky-400" /> Medium</span>
-              <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-slate-300" /> Low</span>
+            <div className="flex items-center gap-3 md:gap-5 text-xs md:text-sm text-slate-400 font-medium">
+              <span className="flex items-center gap-1 md:gap-1.5"><span className="h-2 w-2 md:h-2.5 md:w-2.5 rounded-full bg-orange-400" /> High</span>
+              <span className="flex items-center gap-1 md:gap-1.5"><span className="h-2 w-2 md:h-2.5 md:w-2.5 rounded-full bg-sky-400" /> Medium</span>
+              <span className="flex items-center gap-1 md:gap-1.5"><span className="h-2 w-2 md:h-2.5 md:w-2.5 rounded-full bg-slate-300" /> Low</span>
             </div>
           </div>
         </div>
+
 
         {/* Recommendations List */}
         <ScrollArea className="flex-1 min-h-0">
@@ -1132,76 +1133,75 @@ export default function IthinaAssistant() {
                 <div
                   key={rec.id}
                   className={cn(
-                    "rounded-xl border-l-4 p-3 md:p-4 transition-all flex flex-col",
+                    "rounded-xl border-l-4 p-3.5 md:p-5 transition-all flex flex-col",
                     isActioned ? "border-l-emerald-500 bg-emerald-50/50 opacity-70" : priorityStyles[rec.priority]
                   )}
                 >
                   {/* Card Header */}
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className={cn("h-7 w-7 rounded-lg flex items-center justify-center shrink-0", cfg.bgColor)}>
-                        <cfg.icon className={cn(cfg.color, "h-4 w-4")} />
+                  <div className="flex items-start justify-between gap-2 mb-2 md:mb-3">
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <div className={cn("h-7 w-7 md:h-9 md:w-9 rounded-lg flex items-center justify-center shrink-0", cfg.bgColor)}>
+                        <cfg.icon className={cn(cfg.color, "h-4 w-4 md:h-5 md:w-5")} />
                       </div>
-                      <span className={cn("text-[11px] md:text-xs font-bold uppercase tracking-wider", cfg.color)}>
+                      <span className={cn("text-xs md:text-sm font-bold uppercase tracking-wider", cfg.color)}>
                         {cfg.label}
                       </span>
                     </div>
-                    <span className="text-[10px] md:text-xs text-slate-400 whitespace-nowrap flex items-center gap-1 shrink-0">
-                      <Clock className="h-3 w-3" />
+                    <span className="text-[10px] md:text-sm text-slate-400 whitespace-nowrap flex items-center gap-1 shrink-0">
+                      <Clock className="h-3 w-3 md:h-3.5 md:w-3.5" />
                       {rec.timestamp}
                     </span>
                   </div>
 
                   {/* Title & Description */}
-                  <h4 className="text-sm md:text-[15px] font-bold text-slate-800 mb-1 leading-snug">{rec.title}</h4>
-                  <p className="text-xs md:text-[13px] text-slate-500 leading-relaxed mb-2 flex-1">{rec.description}</p>
+                  <h4 className="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-1.5 leading-snug">{rec.title}</h4>
+                  <p className="text-xs md:text-base text-slate-500 leading-relaxed mb-2 md:mb-3 flex-1">{rec.description}</p>
 
                   {/* Perishable flow hint */}
                   {rec.hasFlow && !isActioned && (
-                    <div className="flex items-center gap-1 text-[10px] md:text-xs text-orange-600 font-semibold mb-2">
-                      <Zap className="h-3 w-3" />
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm text-orange-600 font-semibold mb-2">
+                      <Zap className="h-3 w-3 md:h-3.5 md:w-3.5" />
                       Review → Edit → ESL Preview → Apply
                     </div>
                   )}
 
                   {/* Donation flow hint */}
                   {rec.hasDonationFlow && !isActioned && (
-                    <div className="flex items-center gap-1 text-[10px] md:text-xs font-semibold mb-2" style={{ color: DONATE_GREEN }}>
-                      <Heart className="h-3 w-3" />
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: DONATE_GREEN }}>
+                      <Heart className="h-3 w-3 md:h-3.5 md:w-3.5" />
                       Select Items → Choose Charity → Schedule → Confirm
                     </div>
                   )}
 
-
                   {/* Impact & Action */}
-                  <div className="flex items-center justify-between mt-auto pt-1">
+                  <div className="flex items-center justify-between mt-auto pt-1 md:pt-2">
                     <div className="flex items-center gap-1.5">
-                      <TrendingUp className="h-3.5 w-3.5" style={{ color: ITHINA_TEAL }} />
-                      <span className="text-xs md:text-sm font-bold" style={{ color: ITHINA_TEAL }}>{rec.impact}</span>
+                      <TrendingUp className="h-3.5 w-3.5 md:h-4 md:w-4" style={{ color: ITHINA_TEAL }} />
+                      <span className="text-xs md:text-base font-bold" style={{ color: ITHINA_TEAL }}>{rec.impact}</span>
                     </div>
                     {isActioned ? (
                       <span className="flex items-center gap-1 text-xs md:text-sm text-emerald-600 font-semibold">
-                        <CheckCircle2 className="h-3.5 w-3.5" />
+                        <CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" />
                         Done
                       </span>
                     ) : (
                       <Button
                         size="sm"
                         className={cn(
-                          "h-7 md:h-8 text-[11px] md:text-xs px-2.5 md:px-3 text-white rounded-lg gap-1 font-semibold",
+                          "h-8 md:h-10 text-xs md:text-sm px-3 md:px-4 text-white rounded-lg gap-1 font-semibold",
                           rec.hasFlow && "ring-2 ring-orange-400 ring-offset-1",
                           rec.hasDonationFlow && "ring-2 ring-emerald-400 ring-offset-1"
                         )}
                         style={{ backgroundColor: rec.hasFlow ? "#ea580c" : rec.hasDonationFlow ? DONATE_GREEN : ITHINA_NAVY }}
                         onClick={() => handleAction(rec)}
                       >
-
                         {rec.action}
-                        <ArrowRight className="h-3 w-3" />
+                        <ArrowRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
                       </Button>
                     )}
                   </div>
                 </div>
+
               );
             })}
 
