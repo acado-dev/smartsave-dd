@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { 
   Bot, X, Send, Sparkles, TrendingUp, Megaphone, LayoutGrid, Apple,
   ChevronRight, CheckCircle2, Clock, AlertTriangle, ArrowRight, Filter,
-  ChevronLeft, Edit2, Eye, Zap, Package, Tag, Heart, Monitor
+  ChevronLeft, Edit2, Eye, Zap, Package, Tag, Heart, Monitor,
+  Building2, MapPin, Phone, CalendarClock, Truck, Leaf, Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -12,9 +13,11 @@ import ithinaLogo from "@/assets/ithina-logo-white.png";
 
 const ITHINA_NAVY = "hsl(205, 55%, 18%)";
 const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+const DONATE_GREEN = "hsl(145, 63%, 42%)";
 
 type Domain = "all" | "pac" | "promotion" | "planogram" | "perishable";
 type PerishableStep = "review" | "edit" | "esl-preview" | "applied";
+type DonationStep = "select-items" | "choose-charity" | "schedule" | "confirmed";
 
 interface Recommendation {
   id: string;
@@ -26,7 +29,9 @@ interface Recommendation {
   action: string;
   timestamp: string;
   hasFlow?: boolean;
+  hasDonationFlow?: boolean;
 }
+
 
 interface PerishableItem {
   id: number;
@@ -90,9 +95,11 @@ const mockRecommendations: Recommendation[] = [
     id: "6", domain: "perishable", priority: "medium",
     title: "Donation window opening",
     description: "14 bakery items eligible for food bank donation in 6 hours. Coordinate pickup with local charity partner.",
-    impact: "14 items saved", action: "Schedule Pickup",
-    timestamp: "25 min ago"
+    impact: "14 items saved", action: "Donate Items",
+    timestamp: "25 min ago",
+    hasDonationFlow: true
   },
+
   {
     id: "7", domain: "planogram", priority: "low",
     title: "New planogram available",
@@ -170,8 +177,375 @@ function ESLLabel({ item, size = "sm" }: { item: PerishableItem; size?: "sm" | "
   );
 }
 
+// ─── Donation Flow ────────────────────────────────────────────────────────────
+interface DonationItem { id: number; name: string; category: string; qty: number; expiry: string; sku: string; selected: boolean; }
+interface CharityPartner { id: number; name: string; type: string; distance: string; contact: string; acceptsCategories: string[]; rating: number; }
+
+const initialDonationItems: DonationItem[] = [
+  { id: 1, name: "Sourdough Bread", category: "Bakery", qty: 12, expiry: "Today 8pm", sku: "BKY-012", selected: true },
+  { id: 2, name: "Croissants", category: "Bakery", qty: 18, expiry: "Today 6pm", sku: "BKY-034", selected: true },
+  { id: 3, name: "Whole Grain Rolls", category: "Bakery", qty: 24, expiry: "Today 9pm", sku: "BKY-056", selected: true },
+  { id: 4, name: "Mixed Berry Muffins", category: "Bakery", qty: 10, expiry: "Today 7pm", sku: "BKY-078", selected: false },
+  { id: 5, name: "Banana Bread", category: "Bakery", qty: 8, expiry: "Tomorrow 10am", sku: "BKY-091", selected: true },
+  { id: 6, name: "Cinnamon Danish", category: "Bakery", qty: 14, expiry: "Today 8pm", sku: "BKY-102", selected: false },
+];
+
+const charityPartners: CharityPartner[] = [
+  { id: 1, name: "City Food Bank", type: "Food Bank", distance: "1.2 km", contact: "+39 02 1234 5678", acceptsCategories: ["Bakery", "Produce", "Dairy"], rating: 5 },
+  { id: 2, name: "St. Anthony Shelter", type: "Homeless Shelter", distance: "2.8 km", contact: "+39 02 9876 5432", acceptsCategories: ["Bakery", "Meat", "Dairy"], rating: 5 },
+  { id: 3, name: "Community Kitchen", type: "Soup Kitchen", distance: "0.9 km", contact: "+39 02 5555 1234", acceptsCategories: ["Bakery", "Produce", "Meat"], rating: 4 },
+];
+
+const pickupSlots = [
+  { id: 1, time: "Today 5:00 PM", available: true },
+  { id: 2, time: "Today 6:30 PM", available: true },
+  { id: 3, time: "Today 8:00 PM", available: false },
+  { id: 4, time: "Tomorrow 8:00 AM", available: true },
+  { id: 5, time: "Tomorrow 10:00 AM", available: true },
+];
+
+function DonationFlow({ onClose, onComplete }: { onClose: () => void; onComplete: () => void }) {
+  const [step, setStep] = useState<DonationStep>("select-items");
+  const [items, setItems] = useState<DonationItem[]>(initialDonationItems);
+  const [selectedCharity, setSelectedCharity] = useState<CharityPartner | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
+  const [note, setNote] = useState("");
+
+  const selectedItems = items.filter(i => i.selected);
+  const totalQty = selectedItems.reduce((sum, i) => sum + i.qty, 0);
+
+  const stepLabels: { key: DonationStep; label: string; icon: typeof Package }[] = [
+    { key: "select-items", label: "Select Items", icon: Package },
+    { key: "choose-charity", label: "Choose Charity", icon: Heart },
+    { key: "schedule", label: "Schedule Pickup", icon: CalendarClock },
+    { key: "confirmed", label: "Confirmed", icon: CheckCircle2 },
+  ];
+  const stepIndex = stepLabels.findIndex(s => s.key === step);
+
+  const toggleItem = (id: number) => setItems(prev => prev.map(it => it.id === id ? { ...it, selected: !it.selected } : it));
+
+  const handleConfirm = () => {
+    setStep("confirmed");
+    setTimeout(() => onComplete(), 3500);
+  };
+
+  const canProceed = () => {
+    if (step === "select-items") return selectedItems.length > 0;
+    if (step === "choose-charity") return selectedCharity !== null;
+    if (step === "schedule") return selectedSlot !== null;
+    return false;
+  };
+
+  const nextStep = () => {
+    const idx = stepLabels.findIndex(s => s.key === step);
+    if (idx < stepLabels.length - 1) setStep(stepLabels[idx + 1].key);
+  };
+  const prevStep = () => {
+    const idx = stepLabels.findIndex(s => s.key === step);
+    if (idx > 0) setStep(stepLabels[idx - 1].key);
+  };
+
+  return (
+    <div className="fixed inset-0 z-[80] flex flex-col bg-white overflow-hidden">
+      {/* Header */}
+      <div className="shrink-0 px-4 md:px-7 py-3 flex items-center gap-3"
+        style={{ backgroundColor: DONATE_GREEN }}>
+        <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white">
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="h-8 w-8 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+            <Heart className="h-4 w-4 text-white" />
+          </div>
+          <div>
+            <h2 className="text-white font-bold text-base md:text-lg leading-tight">Donate Items</h2>
+            <p className="text-white/60 text-xs">Bakery section · 6 eligible items</p>
+          </div>
+        </div>
+        <div className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15">
+          <Leaf className="h-3 w-3 text-white/80" />
+          <span className="text-white/80 text-xs font-medium">Zero Waste</span>
+        </div>
+      </div>
+
+      {/* Step Progress */}
+      <div className="shrink-0 px-4 md:px-7 py-2.5 bg-slate-50 border-b border-slate-100 overflow-x-auto">
+        <div className="flex items-center gap-0 min-w-max">
+          {stepLabels.map((s, idx) => {
+            const isActive = s.key === step;
+            const isDone = idx < stepIndex;
+            return (
+              <div key={s.key} className="flex items-center">
+                <div className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all",
+                  isActive ? "text-white shadow-sm" : isDone ? "text-emerald-600 bg-emerald-50" : "text-slate-400 bg-slate-100"
+                )} style={isActive ? { backgroundColor: DONATE_GREEN } : undefined}>
+                  {isDone ? <CheckCircle2 className="h-3.5 w-3.5" /> : <s.icon className="h-3.5 w-3.5" />}
+                  {s.label}
+                </div>
+                {idx < stepLabels.length - 1 && (
+                  <ChevronRight className={cn("h-4 w-4 mx-1", isDone ? "text-emerald-400" : "text-slate-200")} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Step Content */}
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="p-4 md:p-6 max-w-3xl mx-auto">
+
+          {/* ── STEP 1: SELECT ITEMS ── */}
+          {step === "select-items" && (
+            <div className="space-y-3">
+              <div className="grid grid-cols-3 gap-2.5">
+                {[
+                  { label: "Eligible Items", value: items.length.toString(), color: "text-emerald-600", bg: "bg-emerald-50" },
+                  { label: "Selected", value: selectedItems.length.toString(), color: "text-sky-600", bg: "bg-sky-50" },
+                  { label: "Total Units", value: totalQty.toString(), color: "text-violet-600", bg: "bg-violet-50" },
+                ].map(c => (
+                  <div key={c.label} className={cn("rounded-xl p-3 text-center", c.bg)}>
+                    <div className={cn("text-2xl font-black", c.color)}>{c.value}</div>
+                    <div className="text-xs text-slate-500 mt-0.5 font-medium">{c.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-xl p-3.5 flex items-start gap-3 border-l-4" style={{ backgroundColor: "hsl(145, 63%, 42%, 0.06)", borderLeftColor: DONATE_GREEN }}>
+                <div className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: DONATE_GREEN }}>
+                  <Sparkles className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-800">Ithina Recommendation</p>
+                  <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                    Select items expiring <strong>today</strong> first for maximum impact. Donation window closes at <strong>8:00 PM</strong>.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {items.map(item => (
+                  <div key={item.id}
+                    onClick={() => toggleItem(item.id)}
+                    className={cn(
+                      "rounded-xl border-2 p-3 cursor-pointer transition-all flex items-center gap-3",
+                      item.selected ? "border-emerald-400 bg-emerald-50/40" : "border-slate-100 bg-slate-50 opacity-60"
+                    )}>
+                    <div className={cn(
+                      "h-5 w-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
+                      item.selected ? "border-emerald-500 bg-emerald-500" : "border-slate-300 bg-white"
+                    )}>
+                      {item.selected && <CheckCircle2 className="h-3 w-3 text-white" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-bold text-sm text-slate-800">{item.name}</span>
+                        <Badge variant="outline" className="text-[10px]">{item.category}</Badge>
+                      </div>
+                      <div className="flex items-center gap-3 mt-0.5">
+                        <span className="text-xs text-slate-400">{item.sku}</span>
+                        <span className="text-xs text-orange-600 font-semibold flex items-center gap-1">
+                          <Clock className="h-3 w-3" />{item.expiry}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="text-base font-black text-emerald-600">{item.qty}</div>
+                      <div className="text-[10px] text-slate-400">units</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── STEP 2: CHOOSE CHARITY ── */}
+          {step === "choose-charity" && (
+            <div className="space-y-3">
+              <div className="rounded-xl p-3.5 bg-sky-50 border border-sky-100">
+                <p className="text-sm font-semibold text-sky-800">
+                  🤝 Select a verified charity partner near your store. All partners are pre-approved for food safety compliance.
+                </p>
+              </div>
+              <div className="space-y-3">
+                {charityPartners.map(charity => {
+                  const isSelected = selectedCharity?.id === charity.id;
+                  return (
+                    <div key={charity.id}
+                      onClick={() => setSelectedCharity(charity)}
+                      className={cn(
+                        "rounded-xl border-2 p-4 cursor-pointer transition-all",
+                        isSelected ? "border-emerald-400 bg-emerald-50/40 shadow-sm" : "border-slate-100 bg-white hover:border-slate-200"
+                      )}>
+                      <div className="flex items-start gap-3">
+                        <div className={cn(
+                          "h-10 w-10 rounded-xl flex items-center justify-center shrink-0 transition-all",
+                          isSelected ? "bg-emerald-500" : "bg-slate-100"
+                        )}>
+                          {charity.type === "Food Bank" ? <Building2 className={cn("h-5 w-5", isSelected ? "text-white" : "text-slate-500")} /> :
+                           charity.type === "Homeless Shelter" ? <Users className={cn("h-5 w-5", isSelected ? "text-white" : "text-slate-500")} /> :
+                           <Heart className={cn("h-5 w-5", isSelected ? "text-white" : "text-slate-500")} />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-bold text-sm text-slate-800">{charity.name}</span>
+                            <Badge variant="outline" className="text-[10px]">{charity.type}</Badge>
+                            {isSelected && <Badge className="text-[10px] bg-emerald-500 text-white border-0">Selected</Badge>}
+                          </div>
+                          <div className="flex items-center gap-3 mt-1 flex-wrap">
+                            <span className="text-xs text-slate-500 flex items-center gap-1"><MapPin className="h-3 w-3" />{charity.distance}</span>
+                            <span className="text-xs text-slate-500 flex items-center gap-1"><Phone className="h-3 w-3" />{charity.contact}</span>
+                          </div>
+                          <div className="flex items-center gap-1 mt-2 flex-wrap">
+                            <span className="text-[10px] text-slate-400 mr-1">Accepts:</span>
+                            {charity.acceptsCategories.map(cat => (
+                              <span key={cat} className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-full font-medium">{cat}</span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="shrink-0 text-sm">{"⭐".repeat(charity.rating)}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* ── STEP 3: SCHEDULE PICKUP ── */}
+          {step === "schedule" && selectedCharity && (
+            <div className="space-y-3">
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3.5 flex items-center gap-3">
+                <div className="h-9 w-9 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
+                  <Heart className="h-4 w-4 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-slate-800">{selectedCharity.name}</p>
+                  <p className="text-xs text-slate-500 flex items-center gap-1"><MapPin className="h-3 w-3" />{selectedCharity.distance} away · {selectedCharity.contact}</p>
+                </div>
+                <button onClick={() => setStep("choose-charity")} className="text-xs text-sky-600 font-semibold hover:underline shrink-0">Change</button>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-slate-700 mb-2">Choose a pickup slot</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {pickupSlots.map(slot => (
+                    <button key={slot.id}
+                      disabled={!slot.available}
+                      onClick={() => setSelectedSlot(slot.id)}
+                      className={cn(
+                        "rounded-xl p-3 text-left transition-all border-2",
+                        !slot.available && "opacity-40 cursor-not-allowed bg-slate-50 border-slate-100",
+                        slot.available && selectedSlot === slot.id && "border-emerald-400 bg-emerald-50 shadow-sm",
+                        slot.available && selectedSlot !== slot.id && "border-slate-100 bg-white hover:border-slate-200"
+                      )}>
+                      <div className="flex items-center gap-2">
+                        <CalendarClock className={cn("h-4 w-4 shrink-0", selectedSlot === slot.id ? "text-emerald-600" : "text-slate-400")} />
+                        <span className={cn("text-xs font-semibold", selectedSlot === slot.id ? "text-emerald-700" : "text-slate-700")}>{slot.time}</span>
+                      </div>
+                      {!slot.available && <span className="text-[10px] text-slate-400 mt-1 block">Unavailable</span>}
+                      {slot.available && selectedSlot === slot.id && <span className="text-[10px] text-emerald-600 mt-1 block font-semibold">✓ Selected</span>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-xl border border-slate-100 bg-slate-50 p-3.5 space-y-2">
+                <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Donation Summary</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div><span className="text-slate-400 text-xs">Items</span><div className="font-bold text-slate-800 text-sm">{selectedItems.length} products</div></div>
+                  <div><span className="text-slate-400 text-xs">Total units</span><div className="font-bold text-slate-800 text-sm">{totalQty} units</div></div>
+                </div>
+                <div className="flex flex-wrap gap-1 pt-1">
+                  {selectedItems.map(i => (
+                    <span key={i.id} className="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded-full">{i.name} ×{i.qty}</span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-slate-600 block mb-1.5">Note to charity (optional)</label>
+                <textarea
+                  value={note}
+                  onChange={e => setNote(e.target.value)}
+                  placeholder="E.g. Items are packed in boxes near the bakery exit…"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 h-20"
+                  style={{ ["--tw-ring-color" as string]: DONATE_GREEN } as React.CSSProperties}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* ── STEP 4: CONFIRMED ── */}
+          {step === "confirmed" && selectedCharity && (
+            <div className="flex flex-col items-center justify-center py-8 text-center space-y-4">
+              <div className="h-20 w-20 rounded-full flex items-center justify-center" style={{ backgroundColor: "hsl(145, 63%, 42%, 0.12)" }}>
+                <Heart className="h-10 w-10" style={{ color: DONATE_GREEN }} />
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-black text-slate-800">Pickup Scheduled! 💚</h3>
+                <p className="text-sm text-slate-500 mt-1.5 max-w-sm mx-auto">
+                  <strong>{selectedCharity.name}</strong> will collect your donation at the selected time.
+                </p>
+              </div>
+              <div className="w-full max-w-sm rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-4 text-left space-y-3">
+                <div className="flex items-center gap-2">
+                  <Truck className="h-4 w-4 text-emerald-600" />
+                  <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Confirmation</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { label: "Charity", value: selectedCharity.name },
+                    { label: "Pickup slot", value: pickupSlots.find(s => s.id === selectedSlot)?.time ?? "—" },
+                    { label: "Items donated", value: `${selectedItems.length} products` },
+                    { label: "Units saved", value: `${totalQty} units` },
+                  ].map(f => (
+                    <div key={f.label}>
+                      <div className="text-[10px] text-slate-400">{f.label}</div>
+                      <div className="font-bold text-slate-800 text-sm">{f.value}</div>
+                    </div>
+                  ))}
+                </div>
+                {note && (
+                  <div className="pt-1 border-t border-emerald-200">
+                    <div className="text-[10px] text-slate-400">Your note</div>
+                    <div className="text-xs text-slate-600 mt-0.5">{note}</div>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-wrap justify-center gap-2 text-xs text-slate-400 font-medium">
+                <span>✓ Charity notified</span>
+                <span>·</span>
+                <span>✓ Waste log updated</span>
+                <span>·</span>
+                <span>✓ {totalQty} units saved from waste</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </ScrollArea>
+
+      {/* Action Footer */}
+      {step !== "confirmed" && (
+        <div className="shrink-0 p-4 border-t border-slate-100 bg-white flex items-center justify-between gap-3">
+          <Button variant="outline" className="h-10 text-sm px-5 font-semibold rounded-xl"
+            onClick={step === "select-items" ? onClose : prevStep}>
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            {step === "select-items" ? "Back" : "Previous"}
+          </Button>
+          <div className="text-xs text-slate-400 font-medium">Step {stepIndex + 1} of {stepLabels.length}</div>
+          <Button
+            className="h-10 text-sm px-5 font-bold rounded-xl text-white gap-2"
+            style={{ backgroundColor: canProceed() ? DONATE_GREEN : "hsl(145, 20%, 70%)" }}
+            onClick={step === "schedule" ? handleConfirm : nextStep}
+            disabled={!canProceed()}>
+            {step === "schedule" ? <><Heart className="h-4 w-4" />Confirm Donation</> : <>Next <ChevronRight className="h-4 w-4" /></>}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Perishable Flow ─────────────────────────────────────────────────────────
 function PerishableFlow({ onClose, onComplete }: { onClose: () => void; onComplete: () => void }) {
+
   const [step, setStep] = useState<PerishableStep>("review");
   const [items, setItems] = useState<PerishableItem[]>(initialPerishableItems);
   const [previewItem, setPreviewItem] = useState<PerishableItem | null>(null);
@@ -566,6 +940,7 @@ export default function IthinaAssistant() {
   const [inputValue, setInputValue] = useState("");
   const [actionedIds, setActionedIds] = useState<Set<string>>(new Set());
   const [perishableFlowOpen, setPerishableFlowOpen] = useState(false);
+  const [donationFlowOpen, setDonationFlowOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
   const filteredRecs = mockRecommendations.filter(
@@ -577,6 +952,8 @@ export default function IthinaAssistant() {
   const handleAction = (rec: Recommendation) => {
     if (rec.hasFlow) {
       setPerishableFlowOpen(true);
+    } else if (rec.hasDonationFlow) {
+      setDonationFlowOpen(true);
     } else {
       setActionedIds(prev => new Set(prev).add(rec.id));
     }
@@ -586,12 +963,14 @@ export default function IthinaAssistant() {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (perishableFlowOpen) setPerishableFlowOpen(false);
+        else if (donationFlowOpen) setDonationFlowOpen(false);
         else setIsOpen(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [perishableFlowOpen]);
+  }, [perishableFlowOpen, donationFlowOpen]);
+
 
   return (
     <>
@@ -632,6 +1011,18 @@ export default function IthinaAssistant() {
           }}
         />
       )}
+
+      {/* Donation Flow */}
+      {donationFlowOpen && (
+        <DonationFlow
+          onClose={() => setDonationFlowOpen(false)}
+          onComplete={() => {
+            setDonationFlowOpen(false);
+            setActionedIds(prev => new Set(prev).add("6"));
+          }}
+        />
+      )}
+
 
       {/* Assistant Panel */}
       <div
@@ -773,6 +1164,15 @@ export default function IthinaAssistant() {
                     </div>
                   )}
 
+                  {/* Donation flow hint */}
+                  {rec.hasDonationFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-xs font-semibold mb-2" style={{ color: DONATE_GREEN }}>
+                      <Heart className="h-3 w-3" />
+                      Select Items → Choose Charity → Schedule → Confirm
+                    </div>
+                  )}
+
+
                   {/* Impact & Action */}
                   <div className="flex items-center justify-between mt-auto pt-1">
                     <div className="flex items-center gap-1.5">
@@ -789,11 +1189,13 @@ export default function IthinaAssistant() {
                         size="sm"
                         className={cn(
                           "h-7 md:h-8 text-[11px] md:text-xs px-2.5 md:px-3 text-white rounded-lg gap-1 font-semibold",
-                          rec.hasFlow && "ring-2 ring-orange-400 ring-offset-1"
+                          rec.hasFlow && "ring-2 ring-orange-400 ring-offset-1",
+                          rec.hasDonationFlow && "ring-2 ring-emerald-400 ring-offset-1"
                         )}
-                        style={{ backgroundColor: rec.hasFlow ? "#ea580c" : ITHINA_NAVY }}
+                        style={{ backgroundColor: rec.hasFlow ? "#ea580c" : rec.hasDonationFlow ? DONATE_GREEN : ITHINA_NAVY }}
                         onClick={() => handleAction(rec)}
                       >
+
                         {rec.action}
                         <ArrowRight className="h-3 w-3" />
                       </Button>
