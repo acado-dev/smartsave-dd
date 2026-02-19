@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import OpenAI from "openai";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -120,56 +120,35 @@ export default function FreshnessMobileAnalysis() {
     const identified = identifyProductFromKeywords(kw);
 
     if (identified) {
-      setIdentifiedProduct(identified);
-      setProduceType(identified.name);
-      setCategory(identified.category);
-      setQuantity(identified.quantity.toString());
-      setLocation(identified.location);
-      setOriginalPrice(identified.originalPrice.toString());
-      setSku(identified.sku);
-      setSupplier(identified.supplier);
-      setReceivedDate(identified.receivedDate);
-      setExpiryDate(identified.expiryDate);
-    } else {
-      setIdentifiedProduct(null);
-      setProduceType("");
-      setCategory("");
-      setQuantity("");
-      setLocation("");
-      setOriginalPrice("");
-      setSku("");
-      setSupplier("");
-      setReceivedDate("");
-      setExpiryDate("");
+      // setIdentifiedProduct(identified);
+      // setProduceType(identified.name);
+      // setCategory(identified.category);
+      // setQuantity(identified.quantity.toString());
+      // setLocation(identified.location);
+      // setOriginalPrice(identified.originalPrice.toString());
+      // setSku(identified.sku);
+      // setSupplier(identified.supplier);
+      // setReceivedDate(identified.receivedDate);
+      // setExpiryDate(identified.expiryDate);
     }
   };
 
-  useEffect(() => {
-    if (isCameraActive && stream && videoRef.current) {
-      videoRef.current.srcObject = stream;
-    }
-  }, [isCameraActive, stream]);
-
   const startCamera = async () => {
     try {
-      setIsCameraActive(true);
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment', width: 1280, height: 720 }
       });
       setStream(mediaStream);
+      if (videoRef.current) videoRef.current.srcObject = mediaStream;
+      setIsCameraActive(true);
       toast({ title: "Camera started", description: "Position the item and capture" });
-    } catch (err) {
-      console.error("Camera access error:", err);
-      setIsCameraActive(false);
-      toast({ title: "Camera error", description: "Could not access camera. Please check permissions.", variant: "destructive" });
+    } catch {
+      toast({ title: "Camera error", description: "Could not access camera.", variant: "destructive" });
     }
   };
 
   const stopCamera = () => {
-    if (stream) {
-      stream.getTracks().forEach(t => t.stop());
-      setStream(null);
-    }
+    if (stream) { stream.getTracks().forEach(t => t.stop()); setStream(null); }
     setIsCameraActive(false);
   };
 
@@ -177,17 +156,16 @@ export default function FreshnessMobileAnalysis() {
     if (videoRef.current && canvasRef.current) {
       const canvas = canvasRef.current;
       const video = videoRef.current;
-
-      // Ensure we have video dimensions
-      if (video.videoWidth === 0 || video.videoHeight === 0) {
-        toast({ title: "Capture failed", description: "Video stream not ready. Try again.", variant: "destructive" });
-        return;
-      }
-
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
-      
+      if (ctx) {
+        ctx.drawImage(video, 0, 0);
+        const dataUrl = canvas.toDataURL('image/jpeg');
+        setImagePreview(dataUrl);
+        identifyImage("camera_capture.jpg");
+        stopCamera();
+      }
     }
   };
 
