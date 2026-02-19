@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { sampleInventory, identifyProductFromKeywords, type InventoryItem } from "@/data/sampleInventory";
+import { matchItemFromKeywords, getFreshnessBand, getFreshnessCondition, getFreshnessColor, type FreshnessItem } from "@/data/freshnessDatabase";
 import ithinaLogo from "@/assets/ithina-logo.png";
 
 export default function FreshnessMobileAnalysis() {
@@ -28,6 +29,7 @@ export default function FreshnessMobileAnalysis() {
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [identifiedProduct, setIdentifiedProduct] = useState<InventoryItem | null>(null);
+  const [matchedDbItem, setMatchedDbItem] = useState<FreshnessItem | null>(null);
   const [testMode, setTestMode] = useState<string>("auto");
   const [detectedKeywords, setDetectedKeywords] = useState<string[]>([]);
   const [detectionConfidence, setDetectionConfidence] = useState<number>(0);
@@ -117,7 +119,12 @@ export default function FreshnessMobileAnalysis() {
 
     setDetectedKeywords(kw);
     setDetectionConfidence(confidence);
+
+    // Match against the legacy sampleInventory (for price/supplier/location data)
     const identified = identifyProductFromKeywords(kw);
+    // Also match against the large freshnessDatabase (band-aware, clearance dates)
+    const dbMatch = matchItemFromKeywords(kw);
+    setMatchedDbItem(dbMatch);
 
     if (identified) {
       setIdentifiedProduct(identified);
@@ -130,6 +137,18 @@ export default function FreshnessMobileAnalysis() {
       setSupplier(identified.supplier);
       setReceivedDate(identified.receivedDate);
       setExpiryDate(identified.expiryDate);
+    } else if (dbMatch) {
+      // Fall back to freshnessDatabase record if not in sampleInventory
+      setIdentifiedProduct(null);
+      setProduceType(dbMatch.name);
+      setCategory(dbMatch.category);
+      setQuantity(dbMatch.quantity.toString());
+      setLocation(dbMatch.location);
+      setOriginalPrice(dbMatch.originalPrice.toString());
+      setSku(dbMatch.sku);
+      setSupplier(dbMatch.supplier);
+      setReceivedDate(dbMatch.receivedDate);
+      setExpiryDate(dbMatch.expiryDate);
     } else {
       setIdentifiedProduct(null);
       setProduceType("");
@@ -294,11 +313,25 @@ Output strictly in this JSON format:
 
       // Validate and map to state
       const freshnessScore = Math.max(0, Math.min(10, parseFloat(result.freshness_score) || 0));
+      const freshnessPercent = Math.round(freshnessScore * 10); // 0-100
       const shelfLife = parseInt(result.shelf_life_days_remaining) || 0;
       const reduction = Math.max(0, Math.min(70, parseFloat(result.discount_recommendation) || 0));
 
-      const price = identifiedProduct ? identifiedProduct.originalPrice : parseFloat(originalPrice || "0");
+      // Re-match against freshnessDatabase using detected keywords + AI freshness score
+      // This gives us the right band record (clearance date, discount, etc.)
+      const detectedKws = detectedKeywords.length > 0 ? detectedKeywords : [produce_type.toLowerCase()];
+      const bandMatch = matchItemFromKeywords(detectedKws, freshnessPercent);
+      if (bandMatch) setMatchedDbItem(bandMatch);
+
+      const price = identifiedProduct ? identifiedProduct.originalPrice
+        : bandMatch ? bandMatch.originalPrice
+        : parseFloat(originalPrice || "0");
       const suggestedPrice = parseFloat((price * (1 - reduction / 100)).toFixed(2));
+
+      // Populate expiry / clearance from DB match if available
+      if (bandMatch) {
+        setExpiryDate(bandMatch.expiryDate);
+      }
 
       let condition = "Fair";
       if (result.grade === "A") condition = "Excellent";
@@ -308,14 +341,15 @@ Output strictly in this JSON format:
 
       const factors = result.notes ? [result.notes] : ["Analysis completed"];
       const eslActions = ["Update price immediately"];
-      if (reduction > 20) eslActions.push(reduction > 50 ? "Flash red indicator" : "Display amber indicator");
+      if (reduction > 20) eslActions.push(reduction > 50 ? "Flash red indicator on ESL" : "Display amber indicator");
+      if (bandMatch && bandMatch.clearanceDiscount > 0) eslActions.push(`Apply ${bandMatch.clearanceDiscount}% clearance discount`);
 
       let displayColor = "green";
       if (result.grade === "D" || result.grade === "C") displayColor = "red";
       else if (result.grade === "B") displayColor = "yellow";
 
       setAnalysisResult({
-        freshness: Math.round(freshnessScore * 10),
+        freshness: freshnessPercent,
         shelfLife,
         suggestedPrice,
         priceReduction: reduction,
@@ -444,14 +478,14 @@ Output strictly in this JSON format:
         )}
 
         {/* Product Details */}
-        {identifiedProduct && (
+        {(identifiedProduct || matchedDbItem) && (
           <Card className="p-4 space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold flex items-center gap-2">
                 <Package className="h-4 w-4" />
                 Product Details
               </h3>
-              <Badge variant="secondary" className="text-xs bg-green-500/10 text-green-700">Auto-detected</Badge>
+              <Badge variant="secondary" className="text-xs">Auto-detected</Badge>
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div><span className="text-muted-foreground text-xs block">Product</span>{produce_type}</div>
@@ -462,6 +496,24 @@ Output strictly in this JSON format:
               <div><span className="text-muted-foreground text-xs block">SKU</span>{sku}</div>
               <div><span className="text-muted-foreground text-xs block">Received</span>{receivedDate}</div>
               <div><span className="text-muted-foreground text-xs block">Expires</span>{expiryDate}</div>
+              {matchedDbItem && (
+                <>
+                  <div>
+                    <span className="text-muted-foreground text-xs block">Freshness Band</span>
+                    <Badge variant="outline" className="text-xs mt-0.5">{matchedDbItem.band}</Badge>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground text-xs block">Clearance By</span>
+                    <span className={matchedDbItem.clearanceDiscount > 40 ? "text-destructive font-semibold" : ""}>{matchedDbItem.clearanceDate}</span>
+                  </div>
+                  {matchedDbItem.clearanceDiscount > 0 && (
+                    <div className="col-span-2">
+                      <span className="text-muted-foreground text-xs block">Recommended Clearance Discount</span>
+                      <span className="font-bold text-destructive">{matchedDbItem.clearanceDiscount}% off</span>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </Card>
         )}
