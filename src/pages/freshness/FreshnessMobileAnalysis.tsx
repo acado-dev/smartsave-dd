@@ -92,6 +92,7 @@ export default function FreshnessMobileAnalysis() {
       reader.readAsDataURL(file);
       setAnalysisResult(null);
       setIdentifiedProduct(null);
+      setMatchedDbItem(null);
     }
   };
 
@@ -101,6 +102,8 @@ export default function FreshnessMobileAnalysis() {
 
     if (testMode === "bananas") { kw = ["banana", "yellow", "fruit"]; confidence = 94; }
     else if (testMode === "tomatoes") { kw = ["tomato", "red", "vegetable"]; confidence = 91; }
+    else if (testMode === "potato") { kw = ["potato", "root", "vegetable"]; confidence = 92; }
+    else if (testMode === "pome") { kw = ["pome", "seeds", "fruit"]; confidence = 88; }
     else if (testMode === "milk") { kw = ["milk", "dairy", "white"]; confidence = 89; }
     else if (testMode === "random") {
       const all = ["red", "round", "fruit", "fresh", "tomato", "vegetable", "banana", "yellow", "apple", "orange", "strawberry", "lettuce", "green", "milk", "dairy", "carton", "cheese", "eggs", "yogurt"];
@@ -169,6 +172,13 @@ export default function FreshnessMobileAnalysis() {
     }
   }, [isCameraActive, stream]);
 
+  // Re-identify when detection mode changes
+  useEffect(() => {
+    if (imagePreview) {
+      identifyImage(uploadedFilename || "image.jpg");
+    }
+  }, [testMode]);
+
   const startCamera = async () => {
     try {
       setIsCameraActive(true);
@@ -220,7 +230,7 @@ export default function FreshnessMobileAnalysis() {
     try {
       // Prepare OpenAI call
       const openai = new OpenAI({
-        // apiKey: "",
+        apiKey: "",
         dangerouslyAllowBrowser: true
       });
 
@@ -261,14 +271,15 @@ Follow these steps:
    - Grade D: "Process Immediately"
 
 Product Information:
-- Produce Type: ${produce_type}
+- Detection Mode: ${testMode}
+- Produce Type: ${(testMode !== "auto" && testMode !== "random") ? testMode : (produce_type || 'Unknown')}
 - Days Since Harvest: ${days_since_harvest}
 - Storage Condition: ${storage_condition}
 - Observations: ${observations || 'None provided'}
 
 Output strictly in this JSON format:
 {
-  "produce_type": "${produce_type}",
+  "produce_type": "${(testMode !== "auto" && testMode !== "random") ? testMode : (produce_type || 'Unknown')}",
   "freshness_score": <calculated score 0-10>,
   "grade": "<A/B/C/D>",
   "shelf_life_days_remaining": <integer>,
@@ -317,15 +328,26 @@ Output strictly in this JSON format:
       const shelfLife = parseInt(result.shelf_life_days_remaining) || 0;
       const reduction = Math.max(0, Math.min(70, parseFloat(result.discount_recommendation) || 0));
 
-      // Re-match against freshnessDatabase using detected keywords + AI freshness score
-      // This gives us the right band record (clearance date, discount, etc.)
       const detectedKws = detectedKeywords.length > 0 ? detectedKeywords : [produce_type.toLowerCase()];
       const bandMatch = matchItemFromKeywords(detectedKws, freshnessPercent);
-      if (bandMatch) setMatchedDbItem(bandMatch);
 
-      const price = identifiedProduct ? identifiedProduct.originalPrice
-        : bandMatch ? bandMatch.originalPrice
-        : parseFloat(originalPrice || "0");
+      if (bandMatch) {
+        setMatchedDbItem(bandMatch);
+        // Specifically update UI state to match the band-specific record
+        setProduceType(bandMatch.name);
+        setCategory(bandMatch.category);
+        setQuantity(bandMatch.quantity.toString());
+        setLocation(bandMatch.location);
+        setOriginalPrice(bandMatch.originalPrice.toString());
+        setSku(bandMatch.sku);
+        setSupplier(bandMatch.supplier);
+        setReceivedDate(bandMatch.receivedDate);
+        setExpiryDate(bandMatch.expiryDate);
+      }
+
+      const price = bandMatch ? bandMatch.originalPrice
+        : identifiedProduct ? identifiedProduct.originalPrice
+          : parseFloat(originalPrice || "0");
       const suggestedPrice = parseFloat((price * (1 - reduction / 100)).toFixed(2));
 
       // Populate expiry / clearance from DB match if available
@@ -439,6 +461,8 @@ Output strictly in this JSON format:
               <SelectItem value="auto">Auto-detect</SelectItem>
               <SelectItem value="bananas">Bananas</SelectItem>
               <SelectItem value="tomatoes">Tomatoes</SelectItem>
+              <SelectItem value="potato">Potatos</SelectItem>
+              <SelectItem value="pome">Pomegranate</SelectItem>
               <SelectItem value="milk">Milk</SelectItem>
               <SelectItem value="random">Random</SelectItem>
             </SelectContent>
@@ -477,49 +501,9 @@ Output strictly in this JSON format:
           </Card>
         )}
 
-        {/* Product Details */}
-        {(identifiedProduct || matchedDbItem) && (
-          <Card className="p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold flex items-center gap-2">
-                <Package className="h-4 w-4" />
-                Product Details
-              </h3>
-              <Badge variant="secondary" className="text-xs">Auto-detected</Badge>
-            </div>
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <div><span className="text-muted-foreground text-xs block">Product</span>{produce_type}</div>
-              <div><span className="text-muted-foreground text-xs block">Category</span>{category}</div>
-              <div><span className="text-muted-foreground text-xs block">Quantity</span>{quantity} units</div>
-              <div><span className="text-muted-foreground text-xs block">Location</span>{location}</div>
-              <div><span className="text-muted-foreground text-xs block">Price</span>${originalPrice}</div>
-              <div><span className="text-muted-foreground text-xs block">SKU</span>{sku}</div>
-              <div><span className="text-muted-foreground text-xs block">Received</span>{receivedDate}</div>
-              <div><span className="text-muted-foreground text-xs block">Expires</span>{expiryDate}</div>
-              {matchedDbItem && (
-                <>
-                  <div>
-                    <span className="text-muted-foreground text-xs block">Freshness Band</span>
-                    <Badge variant="outline" className="text-xs mt-0.5">{matchedDbItem.band}</Badge>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground text-xs block">Clearance By</span>
-                    <span className={matchedDbItem.clearanceDiscount > 40 ? "text-destructive font-semibold" : ""}>{matchedDbItem.clearanceDate}</span>
-                  </div>
-                  {matchedDbItem.clearanceDiscount > 0 && (
-                    <div className="col-span-2">
-                      <span className="text-muted-foreground text-xs block">Recommended Clearance Discount</span>
-                      <span className="font-bold text-destructive">{matchedDbItem.clearanceDiscount}% off</span>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </Card>
-        )}
 
         {/* Analysis Parameters */}
-        <Card className="p-4 space-y-3">
+        {/*<Card className="p-4 space-y-3">
           <h3 className="text-sm font-semibold flex items-center gap-2">
             <Scan className="h-4 w-4" />
             Analysis Parameters
@@ -570,7 +554,7 @@ Output strictly in this JSON format:
               className="text-sm min-h-[60px] resize-none"
             />
           </div>
-        </Card>
+        </Card>*/}
 
         {/* Analyze Button */}
         <Button className="w-full" size="lg" onClick={analyzeImage} disabled={isAnalyzing || !imagePreview}>
@@ -584,6 +568,46 @@ Output strictly in this JSON format:
         {/* Analysis Results */}
         {analysisResult && (
           <>
+            {/* Product Details */}
+            {(identifiedProduct || matchedDbItem) && (
+              <Card className="p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-semibold flex items-center gap-2">
+                    <Package className="h-4 w-4" />
+                    Product Details
+                  </h3>
+                  <Badge variant="secondary" className="text-xs">Auto-detected</Badge>
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div><span className="text-muted-foreground text-xs block">Product</span>{produce_type}</div>
+                  <div><span className="text-muted-foreground text-xs block">Category</span>{category}</div>
+                  <div><span className="text-muted-foreground text-xs block">Quantity</span>{quantity} units</div>
+                  <div><span className="text-muted-foreground text-xs block">Location</span>{location}</div>
+                  <div><span className="text-muted-foreground text-xs block">Price</span>${originalPrice}</div>
+                  <div><span className="text-muted-foreground text-xs block">SKU</span>{sku}</div>
+                  <div><span className="text-muted-foreground text-xs block">Received</span>{receivedDate}</div>
+                  <div><span className="text-muted-foreground text-xs block">Expires</span>{expiryDate}</div>
+                  {matchedDbItem && (
+                    <>
+                      <div>
+                        <span className="text-muted-foreground text-xs block">Freshness Band</span>
+                        <Badge variant="outline" className="text-xs mt-0.5">{matchedDbItem.band}</Badge>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground text-xs block">Clearance By</span>
+                        <span className={matchedDbItem.clearanceDiscount > 40 ? "text-destructive font-semibold" : ""}>{matchedDbItem.clearanceDate}</span>
+                      </div>
+                      {matchedDbItem.clearanceDiscount > 0 && (
+                        <div className="col-span-2">
+                          <span className="text-muted-foreground text-xs block">Recommended Clearance Discount</span>
+                          <span className="font-bold text-destructive">{matchedDbItem.clearanceDiscount}% off</span>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </Card>
+            )}
             {/* Freshness Score */}
             <Card className="p-4 space-y-3">
               <h3 className="text-sm font-semibold flex items-center gap-2">
@@ -614,7 +638,7 @@ Output strictly in this JSON format:
             </Card>
 
             {/* Pricing */}
-            <Card className="p-4 space-y-3">
+            {/*<Card className="p-4 space-y-3">
               <h3 className="text-sm font-semibold flex items-center gap-2">
                 <DollarSign className="h-4 w-4" />
                 Pricing Recommendation
@@ -638,7 +662,7 @@ Output strictly in this JSON format:
                   </div>
                 ))}
               </div>
-            </Card>
+            </Card>*/}
 
             {/* ESL Actions */}
             <Card className="p-4 space-y-3">
