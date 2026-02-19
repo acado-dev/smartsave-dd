@@ -1,4 +1,4 @@
-// Helper function to get date string in YYYY-MM-DD format
+// Helper: returns a YYYY-MM-DD date relative to today
 function getDateString(daysFromNow: number): string {
   const date = new Date();
   date.setDate(date.getDate() + daysFromNow);
@@ -23,7 +23,7 @@ export interface InventoryItem {
 }
 
 export const sampleInventory: InventoryItem[] = [
-  // Fruits
+  // ── Fruits ────────────────────────────────────────────────────────────────
   {
     id: "F001",
     name: "Organic Bananas",
@@ -35,8 +35,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 0.89,
     cost: 0.45,
     location: "Produce Section A",
-    receivedDate: getDateString(-3), // 3 days ago
-    expiryDate: getDateString(4), // 4 days from now
+    receivedDate: getDateString(-3),
+    expiryDate: getDateString(4),
     optimal_temp: "58-60°F",
     keywords: ["banana", "yellow", "curved", "bunch", "organic"]
   },
@@ -51,8 +51,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.99,
     cost: 1.10,
     location: "Produce Section A",
-    receivedDate: getDateString(-6), // 6 days ago
-    expiryDate: getDateString(14), // 14 days from now
+    receivedDate: getDateString(-6),
+    expiryDate: getDateString(14),
     optimal_temp: "30-35°F",
     keywords: ["apple", "red", "round", "delicious", "fruit"]
   },
@@ -67,8 +67,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 4.99,
     cost: 2.50,
     location: "Produce Section B",
-    receivedDate: getDateString(-1), // 1 day ago
-    expiryDate: getDateString(3), // 3 days from now
+    receivedDate: getDateString(-1),
+    expiryDate: getDateString(3),
     optimal_temp: "32-36°F",
     keywords: ["strawberry", "red", "berry", "berries", "small", "seeds"]
   },
@@ -83,8 +83,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.49,
     cost: 0.75,
     location: "Produce Section A",
-    receivedDate: getDateString(-4), // 4 days ago
-    expiryDate: getDateString(10), // 10 days from now
+    receivedDate: getDateString(-4),
+    expiryDate: getDateString(10),
     optimal_temp: "38-48°F",
     keywords: ["orange", "citrus", "round", "navel", "vitamin"]
   },
@@ -99,13 +99,45 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 6.99,
     cost: 3.50,
     location: "Produce Section C",
-    receivedDate: getDateString(-2), // 2 days ago
-    expiryDate: getDateString(5), // 5 days from now
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(5),
     optimal_temp: "50-60°F",
     keywords: ["watermelon", "green", "large", "striped", "melon"]
   },
+  {
+    id: "F006",
+    name: "Blueberries",
+    category: "fruits",
+    sku: "BLU-FRE-006",
+    supplier: "Berry Best Farms",
+    quantity: 60,
+    unit: "punnets",
+    originalPrice: 3.49,
+    cost: 1.80,
+    location: "Produce Section B",
+    receivedDate: getDateString(-1),
+    expiryDate: getDateString(5),
+    optimal_temp: "32-36°F",
+    keywords: ["blueberry", "blue", "berry", "small", "round"]
+  },
+  {
+    id: "F007",
+    name: "Mangoes",
+    category: "fruits",
+    sku: "MAN-FRE-007",
+    supplier: "Tropical Fresh Ltd.",
+    quantity: 95,
+    unit: "lbs",
+    originalPrice: 2.49,
+    cost: 1.20,
+    location: "Produce Section C",
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(6),
+    optimal_temp: "55-65°F",
+    keywords: ["mango", "yellow", "orange", "tropical", "fruit"]
+  },
 
-  // Vegetables
+  // ── Vegetables ─────────────────────────────────────────────────────────────
   {
     id: "V001",
     name: "Roma Tomatoes",
@@ -117,8 +149,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 2.49,
     cost: 1.25,
     location: "Produce Section D",
-    receivedDate: getDateString(-2), // 2 days ago
-    expiryDate: getDateString(5), // 5 days from now
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(5),
     optimal_temp: "55-70°F",
     keywords: ["tomato", "red", "oval", "roma", "vegetable"]
   },
@@ -133,8 +165,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.99,
     cost: 0.90,
     location: "Produce Section D",
-    receivedDate: getDateString(-1), // 1 day ago
-    expiryDate: getDateString(6), // 6 days from now
+    receivedDate: getDateString(-1),
+    expiryDate: getDateString(6),
     optimal_temp: "32-35°F",
     keywords: ["lettuce", "green", "leafy", "salad", "leaves"]
   },
@@ -149,8 +181,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 1.79,
     cost: 0.85,
     location: "Produce Section D",
-    receivedDate: getDateString(-3), // 3 days ago
-    expiryDate: getDateString(11), // 11 days from now
+    receivedDate: getDateString(-3),
+    expiryDate: getDateString(11),
     optimal_temp: "32-40°F",
     keywords: ["carrot", "orange", "long", "root", "organic"]
   },
@@ -165,8 +197,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 2.99,
     cost: 1.50,
     location: "Produce Section D",
-    receivedDate: getDateString(-2), // 2 days ago
-    expiryDate: getDateString(5), // 5 days from now
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(5),
     optimal_temp: "45-50°F",
     keywords: ["pepper", "bell", "colorful", "red", "yellow", "green", "vegetable"]
   },
@@ -181,13 +213,45 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 2.29,
     cost: 1.15,
     location: "Produce Section D",
-    receivedDate: getDateString(-1), // 1 day ago
-    expiryDate: getDateString(6), // 6 days from now
+    receivedDate: getDateString(-1),
+    expiryDate: getDateString(6),
     optimal_temp: "32-35°F",
     keywords: ["broccoli", "green", "crown", "florets", "vegetable"]
   },
+  {
+    id: "V006",
+    name: "Spinach Bag",
+    category: "vegetables",
+    sku: "SPI-BAG-006",
+    supplier: "Green Leaf Farms",
+    quantity: 88,
+    unit: "bags",
+    originalPrice: 3.49,
+    cost: 1.75,
+    location: "Produce Section D",
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(4),
+    optimal_temp: "32-35°F",
+    keywords: ["spinach", "green", "leafy", "bag", "salad", "leaves"]
+  },
+  {
+    id: "V007",
+    name: "Cucumber",
+    category: "vegetables",
+    sku: "CUC-FRE-007",
+    supplier: "Garden Fresh Ltd.",
+    quantity: 110,
+    unit: "lbs",
+    originalPrice: 1.29,
+    cost: 0.60,
+    location: "Produce Section D",
+    receivedDate: getDateString(-1),
+    expiryDate: getDateString(7),
+    optimal_temp: "45-50°F",
+    keywords: ["cucumber", "green", "long", "cylinder", "vegetable"]
+  },
 
-  // Dairy
+  // ── Dairy ──────────────────────────────────────────────────────────────────
   {
     id: "D001",
     name: "Whole Milk (Gallon)",
@@ -199,8 +263,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 4.99,
     cost: 2.75,
     location: "Dairy Cooler A",
-    receivedDate: getDateString(-2), // 2 days ago
-    expiryDate: getDateString(8), // 8 days from now
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(8),
     optimal_temp: "34-38°F",
     keywords: ["milk", "gallon", "white", "jug", "dairy", "whole"]
   },
@@ -215,8 +279,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 5.49,
     cost: 2.90,
     location: "Dairy Cooler B",
-    receivedDate: getDateString(-3), // 3 days ago
-    expiryDate: getDateString(18), // 18 days from now
+    receivedDate: getDateString(-3),
+    expiryDate: getDateString(18),
     optimal_temp: "34-38°F",
     keywords: ["yogurt", "greek", "white", "container", "dairy", "culture"]
   },
@@ -231,8 +295,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 7.99,
     cost: 4.25,
     location: "Dairy Cooler B",
-    receivedDate: getDateString(-4), // 4 days ago
-    expiryDate: getDateString(27), // 27 days from now
+    receivedDate: getDateString(-4),
+    expiryDate: getDateString(27),
     optimal_temp: "34-38°F",
     keywords: ["cheese", "cheddar", "yellow", "block", "dairy", "aged"]
   },
@@ -247,8 +311,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 5.99,
     cost: 3.25,
     location: "Dairy Cooler A",
-    receivedDate: getDateString(-2), // 2 days ago
-    expiryDate: getDateString(58), // ~2 months from now
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(58),
     optimal_temp: "34-38°F",
     keywords: ["butter", "unsalted", "yellow", "stick", "dairy", "cream"]
   },
@@ -263,8 +327,8 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 3.99,
     cost: 2.10,
     location: "Dairy Cooler A",
-    receivedDate: getDateString(-1), // 1 day ago
-    expiryDate: getDateString(20), // 20 days from now
+    receivedDate: getDateString(-1),
+    expiryDate: getDateString(20),
     optimal_temp: "33-40°F",
     keywords: ["egg", "eggs", "dozen", "carton", "white", "brown", "shell"]
   },
@@ -279,23 +343,39 @@ export const sampleInventory: InventoryItem[] = [
     originalPrice: 4.49,
     cost: 2.40,
     location: "Dairy Cooler B",
-    receivedDate: getDateString(-2), // 2 days ago
-    expiryDate: getDateString(12), // 12 days from now
+    receivedDate: getDateString(-2),
+    expiryDate: getDateString(12),
     optimal_temp: "34-38°F",
     keywords: ["cream", "heavy", "white", "carton", "dairy", "whipping"]
-  }
+  },
+  {
+    id: "D007",
+    name: "Mozzarella (Fresh)",
+    category: "dairy",
+    sku: "MOZ-FRE-007",
+    supplier: "Artisan Cheese Co.",
+    quantity: 65,
+    unit: "balls",
+    originalPrice: 4.99,
+    cost: 2.60,
+    location: "Dairy Cooler B",
+    receivedDate: getDateString(-1),
+    expiryDate: getDateString(9),
+    optimal_temp: "34-38°F",
+    keywords: ["mozzarella", "white", "soft", "cheese", "dairy", "ball"]
+  },
 ];
 
-// Helper function to identify product from image analysis
+// Helper: identify product from AI vision keywords
 export function identifyProductFromKeywords(detectedKeywords: string[]): InventoryItem | null {
   const normalizedKeywords = detectedKeywords.map(k => k.toLowerCase());
-  
+
   let bestMatch: InventoryItem | null = null;
   let maxMatches = 0;
 
   for (const item of sampleInventory) {
-    const matches = item.keywords.filter(keyword => 
-      normalizedKeywords.some(detected => 
+    const matches = item.keywords.filter(keyword =>
+      normalizedKeywords.some(detected =>
         detected.includes(keyword) || keyword.includes(detected)
       )
     ).length;
