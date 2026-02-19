@@ -15,15 +15,11 @@ const ITHINA_NAVY_LIGHT = "hsl(205, 40%, 25%)";
 const ITHINA_TEAL = "hsl(195, 100%, 42%)";
 
 const navItems = [
-  { path: "/handheld/home", icon: Home, label: "Home" },
-  { path: "/handheld/home/operations", icon: Cpu, label: "Operations" },
-  { path: "/handheld/home/health", icon: Battery, label: "Health" },
-  { path: "/handheld/home/jobs", icon: ClipboardList, label: "Jobs" },
-  { path: "/handheld/home/settings", icon: Settings, label: "Settings" },
-];
-
-const externalLinks = [
-  { path: "/freshness", icon: Leaf, label: "Freshness AI", isExternal: true },
+  { path: "/handheld/home", icon: Home, label: "Home", external: false },
+  { path: "/handheld/home/operations", icon: Cpu, label: "Operations", external: false },
+  { path: "/handheld/home/health", icon: Battery, label: "Health", external: false },
+  { path: "/handheld/home/jobs", icon: ClipboardList, label: "Jobs", external: false },
+  { path: "/freshness/analysis", icon: Leaf, label: "Freshness", external: true },
 ];
 
 export default function HandheldLayout() {
@@ -84,7 +80,7 @@ export default function HandheldLayout() {
             variant="ghost"
             className="w-full justify-start gap-3 hover:bg-white/10 font-semibold"
             style={{ color: ITHINA_TEAL }}
-            onClick={() => navigate("/freshness")}
+            onClick={() => navigate("/freshness/analysis")}
           >
             <Leaf className="h-5 w-5" />
             <span>Freshness AI</span>
@@ -148,7 +144,7 @@ export default function HandheldLayout() {
                     variant="outline"
                     className="w-full justify-start gap-3 font-semibold border-emerald-200 bg-emerald-50 hover:bg-emerald-100"
                     style={{ color: "hsl(145, 60%, 35%)" }}
-                    onClick={() => handleNavigation("/freshness")}
+                    onClick={() => handleNavigation("/freshness/analysis")}
                   >
                     <Leaf className="h-5 w-5" />
                     <span>Freshness AI</span>
@@ -195,20 +191,21 @@ export default function HandheldLayout() {
         <nav className="md:hidden fixed bottom-0 left-0 right-0 max-w-3xl mx-auto bg-white border-t border-slate-200 z-50">
           <div className="flex items-center justify-around py-2">
             {navItems.map((item) => {
-              const isActive = location.pathname === item.path || 
-                (item.path !== "/handheld/home" && location.pathname.startsWith(item.path));
+              const isActive = !item.external && (location.pathname === item.path || 
+                (item.path !== "/handheld/home" && location.pathname.startsWith(item.path)));
               return (
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
                   className={cn(
-                    "flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors min-w-[64px]",
-                    !isActive && "text-slate-400 hover:text-slate-600"
+                    "flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors min-w-[56px]",
+                    item.external ? "text-emerald-600 hover:text-emerald-700" :
+                    !isActive ? "text-slate-400 hover:text-slate-600" : ""
                   )}
                   style={isActive ? { color: ITHINA_TEAL } : undefined}
                 >
                   <item.icon className="h-5 w-5" />
-                  <span className="text-xs font-medium">{item.label}</span>
+                  <span className="text-[10px] font-medium">{item.label}</span>
                 </button>
               );
             })}
