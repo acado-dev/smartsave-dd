@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Home, Cpu, Battery, ClipboardList, Settings, Bell, Menu } from "lucide-react";
+import { Home, Cpu, Battery, ClipboardList, Settings, Bell, Menu, Leaf } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,10 @@ const navItems = [
   { path: "/handheld/home/health", icon: Battery, label: "Health" },
   { path: "/handheld/home/jobs", icon: ClipboardList, label: "Jobs" },
   { path: "/handheld/home/settings", icon: Settings, label: "Settings" },
+];
+
+const externalLinks = [
+  { path: "/freshness", icon: Leaf, label: "Freshness AI", isExternal: true },
 ];
 
 export default function HandheldLayout() {
@@ -66,7 +70,7 @@ export default function HandheldLayout() {
           })}
         </nav>
 
-        <div className="p-3 border-t border-white/10">
+        <div className="p-3 border-t border-white/10 space-y-1">
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 text-white/70 hover:text-white hover:bg-white/10"
@@ -75,6 +79,16 @@ export default function HandheldLayout() {
             <Bell className="h-5 w-5" />
             <span>Alerts</span>
             <Badge className="ml-auto text-white text-[10px]" style={{ backgroundColor: ITHINA_TEAL }}>3</Badge>
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 hover:bg-white/10 font-semibold"
+            style={{ color: ITHINA_TEAL }}
+            onClick={() => navigate("/freshness")}
+          >
+            <Leaf className="h-5 w-5" />
+            <span>Freshness AI</span>
+            <Badge className="ml-auto text-[10px] text-white bg-emerald-500 border-0">Live</Badge>
           </Button>
         </div>
       </aside>
@@ -120,7 +134,7 @@ export default function HandheldLayout() {
                     );
                   })}
                 </nav>
-                <div className="p-3 border-t border-slate-200">
+                <div className="p-3 border-t border-slate-200 space-y-2">
                   <Button
                     variant="outline"
                     className="w-full justify-start gap-3"
@@ -129,6 +143,16 @@ export default function HandheldLayout() {
                     <Bell className="h-5 w-5" />
                     <span>Alerts</span>
                     <Badge className="ml-auto text-white text-[10px]" style={{ backgroundColor: ITHINA_TEAL }}>3</Badge>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-3 font-semibold border-emerald-200 bg-emerald-50 hover:bg-emerald-100"
+                    style={{ color: "hsl(145, 60%, 35%)" }}
+                    onClick={() => handleNavigation("/freshness")}
+                  >
+                    <Leaf className="h-5 w-5" />
+                    <span>Freshness AI</span>
+                    <Badge className="ml-auto text-[10px] text-white bg-emerald-500 border-0">Live</Badge>
                   </Button>
                 </div>
               </SheetContent>

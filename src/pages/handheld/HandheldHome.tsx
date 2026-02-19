@@ -13,7 +13,8 @@ import {
   RefreshCw,
   Wifi,
   WifiOff,
-  Zap
+  Zap,
+  Leaf
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -221,6 +222,27 @@ export default function HandheldHome() {
               </Button>
             ))}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Freshness AI Banner */}
+      <Card
+        className="border-emerald-200 cursor-pointer hover:shadow-md transition-all"
+        style={{ background: "linear-gradient(135deg, hsl(145, 60%, 96%), hsl(145, 50%, 92%))" }}
+        onClick={() => navigate("/freshness")}
+      >
+        <CardContent className="p-4 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-emerald-500/20">
+            <Leaf className="h-6 w-6 text-emerald-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-0.5">
+              <p className="font-semibold text-sm text-emerald-800">AI Freshness Analysis</p>
+              <Badge className="text-[10px] text-white bg-emerald-500 border-0 h-4 px-1.5">Live</Badge>
+            </div>
+            <p className="text-xs text-emerald-700/80">Scan produce & get real-time freshness score, expiry & clearance price</p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-emerald-600 shrink-0" />
         </CardContent>
       </Card>
     </div>
