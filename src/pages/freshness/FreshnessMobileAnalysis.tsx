@@ -216,7 +216,16 @@ export default function FreshnessMobileAnalysis() {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
-      
+      if (ctx) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/jpeg');
+        setImagePreview(imageData);
+        identifyImage("captured_image.jpg");
+        stopCamera();
+        setAnalysisResult(null);
+        setIdentifiedProduct(null);
+        setMatchedDbItem(null);
+      }
     }
   };
 
