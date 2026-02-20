@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => ({
             strategies: 'generateSW',
             includeAssets: ["favicon.ico", "pwa-192x192.png", "pwa-512x512.png", "robots.txt"],
             workbox: {
-                maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+                maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
             },
             manifest: {
                 id: "/",
