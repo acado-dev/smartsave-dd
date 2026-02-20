@@ -11,6 +11,14 @@ function daysAgo(d: number): string {
   return new Date(Date.now() - d * 86_400_000).toISOString().split("T")[0];
 }
 
+// Adjectives to ignore when extracting the primary produce variety name (e.g. "Overripe" or "Fresh")
+const QUALITY_ADJECTIVES = [
+  "overripe", "mouldy", "bruised", "blackened", "wilted", "spoiled", "soft", "aged", "ripe",
+  "fresh", "premium", "organic", "yellow", "red", "green", "white", "standard", "firm", "spotted",
+  "rotting", "slimy", "bad", "standard", "premium", "fresh", "ripe", "browning", "delicious",
+  "alphonso", "navel", "fuji", "gala", "pink", "golden", "standard", "bulk", "critical", "mid-life"
+];
+
 // Freshness band label helpers
 export type FreshnessBand =
   | "1-10%" | "11-20%" | "21-30%" | "31-40%" | "41-50%"
@@ -98,6 +106,7 @@ const fruits: Omit<FreshnessItem, "band">[] = [
 
   // ── 31–40% ─────────────────────────────────────────────────────────────
   { id: "FR031", name: "Yellow Bananas (Spotted)", category: "fruits", subcategory: "Tropical", sku: "BAN-SPT-031", supplier: "Fresh Farms Co.", quantity: 55, unit: "lbs", originalPrice: 0.89, cost: 0.45, location: "Produce Section A", receivedDate: daysAgo(6), expiryDate: daysFromNow(2), clearanceDate: daysFromNow(1), freshnessScore: 33, optimal_temp: "58-60°F", keywords: ["banana", "spotted", "yellow", "soft", "fruit"], clearanceDiscount: 40 },
+  { id: "FR034", name: "Strawberry (Browning)", category: "fruits", subcategory: "Berries", sku: "STR-BRN-034", supplier: "Berry Best Farms", quantity: 15, unit: "punnets", originalPrice: 4.99, cost: 2.50, location: "Clearance Bin B", receivedDate: daysAgo(6), expiryDate: daysFromNow(1), clearanceDate: daysFromNow(0), freshnessScore: 32, optimal_temp: "32-36°F", keywords: ["strawberry", "berry", "browning", "soft", "fruit"], clearanceDiscount: 50 },
   { id: "FR032", name: "Soft Kiwi", category: "fruits", subcategory: "Tropical", sku: "KIW-SOF-032", supplier: "Tropical Fresh Ltd.", quantity: 40, unit: "lbs", originalPrice: 3.99, cost: 1.90, location: "Produce Section A", receivedDate: daysAgo(6), expiryDate: daysFromNow(2), clearanceDate: daysFromNow(1), freshnessScore: 36, optimal_temp: "32-35°F", keywords: ["kiwi", "soft", "brown", "hairy", "tropical", "fruit"], clearanceDiscount: 40 },
   { id: "FR033", name: "Overripe Cherries", category: "fruits", subcategory: "Stone", sku: "CHR-OVR-033", supplier: "Stone Fruit Co.", quantity: 28, unit: "lbs", originalPrice: 5.99, cost: 3.00, location: "Produce Section A", receivedDate: daysAgo(7), expiryDate: daysFromNow(2), clearanceDate: daysFromNow(1), freshnessScore: 38, optimal_temp: "32-35°F", keywords: ["cherry", "overripe", "dark", "stone", "small", "fruit"], clearanceDiscount: 45 },
 
@@ -109,6 +118,7 @@ const fruits: Omit<FreshnessItem, "band">[] = [
 
   // ── 51–60% ─────────────────────────────────────────────────────────────
   { id: "FR051", name: "Red Delicious Apples", category: "fruits", subcategory: "Pome", sku: "APP-RED-051", supplier: "Orchard Valley", quantity: 200, unit: "lbs", originalPrice: 1.99, cost: 1.10, location: "Produce Section A", receivedDate: daysAgo(4), expiryDate: daysFromNow(7), clearanceDate: daysFromNow(4), freshnessScore: 55, optimal_temp: "30-35°F", keywords: ["apple", "red", "round", "delicious", "fruit", "pome"], clearanceDiscount: 20 },
+  { id: "FR055", name: "Strawberry (Ripe)", category: "fruits", subcategory: "Berries", sku: "STR-RIP-055", supplier: "Berry Best Farms", quantity: 30, unit: "punnets", originalPrice: 4.99, cost: 2.50, location: "Produce Section B", receivedDate: daysAgo(4), expiryDate: daysFromNow(3), clearanceDate: daysFromNow(2), freshnessScore: 58, optimal_temp: "32-36°F", keywords: ["strawberry", "berry", "ripe", "red", "fruit"], clearanceDiscount: 20 },
   { id: "FR052", name: "Papaya", category: "fruits", subcategory: "Tropical", sku: "PAP-FRE-052", supplier: "Tropical Fresh Ltd.", quantity: 45, unit: "whole", originalPrice: 2.99, cost: 1.50, location: "Produce Section C", receivedDate: daysAgo(3), expiryDate: daysFromNow(5), clearanceDate: daysFromNow(3), freshnessScore: 57, optimal_temp: "45-55°F", keywords: ["papaya", "orange", "tropical", "large", "oblong"], clearanceDiscount: 20 },
   { id: "FR053", name: "Red Grapes", category: "fruits", subcategory: "Vine", sku: "GRP-RED-053", supplier: "Vineyard Select", quantity: 80, unit: "lbs", originalPrice: 3.49, cost: 1.75, location: "Produce Section B", receivedDate: daysAgo(3), expiryDate: daysFromNow(6), clearanceDate: daysFromNow(3), freshnessScore: 59, optimal_temp: "30-32°F", keywords: ["grape", "red", "vine", "small", "round", "cluster"], clearanceDiscount: 20 },
 
@@ -127,6 +137,7 @@ const fruits: Omit<FreshnessItem, "band">[] = [
 
   // ── 81–90% ─────────────────────────────────────────────────────────────
   { id: "FR081", name: "Galia Melon", category: "fruits", subcategory: "Melon", sku: "MEL-GAL-081", supplier: "Summer Harvest", quantity: 35, unit: "whole", originalPrice: 4.49, cost: 2.10, location: "Produce Section C", receivedDate: daysAgo(1), expiryDate: daysFromNow(8), clearanceDate: daysFromNow(6), freshnessScore: 83, optimal_temp: "50-59°F", keywords: ["melon", "galia", "round", "green", "yellow", "sweet"], clearanceDiscount: 5 },
+  { id: "FR086", name: "Strawberry (Premium)", category: "fruits", subcategory: "Berries", sku: "STR-PRE-086", supplier: "Berry Best Farms", quantity: 40, unit: "punnets", originalPrice: 5.99, cost: 3.00, location: "Produce Section B", receivedDate: daysFromNow(0), expiryDate: daysFromNow(7), clearanceDate: daysFromNow(6), freshnessScore: 88, optimal_temp: "32-36°F", keywords: ["strawberry", "berry", "premium", "fresh", "fruit"], clearanceDiscount: 0 },
   { id: "FR082", name: "Blueberries (Fresh)", category: "fruits", subcategory: "Berries", sku: "BLU-FRH-082", supplier: "Berry Best Farms", quantity: 70, unit: "punnets", originalPrice: 3.49, cost: 1.80, location: "Produce Section B", receivedDate: daysFromNow(0), expiryDate: daysFromNow(7), clearanceDate: daysFromNow(5), freshnessScore: 87, optimal_temp: "32-36°F", keywords: ["blueberry", "blue", "berry", "small", "round", "fresh"], clearanceDiscount: 5 },
   { id: "FR083", name: "Passion Fruit", category: "fruits", subcategory: "Tropical", sku: "PAS-FRE-083", supplier: "Exotic Produce Ltd.", quantity: 50, unit: "lbs", originalPrice: 4.99, cost: 2.40, location: "Produce Section C", receivedDate: daysFromNow(0), expiryDate: daysFromNow(8), clearanceDate: daysFromNow(6), freshnessScore: 85, optimal_temp: "50-55°F", keywords: ["passion", "fruit", "purple", "wrinkled", "tropical", "exotic"], clearanceDiscount: 5 },
   { id: "FR084", name: "Honeydew Melon", category: "fruits", subcategory: "Melon", sku: "MEL-HON-084", supplier: "Summer Harvest", quantity: 30, unit: "whole", originalPrice: 4.99, cost: 2.30, location: "Produce Section C", receivedDate: daysFromNow(0), expiryDate: daysFromNow(9), clearanceDate: daysFromNow(6), freshnessScore: 88, optimal_temp: "45-50°F", keywords: ["honeydew", "melon", "green", "white", "smooth", "sweet"], clearanceDiscount: 5 },
@@ -141,6 +152,11 @@ const fruits: Omit<FreshnessItem, "band">[] = [
   { id: "FR093", name: "Dragon Fruit", category: "fruits", subcategory: "Tropical", sku: "DRG-FRE-093", supplier: "Exotic Produce Ltd.", quantity: 40, unit: "whole", originalPrice: 5.99, cost: 3.00, location: "Produce Section C", receivedDate: daysFromNow(0), expiryDate: daysFromNow(10), clearanceDate: daysFromNow(8), freshnessScore: 98, optimal_temp: "55-65°F", keywords: ["dragon", "fruit", "pink", "tropical", "exotic", "scales"], clearanceDiscount: 0 },
   { id: "FR094", name: "Coconut (Fresh)", category: "fruits", subcategory: "Tropical", sku: "COC-FRE-094", supplier: "Tropical Fresh Ltd.", quantity: 30, unit: "whole", originalPrice: 2.99, cost: 1.50, location: "Produce Section C", receivedDate: daysFromNow(0), expiryDate: daysFromNow(30), clearanceDate: daysFromNow(25), freshnessScore: 99, optimal_temp: "65-75°F", keywords: ["coconut", "brown", "hairy", "tropical", "hard", "shell"], clearanceDiscount: 0 },
   { id: "FR095", name: "Fresh Figs", category: "fruits", subcategory: "Exotic", sku: "FIG-FRE-095", supplier: "Exotic Produce Ltd.", quantity: 35, unit: "lbs", originalPrice: 6.99, cost: 3.50, location: "Produce Section C", receivedDate: daysFromNow(0), expiryDate: daysFromNow(5), clearanceDate: daysFromNow(3), freshnessScore: 95, optimal_temp: "31-35°F", keywords: ["fig", "purple", "soft", "sweet", "fresh", "exotic"], clearanceDiscount: 0 },
+  { id: "FR096", name: "Premium Pomegranate", category: "fruits", subcategory: "Tropical", sku: "POM-PRE-096", supplier: "Exotic Produce Ltd.", quantity: 40, unit: "whole", originalPrice: 4.49, cost: 2.20, location: "Produce Section C", receivedDate: daysFromNow(0), expiryDate: daysFromNow(14), clearanceDate: daysFromNow(10), freshnessScore: 92, optimal_temp: "41-45°F", keywords: ["pomegranate", "pome", "fresh", "premium", "fruit"], clearanceDiscount: 0 },
+  { id: "FR087", name: "Fresh Pomegranate", category: "fruits", subcategory: "Tropical", sku: "POM-FRH-087", supplier: "Exotic Produce Ltd.", quantity: 50, unit: "whole", originalPrice: 3.99, cost: 2.00, location: "Produce Section C", receivedDate: daysAgo(1), expiryDate: daysFromNow(12), clearanceDate: daysFromNow(8), freshnessScore: 84, optimal_temp: "41-45°F", keywords: ["pomegranate", "pome", "fresh", "juicy", "fruit"], clearanceDiscount: 5 },
+  { id: "FR077", name: "Ripe Pomegranate", category: "fruits", subcategory: "Tropical", sku: "POM-RIP-077", supplier: "Exotic Produce Ltd.", quantity: 60, unit: "whole", originalPrice: 3.49, cost: 1.80, location: "Produce Section C", receivedDate: daysAgo(2), expiryDate: daysFromNow(10), clearanceDate: daysFromNow(7), freshnessScore: 75, optimal_temp: "41-45°F", keywords: ["pomegranate", "pome", "ripe", "red", "fruit"], clearanceDiscount: 10 },
+  { id: "FR056", name: "Pomegranate (Mid-Life)", category: "fruits", subcategory: "Tropical", sku: "POM-MID-056", supplier: "Exotic Produce Ltd.", quantity: 45, unit: "whole", originalPrice: 2.99, cost: 1.50, location: "Produce Section C", receivedDate: daysAgo(4), expiryDate: daysFromNow(7), clearanceDate: daysFromNow(4), freshnessScore: 55, optimal_temp: "41-45°F", keywords: ["pomegranate", "pome", "middle", "tropical"], clearanceDiscount: 20 },
+  { id: "FR045", name: "Aged Pomegranate", category: "fruits", subcategory: "Tropical", sku: "POM-AGD-045", supplier: "Exotic Produce Ltd.", quantity: 30, unit: "whole", originalPrice: 2.49, cost: 1.20, location: "Clearance Bin B", receivedDate: daysAgo(6), expiryDate: daysFromNow(4), clearanceDate: daysFromNow(2), freshnessScore: 45, optimal_temp: "41-45°F", keywords: ["pomegranate", "pome", "aged", "soft"], clearanceDiscount: 35 },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -203,7 +219,11 @@ const vegetables: Omit<FreshnessItem, "band">[] = [
   { id: "VG094", name: "Leeks", category: "vegetables", subcategory: "Allium", sku: "LEE-FRE-094", supplier: "Gourmet Greens", quantity: 75, unit: "bunches", originalPrice: 1.99, cost: 0.95, location: "Produce Section D", receivedDate: daysFromNow(0), expiryDate: daysFromNow(14), clearanceDate: daysFromNow(10), freshnessScore: 94, optimal_temp: "32-35°F", keywords: ["leek", "white", "green", "allium", "long", "bunch"], clearanceDiscount: 0 },
   { id: "VG095", name: "Pak Choi (Bok Choy)", category: "vegetables", subcategory: "Brassica", sku: "PAK-CHO-095", supplier: "Asian Greens Co.", quantity: 65, unit: "heads", originalPrice: 2.49, cost: 1.20, location: "Produce Section D", receivedDate: daysFromNow(0), expiryDate: daysFromNow(7), clearanceDate: daysFromNow(5), freshnessScore: 98, optimal_temp: "32-35°F", keywords: ["bok", "choy", "pak", "choi", "white", "green", "asian", "brassica"], clearanceDiscount: 0 },
   { id: "VG096", name: "Red Onions", category: "vegetables", subcategory: "Allium", sku: "ONI-RED-096", supplier: "Root Vegetable Co.", quantity: 200, unit: "lbs", originalPrice: 0.99, cost: 0.45, location: "Produce Section E", receivedDate: daysFromNow(0), expiryDate: daysFromNow(60), clearanceDate: daysFromNow(50), freshnessScore: 99, optimal_temp: "32-40°F", keywords: ["onion", "red", "purple", "round", "allium", "layered"], clearanceDiscount: 0 },
-  { id: "VG097", name: "Garlic Bulbs", category: "vegetables", subcategory: "Allium", sku: "GAR-BUL-097", supplier: "Root Vegetable Co.", quantity: 180, unit: "bulbs", originalPrice: 0.79, cost: 0.35, location: "Produce Section E", receivedDate: daysFromNow(0), expiryDate: daysFromNow(90), clearanceDate: daysFromNow(80), freshnessScore: 100, optimal_temp: "60-65°F", keywords: ["garlic", "white", "bulb", "allium", "cloves", "papery"], clearanceDiscount: 0 },
+  { id: "VG098", name: "Premium Potatoes", category: "vegetables", subcategory: "Root", sku: "POT-PRE-098", supplier: "Root Vegetable Co.", quantity: 150, unit: "lbs", originalPrice: 1.49, cost: 0.70, location: "Produce Section E", receivedDate: daysFromNow(0), expiryDate: daysFromNow(60), clearanceDate: daysFromNow(50), freshnessScore: 95, optimal_temp: "45-50°F", keywords: ["potato", "baking", "clean", "fresh", "root", "vegetable"], clearanceDiscount: 0 },
+  { id: "VG088", name: "Fresh White Potatoes", category: "vegetables", subcategory: "Root", sku: "POT-FRH-088", supplier: "Root Vegetable Co.", quantity: 200, unit: "lbs", originalPrice: 1.29, cost: 0.60, location: "Produce Section E", receivedDate: daysAgo(1), expiryDate: daysFromNow(50), clearanceDate: daysFromNow(40), freshnessScore: 86, optimal_temp: "45-50°F", keywords: ["potato", "white", "fresh", "root", "vegetable"], clearanceDiscount: 5 },
+  { id: "VG065", name: "Standard Potatoes", category: "vegetables", subcategory: "Root", sku: "POT-STD-065", supplier: "Root Vegetable Co.", quantity: 250, unit: "lbs", originalPrice: 1.19, cost: 0.55, location: "Produce Section E", receivedDate: daysAgo(3), expiryDate: daysFromNow(40), clearanceDate: daysFromNow(30), freshnessScore: 65, optimal_temp: "45-50°F", keywords: ["potato", "bulk", "standard", "root"], clearanceDiscount: 10 },
+  { id: "VG045", name: "Potatoes (Losing Firmness)", category: "vegetables", subcategory: "Root", sku: "POT-LSF-045", supplier: "Root Vegetable Co.", quantity: 180, unit: "lbs", originalPrice: 0.99, cost: 0.45, location: "Clearance Bin B", receivedDate: daysAgo(7), expiryDate: daysFromNow(20), clearanceDate: daysFromNow(10), freshnessScore: 48, optimal_temp: "45-50°F", keywords: ["potato", "soft", "aged", "root"], clearanceDiscount: 25 },
+  { id: "VG015", name: "Potatoes (Critical)", category: "vegetables", subcategory: "Root", sku: "POT-CRT-015", supplier: "Root Vegetable Co.", quantity: 50, unit: "lbs", originalPrice: 0.79, cost: 0.35, location: "Clearance Bin B", receivedDate: daysAgo(15), expiryDate: daysFromNow(5), clearanceDate: daysFromNow(2), freshnessScore: 15, optimal_temp: "45-50°F", keywords: ["potato", "eyeing", "critical", "root"], clearanceDiscount: 70 },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -275,8 +295,12 @@ export function matchItemFromKeywords(
       kws.some(k => k.includes(kw) || kw.includes(k))
     ).length;
 
-    if (hits > maxScore) {
-      maxScore = hits;
+    // Weight names much higher than generic keywords
+    const nameHits = kws.filter(k => item.name.toLowerCase().includes(k)).length;
+    const finalScore = hits + (nameHits * 10);
+
+    if (finalScore > maxScore) {
+      maxScore = finalScore;
       bestMatch = item;
     }
   }
@@ -286,22 +310,70 @@ export function matchItemFromKeywords(
   if (bestMatch && freshnessScore !== undefined) {
     const targetBand = getFreshnessBand(freshnessScore);
 
-    // Improved matching: Look for items with the same subcategory and at least one shared keyword
-    // This is more robust than just splitting the name.
+    // Variety extraction: find the actual noun in the name (ignore "Fresh", "Overripe", etc.)
+    const nameParts = bestMatch.name.toLowerCase().split(/[ ()\-]+/).filter(p => p.length > 2);
+    const primaryKw = nameParts.find(p => !QUALITY_ADJECTIVES.includes(p)) || nameParts[0];
+
+    // 1. Try exact band match first
+    const exactMatch = freshnessDatabase.find(i =>
+      i.band === targetBand &&
+      i.category === bestMatch!.category &&
+      i.name.toLowerCase().includes(primaryKw)
+    );
+    if (exactMatch) return exactMatch;
+
+    // 2. Fallback: Find the closest band for the same product variety
+    const findSameProduct = (bandReq: FreshnessBand) => freshnessDatabase.find(i =>
+      i.band === bandReq &&
+      i.category === bestMatch!.category &&
+      i.name.toLowerCase().includes(primaryKw)
+    );
+
+    // Search neighbors (closest bands)
+    const bandIndex = allBands.indexOf(targetBand);
+    for (let offset = 1; offset < allBands.length; offset++) {
+      if (bandIndex + offset < allBands.length) {
+        const match = findSameProduct(allBands[bandIndex + offset]);
+        if (match) return match;
+      }
+      if (bandIndex - offset >= 0) {
+        const match = findSameProduct(allBands[bandIndex - offset]);
+        if (match) return match;
+      }
+    }
+
+    // 3. Fallback: Search among similar items (keyword overlap)
     const candidates = freshnessDatabase.filter(i =>
       i.band === targetBand &&
       i.category === bestMatch!.category &&
-      (i.subcategory === bestMatch!.subcategory || i.name.toLowerCase().includes(bestMatch!.name.split(" ")[0].toLowerCase()))
+      i.keywords.some(kw => bestMatch!.keywords.includes(kw) && kw !== "fruit" && kw !== "vegetable")
     );
 
     if (candidates.length > 0) {
-      // Pick the candidate with the most keyword overlap with the original bestMatch
       return candidates.sort((a, b) => {
         const overlapA = a.keywords.filter(k => bestMatch!.keywords.includes(k)).length;
         const overlapB = b.keywords.filter(k => bestMatch!.keywords.includes(k)).length;
         return overlapB - overlapA;
       })[0];
     }
+
+    // 4. Synthesis Fallback: if we found the product but not in the target band,
+    // create a 'Virtual' entry to satisfy the UI requirement of band consistency.
+    const synthesized: FreshnessItem = {
+      ...bestMatch,
+      id: `VIRT-${bestMatch.id}-${targetBand.replace("%", "")}`,
+      name: freshnessScore > 80 ? `Premium ${primaryKw.charAt(0).toUpperCase() + primaryKw.slice(1)}` :
+        freshnessScore > 50 ? `Fresh ${primaryKw.charAt(0).toUpperCase() + primaryKw.slice(1)}` :
+          `Aged ${primaryKw.charAt(0).toUpperCase() + primaryKw.slice(1)}`,
+      band: targetBand,
+      freshnessScore: freshnessScore,
+      // Automatic clearance logic: lower score = higher discount
+      clearanceDiscount: freshnessScore > 80 ? 0 : freshnessScore > 60 ? 10 : freshnessScore > 40 ? 25 : 50,
+      receivedDate: daysAgo(Math.floor((100 - freshnessScore) / 5)),
+      expiryDate: daysFromNow(Math.max(1, Math.floor(freshnessScore / 10))),
+      clearanceDate: daysFromNow(Math.max(0, Math.floor(freshnessScore / 12))),
+    };
+    return synthesized;
   }
 
   return maxScore >= 1 ? bestMatch : null;

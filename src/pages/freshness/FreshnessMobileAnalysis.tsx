@@ -113,10 +113,14 @@ export default function FreshnessMobileAnalysis() {
       if (filename.includes("banana")) { kw = ["banana", "yellow", "fruit"]; confidence = 94; }
       else if (filename.includes("tomato")) { kw = ["tomato", "red", "vegetable"]; confidence = 91; }
       else if (filename.includes("milk")) { kw = ["milk", "dairy", "white"]; confidence = 89; }
+      else if (filename.includes("pome")) { kw = ["pomegranate", "pome", "seeds", "fruit"]; confidence = 92; }
+      else if (filename.includes("apple")) { kw = ["apple", "red", "fruit"]; confidence = 90; }
+      else if (filename.includes("potato")) { kw = ["potato", "root", "vegetable"]; confidence = 88; }
+      else if (filename.includes("strawberry")) { kw = ["strawberry", "red", "berry", "fruit"]; confidence = 93; }
       else {
-        const all = ["red", "round", "fruit", "fresh", "tomato", "vegetable", "banana", "yellow", "apple", "orange", "strawberry", "lettuce", "green", "milk", "dairy", "carton", "cheese", "eggs", "yogurt"];
-        kw = all.sort(() => Math.random() - 0.5).slice(0, 3 + Math.floor(Math.random() * 3));
-        confidence = 70 + Math.floor(Math.random() * 20);
+        // No specific product guess, let AI decide
+        kw = ["produce", "fresh", "inventory"];
+        confidence = 50;
       }
     }
 
@@ -281,21 +285,30 @@ Follow these steps:
 
 Product Information:
 - Detection Mode: ${testMode}
-- Produce Type: ${(testMode !== "auto" && testMode !== "random") ? testMode : (produce_type || 'Unknown')}
+${(testMode !== "auto" && testMode !== "random")
+          ? `- User Selected Category: ${testMode}`
+          : `- System Placeholder: ${produce_type || 'Unknown'}`}
+- Context: The system is in AUTO mode. You ARE the primary source of truth for identification. 
 - Days Since Harvest: ${days_since_harvest}
 - Storage Condition: ${storage_condition}
 - Observations: ${observations || 'None provided'}
 
+Task:
+1. Examine the image carefully and identify the EXACT product (e.g., "Granny Smith Apple", "Red Onion", "Beef Tomato").
+2. Your identification MUST override the system placeholder if they conflict.
+3. Quantify freshness (0-10) using the criteria below.
+
 Output strictly in this JSON format:
 {
-  "produce_type": "${(testMode !== "auto" && testMode !== "random") ? testMode : (produce_type || 'Unknown')}",
+  "identified_produce_type": "Exact name of product identified",
   "freshness_score": <calculated score 0-10>,
   "grade": "<A/B/C/D>",
   "shelf_life_days_remaining": <integer>,
   "discount_recommendation": <percentage 0-70>,
   "recommended_label": "<short label>",
   "notes": "<brief explanation of the evaluation>"
-}`;
+}
+`;
 
       const messages: any[] = [
         {
@@ -337,7 +350,20 @@ Output strictly in this JSON format:
       const shelfLife = parseInt(result.shelf_life_days_remaining) || 0;
       const reduction = Math.max(0, Math.min(70, parseFloat(result.discount_recommendation) || 0));
 
-      const detectedKws = detectedKeywords.length > 0 ? detectedKeywords : [produce_type.toLowerCase()];
+      // Handle product identification from AI
+      let detectedKws = detectedKeywords;
+      if (testMode === "auto" || testMode === "random") {
+        const aiIdentifiedName = result.identified_produce_type;
+        if (aiIdentifiedName && aiIdentifiedName !== "Unknown") {
+          setProduceType(aiIdentifiedName);
+          // Extract keywords for database matching
+          const newKws = aiIdentifiedName.toLowerCase().split(/[ \-,]+/).filter(k => k.length > 2);
+          detectedKws = newKws.length > 0 ? newKws : [aiIdentifiedName.toLowerCase()];
+          setDetectedKeywords(detectedKws);
+          setDetectionConfidence(99);
+        }
+      }
+
       const bandMatch = matchItemFromKeywords(detectedKws, freshnessPercent);
 
       if (bandMatch) {
@@ -600,7 +626,9 @@ Output strictly in this JSON format:
                     <>
                       <div>
                         <span className="text-muted-foreground text-xs block">Freshness Band</span>
-                        <Badge variant="outline" className="text-xs mt-0.5">{matchedDbItem.band}</Badge>
+                        <Badge variant="outline" className="text-xs mt-0.5">
+                          {matchedDbItem.band || getFreshnessBand(analysisResult.freshness)}
+                        </Badge>
                       </div>
                       <div>
                         <span className="text-muted-foreground text-xs block">Clearance By</span>
