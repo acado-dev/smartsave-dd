@@ -229,7 +229,7 @@ export default function HandheldHome() {
       <Card
         className="border-emerald-200 cursor-pointer hover:shadow-md transition-all"
         style={{ background: "linear-gradient(135deg, hsl(145, 60%, 96%), hsl(145, 50%, 92%))" }}
-        onClick={() => navigate("/freshness/analysis")}
+        onClick={() => navigate("/handheld/home/freshness")}
       >
         <CardContent className="p-4 flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-emerald-500/20">

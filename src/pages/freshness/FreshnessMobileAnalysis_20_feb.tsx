@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { sampleInventory, identifyProductFromKeywords, type InventoryItem } from "@/data/sampleInventory";
-import { matchItemFromKeywords, getFreshnessBand, getFreshnessCondition, getFreshnessColor, type FreshnessItem, getAIProduceList, freshnessDatabase } from "@/data/freshnessDatabase";
+import { matchItemFromKeywords, getFreshnessBand, getFreshnessCondition, getFreshnessColor, type FreshnessItem, freshnessDatabase } from "@/data/freshnessDatabase";
 import ithinaLogo from "@/assets/ithina-logo.png";
 
 export default function FreshnessMobileAnalysis() {
@@ -293,7 +293,7 @@ Visual Feature Guide:
 - Banana: Look for long, curved shape with a stem.
 
 - Supported Database Items & Keywords (Match the image to best suitable keywords here):
-${getAIProduceList()}
+${freshnessDatabase.map(item => `${item.name}: ${item.name.toLowerCase()}, ${item.category.toLowerCase()}`).join('\n')}
 
 Output strictly in this JSON format:
 {

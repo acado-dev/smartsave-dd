@@ -249,7 +249,6 @@ const App = () => (
           
           {/* Mobile Freshness App */}
           <Route path="/freshness" element={<FreshnessLanding />} />
-          <Route path="/freshness/analysis" element={<FreshnessMobileAnalysis />} />
           
           {/* Presentation Routes */}
           <Route path="/presentation/infomil" element={<InfomilPresentation />} />
@@ -259,6 +258,7 @@ const App = () => (
           <Route path="/handheld" element={<HandheldSplash />} />
           <Route path="/handheld/home" element={<HandheldLayout />}>
             <Route index element={<HandheldHome />} />
+            <Route path="freshness" element={<FreshnessMobileAnalysis />} />
             <Route path="operations" element={<HandheldOperations />} />
             <Route path="operations/assign" element={<AssignESL />} />
             <Route path="operations/unassign" element={<UnassignESL />} />

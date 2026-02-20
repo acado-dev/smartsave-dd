@@ -19,7 +19,7 @@ const navItems = [
   { path: "/handheld/home/operations", icon: Cpu, label: "Operations", external: false },
   { path: "/handheld/home/health", icon: Battery, label: "Health", external: false },
   { path: "/handheld/home/jobs", icon: ClipboardList, label: "Jobs", external: false },
-  { path: "/freshness/analysis", icon: Leaf, label: "Freshness", external: true },
+  { path: "/handheld/home/freshness", icon: Leaf, label: "Freshness", external: false },
 ];
 
 export default function HandheldLayout() {
@@ -80,7 +80,7 @@ export default function HandheldLayout() {
             variant="ghost"
             className="w-full justify-start gap-3 hover:bg-white/10 font-semibold"
             style={{ color: ITHINA_TEAL }}
-            onClick={() => navigate("/freshness/analysis")}
+            onClick={() => navigate("/handheld/home/freshness")}
           >
             <Leaf className="h-5 w-5" />
             <span>Freshness AI</span>
@@ -144,7 +144,7 @@ export default function HandheldLayout() {
                     variant="outline"
                     className="w-full justify-start gap-3 font-semibold border-emerald-200 bg-emerald-50 hover:bg-emerald-100"
                     style={{ color: "hsl(145, 60%, 35%)" }}
-                    onClick={() => handleNavigation("/freshness/analysis")}
+                    onClick={() => handleNavigation("/handheld/home/freshness")}
                   >
                     <Leaf className="h-5 w-5" />
                     <span>Freshness AI</span>

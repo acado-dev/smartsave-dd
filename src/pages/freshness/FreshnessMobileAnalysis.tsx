@@ -455,19 +455,6 @@ Output strictly in this JSON format:
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Mobile Header */}
-      <header className="sticky top-0 z-50 border-b bg-card shadow-sm">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/freshness")} className="shrink-0">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <img src={ithinaLogo} alt="Ithina" className="h-7 w-auto" />
-          <div className="flex-1 min-w-0">
-            <h1 className="text-sm font-bold truncate">AI Freshness Analysis</h1>
-          </div>
-        </div>
-      </header>
-
       <div className="px-4 py-4 space-y-4 pb-8">
         {/* Image Capture */}
         <Card className="p-4 space-y-3">
