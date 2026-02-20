@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { Shield, Store, Activity, AlertCircle, CheckCircle, Radio, Battery, Signal, MapPin, Clock, TrendingUp, Users, Eye, Zap, ArrowRight } from "lucide-react";
+import { Shield, Store, Activity, AlertCircle, CheckCircle, Radio, Battery, Signal, MapPin, Clock, TrendingUp, Users, Eye, Zap, ArrowRight, Leaf } from "lucide-react";
 
 export default function ESLSolution() {
   const navigate = useNavigate();
@@ -25,9 +25,9 @@ export default function ESLSolution() {
         </div>
 
         {/* Main Solutions Grid */}
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Retail Sentry Card */}
-          <Card 
+          <Card
             className="shadow-card border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 cursor-pointer transition-all hover:shadow-elevated hover:border-primary"
             onClick={() => navigate('/management/details/retail-sentry')}
           >
@@ -66,7 +66,7 @@ export default function ESLSolution() {
                   <p className="text-xs text-accent mt-1">↑ 2.1% this week</p>
                 </div>
               </div>
-              
+
               <div className="space-y-2 pt-2">
                 <p className="text-sm font-medium text-foreground">Key Features:</p>
                 <ul className="space-y-1 text-sm text-muted-foreground">
@@ -97,7 +97,7 @@ export default function ESLSolution() {
           </Card>
 
           {/* Store Sentry Card */}
-          <Card 
+          <Card
             className="shadow-card border-accent/30 bg-gradient-to-br from-accent/10 to-accent/5 cursor-pointer transition-all hover:shadow-elevated hover:border-accent"
             onClick={() => navigate('/management/details/store-sentry')}
           >
@@ -136,7 +136,7 @@ export default function ESLSolution() {
                   <p className="text-xs text-accent mt-1">High traffic areas</p>
                 </div>
               </div>
-              
+
               <div className="space-y-2 pt-2">
                 <p className="text-sm font-medium text-foreground">Key Features:</p>
                 <ul className="space-y-1 text-sm text-muted-foreground">
@@ -161,6 +161,76 @@ export default function ESLSolution() {
 
               <Button className="w-full" variant="outline">
                 View Store Sentry Dashboard
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Freshness Analysis Card */}
+          <Card
+            className="shadow-card border-green-500/30 bg-gradient-to-br from-green-500/10 to-green-500/5 cursor-pointer transition-all hover:shadow-elevated hover:border-green-500"
+            onClick={() => window.location.href = '/freshness/analysis'}
+          >
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2 text-2xl">
+                  <Leaf className="h-6 w-6 text-green-500" />
+                  Freshness Analysis
+                </CardTitle>
+                <Badge variant="outline" className="border-green-500 text-green-500">Active</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">
+                AI-powered produce freshness monitoring & analysis
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-lg bg-card p-4">
+                  <p className="text-sm text-muted-foreground">Analyses Today</p>
+                  <p className="text-3xl font-bold text-foreground">154</p>
+                  <p className="text-xs text-green-500 mt-1">↑ 12% vs yesterday</p>
+                </div>
+                <div className="rounded-lg bg-card p-4">
+                  <p className="text-sm text-muted-foreground">Avg Freshness</p>
+                  <p className="text-3xl font-bold text-foreground">84%</p>
+                  <p className="text-xs text-green-500 mt-1">Target: &gt;80%</p>
+                </div>
+                <div className="rounded-lg bg-card p-4">
+                  <p className="text-sm text-muted-foreground">Waste Prevented</p>
+                  <p className="text-3xl font-bold text-foreground">24kg</p>
+                  <p className="text-xs text-green-500 mt-1">Today's estimate</p>
+                </div>
+                <div className="rounded-lg bg-card p-4">
+                  <p className="text-sm text-muted-foreground">Alerts Resolved</p>
+                  <p className="text-3xl font-bold text-foreground">92%</p>
+                  <p className="text-xs text-green-500 mt-1">Within 15 mins</p>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-2">
+                <p className="text-sm font-medium text-foreground">Key Features:</p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    Visual freshness detection
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    Automated markdown triggers
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    Quality trend analysis
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    Shelf-life forecasting
+                  </li>
+                </ul>
+              </div>
+
+              <Button className="w-full" variant="outline">
+                View Freshness Analysis
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Radio, Shield, Eye, Grid3x3, Monitor, TrendingUp, Settings, ArrowRight } from "lucide-react";
+import { Radio, Shield, Eye, Grid3x3, Monitor, TrendingUp, Settings, ArrowRight, Leaf } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminHome() {
@@ -55,6 +55,10 @@ export default function AdminHome() {
                 <Button onClick={() => navigate('/admin/store-sentry')} size="sm" variant="outline">
                   <Eye className="mr-2 h-4 w-4" />
                   Store Sentry
+                </Button>
+                <Button onClick={() => navigate('/freshness/analysis')} size="sm" variant="outline">
+                  <Leaf className="mr-2 h-4 w-4" />
+                  Freshness Analysis
                 </Button>
               </div>
             </CardContent>

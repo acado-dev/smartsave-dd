@@ -13,6 +13,7 @@ import {
   Calendar,
   TrendingUp,
   DollarSign,
+  Leaf,
 } from "lucide-react";
 import ithinaLogoWhite from "@/assets/ithina-logo-white.png";
 import {
@@ -34,6 +35,7 @@ const eslSolutionItems = [
   { title: "Overview", url: "/admin/esl-solution", icon: Radio },
   { title: "Retail Sentry", url: "/admin/retail-sentry", icon: Shield },
   { title: "Store Sentry", url: "/admin/store-sentry", icon: Eye },
+  { title: "Freshness Analysis", url: "/freshness/analysis", icon: Leaf },
 ];
 
 const planogramItems = [

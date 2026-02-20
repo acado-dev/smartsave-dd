@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, Building2, LayoutGrid, Store } from "lucide-react";
+import { LogOut, Users, Building2, LayoutGrid, Store, Leaf } from "lucide-react";
 import SeniorManagementView from "./views/SeniorManagementView";
 import SupportView from "./views/SupportView";
 import MarketingView from "./views/MarketingView";
@@ -71,6 +71,10 @@ export default function ESLDashboard() {
             <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate("/esl/store/001")}>
               <Store className="h-4 w-4 mr-2" />
               Store View
+            </Button>
+            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => window.location.href = "http://localhost:8080/freshness/analysis"}>
+              <Leaf className="h-4 w-4 mr-2" />
+              Freshness Analysis
             </Button>
             <div className="h-6 w-px bg-primary-foreground/30" />
             <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={handleSwitchRole}>
