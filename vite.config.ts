@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
         VitePWA({
             registerType: "autoUpdate",
             strategies: 'generateSW',
-            includeAssets: ["favicon.ico", "pwa-192x192.png", "pwa-512x512.png", "robots.txt"],
+            includeAssets: ["favicon.ico", "pwa-192x192.png", "pwa-512x512_v2.png", "robots.txt"],
             workbox: {
                 maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
             },
@@ -36,12 +36,12 @@ export default defineConfig(({ mode }) => ({
                         type: "image/png",
                     },
                     {
-                        src: "pwa-512x512.png",
+                        src: "pwa-512x512_v2.png", 
                         sizes: "512x512",
                         type: "image/png",
                     },
                     {
-                        src: "pwa-512x512.png",
+                        src: "pwa-512x512_v2.png",
                         sizes: "512x512",
                         type: "image/png",
                         purpose: "any maskable",
