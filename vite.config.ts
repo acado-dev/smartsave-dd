@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => ({
             registerType: "autoUpdate",
             strategies: 'generateSW',
             includeAssets: ["favicon.ico", "pwa-192x192.png", "pwa-512x512.png", "robots.txt"],
+            workbox: {
+                maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+            },
             manifest: {
                 id: "/",
                 name: "Handheld - By Ithina",
