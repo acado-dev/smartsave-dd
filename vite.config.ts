@@ -22,8 +22,8 @@ export default defineConfig(({ mode }) => ({
                 name: "Handheld - By Ithina",
                 short_name: "Handheld",
                 description: "Track and analyze grocery freshness with AI",
-                theme_color: "#10B981",
-                background_color: "#ffffff",
+                theme_color: "#153247",
+                background_color: "#153247",
                 display: "standalone",
                 start_url: "/",
                 icons: [
