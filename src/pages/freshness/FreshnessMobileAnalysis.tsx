@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft, Camera, Upload, Scan, TrendingDown, AlertTriangle, Tag, Package, Calendar, DollarSign, Monitor, Check } from "lucide-react";
+import { ArrowLeft, Camera, Upload, Scan, TrendingDown, AlertTriangle, Tag, Package, Calendar, DollarSign, Monitor, Check, FileText } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -77,6 +77,7 @@ export default function FreshnessMobileAnalysis() {
       message: string;
       urgency: "high" | "medium" | "low";
     };
+    notes: string;
   } | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -243,7 +244,7 @@ export default function FreshnessMobileAnalysis() {
     try {
       // Prepare OpenAI call
       const openai = new OpenAI({
-        apiKey: "",
+        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true
       });
 
@@ -417,7 +418,8 @@ Output strictly in this JSON format:
           color: displayColor,
           message: result.recommended_label || "Use Soon",
           urgency: result.grade === "D" ? "high" : result.grade === "B" || result.grade === "C" ? "medium" : "low"
-        }
+        },
+        notes: result.notes || ""
       });
 
       toast({ title: "Analysis complete", description: "AI freshness analysis finished" });
@@ -624,12 +626,12 @@ Output strictly in this JSON format:
                   <div><span className="text-muted-foreground text-xs block">Expires</span>{expiryDate}</div>
                   {matchedDbItem && (
                     <>
-                      <div>
+                      {/*<div>
                         <span className="text-muted-foreground text-xs block">Freshness Band</span>
                         <Badge variant="outline" className="text-xs mt-0.5">
                           {matchedDbItem.band || getFreshnessBand(analysisResult.freshness)}
                         </Badge>
-                      </div>
+                      </div>*/}
                       <div>
                         <span className="text-muted-foreground text-xs block">Clearance By</span>
                         <span className={matchedDbItem.clearanceDiscount > 40 ? "text-destructive font-semibold" : ""}>{matchedDbItem.clearanceDate}</span>
@@ -673,6 +675,19 @@ Output strictly in this JSON format:
                 </div>
               </div>
             </Card>
+
+            {/* Analysis Notes */}
+            {analysisResult.notes && (
+              <Card className="p-4 space-y-2">
+                <h3 className="text-sm font-semibold flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-primary" />
+                  Analysis Notes
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {analysisResult.notes}
+                </p>
+              </Card>
+            )}
 
             {/* Pricing */}
             {/*<Card className="p-4 space-y-3">
