@@ -37,11 +37,21 @@ export function getFreshnessBand(score: number): FreshnessBand {
   return "91-100%";
 }
 
+// export function getFreshnessCondition(score: number): string {
+//   if (score <= 10) return "Spoiled";
+//   if (score <= 20) return "Critical";
+//   if (score <= 30) return "Very Poor";
+//   if (score <= 40) return "Poor";
+//   if (score <= 50) return "Fair";
+//   if (score <= 60) return "Moderate";
+//   if (score <= 70) return "Good";
+//   if (score <= 80) return "Very Good";
+//   if (score <= 90) return "Excellent";
+//   return "Premium";
+// }
+
 export function getFreshnessCondition(score: number): string {
-  if (score <= 10) return "Spoiled";
-  if (score <= 20) return "Critical";
-  if (score <= 30) return "Very Poor";
-  if (score <= 40) return "Poor";
+  if (score <= 10) return "Poor";
   if (score <= 50) return "Fair";
   if (score <= 60) return "Moderate";
   if (score <= 70) return "Good";
@@ -49,6 +59,8 @@ export function getFreshnessCondition(score: number): string {
   if (score <= 90) return "Excellent";
   return "Premium";
 }
+
+
 
 export function getFreshnessColor(score: number): string {
   if (score <= 20) return "#ef4444";   // red-500

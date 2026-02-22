@@ -399,11 +399,15 @@ Output strictly in this JSON format:
         setExpiryDate(bandMatch.expiryDate);
       }
 
-      let condition = "Fair";
-      if (result.grade === "A") condition = "Excellent";
-      else if (result.grade === "B") condition = "Good";
-      else if (result.grade === "C") condition = "Fair";
-      else if (result.grade === "D") condition = "Poor";
+      // let condition = "Fair";
+      // if (result.grade === "A") condition = "Excellent";
+      // else if (result.grade === "B") condition = "Good";
+      // else if (result.grade === "C") condition = "Fair";
+      // else if (result.grade === "D") condition = "Poor";
+
+      const condition = getFreshnessCondition(freshnessPercent);
+
+      
 
       const factors = result.notes ? [result.notes] : ["Analysis completed"];
       const eslActions = ["Update price immediately"];
