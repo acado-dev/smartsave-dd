@@ -60,7 +60,7 @@ export default function AddESL() {
         title: "ESL Registered Successfully",
         description: `${eslId} is now active at Aisle ${aisle}, Shelf ${shelf}`,
       });
-      navigate("/handheld/operations");
+      navigate("/handheld/home/operations");
     }, 2000);
   };
 
@@ -78,7 +78,7 @@ export default function AddESL() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" onClick={() => {
-          if (step === "scan") navigate("/handheld/operations");
+          if (step === "scan") navigate("/handheld/home/operations");
           else if (step === "location") setStep("scan");
           else if (step === "product") setStep("location");
           else if (step === "confirm") setStep("product");

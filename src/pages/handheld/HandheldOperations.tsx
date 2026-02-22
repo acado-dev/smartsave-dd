@@ -30,21 +30,21 @@ const operationGroups = [
         description: "Link ESL to product",
         badge: "3 pending",
         badgeVariant: "secondary" as const,
-        route: "/handheld/operations/assign"
+        route: "/handheld/home/operations/assign"
       },
       { 
         id: "unassign", 
         icon: Unlink, 
         label: "Unassign", 
         description: "Remove ESL link",
-        route: "/handheld/operations/unassign"
+        route: "/handheld/home/operations/unassign"
       },
       { 
         id: "multi-assign", 
         icon: Layers, 
         label: "Multi-Assign", 
         description: "Bulk assignment mode",
-        route: "/handheld/operations/multi-assign"
+        route: "/handheld/home/operations/multi-assign"
       },
       { 
         id: "replace", 
@@ -53,7 +53,7 @@ const operationGroups = [
         description: "Swap ESL device",
         badge: "12 low battery",
         badgeColor: "orange",
-        route: "/handheld/operations/replace"
+        route: "/handheld/home/operations/replace"
       },
     ]
   },
@@ -65,28 +65,28 @@ const operationGroups = [
         icon: RefreshCw, 
         label: "Refresh", 
         description: "Update display content",
-        route: "/handheld/operations/refresh"
+        route: "/handheld/home/operations/refresh"
       },
       { 
         id: "flash", 
         icon: Zap, 
         label: "Flash", 
         description: "Locate ESL by flashing",
-        route: "/handheld/operations/flash"
+        route: "/handheld/home/operations/flash"
       },
       { 
         id: "page-change", 
         icon: FileText, 
         label: "Page Change", 
         description: "Switch display template",
-        route: "/handheld/operations/page-change"
+        route: "/handheld/home/operations/page-change"
       },
       { 
         id: "inquire", 
         icon: Search, 
         label: "Inquire", 
         description: "View ESL details",
-        route: "/handheld/operations/inquire"
+        route: "/handheld/home/operations/inquire"
       },
     ]
   },
@@ -98,14 +98,14 @@ const operationGroups = [
         icon: Plus, 
         label: "Add ESL", 
         description: "Register new device",
-        route: "/handheld/operations/add"
+        route: "/handheld/home/operations/add"
       },
       { 
         id: "delete", 
         icon: Trash2, 
         label: "Delete ESL", 
         description: "Remove from system",
-        route: "/handheld/operations/delete"
+        route: "/handheld/home/operations/delete"
       },
     ]
   }
