@@ -432,8 +432,10 @@ Output strictly in this JSON format:
   };
 
   const openESLDialog = () => {
-    if (analysisResult && identifiedProduct) {
-      setEslProductName(identifiedProduct.name);
+    // if (analysisResult && identifiedProduct) {
+    if (analysisResult) {
+      // setEslProductName(identifiedProduct.name);
+      setEslProductName(identifiedProduct?.name ? identifiedProduct.name : produce_type);
       setEslNewPrice(analysisResult.suggestedPrice.toString());
       setEslDisplayMessage(analysisResult.displayRecommendations.message);
       setEslDisplayColor(analysisResult.displayRecommendations.color);
@@ -442,10 +444,11 @@ Output strictly in this JSON format:
   };
 
   const openPriceRuleDialog = () => {
-    if (identifiedProduct && analysisResult) {
-      setRuleName(`Auto-markdown: ${identifiedProduct.name}`);
-      setRuleProduct(identifiedProduct.name);
-      setRuleCategory(identifiedProduct.category);
+    // if (identifiedProduct && analysisResult) {
+    if (analysisResult) {
+      setRuleName(`Auto-markdown: ${identifiedProduct?.name ? identifiedProduct.name : produce_type}`);
+      setRuleProduct(identifiedProduct?.name ? identifiedProduct.name : produce_type);
+      setRuleCategory(identifiedProduct?.category ? identifiedProduct?.category : category);
       setRuleCondition("freshness_below");
       setRuleThreshold("70");
       setRulePriceAdjustment(analysisResult.priceReduction.toString());
