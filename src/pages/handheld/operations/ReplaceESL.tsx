@@ -61,7 +61,7 @@ export default function ReplaceESL() {
         title: "ESL Replaced Successfully",
         description: `${selectedESL?.id} → ${newESLId}. Product data transferred.`,
       });
-      navigate("/handheld/operations");
+      navigate("/handheld/home/operations");
     }, 2000);
   };
 
@@ -70,7 +70,7 @@ export default function ReplaceESL() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" onClick={() => {
-          if (step === "select") navigate("/handheld/operations");
+          if (step === "select") navigate("/handheld/home/operations");
           else if (step === "scan-new") setStep("select");
           else if (step === "confirm") setStep("scan-new");
         }}>

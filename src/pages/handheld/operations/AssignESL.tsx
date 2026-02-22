@@ -91,7 +91,7 @@ export default function AssignESL() {
     <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/handheld/operations")}>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/handheld/home/operations")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
@@ -324,7 +324,7 @@ export default function AssignESL() {
               }}>
                 Assign Another ESL
               </Button>
-              <Button variant="outline" className="w-full" onClick={() => navigate("/handheld/operations")}>
+              <Button variant="outline" className="w-full" onClick={() => navigate("/handheld/home/operations")}>
                 Back to Operations
               </Button>
             </div>

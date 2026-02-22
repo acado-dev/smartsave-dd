@@ -69,7 +69,7 @@ export default function DeleteESL() {
         title: "ESL Deleted",
         description: `${selectedESL.id} has been removed from the system`,
       });
-      navigate("/handheld/operations");
+      navigate("/handheld/home/operations");
     }, 1500);
   };
 
@@ -77,7 +77,7 @@ export default function DeleteESL() {
     <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/handheld/operations")}>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/handheld/home/operations")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="flex-1">
