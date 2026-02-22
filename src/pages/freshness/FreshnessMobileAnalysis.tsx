@@ -348,7 +348,15 @@ Output strictly in this JSON format:
       // Validate and map to state
       const freshnessScore = Math.max(0, Math.min(10, parseFloat(result.freshness_score) || 0));
       const freshnessPercent = Math.round(freshnessScore * 10); // 0-100
-      const shelfLife = parseInt(result.shelf_life_days_remaining) || 0;
+      let shelfLife = parseInt(result.shelf_life_days_remaining) || 0;
+
+      // Enforce shelf life rules
+      if (freshnessPercent <= 10) {
+        shelfLife = 0;
+      } else if (freshnessPercent > 10 && shelfLife < 1) {
+        shelfLife = 1;
+      }
+
       const reduction = Math.max(0, Math.min(70, parseFloat(result.discount_recommendation) || 0));
 
       // Handle product identification from AI

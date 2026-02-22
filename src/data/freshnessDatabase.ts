@@ -370,7 +370,7 @@ export function matchItemFromKeywords(
       // Automatic clearance logic: lower score = higher discount
       clearanceDiscount: freshnessScore > 80 ? 0 : freshnessScore > 60 ? 10 : freshnessScore > 40 ? 25 : 50,
       receivedDate: daysAgo(Math.floor((100 - freshnessScore) / 5)),
-      expiryDate: daysFromNow(Math.max(1, Math.floor(freshnessScore / 10))),
+      expiryDate: daysFromNow(freshnessScore <= 10 ? 0 : Math.max(1, Math.floor(freshnessScore / 10))),
       clearanceDate: daysFromNow(Math.max(0, Math.floor(freshnessScore / 12))),
     };
     return synthesized;
