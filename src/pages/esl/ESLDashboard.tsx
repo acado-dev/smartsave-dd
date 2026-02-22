@@ -60,24 +60,24 @@ export default function ESLDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {/* Quick Navigation Buttons */}
-            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate("/esl/operations")}>
+            <Button variant="ghost" size="sm" className="bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 border border-primary-foreground/20" onClick={() => navigate("/esl/operations")}>
               <LayoutGrid className="h-4 w-4 mr-2" />
               Operations
             </Button>
-            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate("/esl/multi-store")}>
+            <Button variant="ghost" size="sm" className="bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 border border-primary-foreground/20" onClick={() => navigate("/esl/multi-store")}>
               <Building2 className="h-4 w-4 mr-2" />
               Multi-Store
             </Button>
-            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => navigate("/esl/store/001")}>
+            <Button variant="ghost" size="sm" className="bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 border border-primary-foreground/20" onClick={() => navigate("/esl/store/001")}>
               <Store className="h-4 w-4 mr-2" />
               Store View
             </Button>
-            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => window.location.href = "http://localhost:8080/freshness/analysis"}>
+            <Button variant="ghost" size="sm" className="bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 border border-primary-foreground/20" onClick={() => navigate("/freshness/analysis")}>
               <Leaf className="h-4 w-4 mr-2" />
               Freshness Analysis
             </Button>
             <div className="h-6 w-px bg-primary-foreground/30" />
-            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={handleSwitchRole}>
+            <Button variant="ghost" size="sm" className="bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 border border-primary-foreground/20" onClick={handleSwitchRole}>
               Switch Role
             </Button>
             <Button variant="ghost" size="sm" className="text-primary-foreground hover:bg-primary-foreground/10" onClick={handleLogout}>
