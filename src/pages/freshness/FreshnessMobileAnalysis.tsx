@@ -672,7 +672,11 @@ Output strictly in this JSON format:
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Shelf Life</span>
-                    <span className="font-medium">{analysisResult.shelfLife} days</span>
+                    {/*<span className="font-medium">{analysisResult.shelfLife} days</span>*/}
+                    <span className="font-medium">
+                      {analysisResult.shelfLife}{" "}
+                      {analysisResult.shelfLife > 1 ? "days" : "day"}
+                    </span>
                   </div>
                 </div>
               </div>
