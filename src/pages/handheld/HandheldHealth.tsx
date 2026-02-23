@@ -165,7 +165,7 @@ export default function HandheldHealth() {
               <Card 
                 key={esl.id}
                 className="cursor-pointer hover:shadow-md transition-all border-slate-200"
-                onClick={() => navigate(`/handheld/operations/replace?esl=${esl.id}`)}
+                onClick={() => navigate(`/handheld/home/operations/replace?esl=${esl.id}`)}
               >
                 <CardContent className="p-3">
                   <div className="flex items-center gap-3">
