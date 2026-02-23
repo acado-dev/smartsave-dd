@@ -29,7 +29,7 @@ const priorityActions = [
     description: "Aisle 3, 7 - Replace batteries today",
     severity: "critical",
     action: "Fix Now",
-    route: "/handheld/health?filter=critical"
+    route: "/handheld/home/health?filter=critical"
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ const priorityActions = [
     description: "Job #4521 - Communication timeout",
     severity: "warning",
     action: "Retry",
-    route: "/handheld/jobs?filter=failed"
+    route: "/handheld/home/jobs?filter=failed"
   },
   {
     id: 3,
@@ -45,14 +45,14 @@ const priorityActions = [
     description: "New labels detected in Aisle 2",
     severity: "info",
     action: "Assign",
-    route: "/handheld/operations/assign"
+    route: "/handheld/home/operations/assign"
   }
 ];
 
 const healthMetrics = [
-  { label: "Online", value: 2847, total: 2891, icon: Wifi, color: "text-emerald-500", route: "/handheld/status/online" },
-  { label: "Offline", value: 44, total: 2891, icon: WifiOff, color: "text-orange-500", route: "/handheld/status/offline" },
-  { label: "Low Battery", value: 67, total: 2891, icon: Battery, color: "text-amber-500", route: "/handheld/status/low-battery" },
+  { label: "Online", value: 2847, total: 2891, icon: Wifi, color: "text-emerald-500", route: "/handheld/home/status/online" },
+  { label: "Offline", value: 44, total: 2891, icon: WifiOff, color: "text-orange-500", route: "/handheld/home/status/offline" },
+  { label: "Low Battery", value: 67, total: 2891, icon: Battery, color: "text-amber-500", route: "/handheld/home/status/low-battery" },
 ];
 
 export default function HandheldHome() {
@@ -164,7 +164,7 @@ export default function HandheldHome() {
         </Card>
 
         {/* Job Status Summary */}
-        <Card className="cursor-pointer hover:shadow-md transition-all border-slate-200" onClick={() => navigate("/handheld/jobs")}>
+        <Card className="cursor-pointer hover:shadow-md transition-all border-slate-200" onClick={() => navigate("/handheld/home/jobs")}>
           <CardHeader className="pb-2 md:pb-4">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base md:text-lg flex items-center gap-2">
@@ -206,10 +206,10 @@ export default function HandheldHome() {
         <CardContent>
           <div className="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2 md:gap-3">
             {[
-              { icon: Cpu, label: "Assign", route: "/handheld/operations/assign" },
-              { icon: RefreshCw, label: "Refresh", route: "/handheld/operations/refresh" },
-              { icon: Battery, label: "Battery", route: "/handheld/health" },
-              { icon: AlertTriangle, label: "Issues", route: "/handheld/jobs?filter=failed" },
+              { icon: Cpu, label: "Assign", route: "/handheld/home/operations/assign" },
+              { icon: RefreshCw, label: "Refresh", route: "/handheld/home/operations/refresh" },
+              { icon: Battery, label: "Battery", route: "/handheld/home/health" },
+              { icon: AlertTriangle, label: "Issues", route: "/handheld/home/jobs?filter=failed" },
             ].map((item) => (
               <Button
                 key={item.label}
