@@ -1767,6 +1767,10 @@ export default function IthinaAssistant() {
       setPlanogramMisplaceFlowOpen(true);
     } else if (rec.hasPlanogramReplenishFlow) {
       setPlanogramReplenishFlowOpen(true);
+    } else if (rec.hasPromoCampaignFlow) {
+      setPromoCampaignFlowOpen(true);
+    } else if (rec.hasPromoFlashSaleFlow) {
+      setPromoFlashSaleFlowOpen(true);
     } else {
       setActionedIds(prev => new Set(prev).add(rec.id));
     }
