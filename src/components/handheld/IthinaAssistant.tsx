@@ -2111,7 +2111,7 @@ export default function IthinaAssistant() {
                       <Button
                         size="sm"
                         className={cn("h-8 md:h-10 text-xs md:text-sm px-3 md:px-4 text-white rounded-lg gap-1 font-semibold",
-                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow || rec.hasPACMarginFlow || rec.hasPlanogramGapFlow || rec.hasPlanogramDeployFlow || rec.hasPlanogramMisplaceFlow || rec.hasPlanogramReplenishFlow) && "ring-2 ring-offset-1",
+                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow || rec.hasPACMarginFlow || rec.hasPlanogramGapFlow || rec.hasPlanogramDeployFlow || rec.hasPlanogramMisplaceFlow || rec.hasPlanogramReplenishFlow || rec.hasPromoCampaignFlow || rec.hasPromoFlashSaleFlow) && "ring-2 ring-offset-1",
                           rec.hasFlow && "ring-orange-400",
                           rec.hasPriceOptFlow && "ring-blue-400",
                           rec.hasLowSalFlow && "ring-amber-400",
@@ -2120,7 +2120,9 @@ export default function IthinaAssistant() {
                           rec.hasPlanogramGapFlow && "ring-violet-400",
                           rec.hasPlanogramDeployFlow && "ring-violet-400",
                           rec.hasPlanogramMisplaceFlow && "ring-red-400",
-                          rec.hasPlanogramReplenishFlow && "ring-blue-400"
+                          rec.hasPlanogramReplenishFlow && "ring-blue-400",
+                          rec.hasPromoCampaignFlow && "ring-blue-400",
+                          rec.hasPromoFlashSaleFlow && "ring-orange-400"
                         )}
                         style={{ backgroundColor: btnColor }}
                         onClick={() => handleAction(rec)}
