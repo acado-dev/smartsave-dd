@@ -10,6 +10,8 @@ import {
 import PACMarginFlow from "./flows/PACMarginFlow";
 import PlanogramGapFlow from "./flows/PlanogramGapFlow";
 import PlanogramDeployFlow from "./flows/PlanogramDeployFlow";
+import PlanogramMisplaceFlow from "./flows/PlanogramMisplaceFlow";
+import PlanogramReplenishFlow from "./flows/PlanogramReplenishFlow";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
