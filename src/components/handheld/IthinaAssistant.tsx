@@ -2085,6 +2085,18 @@ export default function IthinaAssistant() {
                       Empty Shelves → Warehouse Stock → Assign Pick → Shelf Verify → Complete
                     </div>
                   )}
+                  {rec.hasPromoCampaignFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: PROMO_BLUE }}>
+                      <Megaphone className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Select ESLs → Preview Template → Schedule → Deploy
+                    </div>
+                  )}
+                  {rec.hasPromoFlashSaleFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: PROMO_ORANGE }}>
+                      <Zap className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Review Performance → Adjust Strategy → ESL Preview → Apply
+                    </div>
+                  )}
 
                   <div className="flex items-center justify-between mt-auto pt-1 md:pt-2">
                     <div className="flex items-center gap-1.5">
