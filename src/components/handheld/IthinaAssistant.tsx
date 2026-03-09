@@ -12,6 +12,8 @@ import PlanogramGapFlow from "./flows/PlanogramGapFlow";
 import PlanogramDeployFlow from "./flows/PlanogramDeployFlow";
 import PlanogramMisplaceFlow from "./flows/PlanogramMisplaceFlow";
 import PlanogramReplenishFlow from "./flows/PlanogramReplenishFlow";
+import PromoCampaignPushFlow from "./flows/PromoCampaignPushFlow";
+import PromoFlashSaleFlow from "./flows/PromoFlashSaleFlow";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
