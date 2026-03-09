@@ -11,8 +11,9 @@ import cmdScreenAlerts from "@/assets/cmd-screen-alerts.png";
 import cmdScreenAssistantPac from "@/assets/cmd-screen-assistant-pac.png";
 import cmdScreenAssistantPlano from "@/assets/cmd-screen-assistant-plano.png";
 import cmdScreenAssistantFlow from "@/assets/cmd-screen-assistant-flow.png";
+import cmdSplashScreen from "@/assets/cmd-splash-screen.png";
 
-const TOTAL_SLIDES = 4;
+const TOTAL_SLIDES = 3;
 
 export default function CommandInfoPresentation() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -69,9 +70,8 @@ export default function CommandInfoPresentation() {
       <div className="flex-1 flex items-center justify-center p-4 relative">
         <div className="w-full max-w-[1200px] aspect-[16/9] relative">
           {currentSlide === 0 && <Slide1 />}
-          {currentSlide === 1 && <Slide2 />}
-          {currentSlide === 2 && <Slide3 />}
-          {currentSlide === 3 && <Slide4 />}
+          {currentSlide === 1 && <Slide3 />}
+          {currentSlide === 2 && <Slide4 />}
         </div>
 
         {/* Nav arrows */}
@@ -110,39 +110,39 @@ export default function CommandInfoPresentation() {
 /* ─── SLIDE 1: Title ─── */
 function Slide1() {
   return (
-    <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,12%)] to-[hsl(205,55%,18%)] border border-white/10 flex flex-col items-center justify-center p-12 relative overflow-hidden">
-      {/* Animated background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-40 h-40 rounded-full border border-[hsl(195,100%,42%)] animate-pulse" />
-        <div className="absolute bottom-32 right-32 w-64 h-64 rounded-full border border-[hsl(195,100%,42%)]/50" />
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 rounded-full bg-[hsl(195,100%,42%)]/20 blur-xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-[hsl(195,100%,42%)]/10 blur-2xl" />
-      </div>
-
-      <div className="relative z-10 text-center space-y-8">
-        <img src={ithinaLogoWhite} alt="Ithina" className="h-16 mx-auto" />
-        <div>
-          <h1 className="text-5xl font-bold text-white tracking-tight">
-            COMMAND
-          </h1>
-          <div className="w-24 h-1 bg-[hsl(195,100%,42%)] mx-auto mt-4 rounded-full" />
+    <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,12%)] to-[hsl(205,55%,18%)] border border-white/10 flex items-center justify-center p-12 relative overflow-hidden">
+      {/* Left: Splash screen in phone */}
+      <div className="flex items-center gap-12">
+        <div className="bg-[hsl(205,55%,20%)] rounded-[32px] p-2 border-2 border-white/15 shadow-2xl shadow-black/50 w-[260px]">
+          <div className="rounded-[26px] overflow-hidden bg-[hsl(205,55%,15%)]">
+            <img src={cmdSplashScreen} alt="Ithina Command" className="w-full h-auto" />
+          </div>
         </div>
-        <p className="text-xl text-white/70 max-w-2xl leading-relaxed">
-          The Central Store Operations Platform — unifying ESL management, AI intelligence, and real-time store control into one powerful handheld experience.
-        </p>
-        <div className="flex items-center justify-center gap-8 pt-4">
-          {[
-            { icon: Monitor, label: "Unified Control" },
-            { icon: Brain, label: "AI Intelligence" },
-            { icon: Zap, label: "Real-time Action" },
-          ].map((item, i) => (
-            <div key={i} className="flex flex-col items-center gap-2">
-              <div className="w-14 h-14 rounded-xl bg-[hsl(195,100%,42%)]/15 border border-[hsl(195,100%,42%)]/30 flex items-center justify-center">
-                <item.icon className="h-7 w-7 text-[hsl(195,100%,42%)]" />
+
+        {/* Right: Title content */}
+        <div className="text-left space-y-6 max-w-[550px]">
+          <img src={ithinaLogoWhite} alt="Ithina" className="h-12" />
+          <div>
+            <h1 className="text-5xl font-bold text-white tracking-tight">COMMAND</h1>
+            <div className="w-24 h-1 bg-[hsl(195,100%,42%)] mt-4 rounded-full" />
+          </div>
+          <p className="text-lg text-white/70 leading-relaxed">
+            The Central Store Operations Platform — unifying ESL management, AI intelligence, and real-time store control into one powerful handheld experience.
+          </p>
+          <div className="flex items-center gap-6 pt-2">
+            {[
+              { icon: Monitor, label: "Unified Control" },
+              { icon: Brain, label: "AI Intelligence" },
+              { icon: Zap, label: "Real-time Action" },
+            ].map((item, i) => (
+              <div key={i} className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 rounded-xl bg-[hsl(195,100%,42%)]/15 border border-[hsl(195,100%,42%)]/30 flex items-center justify-center">
+                  <item.icon className="h-6 w-6 text-[hsl(195,100%,42%)]" />
+                </div>
+                <span className="text-xs text-white/60">{item.label}</span>
               </div>
-              <span className="text-sm text-white/60">{item.label}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
