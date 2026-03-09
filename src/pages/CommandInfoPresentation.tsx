@@ -3,6 +3,10 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Maximize, Minimize, Monitor, Layers, Brain, Zap, Smartphone, Bell, BarChart3, Shield, Wifi, Tag, Camera, ShoppingCart, Database, Globe, ArrowRight, CheckCircle2, Cpu, Users, Target, Sparkles, MessageSquare, TrendingUp, Package, Eye, AlertTriangle } from "lucide-react";
 import ithinaLogoWhite from "@/assets/ithina-logo-white-full.png";
 import ithinaLogo from "@/assets/ithina-logo.png";
+import cmdScreenDashboard from "@/assets/cmd-screen-dashboard.png";
+import cmdScreenOperations from "@/assets/cmd-screen-operations.png";
+import cmdScreenHealth from "@/assets/cmd-screen-health.png";
+import cmdScreenJobs from "@/assets/cmd-screen-jobs.png";
 
 const TOTAL_SLIDES = 4;
 
@@ -480,20 +484,34 @@ function MiniAssistant() {
   );
 }
 
-/* ─── SLIDE 3: Store Operations — Screenshot showcase ─── */
+/* ─── SLIDE 3: Store Operations — Real screenshots ─── */
 function Slide3() {
+  const screens = [
+    { src: cmdScreenDashboard, label: "Dashboard" },
+    { src: cmdScreenOperations, label: "ESL Operations" },
+    { src: cmdScreenHealth, label: "Battery Intelligence" },
+    { src: cmdScreenJobs, label: "Job Control Center" },
+  ];
+
   return (
     <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,10%)] to-[hsl(205,55%,16%)] border border-white/10 p-8 overflow-hidden">
       <div className="text-center mb-4">
         <span className="text-[hsl(195,100%,42%)] text-xs font-semibold tracking-[0.3em] uppercase">Store Operations</span>
         <h2 className="text-3xl font-bold text-white mt-1">Complete Store Control in Your Hand</h2>
-        <p className="text-white/50 text-sm">Real-time dashboard, 10+ ESL operations, and instant alerts — all from one app.</p>
+        <p className="text-white/50 text-sm">Real-time dashboard, 10+ ESL operations, battery intelligence, and job management — all from one app.</p>
       </div>
 
-      <div className="flex items-start justify-center gap-6">
-        <PhoneShell label="Dashboard"><MiniDashboard /></PhoneShell>
-        <PhoneShell label="ESL Operations"><MiniOperations /></PhoneShell>
-        <PhoneShell label="Smart Alerts"><MiniAlerts /></PhoneShell>
+      <div className="flex items-start justify-center gap-5">
+        {screens.map((screen, i) => (
+          <div key={i} className="flex flex-col items-center gap-2">
+            <div className="bg-[hsl(205,55%,20%)] rounded-[24px] p-1.5 border-2 border-white/15 shadow-2xl shadow-black/50 w-[195px]">
+              <div className="rounded-[18px] overflow-hidden bg-white">
+                <img src={screen.src} alt={screen.label} className="w-full h-auto object-cover" style={{ maxHeight: '370px' }} />
+              </div>
+            </div>
+            <span className="text-white/70 text-xs font-medium">{screen.label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
