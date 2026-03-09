@@ -50,21 +50,21 @@ export default function CommandInfoPresentation() {
 
   return (
     <div className={`${isFullscreen ? "fixed inset-0 z-[9999]" : "min-h-screen"} bg-[hsl(205,55%,8%)] flex flex-col`}>
-      {/* Top bar */}
-      {!isFullscreen && (
-        <div className="flex items-center justify-between px-6 py-3 bg-[hsl(205,55%,12%)] border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <img src={ithinaLogoWhite} alt="Ithina" className="h-6" />
-            <span className="text-white/60 text-sm">Command Platform Overview</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-white/40 text-xs">{currentSlide + 1} / {TOTAL_SLIDES}</span>
+      {/* Top bar - always visible */}
+      <div className="flex items-center justify-between px-6 py-3 bg-[hsl(205,55%,12%)] border-b border-white/10">
+        <div className="flex items-center gap-3">
+          <img src={ithinaLogoWhite} alt="Ithina" className="h-6" />
+          <span className="text-white/60 text-sm">Command Platform Overview</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-white/40 text-xs">{currentSlide + 1} / {TOTAL_SLIDES}</span>
+          {!isFullscreen && (
             <Button size="sm" variant="ghost" className="text-white/60 hover:text-white" onClick={toggleFullscreen}>
               <Maximize className="h-4 w-4" />
             </Button>
-          </div>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Slide area */}
       <div className="flex-1 flex items-center justify-center relative overflow-hidden">
@@ -99,7 +99,7 @@ export default function CommandInfoPresentation() {
       </div>
 
       {isFullscreen && (
-        <button onClick={toggleFullscreen} className="fixed top-4 right-4 z-[10000] w-8 h-8 rounded bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
+        <button onClick={toggleFullscreen} className="fixed top-3 right-4 z-[10000] w-8 h-8 rounded bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
           <Minimize className="h-4 w-4" />
         </button>
       )}
