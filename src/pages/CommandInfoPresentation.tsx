@@ -538,7 +538,7 @@ function Slide4() {
         <p className="text-white/50 text-sm">Smart alerts, AI recommendations, and guided action workflows — all powered by the 4P+C framework.</p>
       </div>
 
-      <div className="flex items-start justify-center gap-5">
+      <div className="flex-1 flex items-center justify-center gap-6">
         {screens.map((screen, i) => (
           <div key={i} className="flex flex-col items-center gap-2">
             <div className="bg-[hsl(205,55%,20%)] rounded-[24px] p-1.5 border-2 border-white/15 shadow-2xl shadow-black/50 w-[195px]">
