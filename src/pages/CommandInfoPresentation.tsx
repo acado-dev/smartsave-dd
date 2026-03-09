@@ -7,6 +7,10 @@ import cmdScreenDashboard from "@/assets/cmd-screen-dashboard.png";
 import cmdScreenOperations from "@/assets/cmd-screen-operations.png";
 import cmdScreenHealth from "@/assets/cmd-screen-health.png";
 import cmdScreenJobs from "@/assets/cmd-screen-jobs.png";
+import cmdScreenAlerts from "@/assets/cmd-screen-alerts.png";
+import cmdScreenAssistantPac from "@/assets/cmd-screen-assistant-pac.png";
+import cmdScreenAssistantPlano from "@/assets/cmd-screen-assistant-plano.png";
+import cmdScreenAssistantFlow from "@/assets/cmd-screen-assistant-flow.png";
 
 const TOTAL_SLIDES = 4;
 
