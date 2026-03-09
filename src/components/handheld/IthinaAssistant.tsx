@@ -257,16 +257,39 @@ const mockRecommendations: Recommendation[] = [
   {
     id: "4", domain: "promotion", priority: "medium",
     title: "Weekend promo content ready",
-    description: "New campaign assets for Saturday's 'Buy 2 Get 1' promotion are ready. 42 ESLs need template update.",
+    description: "New campaign assets for Saturday's 'Buy 2 Get 1' promotion are ready. 42 ESLs need template update across 5 aisles.",
     impact: "42 labels", action: "Push to ESLs",
-    timestamp: "18 min ago"
+    timestamp: "18 min ago",
+    hasPromoCampaignFlow: true
   },
   {
     id: "8", domain: "promotion", priority: "high",
-    title: "Flash sale underperforming",
-    description: "Current flash sale on Snacks showing 23% below target. Suggest extending to adjacent categories or increasing discount to 25%.",
-    impact: "+€180 revenue", action: "Adjust Campaign",
-    timestamp: "8 min ago"
+    title: "Flash sale underperforming · Snacks",
+    description: "Current flash sale on Snacks showing 23% below target at midday. AI suggests extending to adjacent categories and increasing discount depth to recover revenue.",
+    impact: "+€290 revenue", action: "Adjust Campaign",
+    timestamp: "8 min ago",
+    hasPromoFlashSaleFlow: true
+  },
+  {
+    id: "promo-1", domain: "promotion", priority: "high",
+    title: "Competitor promo detected · Beverages",
+    description: "Price monitoring detected rival store running 'Buy 1 Get 1 Free' on Coca-Cola 6-packs. AI recommends counter-promo: 3-for-2 on all carbonated drinks to protect footfall.",
+    impact: "Protect €420/week", action: "Counter Promo",
+    timestamp: "10 min ago"
+  },
+  {
+    id: "promo-2", domain: "promotion", priority: "medium",
+    title: "Loyalty member exclusive · Dairy",
+    description: "1,240 loyalty members haven't visited in 7+ days. AI suggests pushing exclusive 20% off Dairy promo to ESLs with loyalty QR code activation.",
+    impact: "+180 visits est.", action: "Create Campaign",
+    timestamp: "35 min ago"
+  },
+  {
+    id: "promo-3", domain: "promotion", priority: "low",
+    title: "Campaign ROI report · Last week",
+    description: "Last week's 'Fresh Friday' campaign generated €2,340 incremental revenue at 22% margin. Top performer: Bakery aisle (+41% uplift). Recommend repeating.",
+    impact: "€2,340 revenue", action: "View Report",
+    timestamp: "1 hour ago"
   },
 ];
 
