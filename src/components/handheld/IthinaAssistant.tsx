@@ -1788,12 +1788,14 @@ export default function IthinaAssistant() {
         else if (planogramDeployFlowOpen) setPlanogramDeployFlowOpen(false);
         else if (planogramMisplaceFlowOpen) setPlanogramMisplaceFlowOpen(false);
         else if (planogramReplenishFlowOpen) setPlanogramReplenishFlowOpen(false);
+        else if (promoCampaignFlowOpen) setPromoCampaignFlowOpen(false);
+        else if (promoFlashSaleFlowOpen) setPromoFlashSaleFlowOpen(false);
         else setIsOpen(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen, planogramMisplaceFlowOpen, planogramReplenishFlowOpen]);
+  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen, planogramMisplaceFlowOpen, planogramReplenishFlowOpen, promoCampaignFlowOpen, promoFlashSaleFlowOpen]);
 
   return (
     <>
