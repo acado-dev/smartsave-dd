@@ -508,9 +508,9 @@ function Slide3() {
       <div className="flex-1 flex items-center justify-center gap-6">
         {screens.map((screen, i) => (
           <div key={i} className="flex flex-col items-center gap-2">
-            <div className="bg-[hsl(205,55%,20%)] rounded-[24px] p-1.5 border-2 border-white/15 shadow-2xl shadow-black/50 w-[195px]">
-              <div className="rounded-[18px] overflow-hidden bg-white">
-                <img src={screen.src} alt={screen.label} className="w-full h-auto object-cover" style={{ maxHeight: '370px' }} />
+            <div className="bg-[hsl(205,55%,20%)] rounded-[28px] p-1.5 border-2 border-white/15 shadow-2xl shadow-black/50 w-[220px]">
+              <div className="rounded-[22px] overflow-hidden bg-white">
+                <img src={screen.src} alt={screen.label} className="w-full h-auto object-cover" />
               </div>
             </div>
             <span className="text-white/70 text-xs font-medium">{screen.label}</span>
