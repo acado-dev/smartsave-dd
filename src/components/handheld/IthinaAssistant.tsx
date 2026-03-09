@@ -1709,6 +1709,8 @@ export default function IthinaAssistant() {
   const [pacMarginFlowOpen, setPacMarginFlowOpen] = useState(false);
   const [planogramGapFlowOpen, setPlanogramGapFlowOpen] = useState(false);
   const [planogramDeployFlowOpen, setPlanogramDeployFlowOpen] = useState(false);
+  const [planogramMisplaceFlowOpen, setPlanogramMisplaceFlowOpen] = useState(false);
+  const [planogramReplenishFlowOpen, setPlanogramReplenishFlowOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
   const filteredRecs = mockRecommendations.filter(r => activeDomain === "all" || r.domain === activeDomain);
@@ -1730,6 +1732,10 @@ export default function IthinaAssistant() {
       setPlanogramGapFlowOpen(true);
     } else if (rec.hasPlanogramDeployFlow) {
       setPlanogramDeployFlowOpen(true);
+    } else if (rec.hasPlanogramMisplaceFlow) {
+      setPlanogramMisplaceFlowOpen(true);
+    } else if (rec.hasPlanogramReplenishFlow) {
+      setPlanogramReplenishFlowOpen(true);
     } else {
       setActionedIds(prev => new Set(prev).add(rec.id));
     }
@@ -1745,12 +1751,14 @@ export default function IthinaAssistant() {
         else if (pacMarginFlowOpen) setPacMarginFlowOpen(false);
         else if (planogramGapFlowOpen) setPlanogramGapFlowOpen(false);
         else if (planogramDeployFlowOpen) setPlanogramDeployFlowOpen(false);
+        else if (planogramMisplaceFlowOpen) setPlanogramMisplaceFlowOpen(false);
+        else if (planogramReplenishFlowOpen) setPlanogramReplenishFlowOpen(false);
         else setIsOpen(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen]);
+  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen, planogramMisplaceFlowOpen, planogramReplenishFlowOpen]);
 
   return (
     <>
