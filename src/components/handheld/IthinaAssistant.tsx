@@ -27,6 +27,8 @@ const PRICE_OPT_BLUE = "hsl(221, 83%, 53%)";
 const LOW_SAL_AMBER = "hsl(38, 92%, 50%)";
 const PAC_GREEN = "hsl(152, 68%, 38%)";
 const PLANOGRAM_VIOLET = "hsl(262, 60%, 52%)";
+const PROMO_BLUE = "hsl(217, 91%, 50%)";
+const PROMO_ORANGE = "hsl(25, 95%, 53%)";
 
 type Domain = "all" | "pac" | "promotion" | "planogram" | "perishable";
 type PerishableStep = "review" | "edit" | "esl-preview" | "applied";
