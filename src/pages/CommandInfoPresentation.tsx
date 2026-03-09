@@ -99,7 +99,7 @@ export default function CommandInfoPresentation() {
       </div>
 
       {isFullscreen && (
-        <button onClick={toggleFullscreen} className="fixed top-4 right-4 z-[10000] w-8 h-8 rounded bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
+        <button onClick={toggleFullscreen} className="fixed top-3 right-4 z-[10000] w-8 h-8 rounded bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
           <Minimize className="h-4 w-4" />
         </button>
       )}
