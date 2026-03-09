@@ -255,6 +255,7 @@ const App = () => (
           {/* Presentation Routes */}
           <Route path="/presentation/infomil" element={<InfomilPresentation />} />
           <Route path="/presentation/infomil-strategic" element={<InfomilStrategicPresentation />} />
+          <Route path="/commandinfo" element={<CommandInfoPresentation />} />
           
           {/* Handheld HHT App Routes */}
           <Route path="/handheld" element={<HandheldSplash />} />
