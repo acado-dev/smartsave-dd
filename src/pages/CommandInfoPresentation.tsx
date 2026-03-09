@@ -245,208 +245,93 @@ function Slide2() {
   );
 }
 
-/* ─── SLIDE 3: Store Operations — App showcase ─── */
-function Slide3() {
-  const features = [
-    { icon: Shield, title: "Store Health Score", desc: "Real-time operational health at a glance with 94/100 scoring" },
-    { icon: Wifi, title: "ESL Fleet Status", desc: "2,847 online • 44 offline • 67 low battery — instant visibility" },
-    { icon: AlertTriangle, title: "Priority Actions", desc: "Critical battery alerts, failed price updates, unassigned ESLs" },
-    { icon: BarChart3, title: "Today's Jobs", desc: "Track completed, pending, and failed jobs with retry capability" },
-    { icon: Target, title: "10 ESL Operations", desc: "Assign, unassign, replace, refresh, flash, inquire and more" },
-    { icon: Eye, title: "AP & Battery Health", desc: "Access point status, overnight sync reports, battery diagnostics" },
-  ];
+/* ─── Phone Mockup Component ─── */
+function PhoneMockup({ route, label }: { route: string; label: string }) {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div className="bg-[hsl(205,55%,20%)] rounded-[24px] p-1.5 border-2 border-white/15 shadow-2xl shadow-black/50 w-[185px] h-[370px]">
+        <div className="rounded-[18px] bg-white overflow-hidden w-full h-full">
+          <iframe
+            src={route}
+            className="w-[390px] h-[780px] border-0 pointer-events-none"
+            style={{ transform: "scale(0.466)", transformOrigin: "top left" }}
+            title={label}
+          />
+        </div>
+      </div>
+      <span className="text-white/70 text-xs font-medium">{label}</span>
+    </div>
+  );
+}
 
+/* ─── SLIDE 3: Store Operations — Screenshot showcase ─── */
+function Slide3() {
   return (
     <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,10%)] to-[hsl(205,55%,16%)] border border-white/10 p-8 overflow-hidden">
-      <div className="mb-6">
+      <div className="text-center mb-4">
         <span className="text-[hsl(195,100%,42%)] text-xs font-semibold tracking-[0.3em] uppercase">Store Operations</span>
-        <h2 className="text-3xl font-bold text-white mt-1">Central Command for Every Store</h2>
-        <p className="text-white/50 text-sm">One app. Every operation. Complete store visibility.</p>
+        <h2 className="text-3xl font-bold text-white mt-1">Complete Store Control in Your Hand</h2>
+        <p className="text-white/50 text-sm">Real-time dashboard, 10+ ESL operations, and instant alerts — all from one app.</p>
       </div>
 
-      <div className="flex gap-8 items-start">
-        {/* Phone mockup */}
-        <div className="w-[220px] shrink-0">
-          <div className="bg-[hsl(205,55%,20%)] rounded-[28px] p-2 border-2 border-white/15 shadow-2xl shadow-black/40">
-            <div className="rounded-[22px] bg-white overflow-hidden">
-              {/* Mini recreation of the app home screen */}
-              <div className="bg-white px-3 py-2 border-b border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="w-1 h-4 bg-gray-200 rounded" />
-                  <img src={ithinaLogo} alt="Ithina" className="h-4" />
-                  <span className="text-[8px] text-gray-600 ml-1">Store #127 — Milan Central</span>
-                  <div className="ml-auto w-4 h-4 rounded-full bg-[hsl(195,100%,42%)]/10 flex items-center justify-center">
-                    <Bell className="h-2.5 w-2.5 text-[hsl(195,100%,42%)]" />
-                  </div>
-                </div>
-              </div>
-              <div className="p-3 space-y-2">
-                {/* Health score */}
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-[7px] text-gray-500">Store Health Score</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-gray-900">94</span>
-                    <span className="text-[7px] text-gray-400">/100</span>
-                    <div className="ml-auto w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
-                    </div>
-                  </div>
-                </div>
-                {/* Stats row */}
-                <div className="grid grid-cols-3 gap-1.5">
-                  {[
-                    { n: "2,847", l: "Online", c: "text-green-600" },
-                    { n: "44", l: "Offline", c: "text-amber-600" },
-                    { n: "67", l: "Low Batt", c: "text-orange-600" },
-                  ].map((s, i) => (
-                    <div key={i} className="bg-gray-50 rounded-lg p-1.5 text-center">
-                      <p className={`text-xs font-bold ${s.c}`}>{s.n}</p>
-                      <p className="text-[6px] text-gray-400">{s.l}</p>
-                    </div>
-                  ))}
-                </div>
-                {/* Priority actions */}
-                <div className="space-y-1">
-                  <p className="text-[7px] font-semibold text-gray-700">Priority Actions</p>
-                  {[
-                    { t: "12 ESLs Critical Battery", c: "bg-red-50 border-red-200", tc: "text-red-700" },
-                    { t: "5 Failed Price Updates", c: "bg-amber-50 border-amber-200", tc: "text-amber-700" },
-                  ].map((a, i) => (
-                    <div key={i} className={`${a.c} border rounded p-1.5 flex items-center justify-between`}>
-                      <span className={`text-[6px] font-medium ${a.tc}`}>{a.t}</span>
-                      <span className="text-[5px] bg-[hsl(195,100%,42%)] text-white px-1.5 py-0.5 rounded-full">Fix</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* Bottom nav */}
-              <div className="flex items-center justify-around py-1.5 border-t border-gray-100 bg-gray-50">
-                {["Home", "Ops", "Health", "Jobs", "Fresh"].map((n, i) => (
-                  <div key={i} className={`text-center ${i === 0 ? "text-[hsl(195,100%,42%)]" : "text-gray-400"}`}>
-                    <div className="w-3 h-3 mx-auto rounded bg-current/20 mb-0.5" />
-                    <span className="text-[5px]">{n}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Feature grid */}
-        <div className="flex-1 grid grid-cols-2 gap-3">
-          {features.map((f, i) => (
-            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.07] transition group">
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[hsl(195,100%,42%)]/15 border border-[hsl(195,100%,42%)]/25 flex items-center justify-center shrink-0 group-hover:bg-[hsl(195,100%,42%)]/25 transition">
-                  <f.icon className="h-4.5 w-4.5 text-[hsl(195,100%,42%)]" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold text-sm">{f.title}</h3>
-                  <p className="text-white/50 text-xs mt-0.5 leading-relaxed">{f.desc}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="flex items-start justify-center gap-6">
+        <PhoneMockup route="/handheld/home" label="Dashboard" />
+        <PhoneMockup route="/handheld/home/operations" label="ESL Operations" />
+        <PhoneMockup route="/handheld/home/alerts" label="Smart Alerts" />
       </div>
     </div>
   );
 }
 
-/* ─── SLIDE 4: AI Intelligence & Assistants ─── */
+/* ─── SLIDE 4: AI Assistant — Screenshot showcase ─── */
 function Slide4() {
-  const assistants = [
-    {
-      name: "Perishable Waste",
-      color: "hsl(150,60%,45%)",
-      icon: TrendingUp,
-      example: "Reduce banana waste by 34% — apply markdown at 4PM",
-      actions: ["Auto-markdown", "Donation trigger", "Freshness AI scan"],
-    },
-    {
-      name: "PAC Optimization",
-      color: "hsl(195,100%,42%)",
-      icon: BarChart3,
-      example: "Margin alert: Cola 6-pack below target — adjust pricing",
-      actions: ["Dynamic repricing", "Competitor match", "Margin protection"],
-    },
-    {
-      name: "Planogram Compliance",
-      color: "hsl(280,60%,55%)",
-      icon: Package,
-      example: "Gap detected in Aisle 4, Shelf B — assign replenishment",
-      actions: ["Gap resolution", "Wrong placement fix", "Shelf replenish"],
-    },
-    {
-      name: "In-Store Promotion",
-      color: "hsl(35,80%,55%)",
-      icon: Sparkles,
-      example: "Flash sale underperforming — AI suggests deeper discount",
-      actions: ["Campaign push", "Flash sale adjust", "ROI tracking"],
-    },
-  ];
-
   return (
     <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,10%)] to-[hsl(205,55%,16%)] border border-white/10 p-8 overflow-hidden">
-      <div className="mb-5">
+      <div className="text-center mb-4">
         <span className="text-[hsl(195,100%,42%)] text-xs font-semibold tracking-[0.3em] uppercase">AI-Powered Intelligence</span>
-        <h2 className="text-3xl font-bold text-white mt-1">Smart Notifications. Instant Actions.</h2>
-        <p className="text-white/50 text-sm">Ithina AI Assistant delivers context-aware recommendations with one-tap actionable workflows.</p>
+        <h2 className="text-3xl font-bold text-white mt-1">From Data to Action — One Tap</h2>
+        <p className="text-white/50 text-sm">Ithina AI Assistant analyses store data and delivers actionable recommendations in real-time.</p>
       </div>
 
-      {/* Flow diagram */}
-      <div className="flex items-center gap-4 mb-6">
-        <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-          <Database className="h-5 w-5 text-[hsl(195,100%,42%)] mx-auto mb-1" />
-          <p className="text-white/70 text-[10px] font-medium">Store Data</p>
-          <p className="text-white/40 text-[8px]">POS, inventory, cameras</p>
-        </div>
-        <ArrowRight className="h-4 w-4 text-[hsl(195,100%,42%)] shrink-0" />
-        <div className="flex-1 bg-[hsl(195,100%,42%)]/10 border border-[hsl(195,100%,42%)]/30 rounded-xl p-3 text-center">
-          <Brain className="h-5 w-5 text-[hsl(195,100%,42%)] mx-auto mb-1" />
-          <p className="text-white/90 text-[10px] font-semibold">Ithina Intelligence</p>
-          <p className="text-white/50 text-[8px]">Analyze & recommend</p>
-        </div>
-        <ArrowRight className="h-4 w-4 text-[hsl(195,100%,42%)] shrink-0" />
-        <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-          <Bell className="h-5 w-5 text-[hsl(35,80%,55%)] mx-auto mb-1" />
-          <p className="text-white/70 text-[10px] font-medium">Smart Alert</p>
-          <p className="text-white/40 text-[8px]">Right time, right person</p>
-        </div>
-        <ArrowRight className="h-4 w-4 text-[hsl(195,100%,42%)] shrink-0" />
-        <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-          <Zap className="h-5 w-5 text-[hsl(150,60%,45%)] mx-auto mb-1" />
-          <p className="text-white/70 text-[10px] font-medium">One-Tap Action</p>
-          <p className="text-white/40 text-[8px]">Execute from handheld</p>
-        </div>
-      </div>
-
-      {/* Assistant cards */}
-      <div className="grid grid-cols-2 gap-3">
-        {assistants.map((a, i) => (
-          <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full rounded-r" style={{ backgroundColor: a.color }} />
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${a.color}20` }}>
-                <a.icon className="h-4 w-4" style={{ color: a.color }} />
-              </div>
-              <span className="text-white font-semibold text-xs">{a.name}</span>
-            </div>
-            <div className="bg-black/20 rounded-lg px-3 py-2 mb-2.5">
-              <div className="flex items-start gap-1.5">
-                <MessageSquare className="h-3 w-3 mt-0.5 shrink-0" style={{ color: a.color }} />
-                <p className="text-white/70 text-[10px] italic leading-relaxed">"{a.example}"</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {a.actions.map((action, j) => (
-                <span key={j} className="text-[8px] px-2 py-0.5 rounded-full border text-white/60" style={{ borderColor: `${a.color}40` }}>
-                  {action}
-                </span>
-              ))}
+      <div className="flex items-start justify-center gap-8">
+        {/* Left: assistant screenshot in larger phone */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="bg-[hsl(205,55%,20%)] rounded-[28px] p-2 border-2 border-white/15 shadow-2xl shadow-black/50 w-[240px] h-[480px]">
+            <div className="rounded-[22px] bg-white overflow-hidden w-full h-full relative">
+              <iframe
+                src="/handheld/home/alerts"
+                className="w-[390px] h-[780px] border-0 pointer-events-none"
+                style={{ transform: "scale(0.608)", transformOrigin: "top left" }}
+                title="Ithina Assistant"
+              />
+              {/* Overlay to simulate the assistant being open */}
             </div>
           </div>
-        ))}
+          <span className="text-white/70 text-xs font-medium">AI Alerts & Notifications</span>
+        </div>
+
+        {/* Right: key capabilities */}
+        <div className="flex flex-col justify-center gap-4 max-w-[420px] pt-4">
+          <div className="text-left mb-2">
+            <h3 className="text-white font-bold text-lg">4P+C Intelligence Framework</h3>
+            <p className="text-white/40 text-xs mt-1">AI assistants across every retail domain</p>
+          </div>
+          {[
+            { domain: "Perishable", color: "hsl(150,60%,45%)", desc: "Waste prediction, auto-markdown, freshness scoring" },
+            { domain: "PAC (Price)", color: "hsl(195,100%,42%)", desc: "Margin optimization, competitor response, dynamic pricing" },
+            { domain: "Planogram", color: "hsl(280,60%,55%)", desc: "Gap detection, misplacement alerts, replenishment" },
+            { domain: "Promotion", color: "hsl(35,80%,55%)", desc: "Campaign push, flash sale adjustments, ROI tracking" },
+            { domain: "Compliance", color: "hsl(340,80%,60%)", desc: "SLA monitoring, overnight sync, regulatory alerts" },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+              <div className="w-2 h-10 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+              <div>
+                <p className="text-white font-semibold text-sm">{item.domain}</p>
+                <p className="text-white/45 text-xs">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
