@@ -54,6 +54,8 @@ interface Recommendation {
   hasPlanogramDeployFlow?: boolean;
   hasPlanogramMisplaceFlow?: boolean;
   hasPlanogramReplenishFlow?: boolean;
+  hasPromoCampaignFlow?: boolean;
+  hasPromoFlashSaleFlow?: boolean;
   itemTag?: string; // for individual item cards
 }
 
