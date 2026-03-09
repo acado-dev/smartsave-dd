@@ -156,14 +156,14 @@ export default function HandheldLayout() {
 
             {/* Store name - mobile */}
             <div className="flex items-center gap-2.5 md:hidden">
-              <img src={ithinaLogoColor} alt="Ithina" className="h-7 w-auto object-contain" />
+              <img src={ithinaCommandLogo} alt="Ithina Command" className="h-7 w-auto object-contain" />
               <div className="h-5 w-px bg-slate-300" />
               <p className="text-sm font-semibold" style={{ color: ITHINA_NAVY }}>Store #127 — Milan Central</p>
             </div>
 
             {/* Tablet header title */}
             <div className="hidden md:flex items-center gap-3">
-              <img src={ithinaLogoColor} alt="Ithina" className="h-8 w-auto object-contain" />
+              <img src={ithinaCommandLogo} alt="Ithina Command" className="h-8 w-auto object-contain" />
               <div className="h-6 w-px bg-slate-300" />
               <h1 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>Store #127 — Milan Central</h1>
             </div>
