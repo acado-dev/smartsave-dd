@@ -525,7 +525,7 @@ function Slide3() {
 function Slide4() {
   const screens = [
     { src: cmdScreenAlerts, label: "Smart Alerts" },
-    { src: cmdScreenAssistantPac, label: "AI Assistant — PAC" },
+    { src: cmdScreenAssistantPac, label: "4 Ithina Assistants" },
     { src: cmdScreenAssistantPlano, label: "AI Assistant — Planogram" },
     { src: cmdScreenAssistantFlow, label: "Guided Action Flow" },
   ];
