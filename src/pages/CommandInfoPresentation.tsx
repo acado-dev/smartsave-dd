@@ -11,8 +11,9 @@ import cmdScreenAlerts from "@/assets/cmd-screen-alerts.png";
 import cmdScreenAssistantPac from "@/assets/cmd-screen-assistant-pac.png";
 import cmdScreenAssistantPlano from "@/assets/cmd-screen-assistant-plano.png";
 import cmdScreenAssistantFlow from "@/assets/cmd-screen-assistant-flow.png";
+import cmdSplashScreen from "@/assets/cmd-splash-screen.png";
 
-const TOTAL_SLIDES = 4;
+const TOTAL_SLIDES = 3;
 
 export default function CommandInfoPresentation() {
   const [currentSlide, setCurrentSlide] = useState(0);
