@@ -1832,6 +1832,18 @@ export default function IthinaAssistant() {
           onComplete={() => { setPlanogramDeployFlowOpen(false); setActionedIds(prev => new Set(prev).add("7")); }}
         />
       )}
+      {planogramMisplaceFlowOpen && (
+        <PlanogramMisplaceFlow
+          onClose={() => setPlanogramMisplaceFlowOpen(false)}
+          onComplete={() => { setPlanogramMisplaceFlowOpen(false); setActionedIds(prev => new Set(prev).add("plano-4")); }}
+        />
+      )}
+      {planogramReplenishFlowOpen && (
+        <PlanogramReplenishFlow
+          onClose={() => setPlanogramReplenishFlowOpen(false)}
+          onComplete={() => { setPlanogramReplenishFlowOpen(false); setActionedIds(prev => new Set(prev).add("plano-5")); }}
+        />
+      )}
 
       {/* Assistant Panel */}
       <div
