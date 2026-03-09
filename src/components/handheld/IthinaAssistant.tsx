@@ -48,6 +48,8 @@ interface Recommendation {
   hasPACMarginFlow?: boolean;
   hasPlanogramGapFlow?: boolean;
   hasPlanogramDeployFlow?: boolean;
+  hasPlanogramMisplaceFlow?: boolean;
+  hasPlanogramReplenishFlow?: boolean;
   itemTag?: string; // for individual item cards
 }
 
