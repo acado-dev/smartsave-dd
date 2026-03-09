@@ -1881,6 +1881,18 @@ export default function IthinaAssistant() {
           onComplete={() => { setPlanogramReplenishFlowOpen(false); setActionedIds(prev => new Set(prev).add("plano-5")); }}
         />
       )}
+      {promoCampaignFlowOpen && (
+        <PromoCampaignPushFlow
+          onClose={() => setPromoCampaignFlowOpen(false)}
+          onComplete={() => { setPromoCampaignFlowOpen(false); setActionedIds(prev => new Set(prev).add("4")); }}
+        />
+      )}
+      {promoFlashSaleFlowOpen && (
+        <PromoFlashSaleFlow
+          onClose={() => setPromoFlashSaleFlowOpen(false)}
+          onComplete={() => { setPromoFlashSaleFlowOpen(false); setActionedIds(prev => new Set(prev).add("8")); }}
+        />
+      )}
 
       {/* Assistant Panel */}
       <div
