@@ -12,6 +12,8 @@ import PlanogramGapFlow from "./flows/PlanogramGapFlow";
 import PlanogramDeployFlow from "./flows/PlanogramDeployFlow";
 import PlanogramMisplaceFlow from "./flows/PlanogramMisplaceFlow";
 import PlanogramReplenishFlow from "./flows/PlanogramReplenishFlow";
+import PromoCampaignPushFlow from "./flows/PromoCampaignPushFlow";
+import PromoFlashSaleFlow from "./flows/PromoFlashSaleFlow";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,6 +27,8 @@ const PRICE_OPT_BLUE = "hsl(221, 83%, 53%)";
 const LOW_SAL_AMBER = "hsl(38, 92%, 50%)";
 const PAC_GREEN = "hsl(152, 68%, 38%)";
 const PLANOGRAM_VIOLET = "hsl(262, 60%, 52%)";
+const PROMO_BLUE = "hsl(217, 91%, 50%)";
+const PROMO_ORANGE = "hsl(25, 95%, 53%)";
 
 type Domain = "all" | "pac" | "promotion" | "planogram" | "perishable";
 type PerishableStep = "review" | "edit" | "esl-preview" | "applied";
@@ -50,6 +54,8 @@ interface Recommendation {
   hasPlanogramDeployFlow?: boolean;
   hasPlanogramMisplaceFlow?: boolean;
   hasPlanogramReplenishFlow?: boolean;
+  hasPromoCampaignFlow?: boolean;
+  hasPromoFlashSaleFlow?: boolean;
   itemTag?: string; // for individual item cards
 }
 
@@ -251,16 +257,39 @@ const mockRecommendations: Recommendation[] = [
   {
     id: "4", domain: "promotion", priority: "medium",
     title: "Weekend promo content ready",
-    description: "New campaign assets for Saturday's 'Buy 2 Get 1' promotion are ready. 42 ESLs need template update.",
+    description: "New campaign assets for Saturday's 'Buy 2 Get 1' promotion are ready. 42 ESLs need template update across 5 aisles.",
     impact: "42 labels", action: "Push to ESLs",
-    timestamp: "18 min ago"
+    timestamp: "18 min ago",
+    hasPromoCampaignFlow: true
   },
   {
     id: "8", domain: "promotion", priority: "high",
-    title: "Flash sale underperforming",
-    description: "Current flash sale on Snacks showing 23% below target. Suggest extending to adjacent categories or increasing discount to 25%.",
-    impact: "+€180 revenue", action: "Adjust Campaign",
-    timestamp: "8 min ago"
+    title: "Flash sale underperforming · Snacks",
+    description: "Current flash sale on Snacks showing 23% below target at midday. AI suggests extending to adjacent categories and increasing discount depth to recover revenue.",
+    impact: "+€290 revenue", action: "Adjust Campaign",
+    timestamp: "8 min ago",
+    hasPromoFlashSaleFlow: true
+  },
+  {
+    id: "promo-1", domain: "promotion", priority: "high",
+    title: "Competitor promo detected · Beverages",
+    description: "Price monitoring detected rival store running 'Buy 1 Get 1 Free' on Coca-Cola 6-packs. AI recommends counter-promo: 3-for-2 on all carbonated drinks to protect footfall.",
+    impact: "Protect €420/week", action: "Counter Promo",
+    timestamp: "10 min ago"
+  },
+  {
+    id: "promo-2", domain: "promotion", priority: "medium",
+    title: "Loyalty member exclusive · Dairy",
+    description: "1,240 loyalty members haven't visited in 7+ days. AI suggests pushing exclusive 20% off Dairy promo to ESLs with loyalty QR code activation.",
+    impact: "+180 visits est.", action: "Create Campaign",
+    timestamp: "35 min ago"
+  },
+  {
+    id: "promo-3", domain: "promotion", priority: "low",
+    title: "Campaign ROI report · Last week",
+    description: "Last week's 'Fresh Friday' campaign generated €2,340 incremental revenue at 22% margin. Top performer: Bakery aisle (+41% uplift). Recommend repeating.",
+    impact: "€2,340 revenue", action: "View Report",
+    timestamp: "1 hour ago"
   },
 ];
 
@@ -1711,6 +1740,8 @@ export default function IthinaAssistant() {
   const [planogramDeployFlowOpen, setPlanogramDeployFlowOpen] = useState(false);
   const [planogramMisplaceFlowOpen, setPlanogramMisplaceFlowOpen] = useState(false);
   const [planogramReplenishFlowOpen, setPlanogramReplenishFlowOpen] = useState(false);
+  const [promoCampaignFlowOpen, setPromoCampaignFlowOpen] = useState(false);
+  const [promoFlashSaleFlowOpen, setPromoFlashSaleFlowOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
   const filteredRecs = mockRecommendations.filter(r => activeDomain === "all" || r.domain === activeDomain);
@@ -1736,6 +1767,10 @@ export default function IthinaAssistant() {
       setPlanogramMisplaceFlowOpen(true);
     } else if (rec.hasPlanogramReplenishFlow) {
       setPlanogramReplenishFlowOpen(true);
+    } else if (rec.hasPromoCampaignFlow) {
+      setPromoCampaignFlowOpen(true);
+    } else if (rec.hasPromoFlashSaleFlow) {
+      setPromoFlashSaleFlowOpen(true);
     } else {
       setActionedIds(prev => new Set(prev).add(rec.id));
     }
@@ -1753,12 +1788,14 @@ export default function IthinaAssistant() {
         else if (planogramDeployFlowOpen) setPlanogramDeployFlowOpen(false);
         else if (planogramMisplaceFlowOpen) setPlanogramMisplaceFlowOpen(false);
         else if (planogramReplenishFlowOpen) setPlanogramReplenishFlowOpen(false);
+        else if (promoCampaignFlowOpen) setPromoCampaignFlowOpen(false);
+        else if (promoFlashSaleFlowOpen) setPromoFlashSaleFlowOpen(false);
         else setIsOpen(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen, planogramMisplaceFlowOpen, planogramReplenishFlowOpen]);
+  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen, planogramMisplaceFlowOpen, planogramReplenishFlowOpen, promoCampaignFlowOpen, promoFlashSaleFlowOpen]);
 
   return (
     <>
@@ -1842,6 +1879,18 @@ export default function IthinaAssistant() {
         <PlanogramReplenishFlow
           onClose={() => setPlanogramReplenishFlowOpen(false)}
           onComplete={() => { setPlanogramReplenishFlowOpen(false); setActionedIds(prev => new Set(prev).add("plano-5")); }}
+        />
+      )}
+      {promoCampaignFlowOpen && (
+        <PromoCampaignPushFlow
+          onClose={() => setPromoCampaignFlowOpen(false)}
+          onComplete={() => { setPromoCampaignFlowOpen(false); setActionedIds(prev => new Set(prev).add("4")); }}
+        />
+      )}
+      {promoFlashSaleFlowOpen && (
+        <PromoFlashSaleFlow
+          onClose={() => setPromoFlashSaleFlowOpen(false)}
+          onComplete={() => { setPromoFlashSaleFlowOpen(false); setActionedIds(prev => new Set(prev).add("8")); }}
         />
       )}
 
@@ -1944,6 +1993,8 @@ export default function IthinaAssistant() {
                 : rec.hasPlanogramDeployFlow ? PLANOGRAM_VIOLET
                 : rec.hasPlanogramMisplaceFlow ? "hsl(0, 72%, 51%)"
                 : rec.hasPlanogramReplenishFlow ? "hsl(210, 78%, 46%)"
+                : rec.hasPromoCampaignFlow ? PROMO_BLUE
+                : rec.hasPromoFlashSaleFlow ? PROMO_ORANGE
                 : ITHINA_NAVY;
 
               return (
@@ -2034,6 +2085,18 @@ export default function IthinaAssistant() {
                       Empty Shelves → Warehouse Stock → Assign Pick → Shelf Verify → Complete
                     </div>
                   )}
+                  {rec.hasPromoCampaignFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: PROMO_BLUE }}>
+                      <Megaphone className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Select ESLs → Preview Template → Schedule → Deploy
+                    </div>
+                  )}
+                  {rec.hasPromoFlashSaleFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: PROMO_ORANGE }}>
+                      <Zap className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Review Performance → Adjust Strategy → ESL Preview → Apply
+                    </div>
+                  )}
 
                   <div className="flex items-center justify-between mt-auto pt-1 md:pt-2">
                     <div className="flex items-center gap-1.5">
@@ -2048,7 +2111,7 @@ export default function IthinaAssistant() {
                       <Button
                         size="sm"
                         className={cn("h-8 md:h-10 text-xs md:text-sm px-3 md:px-4 text-white rounded-lg gap-1 font-semibold",
-                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow || rec.hasPACMarginFlow || rec.hasPlanogramGapFlow || rec.hasPlanogramDeployFlow || rec.hasPlanogramMisplaceFlow || rec.hasPlanogramReplenishFlow) && "ring-2 ring-offset-1",
+                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow || rec.hasPACMarginFlow || rec.hasPlanogramGapFlow || rec.hasPlanogramDeployFlow || rec.hasPlanogramMisplaceFlow || rec.hasPlanogramReplenishFlow || rec.hasPromoCampaignFlow || rec.hasPromoFlashSaleFlow) && "ring-2 ring-offset-1",
                           rec.hasFlow && "ring-orange-400",
                           rec.hasPriceOptFlow && "ring-blue-400",
                           rec.hasLowSalFlow && "ring-amber-400",
@@ -2057,7 +2120,9 @@ export default function IthinaAssistant() {
                           rec.hasPlanogramGapFlow && "ring-violet-400",
                           rec.hasPlanogramDeployFlow && "ring-violet-400",
                           rec.hasPlanogramMisplaceFlow && "ring-red-400",
-                          rec.hasPlanogramReplenishFlow && "ring-blue-400"
+                          rec.hasPlanogramReplenishFlow && "ring-blue-400",
+                          rec.hasPromoCampaignFlow && "ring-blue-400",
+                          rec.hasPromoFlashSaleFlow && "ring-orange-400"
                         )}
                         style={{ backgroundColor: btnColor }}
                         onClick={() => handleAction(rec)}
