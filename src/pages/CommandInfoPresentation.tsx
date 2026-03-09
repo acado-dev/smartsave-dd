@@ -3,6 +3,10 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Maximize, Minimize, Monitor, Layers, Brain, Zap, Smartphone, Bell, BarChart3, Shield, Wifi, Tag, Camera, ShoppingCart, Database, Globe, ArrowRight, CheckCircle2, Cpu, Users, Target, Sparkles, MessageSquare, TrendingUp, Package, Eye, AlertTriangle } from "lucide-react";
 import ithinaLogoWhite from "@/assets/ithina-logo-white-full.png";
 import ithinaLogo from "@/assets/ithina-logo.png";
+import cmdScreenDashboard from "@/assets/cmd-screen-dashboard.png";
+import cmdScreenOperations from "@/assets/cmd-screen-operations.png";
+import cmdScreenHealth from "@/assets/cmd-screen-health.png";
+import cmdScreenJobs from "@/assets/cmd-screen-jobs.png";
 
 const TOTAL_SLIDES = 4;
 
