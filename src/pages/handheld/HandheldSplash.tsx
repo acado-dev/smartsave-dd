@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ithinaCommandLogo from "@/assets/ithina-command-pwa-logo.png";
+import ithinaLogoWhite from "@/assets/ithina-logo-white-full.png";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 
@@ -94,7 +94,7 @@ const HandheldSplash = () => {
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-8 gap-6 text-center">
         <img
-          src={ithinaCommandLogo}
+          src={ithinaLogoWhite}
           alt="Ithina Command"
           className="w-44 md:w-56 h-auto object-contain drop-shadow-lg"
         />
