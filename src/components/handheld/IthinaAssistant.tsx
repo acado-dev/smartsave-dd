@@ -231,6 +231,22 @@ const mockRecommendations: Recommendation[] = [
     impact: "+4% sales/m", action: "Review Proposal",
     timestamp: "2 hours ago"
   },
+  {
+    id: "plano-4", domain: "planogram", priority: "high",
+    title: "⚠️ Wrong placement · Chemicals in Kids Food zone",
+    description: "Camera AI detected Cleaning Spray and Bleach misplaced on Kids Food shelves (Bay E-03). Critical safety violation — immediate relocation to Household zone required.",
+    impact: "Safety risk", action: "Fix Now",
+    timestamp: "4 min ago",
+    hasPlanogramMisplaceFlow: true
+  },
+  {
+    id: "plano-5", domain: "planogram", priority: "high",
+    title: "Empty shelf · Coca-Cola 330ml · Warehouse in stock",
+    description: "Bay A-04 Shelf 2 is completely empty but warehouse has 48 units available (Rack B-3, Bin 14). High-velocity item selling 18 units/day — lost sales estimated at €42/day.",
+    impact: "€42/day lost", action: "Replenish Now",
+    timestamp: "6 min ago",
+    hasPlanogramReplenishFlow: true
+  },
   // Promotion
   {
     id: "4", domain: "promotion", priority: "medium",
