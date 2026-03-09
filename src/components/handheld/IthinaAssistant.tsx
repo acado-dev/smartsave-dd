@@ -10,6 +10,8 @@ import {
 import PACMarginFlow from "./flows/PACMarginFlow";
 import PlanogramGapFlow from "./flows/PlanogramGapFlow";
 import PlanogramDeployFlow from "./flows/PlanogramDeployFlow";
+import PlanogramMisplaceFlow from "./flows/PlanogramMisplaceFlow";
+import PlanogramReplenishFlow from "./flows/PlanogramReplenishFlow";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -46,6 +48,8 @@ interface Recommendation {
   hasPACMarginFlow?: boolean;
   hasPlanogramGapFlow?: boolean;
   hasPlanogramDeployFlow?: boolean;
+  hasPlanogramMisplaceFlow?: boolean;
+  hasPlanogramReplenishFlow?: boolean;
   itemTag?: string; // for individual item cards
 }
 
@@ -226,6 +230,22 @@ const mockRecommendations: Recommendation[] = [
     description: "Sales data suggests Beverages is over-spaced by 15%. Algorithm recommends reallocating 2 shelf metres to Snacks for optimal sales per metre.",
     impact: "+4% sales/m", action: "Review Proposal",
     timestamp: "2 hours ago"
+  },
+  {
+    id: "plano-4", domain: "planogram", priority: "high",
+    title: "⚠️ Wrong placement · Chemicals in Kids Food zone",
+    description: "Camera AI detected Cleaning Spray and Bleach misplaced on Kids Food shelves (Bay E-03). Critical safety violation — immediate relocation to Household zone required.",
+    impact: "Safety risk", action: "Fix Now",
+    timestamp: "4 min ago",
+    hasPlanogramMisplaceFlow: true
+  },
+  {
+    id: "plano-5", domain: "planogram", priority: "high",
+    title: "Empty shelf · Coca-Cola 330ml · Warehouse in stock",
+    description: "Bay A-04 Shelf 2 is completely empty but warehouse has 48 units available (Rack B-3, Bin 14). High-velocity item selling 18 units/day — lost sales estimated at €42/day.",
+    impact: "€42/day lost", action: "Replenish Now",
+    timestamp: "6 min ago",
+    hasPlanogramReplenishFlow: true
   },
   // Promotion
   {
@@ -1689,6 +1709,8 @@ export default function IthinaAssistant() {
   const [pacMarginFlowOpen, setPacMarginFlowOpen] = useState(false);
   const [planogramGapFlowOpen, setPlanogramGapFlowOpen] = useState(false);
   const [planogramDeployFlowOpen, setPlanogramDeployFlowOpen] = useState(false);
+  const [planogramMisplaceFlowOpen, setPlanogramMisplaceFlowOpen] = useState(false);
+  const [planogramReplenishFlowOpen, setPlanogramReplenishFlowOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
   const filteredRecs = mockRecommendations.filter(r => activeDomain === "all" || r.domain === activeDomain);
@@ -1710,6 +1732,10 @@ export default function IthinaAssistant() {
       setPlanogramGapFlowOpen(true);
     } else if (rec.hasPlanogramDeployFlow) {
       setPlanogramDeployFlowOpen(true);
+    } else if (rec.hasPlanogramMisplaceFlow) {
+      setPlanogramMisplaceFlowOpen(true);
+    } else if (rec.hasPlanogramReplenishFlow) {
+      setPlanogramReplenishFlowOpen(true);
     } else {
       setActionedIds(prev => new Set(prev).add(rec.id));
     }
@@ -1725,12 +1751,14 @@ export default function IthinaAssistant() {
         else if (pacMarginFlowOpen) setPacMarginFlowOpen(false);
         else if (planogramGapFlowOpen) setPlanogramGapFlowOpen(false);
         else if (planogramDeployFlowOpen) setPlanogramDeployFlowOpen(false);
+        else if (planogramMisplaceFlowOpen) setPlanogramMisplaceFlowOpen(false);
+        else if (planogramReplenishFlowOpen) setPlanogramReplenishFlowOpen(false);
         else setIsOpen(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen]);
+  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen, planogramMisplaceFlowOpen, planogramReplenishFlowOpen]);
 
   return (
     <>
@@ -1802,6 +1830,18 @@ export default function IthinaAssistant() {
         <PlanogramDeployFlow
           onClose={() => setPlanogramDeployFlowOpen(false)}
           onComplete={() => { setPlanogramDeployFlowOpen(false); setActionedIds(prev => new Set(prev).add("7")); }}
+        />
+      )}
+      {planogramMisplaceFlowOpen && (
+        <PlanogramMisplaceFlow
+          onClose={() => setPlanogramMisplaceFlowOpen(false)}
+          onComplete={() => { setPlanogramMisplaceFlowOpen(false); setActionedIds(prev => new Set(prev).add("plano-4")); }}
+        />
+      )}
+      {planogramReplenishFlowOpen && (
+        <PlanogramReplenishFlow
+          onClose={() => setPlanogramReplenishFlowOpen(false)}
+          onComplete={() => { setPlanogramReplenishFlowOpen(false); setActionedIds(prev => new Set(prev).add("plano-5")); }}
         />
       )}
 
@@ -1902,6 +1942,8 @@ export default function IthinaAssistant() {
                 : rec.hasPACMarginFlow ? PAC_GREEN
                 : rec.hasPlanogramGapFlow ? PLANOGRAM_VIOLET
                 : rec.hasPlanogramDeployFlow ? PLANOGRAM_VIOLET
+                : rec.hasPlanogramMisplaceFlow ? "hsl(0, 72%, 51%)"
+                : rec.hasPlanogramReplenishFlow ? "hsl(210, 78%, 46%)"
                 : ITHINA_NAVY;
 
               return (
@@ -1980,6 +2022,18 @@ export default function IthinaAssistant() {
                       Review Changes → Compare → Schedule → Deploy
                     </div>
                   )}
+                  {rec.hasPlanogramMisplaceFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2 text-red-600">
+                      <AlertTriangle className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Review Issues → Assign Relocation → Verify Fix → Resolved
+                    </div>
+                  )}
+                  {rec.hasPlanogramReplenishFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: "hsl(210, 78%, 46%)" }}>
+                      <Package className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Empty Shelves → Warehouse Stock → Assign Pick → Shelf Verify → Complete
+                    </div>
+                  )}
 
                   <div className="flex items-center justify-between mt-auto pt-1 md:pt-2">
                     <div className="flex items-center gap-1.5">
@@ -1994,14 +2048,16 @@ export default function IthinaAssistant() {
                       <Button
                         size="sm"
                         className={cn("h-8 md:h-10 text-xs md:text-sm px-3 md:px-4 text-white rounded-lg gap-1 font-semibold",
-                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow || rec.hasPACMarginFlow || rec.hasPlanogramGapFlow || rec.hasPlanogramDeployFlow) && "ring-2 ring-offset-1",
+                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow || rec.hasPACMarginFlow || rec.hasPlanogramGapFlow || rec.hasPlanogramDeployFlow || rec.hasPlanogramMisplaceFlow || rec.hasPlanogramReplenishFlow) && "ring-2 ring-offset-1",
                           rec.hasFlow && "ring-orange-400",
                           rec.hasPriceOptFlow && "ring-blue-400",
                           rec.hasLowSalFlow && "ring-amber-400",
                           rec.hasDonationFlow && "ring-2 ring-emerald-400 ring-offset-1",
                           rec.hasPACMarginFlow && "ring-emerald-400",
                           rec.hasPlanogramGapFlow && "ring-violet-400",
-                          rec.hasPlanogramDeployFlow && "ring-violet-400"
+                          rec.hasPlanogramDeployFlow && "ring-violet-400",
+                          rec.hasPlanogramMisplaceFlow && "ring-red-400",
+                          rec.hasPlanogramReplenishFlow && "ring-blue-400"
                         )}
                         style={{ backgroundColor: btnColor }}
                         onClick={() => handleAction(rec)}
