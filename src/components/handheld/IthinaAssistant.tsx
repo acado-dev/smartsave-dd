@@ -1899,6 +1899,9 @@ export default function IthinaAssistant() {
                 : rec.hasDonationFlow ? DONATE_GREEN
                 : rec.hasPriceOptFlow ? PRICE_OPT_BLUE
                 : rec.hasLowSalFlow ? LOW_SAL_AMBER
+                : rec.hasPACMarginFlow ? PAC_GREEN
+                : rec.hasPlanogramGapFlow ? PLANOGRAM_VIOLET
+                : rec.hasPlanogramDeployFlow ? PLANOGRAM_VIOLET
                 : ITHINA_NAVY;
 
               return (
