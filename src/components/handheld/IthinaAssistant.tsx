@@ -1993,6 +1993,8 @@ export default function IthinaAssistant() {
                 : rec.hasPlanogramDeployFlow ? PLANOGRAM_VIOLET
                 : rec.hasPlanogramMisplaceFlow ? "hsl(0, 72%, 51%)"
                 : rec.hasPlanogramReplenishFlow ? "hsl(210, 78%, 46%)"
+                : rec.hasPromoCampaignFlow ? PROMO_BLUE
+                : rec.hasPromoFlashSaleFlow ? PROMO_ORANGE
                 : ITHINA_NAVY;
 
               return (
