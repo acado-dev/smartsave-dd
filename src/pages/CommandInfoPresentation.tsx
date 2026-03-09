@@ -67,8 +67,8 @@ export default function CommandInfoPresentation() {
       )}
 
       {/* Slide area */}
-      <div className="flex-1 flex items-center justify-center p-4 relative">
-        <div className="w-full max-w-[1200px] aspect-[16/9] relative">
+      <div className="flex-1 flex items-center justify-center relative overflow-hidden">
+        <div className="w-full h-full relative">
           {currentSlide === 0 && <Slide1 />}
           {currentSlide === 1 && <Slide3 />}
           {currentSlide === 2 && <Slide4 />}
