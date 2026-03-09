@@ -517,45 +517,34 @@ function Slide3() {
   );
 }
 
-/* ─── SLIDE 4: AI Assistant — Screenshot showcase ─── */
+/* ─── SLIDE 4: AI Assistant — Real screenshots ─── */
 function Slide4() {
+  const screens = [
+    { src: cmdScreenAlerts, label: "Smart Alerts" },
+    { src: cmdScreenAssistantPac, label: "AI Assistant — PAC" },
+    { src: cmdScreenAssistantPlano, label: "AI Assistant — Planogram" },
+    { src: cmdScreenAssistantFlow, label: "Guided Action Flow" },
+  ];
+
   return (
     <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,10%)] to-[hsl(205,55%,16%)] border border-white/10 p-8 overflow-hidden">
       <div className="text-center mb-4">
         <span className="text-[hsl(195,100%,42%)] text-xs font-semibold tracking-[0.3em] uppercase">AI-Powered Intelligence</span>
         <h2 className="text-3xl font-bold text-white mt-1">From Data to Action — One Tap</h2>
-        <p className="text-white/50 text-sm">Ithina AI Assistant analyses store data and delivers actionable recommendations in real-time.</p>
+        <p className="text-white/50 text-sm">Smart alerts, AI recommendations, and guided action workflows — all powered by the 4P+C framework.</p>
       </div>
 
-      <div className="flex items-start justify-center gap-8">
-        {/* Left: Dashboard + Alerts side by side */}
-        <div className="flex gap-4">
-          <PhoneShell label="Notifications"><MiniAlerts /></PhoneShell>
-          <PhoneShell label="AI Assistant"><MiniAssistant /></PhoneShell>
-        </div>
-
-        {/* Right: 4P+C framework */}
-        <div className="flex flex-col justify-center gap-3 max-w-[360px] pt-2">
-          <div className="text-left mb-1">
-            <h3 className="text-white font-bold text-lg">4P+C Intelligence Framework</h3>
-            <p className="text-white/40 text-xs mt-0.5">AI assistants across every retail domain</p>
-          </div>
-          {[
-            { domain: "Perishable", color: "hsl(150,60%,45%)", desc: "Waste prediction, auto-markdown, freshness scoring" },
-            { domain: "PAC (Price)", color: "hsl(195,100%,42%)", desc: "Margin optimization, competitor response, dynamic pricing" },
-            { domain: "Planogram", color: "hsl(280,60%,55%)", desc: "Gap detection, misplacement alerts, replenishment" },
-            { domain: "Promotion", color: "hsl(35,80%,55%)", desc: "Campaign push, flash sale adjustments, ROI tracking" },
-            { domain: "Compliance", color: "hsl(340,80%,60%)", desc: "SLA monitoring, overnight sync, regulatory alerts" },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
-              <div className="w-1.5 h-8 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
-              <div>
-                <p className="text-white font-semibold text-xs">{item.domain}</p>
-                <p className="text-white/45 text-[10px]">{item.desc}</p>
+      <div className="flex items-start justify-center gap-5">
+        {screens.map((screen, i) => (
+          <div key={i} className="flex flex-col items-center gap-2">
+            <div className="bg-[hsl(205,55%,20%)] rounded-[24px] p-1.5 border-2 border-white/15 shadow-2xl shadow-black/50 w-[195px]">
+              <div className="rounded-[18px] overflow-hidden bg-white">
+                <img src={screen.src} alt={screen.label} className="w-full h-auto object-cover" style={{ maxHeight: '370px' }} />
               </div>
             </div>
-          ))}
-        </div>
+            <span className="text-white/70 text-xs font-medium">{screen.label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
