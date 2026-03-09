@@ -1930,6 +1930,8 @@ export default function IthinaAssistant() {
                 : rec.hasPACMarginFlow ? PAC_GREEN
                 : rec.hasPlanogramGapFlow ? PLANOGRAM_VIOLET
                 : rec.hasPlanogramDeployFlow ? PLANOGRAM_VIOLET
+                : rec.hasPlanogramMisplaceFlow ? "hsl(0, 72%, 51%)"
+                : rec.hasPlanogramReplenishFlow ? "hsl(210, 78%, 46%)"
                 : ITHINA_NAVY;
 
               return (
