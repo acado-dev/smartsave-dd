@@ -88,7 +88,7 @@ export default function CommandInfoPresentation() {
       </div>
 
       {/* Bottom dots */}
-      <div className="flex items-center justify-center gap-2 py-3">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
         {Array.from({ length: TOTAL_SLIDES }).map((_, i) => (
           <button
             key={i}
