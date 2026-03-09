@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ithinaLogoWhite from "@/assets/ithina-logo-white-full.png";
-import ithinaLogoColor from "@/assets/ithina-logo.png";
+import ithinaCommandLogo from "@/assets/ithina-command-logo.png";
 import { useState } from "react";
 import IthinaAssistant from "@/components/handheld/IthinaAssistant";
 
