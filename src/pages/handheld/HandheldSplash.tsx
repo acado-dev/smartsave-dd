@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ithinaCommandLogo from "@/assets/ithina-command-pwa-logo.png";
+import ithinaLogoWhite from "@/assets/ithina-logo-white-full.png";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 
