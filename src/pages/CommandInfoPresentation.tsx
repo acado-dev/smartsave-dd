@@ -110,7 +110,7 @@ export default function CommandInfoPresentation() {
 /* ─── SLIDE 1: Title ─── */
 function Slide1() {
   return (
-    <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,12%)] to-[hsl(205,55%,18%)] border border-white/10 flex items-center justify-center p-12 relative overflow-hidden">
+    <div className="w-full h-full bg-gradient-to-br from-[hsl(205,55%,12%)] to-[hsl(205,55%,18%)] flex items-center justify-center p-12 relative overflow-hidden">
       {/* Left: Splash screen in phone */}
       <div className="flex items-center gap-12">
         <div className="bg-[hsl(205,55%,20%)] rounded-[32px] p-2 border-2 border-white/15 shadow-2xl shadow-black/50 w-[260px]">
