@@ -86,6 +86,7 @@ import SmartStorePricingOptimization from "./pages/smartstore/PricingOptimizatio
 import SmartStorePricingRules from "./pages/smartstore/PricingRules";
 import InfomilPresentation from "./pages/InfomilPresentation";
 import InfomilStrategicPresentation from "./pages/InfomilStrategicPresentation";
+import CommandInfoPresentation from "./pages/CommandInfoPresentation";
 import HandheldLayout from "./pages/handheld/HandheldLayout";
 import HandheldSplash from "./pages/handheld/HandheldSplash";
 import HandheldHome from "./pages/handheld/HandheldHome";
