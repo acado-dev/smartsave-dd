@@ -1994,11 +1994,14 @@ export default function IthinaAssistant() {
                       <Button
                         size="sm"
                         className={cn("h-8 md:h-10 text-xs md:text-sm px-3 md:px-4 text-white rounded-lg gap-1 font-semibold",
-                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow) && "ring-2 ring-offset-1",
+                          (rec.hasFlow || rec.hasPriceOptFlow || rec.hasLowSalFlow || rec.hasPACMarginFlow || rec.hasPlanogramGapFlow || rec.hasPlanogramDeployFlow) && "ring-2 ring-offset-1",
                           rec.hasFlow && "ring-orange-400",
                           rec.hasPriceOptFlow && "ring-blue-400",
                           rec.hasLowSalFlow && "ring-amber-400",
-                          rec.hasDonationFlow && "ring-2 ring-emerald-400 ring-offset-1"
+                          rec.hasDonationFlow && "ring-2 ring-emerald-400 ring-offset-1",
+                          rec.hasPACMarginFlow && "ring-emerald-400",
+                          rec.hasPlanogramGapFlow && "ring-violet-400",
+                          rec.hasPlanogramDeployFlow && "ring-violet-400"
                         )}
                         style={{ backgroundColor: btnColor }}
                         onClick={() => handleAction(rec)}
