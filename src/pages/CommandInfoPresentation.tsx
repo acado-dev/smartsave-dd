@@ -70,9 +70,8 @@ export default function CommandInfoPresentation() {
       <div className="flex-1 flex items-center justify-center p-4 relative">
         <div className="w-full max-w-[1200px] aspect-[16/9] relative">
           {currentSlide === 0 && <Slide1 />}
-          {currentSlide === 1 && <Slide2 />}
-          {currentSlide === 2 && <Slide3 />}
-          {currentSlide === 3 && <Slide4 />}
+          {currentSlide === 1 && <Slide3 />}
+          {currentSlide === 2 && <Slide4 />}
         </div>
 
         {/* Nav arrows */}
