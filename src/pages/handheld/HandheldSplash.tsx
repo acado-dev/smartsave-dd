@@ -94,7 +94,7 @@ const HandheldSplash = () => {
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-8 gap-6 text-center">
         <img
-          src={ithinaCommandLogo}
+          src={ithinaLogoWhite}
           alt="Ithina Command"
           className="w-44 md:w-56 h-auto object-contain drop-shadow-lg"
         />
