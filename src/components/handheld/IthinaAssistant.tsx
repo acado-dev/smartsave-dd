@@ -4,8 +4,12 @@ import {
   ChevronRight, CheckCircle2, Clock, AlertTriangle, ArrowRight, Filter,
   ChevronLeft, Edit2, Eye, Zap, Package, Tag, Heart, Monitor,
   Building2, MapPin, Phone, CalendarClock, Truck, Leaf, Users,
-  BarChart2, ShoppingCart, TrendingDown, Target, Layers, Timer
+  BarChart2, ShoppingCart, TrendingDown, Target, Layers, Timer,
+  Camera, DollarSign, ScanLine, UserCheck
 } from "lucide-react";
+import PACMarginFlow from "./flows/PACMarginFlow";
+import PlanogramGapFlow from "./flows/PlanogramGapFlow";
+import PlanogramDeployFlow from "./flows/PlanogramDeployFlow";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +21,8 @@ const ITHINA_TEAL = "hsl(195, 100%, 42%)";
 const DONATE_GREEN = "hsl(145, 63%, 42%)";
 const PRICE_OPT_BLUE = "hsl(221, 83%, 53%)";
 const LOW_SAL_AMBER = "hsl(38, 92%, 50%)";
+const PAC_GREEN = "hsl(152, 68%, 38%)";
+const PLANOGRAM_VIOLET = "hsl(262, 60%, 52%)";
 
 type Domain = "all" | "pac" | "promotion" | "planogram" | "perishable";
 type PerishableStep = "review" | "edit" | "esl-preview" | "applied";
@@ -37,6 +43,9 @@ interface Recommendation {
   hasDonationFlow?: boolean;
   hasPriceOptFlow?: boolean;
   hasLowSalFlow?: boolean;
+  hasPACMarginFlow?: boolean;
+  hasPlanogramGapFlow?: boolean;
+  hasPlanogramDeployFlow?: boolean;
   itemTag?: string; // for individual item cards
 }
 
@@ -68,8 +77,9 @@ const mockRecommendations: Recommendation[] = [
     id: "1", domain: "pac", priority: "high",
     title: "Margin opportunity on Dairy aisle",
     description: "Price elasticity analysis shows 12% margin uplift possible on 8 SKUs without volume loss. ESL update ready.",
-    impact: "+€340/week", action: "Apply Price Update",
-    timestamp: "2 min ago"
+    impact: "+€340/week", action: "Optimise Margins",
+    timestamp: "2 min ago",
+    hasPACMarginFlow: true
   },
   {
     id: "5", domain: "pac", priority: "low",
@@ -77,6 +87,34 @@ const mockRecommendations: Recommendation[] = [
     description: "5 household items have < 0.3 sell-through rate. Consider bundling or clearance pricing.",
     impact: "Free €890 capital", action: "View Items",
     timestamp: "30 min ago"
+  },
+  {
+    id: "pac-1", domain: "pac", priority: "high",
+    title: "Cross-sell opportunity: Bakery × Coffee",
+    description: "Customers buying Fresh Bread have 68% propensity to add Coffee. Suggest co-located promotion on 3 ESLs with bundle pricing.",
+    impact: "+€210/week", action: "Create Bundle",
+    timestamp: "7 min ago"
+  },
+  {
+    id: "pac-2", domain: "pac", priority: "medium",
+    title: "Competitor price alert · 5 SKUs",
+    description: "Price scraping detected Tesco matching on 5 key Household SKUs. AI recommends tactical 5% reduction for 7 days to retain share.",
+    impact: "Protect €1.2K", action: "Review Prices",
+    timestamp: "15 min ago"
+  },
+  {
+    id: "pac-3", domain: "pac", priority: "medium",
+    title: "Category margin drift · Snacks",
+    description: "Snacks category margin has declined 2.3 pts over 4 weeks. 3 supplier cost increases not reflected in shelf price. ESL update recommended.",
+    impact: "+€180/week", action: "Adjust Pricing",
+    timestamp: "22 min ago"
+  },
+  {
+    id: "pac-4", domain: "pac", priority: "low",
+    title: "Promotional ROI analysis ready",
+    description: "Last week's 'Buy 2 Save 20%' on Beverages generated €1,840 incremental revenue at 18% margin. Algorithm recommends extending to Snacks.",
+    impact: "+€920 est.", action: "View Analysis",
+    timestamp: "1 hour ago"
   },
   // Perishable — Batch markdown
   {
@@ -153,18 +191,41 @@ const mockRecommendations: Recommendation[] = [
   },
   // Planogram
   {
-    id: "3", domain: "planogram", priority: "medium",
+    id: "3", domain: "planogram", priority: "high",
     title: "Aisle 4 compliance gap detected",
-    description: "Camera feed shows 3 facings missing in Beverages bay. Shelf replenishment needed to restore planogram compliance.",
-    impact: "92% → 100%", action: "Assign Task",
-    timestamp: "12 min ago"
+    description: "Camera feed shows 6 facings missing across 3 products in Beverages bay A-04. Shelf replenishment needed to restore planogram compliance.",
+    impact: "92% → 100%", action: "Fix Gaps",
+    timestamp: "12 min ago",
+    hasPlanogramGapFlow: true
   },
   {
-    id: "7", domain: "planogram", priority: "low",
-    title: "New planogram available",
-    description: "HQ published updated planogram for Confectionery section. Review and confirm deployment timeline.",
-    impact: "1 section", action: "Review Plan",
-    timestamp: "45 min ago"
+    id: "7", domain: "planogram", priority: "medium",
+    title: "New planogram available · Confectionery v3.2",
+    description: "HQ published updated planogram for Confectionery section. Includes 2 new listings, 2 repositions, and 1 discontinuation. Review and schedule deployment.",
+    impact: "6 changes", action: "Deploy Plan",
+    timestamp: "45 min ago",
+    hasPlanogramDeployFlow: true
+  },
+  {
+    id: "plano-1", domain: "planogram", priority: "high",
+    title: "Endcap seasonal reset overdue",
+    description: "Easter endcap on Aisle 2 is 3 days past reset date. New summer seasonal planogram ready for deployment. Revenue uplift estimated at +12%.",
+    impact: "+12% rev", action: "Reset Now",
+    timestamp: "5 min ago"
+  },
+  {
+    id: "plano-2", domain: "planogram", priority: "medium",
+    title: "Overnight shelf audit: 94% compliance",
+    description: "Automated camera audit completed at 6am. 12 out of 198 facings deviate from planogram across 4 aisles. Top issue: Aisle 4 Beverages bay.",
+    impact: "6% gap", action: "View Report",
+    timestamp: "1 hour ago"
+  },
+  {
+    id: "plano-3", domain: "planogram", priority: "low",
+    title: "Category space reallocation · Beverages",
+    description: "Sales data suggests Beverages is over-spaced by 15%. Algorithm recommends reallocating 2 shelf metres to Snacks for optimal sales per metre.",
+    impact: "+4% sales/m", action: "Review Proposal",
+    timestamp: "2 hours ago"
   },
   // Promotion
   {
@@ -1625,6 +1686,9 @@ export default function IthinaAssistant() {
   const [donationFlowOpen, setDonationFlowOpen] = useState(false);
   const [priceOptFlowOpen, setPriceOptFlowOpen] = useState(false);
   const [lowSalFlowOpen, setLowSalFlowOpen] = useState(false);
+  const [pacMarginFlowOpen, setPacMarginFlowOpen] = useState(false);
+  const [planogramGapFlowOpen, setPlanogramGapFlowOpen] = useState(false);
+  const [planogramDeployFlowOpen, setPlanogramDeployFlowOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
   const filteredRecs = mockRecommendations.filter(r => activeDomain === "all" || r.domain === activeDomain);
@@ -1640,6 +1704,12 @@ export default function IthinaAssistant() {
       setPriceOptFlowOpen(true);
     } else if (rec.hasLowSalFlow) {
       setLowSalFlowOpen(true);
+    } else if (rec.hasPACMarginFlow) {
+      setPacMarginFlowOpen(true);
+    } else if (rec.hasPlanogramGapFlow) {
+      setPlanogramGapFlowOpen(true);
+    } else if (rec.hasPlanogramDeployFlow) {
+      setPlanogramDeployFlowOpen(true);
     } else {
       setActionedIds(prev => new Set(prev).add(rec.id));
     }
@@ -1652,12 +1722,15 @@ export default function IthinaAssistant() {
         else if (donationFlowOpen) setDonationFlowOpen(false);
         else if (priceOptFlowOpen) setPriceOptFlowOpen(false);
         else if (lowSalFlowOpen) setLowSalFlowOpen(false);
+        else if (pacMarginFlowOpen) setPacMarginFlowOpen(false);
+        else if (planogramGapFlowOpen) setPlanogramGapFlowOpen(false);
+        else if (planogramDeployFlowOpen) setPlanogramDeployFlowOpen(false);
         else setIsOpen(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen]);
+  }, [perishableFlowOpen, donationFlowOpen, priceOptFlowOpen, lowSalFlowOpen, pacMarginFlowOpen, planogramGapFlowOpen, planogramDeployFlowOpen]);
 
   return (
     <>
@@ -1711,6 +1784,24 @@ export default function IthinaAssistant() {
         <LowSalFlow
           onClose={() => setLowSalFlowOpen(false)}
           onComplete={() => { setLowSalFlowOpen(false); setActionedIds(prev => new Set(prev).add("10")); }}
+        />
+      )}
+      {pacMarginFlowOpen && (
+        <PACMarginFlow
+          onClose={() => setPacMarginFlowOpen(false)}
+          onComplete={() => { setPacMarginFlowOpen(false); setActionedIds(prev => new Set(prev).add("1")); }}
+        />
+      )}
+      {planogramGapFlowOpen && (
+        <PlanogramGapFlow
+          onClose={() => setPlanogramGapFlowOpen(false)}
+          onComplete={() => { setPlanogramGapFlowOpen(false); setActionedIds(prev => new Set(prev).add("3")); }}
+        />
+      )}
+      {planogramDeployFlowOpen && (
+        <PlanogramDeployFlow
+          onClose={() => setPlanogramDeployFlowOpen(false)}
+          onComplete={() => { setPlanogramDeployFlowOpen(false); setActionedIds(prev => new Set(prev).add("7")); }}
         />
       )}
 
@@ -1866,6 +1957,24 @@ export default function IthinaAssistant() {
                     <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: LOW_SAL_AMBER }}>
                       <TrendingDown className="h-3 w-3 md:h-3.5 md:w-3.5" />
                       Review → Choose Action → Confirm → Apply
+                    </div>
+                  )}
+                  {rec.hasPACMarginFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: PAC_GREEN }}>
+                      <DollarSign className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Review SKUs → Adjust Prices → ESL Preview → Apply
+                    </div>
+                  )}
+                  {rec.hasPlanogramGapFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: PLANOGRAM_VIOLET }}>
+                      <Camera className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Review Gaps → Assign Task → Photo Verify → Resolved
+                    </div>
+                  )}
+                  {rec.hasPlanogramDeployFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: PLANOGRAM_VIOLET }}>
+                      <LayoutGrid className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Review Changes → Compare → Schedule → Deploy
                     </div>
                   )}
 
