@@ -498,7 +498,7 @@ function Slide3() {
   ];
 
   return (
-    <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[hsl(205,55%,10%)] to-[hsl(205,55%,16%)] border border-white/10 p-8 overflow-hidden">
+    <div className="w-full h-full bg-gradient-to-br from-[hsl(205,55%,10%)] to-[hsl(205,55%,16%)] p-8 overflow-hidden flex flex-col">
       <div className="text-center mb-4">
         <span className="text-[hsl(195,100%,42%)] text-xs font-semibold tracking-[0.3em] uppercase">Store Operations</span>
         <h2 className="text-3xl font-bold text-white mt-1">Complete Store Control in Your Hand</h2>
