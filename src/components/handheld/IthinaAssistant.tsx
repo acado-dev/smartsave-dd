@@ -2010,6 +2010,18 @@ export default function IthinaAssistant() {
                       Review Changes → Compare → Schedule → Deploy
                     </div>
                   )}
+                  {rec.hasPlanogramMisplaceFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2 text-red-600">
+                      <AlertTriangle className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Review Issues → Assign Relocation → Verify Fix → Resolved
+                    </div>
+                  )}
+                  {rec.hasPlanogramReplenishFlow && !isActioned && (
+                    <div className="flex items-center gap-1 text-[10px] md:text-sm font-semibold mb-2" style={{ color: "hsl(210, 78%, 46%)" }}>
+                      <Package className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      Empty Shelves → Warehouse Stock → Assign Pick → Shelf Verify → Complete
+                    </div>
+                  )}
 
                   <div className="flex items-center justify-between mt-auto pt-1 md:pt-2">
                     <div className="flex items-center gap-1.5">
