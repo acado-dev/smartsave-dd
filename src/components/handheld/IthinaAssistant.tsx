@@ -1740,6 +1740,8 @@ export default function IthinaAssistant() {
   const [planogramDeployFlowOpen, setPlanogramDeployFlowOpen] = useState(false);
   const [planogramMisplaceFlowOpen, setPlanogramMisplaceFlowOpen] = useState(false);
   const [planogramReplenishFlowOpen, setPlanogramReplenishFlowOpen] = useState(false);
+  const [promoCampaignFlowOpen, setPromoCampaignFlowOpen] = useState(false);
+  const [promoFlashSaleFlowOpen, setPromoFlashSaleFlowOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
   const filteredRecs = mockRecommendations.filter(r => activeDomain === "all" || r.domain === activeDomain);
