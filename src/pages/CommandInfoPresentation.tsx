@@ -505,7 +505,7 @@ function Slide3() {
         <p className="text-white/50 text-sm">Real-time dashboard, 10+ ESL operations, battery intelligence, and job management — all from one app.</p>
       </div>
 
-      <div className="flex items-start justify-center gap-5">
+      <div className="flex-1 flex items-center justify-center gap-6">
         {screens.map((screen, i) => (
           <div key={i} className="flex flex-col items-center gap-2">
             <div className="bg-[hsl(205,55%,20%)] rounded-[24px] p-1.5 border-2 border-white/15 shadow-2xl shadow-black/50 w-[195px]">
