@@ -150,6 +150,15 @@ import ITHNCommandAPStatus from "./pages/ithncommand/ITHNCommandAPStatus";
 import ITHNCommandOvernightStatus from "./pages/ithncommand/ITHNCommandOvernightStatus";
 import ITHNCommandOnlineESLs from "./pages/ithncommand/status/ITHNCommandOnlineESLs";
 import ITHNCommandOfflineESLs from "./pages/ithncommand/status/ITHNCommandOfflineESLs";
+import { SuperadminLayout } from "./components/layouts/SuperadminLayout";
+import SuperadminDashboard from "./pages/superadmin/SuperadminDashboard";
+import SuperadminTenants from "./pages/superadmin/TenantsPage";
+import SuperadminOrganization from "./pages/superadmin/OrganizationTree";
+import SuperadminUsers from "./pages/superadmin/UsersPage";
+import SuperadminRoles from "./pages/superadmin/RolesPermissions";
+import SuperadminModules from "./pages/superadmin/ModuleAccess";
+import SuperadminGuardrails from "./pages/superadmin/GuardrailsPanel";
+import SuperadminAudit from "./pages/superadmin/AuditLog";
 
 const queryClient = new QueryClient();
 
@@ -330,6 +339,16 @@ const App = () => (
             <Route path="status/offline" element={<ITHNCommandOfflineESLs />} />
           </Route>
           
+          {/* Superadmin / DD Brain RBAC Console */}
+          <Route path="/superadmin" element={<SuperadminLayout><SuperadminDashboard /></SuperadminLayout>} />
+          <Route path="/superadmin/tenants" element={<SuperadminLayout><SuperadminTenants /></SuperadminLayout>} />
+          <Route path="/superadmin/organization" element={<SuperadminLayout><SuperadminOrganization /></SuperadminLayout>} />
+          <Route path="/superadmin/users" element={<SuperadminLayout><SuperadminUsers /></SuperadminLayout>} />
+          <Route path="/superadmin/roles" element={<SuperadminLayout><SuperadminRoles /></SuperadminLayout>} />
+          <Route path="/superadmin/modules" element={<SuperadminLayout><SuperadminModules /></SuperadminLayout>} />
+          <Route path="/superadmin/guardrails" element={<SuperadminLayout><SuperadminGuardrails /></SuperadminLayout>} />
+          <Route path="/superadmin/audit" element={<SuperadminLayout><SuperadminAudit /></SuperadminLayout>} />
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
