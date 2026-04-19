@@ -56,7 +56,10 @@ export function SuperadminSidebar() {
       ? "bg-[hsl(217,91%,60%)]/15 text-[hsl(217,91%,75%)] font-medium border-l-2 border-[hsl(217,91%,60%)]"
       : "text-slate-300 hover:bg-white/5 hover:text-white border-l-2 border-transparent";
 
-  const renderGroup = (label: string, items: typeof overview) => (
+  const renderGroup = (
+    label: string,
+    items: Array<{ title: string; url: string; icon: any; end?: boolean }>,
+  ) => (
     <SidebarGroup>
       {!collapsed && (
         <SidebarGroupLabel className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500 px-3 mt-2">
