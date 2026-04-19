@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -13,46 +12,6 @@ export default defineConfig(({ mode }) => ({
     plugins: [
         react(),
         mode === "development" && componentTagger(),
-        VitePWA({
-            registerType: "autoUpdate",
-            strategies: 'generateSW',
-            includeAssets: ["favicon.ico", "pwa-192x192.png", "pwa-512x512_v2.png", "robots.txt"],
-            workbox: {
-                maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-                navigateFallbackDenylist: [/^\/~oauth/, /^\/superadmin/, /^\/admin/, /^\/management/, /^\/zabka/, /^\/smartstore/, /^\/handheld/, /^\/hhtlight/, /^\/ithncommand/, /^\/esl/, /^\/freshness/, /^\/commandinfo/, /^\/infomil/],
-            },
-            manifest: {
-                id: "/",
-                name: "Handheld - By Ithina",
-                short_name: "Handheld",
-                description: "Track and analyze grocery freshness with AI",
-                theme_color: "#153247",
-                background_color: "#153247",
-                display: "standalone",
-                start_url: "/",
-                icons: [
-                    {
-                        src: "pwa-192x192.png",
-                        sizes: "192x192",
-                        type: "image/png",
-                    },
-                    {
-                        src: "pwa-512x512_v2.png", 
-                        sizes: "512x512",
-                        type: "image/png",
-                    },
-                    {
-                        src: "pwa-512x512_v2.png",
-                        sizes: "512x512",
-                        type: "image/png",
-                        purpose: "any maskable",
-                    },
-                ],
-            },
-            devOptions: {
-                enabled: false,
-            },
-        }),
     ].filter(Boolean),
     resolve: {
         alias: {
