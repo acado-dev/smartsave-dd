@@ -1,10 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
-import { modules, tenants } from "@/data/superadminData";
+import { modules } from "@/data/superadminData";
 import { Boxes, Check, X } from "lucide-react";
+import { useSuperadminStore, superadminActions } from "@/hooks/useSuperadminStore";
 
 export default function ModuleAccess() {
+  const { tenants } = useSuperadminStore();
+
   return (
     <div className="space-y-6">
       <div>
@@ -14,10 +16,9 @@ export default function ModuleAccess() {
         </p>
       </div>
 
-      {/* Module catalog */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {modules.map(m => {
-          const enabledCount = tenants.filter(t => t.modules.includes(m.key)).length;
+        {modules.map((m) => {
+          const enabledCount = tenants.filter((t) => t.modules.includes(m.key)).length;
           return (
             <Card key={m.key} className="bg-white/5 border-white/10">
               <CardContent className="p-4">
@@ -40,20 +41,19 @@ export default function ModuleAccess() {
         })}
       </div>
 
-      {/* Tenant × Module matrix */}
       <Card className="bg-white/5 border-white/10">
         <CardContent className="p-0 overflow-auto">
           <table className="w-full text-sm">
             <thead className="border-b border-white/10 text-[11px] uppercase tracking-wider text-slate-500">
               <tr>
                 <th className="text-left px-4 py-3 font-medium sticky left-0 bg-[hsl(222,47%,9%)]">Tenant</th>
-                {modules.map(m => (
+                {modules.map((m) => (
                   <th key={m.key} className="text-center px-3 py-3 font-medium min-w-[120px]">{m.name}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {tenants.map(t => (
+              {tenants.map((t) => (
                 <tr key={t.id} className="border-b border-white/5 hover:bg-white/[0.03]">
                   <td className="px-4 py-3 sticky left-0 bg-[hsl(222,47%,9%)] border-r border-white/5">
                     <div className="flex items-center gap-2">
@@ -66,12 +66,15 @@ export default function ModuleAccess() {
                       </div>
                     </div>
                   </td>
-                  {modules.map(m => {
+                  {modules.map((m) => {
                     const enabled = t.modules.includes(m.key);
                     return (
                       <td key={m.key} className="px-3 py-3 text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <Switch checked={enabled} />
+                          <Switch
+                            checked={enabled}
+                            onCheckedChange={(v) => superadminActions.toggleModule(t.id, m.key, !!v)}
+                          />
                           {enabled
                             ? <Check className="h-3 w-3 text-emerald-400" />
                             : <X className="h-3 w-3 text-slate-600" />}

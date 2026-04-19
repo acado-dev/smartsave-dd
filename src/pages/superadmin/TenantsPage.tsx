@@ -4,9 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-import { Switch } from "@/components/ui/switch";
-import { tenants, modules } from "@/data/superadminData";
-import { Search, Plus, Building2, Users, Store, DollarSign, MoreVertical } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { modules, type Tenant } from "@/data/superadminData";
+import { useSuperadminStore, superadminActions } from "@/hooks/useSuperadminStore";
+import { Search, Plus, Users, Store, DollarSign, MoreVertical, Pencil, Trash2, Power } from "lucide-react";
+import { TenantFormDialog } from "@/components/superadmin/TenantFormDialog";
+import { ConfirmDeleteDialog } from "@/components/superadmin/ConfirmDeleteDialog";
+import { toast } from "sonner";
 
 const tierStyle: Record<string, string> = {
   Enterprise: "border-[hsl(262,60%,55%)]/40 text-[hsl(262,60%,75%)] bg-[hsl(262,60%,55%)]/10",
@@ -14,7 +18,6 @@ const tierStyle: Record<string, string> = {
   SMB: "border-[hsl(187,70%,42%)]/40 text-[hsl(187,70%,62%)] bg-[hsl(187,70%,42%)]/10",
   "Single-Store": "border-slate-500/40 text-slate-300 bg-slate-500/10",
 };
-
 const statusStyle: Record<string, string> = {
   active: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
   trial: "bg-amber-500/15 text-amber-300 border-amber-500/30",
@@ -22,15 +25,27 @@ const statusStyle: Record<string, string> = {
 };
 
 export default function TenantsPage() {
+  const { tenants } = useSuperadminStore();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<string>("all");
-  const [selected, setSelected] = useState<typeof tenants[0] | null>(null);
+  const [selected, setSelected] = useState<Tenant | null>(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editing, setEditing] = useState<Tenant | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<Tenant | null>(null);
 
-  const filtered = tenants.filter(t => {
+  const filtered = tenants.filter((t) => {
     const match = t.name.toLowerCase().includes(q.toLowerCase()) || t.industry.toLowerCase().includes(q.toLowerCase());
     const tier = filter === "all" || t.tier === filter;
     return match && tier;
   });
+
+  const openCreate = () => { setEditing(null); setFormOpen(true); };
+  const openEdit = (t: Tenant) => { setEditing(t); setFormOpen(true); setSelected(null); };
+  const toggleSuspend = (t: Tenant) => {
+    superadminActions.updateTenant(t.id, { status: t.status === "active" ? "suspended" : "active" });
+    toast.success(`${t.name} ${t.status === "active" ? "suspended" : "reactivated"}`);
+    setSelected(null);
+  };
 
   return (
     <div className="space-y-6">
@@ -41,7 +56,7 @@ export default function TenantsPage() {
             {tenants.length} client organizations · {tenants.reduce((s, t) => s + t.storesCount, 0).toLocaleString()} stores
           </p>
         </div>
-        <Button className="bg-[hsl(217,91%,60%)] hover:bg-[hsl(217,91%,55%)] text-white">
+        <Button onClick={openCreate} className="bg-[hsl(217,91%,60%)] hover:bg-[hsl(217,91%,55%)] text-white">
           <Plus className="h-4 w-4 mr-2" /> Provision tenant
         </Button>
       </div>
@@ -49,11 +64,11 @@ export default function TenantsPage() {
       <div className="flex gap-3 items-center">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-          <Input placeholder="Search tenants…" value={q} onChange={e => setQ(e.target.value)}
+          <Input placeholder="Search tenants…" value={q} onChange={(e) => setQ(e.target.value)}
             className="pl-9 bg-white/5 border-white/10 text-slate-200" />
         </div>
         <div className="flex gap-1 bg-white/5 border border-white/10 rounded-lg p-1">
-          {["all", "Enterprise", "Mid-Market", "SMB", "Single-Store"].map(f => (
+          {["all", "Enterprise", "Mid-Market", "SMB", "Single-Store"].map((f) => (
             <button key={f} onClick={() => setFilter(f)}
               className={`px-3 py-1 text-xs rounded ${filter === f ? "bg-[hsl(217,91%,60%)] text-white" : "text-slate-400 hover:text-white"}`}>
               {f === "all" ? "All" : f}
@@ -63,12 +78,11 @@ export default function TenantsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {filtered.map(t => (
-          <Card key={t.id} onClick={() => setSelected(t)}
-            className="bg-white/5 border-white/10 hover:border-[hsl(217,91%,60%)]/40 cursor-pointer transition">
+        {filtered.map((t) => (
+          <Card key={t.id} className="bg-white/5 border-white/10 hover:border-[hsl(217,91%,60%)]/40 transition">
             <CardContent className="p-5">
               <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
+                <div onClick={() => setSelected(t)} className="flex items-center gap-3 cursor-pointer flex-1">
                   <div className="h-11 w-11 rounded-lg bg-gradient-to-br from-[hsl(217,91%,60%)]/30 to-[hsl(262,60%,55%)]/30 flex items-center justify-center text-white text-sm font-bold">
                     {t.name.slice(0, 2).toUpperCase()}
                   </div>
@@ -77,7 +91,21 @@ export default function TenantsPage() {
                     <div className="text-[11px] text-slate-400">{t.industry} · {t.country}</div>
                   </div>
                 </div>
-                <button className="text-slate-500 hover:text-white"><MoreVertical className="h-4 w-4" /></button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="text-slate-500 hover:text-white p-1"><MoreVertical className="h-4 w-4" /></button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200">
+                    <DropdownMenuItem onClick={() => openEdit(t)} className="cursor-pointer"><Pencil className="h-3.5 w-3.5 mr-2" /> Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => toggleSuspend(t)} className="cursor-pointer">
+                      <Power className="h-3.5 w-3.5 mr-2" /> {t.status === "active" ? "Suspend" : "Reactivate"}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem onClick={() => setConfirmDelete(t)} className="cursor-pointer text-[hsl(4,84%,75%)] focus:text-[hsl(4,84%,75%)]">
+                      <Trash2 className="h-3.5 w-3.5 mr-2" /> Delete tenant
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
               <div className="flex gap-2 mb-3">
@@ -92,8 +120,8 @@ export default function TenantsPage() {
               </div>
 
               <div className="flex flex-wrap gap-1">
-                {t.modules.slice(0, 4).map(m => {
-                  const mod = modules.find(x => x.key === m);
+                {t.modules.slice(0, 4).map((m) => {
+                  const mod = modules.find((x) => x.key === m);
                   return mod ? (
                     <span key={m} className="text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
                       {mod.name}
@@ -109,7 +137,7 @@ export default function TenantsPage() {
         ))}
       </div>
 
-      {/* Tenant detail sheet */}
+      {/* Detail sheet */}
       <Sheet open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
         <SheetContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[480px] sm:max-w-[480px]">
           {selected && (
@@ -132,25 +160,20 @@ export default function TenantsPage() {
                   <div className="text-xs text-slate-400">{selected.contactEmail}</div>
                 </div>
                 <div>
-                  <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Modules enabled</div>
-                  <div className="space-y-2">
-                    {modules.map(m => (
-                      <div key={m.key} className="flex items-center justify-between p-2.5 rounded bg-white/5 border border-white/5">
-                        <div>
-                          <div className="text-sm text-white">{m.name}</div>
-                          <div className="text-[11px] text-slate-400">{m.description}</div>
-                        </div>
-                        <Switch checked={selected.modules.includes(m.key)} />
-                      </div>
-                    ))}
+                  <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Modules enabled ({selected.modules.length})</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selected.modules.map((mk) => {
+                      const m = modules.find((x) => x.key === mk);
+                      return m ? <Badge key={mk} variant="outline" className="border-white/10 text-slate-300 bg-white/5">{m.name}</Badge> : null;
+                    })}
                   </div>
                 </div>
                 <div className="flex gap-2 pt-2">
-                  <Button variant="outline" className="flex-1 bg-transparent border-white/20 text-white hover:bg-white/5">
-                    Impersonate owner
+                  <Button onClick={() => openEdit(selected)} variant="outline" className="flex-1 bg-transparent border-white/20 text-white hover:bg-white/5">
+                    <Pencil className="h-3.5 w-3.5 mr-2" /> Edit tenant
                   </Button>
-                  <Button className="flex-1 bg-[hsl(4,84%,55%)] hover:bg-[hsl(4,84%,50%)] text-white">
-                    Suspend tenant
+                  <Button onClick={() => toggleSuspend(selected)} className="flex-1 bg-[hsl(4,84%,55%)] hover:bg-[hsl(4,84%,50%)] text-white">
+                    <Power className="h-3.5 w-3.5 mr-2" /> {selected.status === "active" ? "Suspend" : "Reactivate"}
                   </Button>
                 </div>
               </div>
@@ -158,6 +181,21 @@ export default function TenantsPage() {
           )}
         </SheetContent>
       </Sheet>
+
+      <TenantFormDialog open={formOpen} onOpenChange={setFormOpen} tenant={editing} />
+      <ConfirmDeleteDialog
+        open={!!confirmDelete}
+        onOpenChange={(o) => !o && setConfirmDelete(null)}
+        title={`Delete ${confirmDelete?.name}?`}
+        description="This permanently removes the tenant, its org tree, and its users from the platform. This action cannot be undone."
+        onConfirm={() => {
+          if (confirmDelete) {
+            superadminActions.deleteTenant(confirmDelete.id);
+            toast.success(`${confirmDelete.name} deleted`);
+            setConfirmDelete(null);
+          }
+        }}
+      />
     </div>
   );
 }
