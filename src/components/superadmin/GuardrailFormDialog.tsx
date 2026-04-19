@@ -61,7 +61,7 @@ export function GuardrailFormDialog({ open, onOpenChange, rule }: Props) {
       setErrors(errs);
       return;
     }
-    const data = { ...parsed.data, module: parsed.data.module as ModuleKey };
+    const data = { ...parsed.data, module: parsed.data.module as ModuleKey } as Omit<GuardrailRule, "id">;
     if (isEdit && rule) {
       superadminActions.updateGuardrail(rule.id, data);
       toast.success(`Guardrail "${data.name}" updated`);

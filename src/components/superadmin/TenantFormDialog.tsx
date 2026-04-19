@@ -70,7 +70,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
       setErrors(errs);
       return;
     }
-    const data = { ...parsed.data, modules: parsed.data.modules as ModuleKey[] };
+    const data = { ...parsed.data, modules: parsed.data.modules as ModuleKey[] } as Omit<Tenant, "id" | "createdAt" | "usersCount" | "storesCount"> & { storesCount: number };
     if (isEdit && tenant) {
       superadminActions.updateTenant(tenant.id, data);
       toast.success(`${data.name} updated`);

@@ -60,7 +60,7 @@ export function RoleFormDialog({ open, onOpenChange, role }: Props) {
     const data = {
       ...parsed.data,
       tenantId: parsed.data.type === "Tenant" ? parsed.data.tenantId || undefined : undefined,
-    };
+    } as Omit<Role, "id" | "usersCount">;
     if (isEdit && role) {
       superadminActions.updateRole(role.id, data);
       toast.success(`Role "${data.name}" updated`);

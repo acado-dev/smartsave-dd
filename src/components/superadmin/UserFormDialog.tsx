@@ -65,12 +65,13 @@ export function UserFormDialog({ open, onOpenChange, user }: Props) {
       setErrors(errs);
       return;
     }
+    const data = parsed.data as Omit<User, "id" | "lastActive">;
     if (isEdit && user) {
-      superadminActions.updateUser(user.id, parsed.data);
-      toast.success(`${parsed.data.name} updated`);
+      superadminActions.updateUser(user.id, data);
+      toast.success(`${data.name} updated`);
     } else {
-      superadminActions.createUser(parsed.data);
-      toast.success(`${parsed.data.name} invited`);
+      superadminActions.createUser(data);
+      toast.success(`${data.name} invited`);
     }
     onOpenChange(false);
   };

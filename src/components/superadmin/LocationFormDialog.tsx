@@ -55,7 +55,7 @@ export function LocationFormDialog({ open, onOpenChange, tenantId, location, def
       setErrors(errs);
       return;
     }
-    const data = { ...parsed.data, code: parsed.data.code || undefined };
+    const data = { ...parsed.data, code: parsed.data.code || undefined } as Omit<Location, "id">;
     if (isEdit && location) {
       superadminActions.updateLocation(location.id, data);
       toast.success(`${data.name} updated`);
