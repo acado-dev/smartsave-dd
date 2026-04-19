@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => ({
             includeAssets: ["favicon.ico", "pwa-192x192.png", "pwa-512x512_v2.png", "robots.txt"],
             workbox: {
                 maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+                navigateFallbackDenylist: [/^\/~oauth/, /^\/superadmin/, /^\/admin/, /^\/management/, /^\/zabka/, /^\/smartstore/, /^\/handheld/, /^\/hhtlight/, /^\/ithncommand/, /^\/esl/, /^\/freshness/, /^\/commandinfo/, /^\/infomil/],
             },
             manifest: {
                 id: "/",
@@ -49,8 +50,7 @@ export default defineConfig(({ mode }) => ({
                 ],
             },
             devOptions: {
-                enabled: true,
-                // type: 'module',
+                enabled: false,
             },
         }),
     ].filter(Boolean),
