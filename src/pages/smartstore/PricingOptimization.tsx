@@ -55,8 +55,41 @@ export default function PricingOptimization() {
 
   const handleViewOptimization = (item: any) => {
     setSelectedItem(item);
-    setOptimizationData(generateOptimizationData(item));
+    const data = generateOptimizationData(item);
+    setOptimizationData(data);
+    setSuggestedSnapshot(data.map(d => ({ ...d })));
     setDialogOpen(true);
+  };
+
+  const handleDiscountEdit = (index: number, newDiscount: number) => {
+    if (!selectedItem) return;
+    const clamped = Math.max(0, Math.min(90, isNaN(newDiscount) ? 0 : newDiscount));
+    setOptimizationData(prev => prev.map((d, i) => {
+      if (i !== index) return d;
+      const newPrice = parseFloat((selectedItem.price * (1 - clamped / 100)).toFixed(2));
+      return { ...d, discount: Math.round(clamped), suggestedPrice: newPrice };
+    }));
+  };
+
+  const hasChanges = optimizationData.some((d, i) =>
+    suggestedSnapshot[i] && (d.discount !== suggestedSnapshot[i].discount)
+  );
+
+  const handleApply = () => {
+    setAppliedSnapshot({
+      suggested: suggestedSnapshot.map(d => ({ ...d })),
+      applied: optimizationData.map(d => ({ ...d })),
+      item: selectedItem,
+    });
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmApply = () => {
+    setConfirmOpen(false);
+    setDialogOpen(false);
+    toast.success("Pricing strategy applied to ESL", {
+      description: `${appliedSnapshot?.item?.name} — ${appliedSnapshot?.applied.length} time slots scheduled`,
+    });
   };
 
   const getTotalValue = (data: OptimizationData[]) => {
