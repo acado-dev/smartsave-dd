@@ -60,17 +60,24 @@ export default function PricingOptimization() {
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
+      const d = payload[0].payload;
       return (
-        <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-          <p className="font-semibold text-sm">{payload[0].payload.time}</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            Quantity: <span className="font-medium text-foreground">{payload[0].value} units</span>
+        <div className="bg-background border border-border rounded-lg p-3 shadow-lg space-y-1">
+          <p className="font-semibold text-sm">{d.time}</p>
+          <p className="text-sm flex items-center gap-2">
+            <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: 'hsl(var(--chart-1, 217 91% 60%))' }} />
+            <span className="text-muted-foreground">Remaining:</span>
+            <span className="font-medium text-foreground">{d.quantity} units</span>
           </p>
-          <p className="text-sm text-muted-foreground">
-            Price: <span className="font-medium text-primary">${payload[1].value}</span>
+          <p className="text-sm flex items-center gap-2">
+            <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: 'hsl(var(--chart-2, 142 76% 36%))' }} />
+            <span className="text-muted-foreground">Price:</span>
+            <span className="font-medium text-foreground">${d.suggestedPrice.toFixed(2)}</span>
           </p>
-          <p className="text-sm text-muted-foreground">
-            Discount: <span className="font-medium text-destructive">{payload[0].payload.discount}%</span>
+          <p className="text-sm flex items-center gap-2">
+            <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: 'hsl(var(--chart-3, 25 95% 53%))' }} />
+            <span className="text-muted-foreground">Discount:</span>
+            <span className="font-medium text-foreground">{d.discount}%</span>
           </p>
         </div>
       );
