@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Trash2, TrendingDown, TrendingUp, DollarSign, Download } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
+import { Trash2, TrendingDown, TrendingUp, DollarSign, Download, AlertTriangle, Lightbulb, Target, Heart, Tag, Boxes, CheckCircle2 } from "lucide-react";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts";
+import { toast } from "sonner";
 
 const wasteData = [
   { date: "2025-11-20", category: "Food-to-Go", items: 34, weight: 12.5, value: 156.80, reason: "Expiry", action: "Discarded" },
