@@ -244,14 +244,36 @@ export default function PricingOptimization() {
               {/* Graph */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-base">Quantity & Price Timeline</CardTitle>
+                  <CardTitle className="text-base">Inventory Depletion vs. Price Strategy</CardTitle>
                   <CardDescription>
-                    Real-time inventory reduction with dynamic pricing throughout the day
+                    As stock burns down through the day, price drops and discount deepens to accelerate sell-through
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
+                  {/* Color-coded legend strip */}
+                  <div className="flex flex-wrap gap-4 mb-4 p-3 rounded-md bg-muted/40 border border-border">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-block w-4 h-3 rounded-sm" style={{ background: 'hsl(217 91% 60% / 0.35)', border: '1px solid hsl(217 91% 60%)' }} />
+                      <span className="text-xs font-medium">Remaining Inventory (units)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-block w-4 h-0.5" style={{ background: 'hsl(142 76% 36%)' }} />
+                      <span className="inline-block w-1.5 h-1.5 rounded-full -ml-3" style={{ background: 'hsl(142 76% 36%)' }} />
+                      <span className="text-xs font-medium ml-1">Suggested Price ($)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-block w-3 h-3 rounded-sm" style={{ background: 'hsl(25 95% 53%)' }} />
+                      <span className="text-xs font-medium">Discount Applied (%)</span>
+                    </div>
+                  </div>
                   <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={optimizationData}>
+                    <ComposedChart data={optimizationData} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
+                      <defs>
+                        <linearGradient id="qtyGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="hsl(217 91% 60%)" stopOpacity={0.5} />
+                          <stop offset="100%" stopColor="hsl(217 91% 60%)" stopOpacity={0.05} />
+                        </linearGradient>
+                      </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                       <XAxis 
                         dataKey="time" 
@@ -260,46 +282,58 @@ export default function PricingOptimization() {
                       />
                       <YAxis 
                         yAxisId="left"
-                        stroke="hsl(var(--muted-foreground))"
+                        stroke="hsl(217 91% 60%)"
                         style={{ fontSize: '12px' }}
-                        label={{ value: 'Quantity (units)', angle: -90, position: 'insideLeft' }}
+                        label={{ value: 'Units / Discount %', angle: -90, position: 'insideLeft', style: { fontSize: 11, fill: 'hsl(var(--muted-foreground))' } }}
                       />
                       <YAxis 
                         yAxisId="right" 
                         orientation="right"
-                        stroke="hsl(var(--primary))"
+                        stroke="hsl(142 76% 36%)"
                         style={{ fontSize: '12px' }}
-                        label={{ value: 'Price ($)', angle: 90, position: 'insideRight' }}
+                        label={{ value: 'Price ($)', angle: 90, position: 'insideRight', style: { fontSize: 11, fill: 'hsl(var(--muted-foreground))' } }}
                       />
                       <Tooltip content={<CustomTooltip />} />
-                      <Legend />
                       <ReferenceLine 
                         y={0} 
                         yAxisId="left"
                         stroke="hsl(var(--destructive))" 
                         strokeDasharray="3 3"
-                        label="Target: Clear Stock"
+                        label={{ value: 'Target: Clear Stock', fill: 'hsl(var(--destructive))', fontSize: 11, position: 'insideBottomRight' }}
                       />
-                      <Line 
+                      <Bar
                         yAxisId="left"
-                        type="monotone" 
-                        dataKey="quantity" 
-                        stroke="hsl(var(--destructive))" 
-                        strokeWidth={3}
-                        name="Remaining Quantity"
-                        dot={{ fill: 'hsl(var(--destructive))', r: 5 }}
+                        dataKey="discount"
+                        name="Discount %"
+                        fill="hsl(25 95% 53%)"
+                        opacity={0.75}
+                        barSize={18}
+                        radius={[3, 3, 0, 0]}
+                      />
+                      <Area
+                        yAxisId="left"
+                        type="monotone"
+                        dataKey="quantity"
+                        name="Remaining Inventory"
+                        stroke="hsl(217 91% 60%)"
+                        strokeWidth={2.5}
+                        fill="url(#qtyGradient)"
                       />
                       <Line 
                         yAxisId="right"
-                        type="monotone" 
+                        type="stepAfter" 
                         dataKey="suggestedPrice" 
-                        stroke="hsl(var(--primary))" 
+                        stroke="hsl(142 76% 36%)" 
                         strokeWidth={3}
                         name="Suggested Price"
-                        dot={{ fill: 'hsl(var(--primary))', r: 5 }}
+                        dot={{ fill: 'hsl(142 76% 36%)', stroke: 'hsl(var(--background))', strokeWidth: 2, r: 5 }}
+                        activeDot={{ r: 7 }}
                       />
-                    </LineChart>
+                    </ComposedChart>
                   </ResponsiveContainer>
+                  <p className="text-xs text-muted-foreground mt-3 italic">
+                    Read it as: blue area shrinks (stock sells) → orange bars grow (deeper discount) → green line steps down (lower price). Three signals, one strategy.
+                  </p>
                 </CardContent>
               </Card>
 
