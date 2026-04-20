@@ -3,10 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { ComposedChart, Area, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
-import { TrendingDown, Clock, DollarSign, AlertCircle, Zap } from "lucide-react";
+import { TrendingDown, Clock, DollarSign, AlertCircle, Zap, CheckCircle2, Pencil } from "lucide-react";
 import { smartStoreInventory } from "@/data/smartStoreInventory";
+import { toast } from "sonner";
 
 interface OptimizationData {
   time: string;
@@ -18,7 +20,10 @@ interface OptimizationData {
 export default function PricingOptimization() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [optimizationData, setOptimizationData] = useState<OptimizationData[]>([]);
+  const [suggestedSnapshot, setSuggestedSnapshot] = useState<OptimizationData[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [appliedSnapshot, setAppliedSnapshot] = useState<{ suggested: OptimizationData[]; applied: OptimizationData[]; item: any } | null>(null);
 
   // Filter items that need attention (expiring soon or low salability)
   const itemsNeedingAttention = smartStoreInventory.filter(
@@ -50,8 +55,41 @@ export default function PricingOptimization() {
 
   const handleViewOptimization = (item: any) => {
     setSelectedItem(item);
-    setOptimizationData(generateOptimizationData(item));
+    const data = generateOptimizationData(item);
+    setOptimizationData(data);
+    setSuggestedSnapshot(data.map(d => ({ ...d })));
     setDialogOpen(true);
+  };
+
+  const handleDiscountEdit = (index: number, newDiscount: number) => {
+    if (!selectedItem) return;
+    const clamped = Math.max(0, Math.min(90, isNaN(newDiscount) ? 0 : newDiscount));
+    setOptimizationData(prev => prev.map((d, i) => {
+      if (i !== index) return d;
+      const newPrice = parseFloat((selectedItem.price * (1 - clamped / 100)).toFixed(2));
+      return { ...d, discount: Math.round(clamped), suggestedPrice: newPrice };
+    }));
+  };
+
+  const hasChanges = optimizationData.some((d, i) =>
+    suggestedSnapshot[i] && (d.discount !== suggestedSnapshot[i].discount)
+  );
+
+  const handleApply = () => {
+    setAppliedSnapshot({
+      suggested: suggestedSnapshot.map(d => ({ ...d })),
+      applied: optimizationData.map(d => ({ ...d })),
+      item: selectedItem,
+    });
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmApply = () => {
+    setConfirmOpen(false);
+    setDialogOpen(false);
+    toast.success("Pricing strategy applied to ESL", {
+      description: `${appliedSnapshot?.item?.name} — ${appliedSnapshot?.applied.length} time slots scheduled`,
+    });
   };
 
   const getTotalValue = (data: OptimizationData[]) => {
@@ -340,8 +378,15 @@ export default function PricingOptimization() {
               {/* Pricing Schedule Table */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-base">Detailed Pricing Schedule</CardTitle>
-                  <CardDescription>Hour-by-hour breakdown of recommended actions</CardDescription>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    Detailed Pricing Schedule
+                    <Badge variant="outline" className="gap-1 font-normal">
+                      <Pencil className="h-3 w-3" /> Editable
+                    </Badge>
+                  </CardTitle>
+                  <CardDescription>
+                    Edit the discount % per time slot — price recalculates automatically. Changed rows are highlighted.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="rounded-md border">
@@ -350,8 +395,8 @@ export default function PricingOptimization() {
                         <TableRow>
                           <TableHead>Time</TableHead>
                           <TableHead className="text-right">Target Quantity</TableHead>
-                          <TableHead className="text-right">Suggested Price</TableHead>
-                          <TableHead className="text-right">Discount</TableHead>
+                          <TableHead className="text-right">Final Price</TableHead>
+                          <TableHead className="text-right w-32">Discount %</TableHead>
                           <TableHead className="text-right">Interval Revenue</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -360,18 +405,38 @@ export default function PricingOptimization() {
                           const prevQuantity = index > 0 ? optimizationData[index - 1].quantity : selectedItem.quantity;
                           const soldUnits = prevQuantity - data.quantity;
                           const intervalRevenue = soldUnits * data.suggestedPrice;
-                          
+                          const original = suggestedSnapshot[index];
+                          const changed = original && original.discount !== data.discount;
+
                           return (
-                            <TableRow key={data.time}>
+                            <TableRow key={data.time} className={changed ? "bg-warning/10" : ""}>
                               <TableCell className="font-medium">{data.time}</TableCell>
                               <TableCell className="text-right">{data.quantity} units</TableCell>
                               <TableCell className="text-right font-medium text-primary">
-                                ${data.suggestedPrice}
+                                ${data.suggestedPrice.toFixed(2)}
+                                {changed && (
+                                  <span className="block text-xs text-muted-foreground line-through">
+                                    ${original.suggestedPrice.toFixed(2)}
+                                  </span>
+                                )}
                               </TableCell>
                               <TableCell className="text-right">
-                                <Badge variant={data.discount > 30 ? 'destructive' : 'secondary'}>
-                                  {data.discount}%
-                                </Badge>
+                                <div className="flex items-center justify-end gap-1">
+                                  <Input
+                                    type="number"
+                                    min={0}
+                                    max={90}
+                                    value={data.discount}
+                                    onChange={(e) => handleDiscountEdit(index, parseInt(e.target.value, 10))}
+                                    className="h-8 w-20 text-right"
+                                  />
+                                  <span className="text-muted-foreground text-sm">%</span>
+                                </div>
+                                {changed && (
+                                  <span className="block text-xs text-muted-foreground mt-1">
+                                    was {original.discount}%
+                                  </span>
+                                )}
                               </TableCell>
                               <TableCell className="text-right text-success">
                                 ${intervalRevenue.toFixed(2)}
@@ -386,19 +451,116 @@ export default function PricingOptimization() {
               </Card>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 justify-end">
+              <div className="flex gap-3 justify-end items-center">
+                {hasChanges && (
+                  <span className="text-xs text-warning mr-auto flex items-center gap-1">
+                    <Pencil className="h-3 w-3" />
+                    You have manual overrides
+                  </span>
+                )}
                 <Button variant="outline" onClick={() => setDialogOpen(false)}>
                   Close
                 </Button>
-                <Button onClick={() => {
-                  setDialogOpen(false);
-                  // Here you would implement applying the strategy
-                }}>
-                  Apply Pricing Strategy to ESL
+                <Button variant="outline" onClick={() => setOptimizationData(suggestedSnapshot.map(d => ({ ...d })))} disabled={!hasChanges}>
+                  Reset to Suggested
+                </Button>
+                <Button onClick={handleApply}>
+                  Apply Pricing to ESL
                 </Button>
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-success" />
+              Confirm Pricing Strategy
+            </DialogTitle>
+            <DialogDescription>
+              Review AI-suggested values vs. what will actually be applied to {appliedSnapshot?.item?.name} ESL labels.
+            </DialogDescription>
+          </DialogHeader>
+
+          {appliedSnapshot && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-3 text-sm">
+                <div className="rounded-md border p-3">
+                  <p className="text-muted-foreground text-xs">Time slots</p>
+                  <p className="font-semibold text-lg">{appliedSnapshot.applied.length}</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-muted-foreground text-xs">Manual overrides</p>
+                  <p className="font-semibold text-lg text-warning">
+                    {appliedSnapshot.applied.filter((d, i) => d.discount !== appliedSnapshot.suggested[i].discount).length}
+                  </p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-muted-foreground text-xs">Avg discount Δ</p>
+                  <p className="font-semibold text-lg">
+                    {(() => {
+                      const diffs = appliedSnapshot.applied.map((d, i) => d.discount - appliedSnapshot.suggested[i].discount);
+                      const avg = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+                      return `${avg >= 0 ? '+' : ''}${avg.toFixed(1)}%`;
+                    })()}
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Time</TableHead>
+                      <TableHead className="text-right">Suggested %</TableHead>
+                      <TableHead className="text-right">Applied %</TableHead>
+                      <TableHead className="text-right">Suggested $</TableHead>
+                      <TableHead className="text-right">Applied $</TableHead>
+                      <TableHead className="text-center">Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {appliedSnapshot.applied.map((a, i) => {
+                      const s = appliedSnapshot.suggested[i];
+                      const changed = s.discount !== a.discount;
+                      return (
+                        <TableRow key={a.time} className={changed ? "bg-warning/10" : ""}>
+                          <TableCell className="font-medium">{a.time}</TableCell>
+                          <TableCell className="text-right text-muted-foreground">{s.discount}%</TableCell>
+                          <TableCell className="text-right font-semibold">{a.discount}%</TableCell>
+                          <TableCell className="text-right text-muted-foreground">${s.suggestedPrice.toFixed(2)}</TableCell>
+                          <TableCell className="text-right font-semibold text-primary">${a.suggestedPrice.toFixed(2)}</TableCell>
+                          <TableCell className="text-center">
+                            {changed ? (
+                              <Badge variant="outline" className="gap-1 border-warning text-warning">
+                                <Pencil className="h-3 w-3" /> Override
+                              </Badge>
+                            ) : (
+                              <Badge variant="secondary">As suggested</Badge>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmOpen(false)}>
+              Back to edit
+            </Button>
+            <Button onClick={handleConfirmApply} className="gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              Confirm & Apply to ESL
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
