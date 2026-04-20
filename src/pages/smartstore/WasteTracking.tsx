@@ -286,7 +286,7 @@ export default function SmartStoreWasteTracking() {
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="sm">Analyze</Button>
+                        <Button variant="ghost" size="sm" onClick={() => setAnalyzeCategory(stat.category)}>Analyze</Button>
                       </TableCell>
                     </TableRow>
                   );
