@@ -3,10 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { ComposedChart, Area, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
-import { TrendingDown, Clock, DollarSign, AlertCircle, Zap } from "lucide-react";
+import { TrendingDown, Clock, DollarSign, AlertCircle, Zap, CheckCircle2, Pencil } from "lucide-react";
 import { smartStoreInventory } from "@/data/smartStoreInventory";
+import { toast } from "sonner";
 
 interface OptimizationData {
   time: string;
