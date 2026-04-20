@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
@@ -129,27 +130,6 @@ import HHTLightAddESL from "./pages/hhtlight/operations/HHTLightAddESL";
 import HHTLightDeleteESL from "./pages/hhtlight/operations/HHTLightDeleteESL";
 import HHTLightOnlineESLs from "./pages/hhtlight/status/HHTLightOnlineESLs";
 import HHTLightOfflineESLs from "./pages/hhtlight/status/HHTLightOfflineESLs";
-import ITHNCommandLayout from "./pages/ithncommand/ITHNCommandLayout";
-import ITHNCommandDashboard from "./pages/ithncommand/ITHNCommandDashboard";
-import ITHNCommandOperations from "./pages/ithncommand/ITHNCommandOperations";
-import ITHNCommandSettings from "./pages/ithncommand/ITHNCommandSettings";
-import ITHNCommandAlerts from "./pages/ithncommand/ITHNCommandAlerts";
-import ITHNCommandAssignESL from "./pages/ithncommand/operations/ITHNCommandAssignESL";
-import ITHNCommandUnassignESL from "./pages/ithncommand/operations/ITHNCommandUnassignESL";
-import ITHNCommandMultiAssignESL from "./pages/ithncommand/operations/ITHNCommandMultiAssignESL";
-import ITHNCommandReplaceESL from "./pages/ithncommand/operations/ITHNCommandReplaceESL";
-import ITHNCommandRefreshESL from "./pages/ithncommand/operations/ITHNCommandRefreshESL";
-import ITHNCommandFlashESL from "./pages/ithncommand/operations/ITHNCommandFlashESL";
-import ITHNCommandPageChangeESL from "./pages/ithncommand/operations/ITHNCommandPageChangeESL";
-import ITHNCommandInquireESL from "./pages/ithncommand/operations/ITHNCommandInquireESL";
-import ITHNCommandAddESL from "./pages/ithncommand/operations/ITHNCommandAddESL";
-import ITHNCommandDeleteESL from "./pages/ithncommand/operations/ITHNCommandDeleteESL";
-import ITHNCommandBatteryCritical from "./pages/ithncommand/ITHNCommandBatteryCritical";
-import ITHNCommandUpdateFailures from "./pages/ithncommand/ITHNCommandUpdateFailures";
-import ITHNCommandAPStatus from "./pages/ithncommand/ITHNCommandAPStatus";
-import ITHNCommandOvernightStatus from "./pages/ithncommand/ITHNCommandOvernightStatus";
-import ITHNCommandOnlineESLs from "./pages/ithncommand/status/ITHNCommandOnlineESLs";
-import ITHNCommandOfflineESLs from "./pages/ithncommand/status/ITHNCommandOfflineESLs";
 import { SuperadminLayout } from "./components/layouts/SuperadminLayout";
 import SuperadminDashboard from "./pages/superadmin/SuperadminDashboard";
 import SuperadminTenants from "./pages/superadmin/TenantsPage";
@@ -161,6 +141,30 @@ import SuperadminGuardrails from "./pages/superadmin/GuardrailsPanel";
 import SuperadminAudit from "./pages/superadmin/AuditLog";
 
 const queryClient = new QueryClient();
+
+const ITHNCommandLayout = lazy(() => import("./pages/ithncommand/ITHNCommandLayout"));
+const ITHNCommandDashboard = lazy(() => import("./pages/ithncommand/ITHNCommandDashboard"));
+const ITHNCommandOperations = lazy(() => import("./pages/ithncommand/ITHNCommandOperations"));
+const ITHNCommandSettings = lazy(() => import("./pages/ithncommand/ITHNCommandSettings"));
+const ITHNCommandAlerts = lazy(() => import("./pages/ithncommand/ITHNCommandAlerts"));
+const ITHNCommandAssignESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandAssignESL"));
+const ITHNCommandUnassignESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandUnassignESL"));
+const ITHNCommandMultiAssignESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandMultiAssignESL"));
+const ITHNCommandReplaceESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandReplaceESL"));
+const ITHNCommandRefreshESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandRefreshESL"));
+const ITHNCommandFlashESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandFlashESL"));
+const ITHNCommandPageChangeESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandPageChangeESL"));
+const ITHNCommandInquireESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandInquireESL"));
+const ITHNCommandAddESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandAddESL"));
+const ITHNCommandDeleteESL = lazy(() => import("./pages/ithncommand/operations/ITHNCommandDeleteESL"));
+const ITHNCommandBatteryCritical = lazy(() => import("./pages/ithncommand/ITHNCommandBatteryCritical"));
+const ITHNCommandUpdateFailures = lazy(() => import("./pages/ithncommand/ITHNCommandUpdateFailures"));
+const ITHNCommandAPStatus = lazy(() => import("./pages/ithncommand/ITHNCommandAPStatus"));
+const ITHNCommandOvernightStatus = lazy(() => import("./pages/ithncommand/ITHNCommandOvernightStatus"));
+const ITHNCommandOnlineESLs = lazy(() => import("./pages/ithncommand/status/ITHNCommandOnlineESLs"));
+const ITHNCommandOfflineESLs = lazy(() => import("./pages/ithncommand/status/ITHNCommandOfflineESLs"));
+
+const RouteLoader = () => <div className="min-h-screen bg-background" />;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -316,7 +320,14 @@ const App = () => (
           </Route>
           
 {/* ITHN Command App Routes - Compact HHT for 3.2"-7" screens */}
-          <Route path="/ITHNCommand" element={<ITHNCommandLayout />}>
+          <Route
+            path="/ITHNCommand"
+            element={
+              <Suspense fallback={<RouteLoader />}>
+                <ITHNCommandLayout />
+              </Suspense>
+            }
+          >
             <Route index element={<ITHNCommandDashboard />} />
             <Route path="operations" element={<ITHNCommandOperations />} />
             <Route path="operations/assign" element={<ITHNCommandAssignESL />} />
