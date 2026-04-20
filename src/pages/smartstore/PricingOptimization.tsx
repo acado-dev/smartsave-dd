@@ -20,7 +20,10 @@ interface OptimizationData {
 export default function PricingOptimization() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [optimizationData, setOptimizationData] = useState<OptimizationData[]>([]);
+  const [suggestedSnapshot, setSuggestedSnapshot] = useState<OptimizationData[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [appliedSnapshot, setAppliedSnapshot] = useState<{ suggested: OptimizationData[]; applied: OptimizationData[]; item: any } | null>(null);
 
   // Filter items that need attention (expiring soon or low salability)
   const itemsNeedingAttention = smartStoreInventory.filter(
