@@ -340,6 +340,200 @@ export default function SmartStoreWasteTracking() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Analyze Category Dialog */}
+      <Dialog open={!!analyzeCategory} onOpenChange={(open) => !open && setAnalyzeCategory(null)}>
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-xl">
+              <Trash2 className="h-5 w-5 text-primary" />
+              Waste Analysis: {analyzeCategory}
+            </DialogTitle>
+            <DialogDescription>
+              Root-cause breakdown, trends, and AI-recommended actions to reduce waste in this category.
+            </DialogDescription>
+          </DialogHeader>
+
+          {analysis && categoryStat && (
+            <div className="space-y-6 mt-2">
+              {/* KPIs */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="rounded-md border p-3">
+                  <p className="text-xs text-muted-foreground">Total Waste (wk)</p>
+                  <p className="text-xl font-bold">{categoryStat.waste}</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs text-muted-foreground">Value Lost</p>
+                  <p className="text-xl font-bold text-destructive">{categoryStat.valueLost}</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs text-muted-foreground">Trend vs last week</p>
+                  <p className={`text-xl font-bold flex items-center gap-1 ${categoryStat.trend < 0 ? "text-accent" : "text-destructive"}`}>
+                    {categoryStat.trend < 0 ? <TrendingDown className="h-5 w-5" /> : <TrendingUp className="h-5 w-5" />}
+                    {Math.abs(categoryStat.trend)}%
+                  </p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs text-muted-foreground">Top reason</p>
+                  <p className="text-sm font-semibold mt-1">{analysis.rootCauses[0].reason}</p>
+                  <p className="text-xs text-muted-foreground">{analysis.rootCauses[0].pct}% of waste</p>
+                </div>
+              </div>
+
+              {/* Charts row */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4 text-warning" /> Root Cause Breakdown
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <PieChart>
+                        <Pie
+                          data={analysis.rootCauses}
+                          dataKey="pct"
+                          nameKey="reason"
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={45}
+                          outerRadius={80}
+                          paddingAngle={2}
+                        >
+                          {analysis.rootCauses.map((rc, i) => (
+                            <Cell key={i} fill={rc.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend wrapperStyle={{ fontSize: 11 }} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <TrendingDown className="h-4 w-4 text-primary" /> 7-Day Waste Trend (kg)
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={analysis.trend}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" style={{ fontSize: 12 }} />
+                        <YAxis stroke="hsl(var(--muted-foreground))" style={{ fontSize: 12 }} />
+                        <Tooltip
+                          contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8 }}
+                        />
+                        <Bar dataKey="kg" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Top wasted items */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Top Wasted Items</CardTitle>
+                  <CardDescription>SKUs contributing the most to category waste</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Product</TableHead>
+                        <TableHead className="text-right">Waste (kg)</TableHead>
+                        <TableHead className="text-right">Value Lost</TableHead>
+                        <TableHead>Primary Reason</TableHead>
+                        <TableHead className="text-right">Share</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {analysis.topItems.map((item) => {
+                        const totalKg = analysis.topItems.reduce((s, i) => s + i.kg, 0);
+                        const share = (item.kg / totalKg) * 100;
+                        return (
+                          <TableRow key={item.name}>
+                            <TableCell className="font-medium">{item.name}</TableCell>
+                            <TableCell className="text-right">{item.kg.toFixed(1)}</TableCell>
+                            <TableCell className="text-right text-destructive">${item.value}</TableCell>
+                            <TableCell>
+                              <Badge variant="outline">{item.reason}</Badge>
+                            </TableCell>
+                            <TableCell className="text-right w-32">
+                              <div className="flex items-center gap-2 justify-end">
+                                <Progress value={share} className="w-16 h-2" />
+                                <span className="text-xs text-muted-foreground w-10 text-right">{share.toFixed(0)}%</span>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+
+              {/* AI Recommendations */}
+              <Card className="border-primary/40">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4 text-primary" /> AI Recommended Actions
+                  </CardTitle>
+                  <CardDescription>One-click actions to address the root causes above</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {analysis.recommendations.map((rec) => {
+                    const Icon = rec.icon;
+                    const applied = appliedActions.has(rec.title);
+                    return (
+                      <div
+                        key={rec.title}
+                        className="flex items-start gap-3 p-3 rounded-md border bg-muted/30 hover:bg-muted/50 transition"
+                      >
+                        <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center shrink-0">
+                          <Icon className="h-4 w-4 text-primary" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="font-medium text-sm">{rec.title}</p>
+                            <Badge className="bg-accent/15 text-accent hover:bg-accent/15 border-0">{rec.impact}</Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">{rec.description}</p>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant={applied ? "secondary" : "default"}
+                          onClick={() => handleApplyRecommendation(rec.title)}
+                          disabled={applied}
+                          className="gap-1 shrink-0"
+                        >
+                          {applied ? (<><CheckCircle2 className="h-3 w-3" /> Applied</>) : rec.action}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAnalyzeCategory(null)}>Close</Button>
+            <Button
+              onClick={() => {
+                toast.success("Analysis report exported", { description: `${analyzeCategory} waste report (PDF)` });
+              }}
+              className="gap-2"
+            >
+              <Download className="h-4 w-4" /> Export Report
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
