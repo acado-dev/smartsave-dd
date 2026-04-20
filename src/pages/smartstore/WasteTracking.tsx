@@ -26,7 +26,130 @@ const categoryStats = [
   { category: "Fish & Seafood", waste: "34.2 kg", trend: -22, valueLost: "$892" },
 ];
 
+// Per-category deep analysis data
+const categoryAnalysis: Record<string, {
+  rootCauses: { reason: string; pct: number; color: string }[];
+  trend: { day: string; kg: number }[];
+  topItems: { name: string; kg: number; value: number; reason: string }[];
+  recommendations: { icon: any; title: string; impact: string; description: string; action: string }[];
+}> = {
+  "Food-to-Go": {
+    rootCauses: [
+      { reason: "Late-day expiry", pct: 52, color: "hsl(var(--destructive))" },
+      { reason: "Over-production AM", pct: 28, color: "hsl(25 95% 53%)" },
+      { reason: "Display damage", pct: 12, color: "hsl(45 93% 47%)" },
+      { reason: "Other", pct: 8, color: "hsl(var(--muted-foreground))" },
+    ],
+    trend: [
+      { day: "Mon", kg: 14.2 }, { day: "Tue", kg: 12.8 }, { day: "Wed", kg: 15.4 },
+      { day: "Thu", kg: 11.9 }, { day: "Fri", kg: 13.6 }, { day: "Sat", kg: 10.8 }, { day: "Sun", kg: 10.5 },
+    ],
+    topItems: [
+      { name: "Chicken Caesar Wrap", kg: 18.4, value: 312, reason: "Expiry" },
+      { name: "Sushi Box (8pc)", kg: 14.2, value: 284, reason: "Expiry" },
+      { name: "Egg & Bacon Sandwich", kg: 11.6, value: 198, reason: "Over-production" },
+      { name: "Fresh Pasta Salad", kg: 9.8, value: 156, reason: "Display damage" },
+    ],
+    recommendations: [
+      { icon: Tag, title: "Activate dynamic markdowns", impact: "−32% waste", description: "Apply tiered discounts after 6PM on items with <4h shelf life.", action: "Configure pricing rule" },
+      { icon: Boxes, title: "Reduce AM production by 15%", impact: "−$420/wk", description: "Forecast shows consistent 18% leftover from morning batch.", action: "Update production plan" },
+      { icon: Heart, title: "Auto-route to Food Bank", impact: "Recover $180", description: "Schedule 7PM pickup for unsold items with same-day expiry.", action: "Set up donation route" },
+    ],
+  },
+  "Fresh Bakery": {
+    rootCauses: [
+      { reason: "Day-old product", pct: 64, color: "hsl(var(--destructive))" },
+      { reason: "Over-baking", pct: 22, color: "hsl(25 95% 53%)" },
+      { reason: "Visual rejects", pct: 14, color: "hsl(45 93% 47%)" },
+    ],
+    trend: [
+      { day: "Mon", kg: 9.8 }, { day: "Tue", kg: 11.2 }, { day: "Wed", kg: 10.4 },
+      { day: "Thu", kg: 12.6 }, { day: "Fri", kg: 11.8 }, { day: "Sat", kg: 10.2 }, { day: "Sun", kg: 10.5 },
+    ],
+    topItems: [
+      { name: "Sourdough Loaf", kg: 22.4, value: 268, reason: "Day-old" },
+      { name: "Croissants (6pk)", kg: 15.8, value: 198, reason: "Day-old" },
+      { name: "Cinnamon Rolls", kg: 12.2, value: 144, reason: "Over-baking" },
+    ],
+    recommendations: [
+      { icon: Tag, title: "30% off bread after 5PM", impact: "−45% waste", description: "Trigger ESL price drop on bakery items 2h before close.", action: "Configure pricing rule" },
+      { icon: Heart, title: "Daily charity pickup", impact: "Recover $190", description: "Partner with local shelter for next-morning pickup of day-old bread.", action: "Set up donation route" },
+      { icon: Target, title: "Reduce batch size 20%", impact: "−$310/wk", description: "Bake-to-order model for slow-moving SKUs.", action: "Update production plan" },
+    ],
+  },
+  "Fresh Produce": {
+    rootCauses: [
+      { reason: "Quality degradation", pct: 48, color: "hsl(var(--destructive))" },
+      { reason: "Cold chain breaks", pct: 24, color: "hsl(25 95% 53%)" },
+      { reason: "Customer handling", pct: 18, color: "hsl(45 93% 47%)" },
+      { reason: "Other", pct: 10, color: "hsl(var(--muted-foreground))" },
+    ],
+    trend: [
+      { day: "Mon", kg: 8.4 }, { day: "Tue", kg: 9.2 }, { day: "Wed", kg: 10.8 },
+      { day: "Thu", kg: 9.6 }, { day: "Fri", kg: 11.2 }, { day: "Sat", kg: 9.8 }, { day: "Sun", kg: 8.8 },
+    ],
+    topItems: [
+      { name: "Mixed Greens", kg: 14.2, value: 142, reason: "Quality" },
+      { name: "Strawberries", kg: 11.6, value: 178, reason: "Quality" },
+      { name: "Avocados", kg: 9.4, value: 124, reason: "Over-ripe" },
+    ],
+    recommendations: [
+      { icon: AlertTriangle, title: "Cold chain audit", impact: "−24% waste", description: "Two refrigeration alerts last week — service inspection needed.", action: "Schedule inspection" },
+      { icon: Tag, title: "Ripeness-based pricing", impact: "−$180/wk", description: "Discount items entering peak ripeness window via AI freshness scan.", action: "Enable AI freshness" },
+    ],
+  },
+  "Dairy & Refrigerated": {
+    rootCauses: [
+      { reason: "Expiry", pct: 72, color: "hsl(var(--destructive))" },
+      { reason: "Packaging damage", pct: 18, color: "hsl(25 95% 53%)" },
+      { reason: "Other", pct: 10, color: "hsl(var(--muted-foreground))" },
+    ],
+    trend: [
+      { day: "Mon", kg: 6.4 }, { day: "Tue", kg: 7.2 }, { day: "Wed", kg: 6.8 },
+      { day: "Thu", kg: 5.9 }, { day: "Fri", kg: 6.4 }, { day: "Sat", kg: 6.2 }, { day: "Sun", kg: 6.4 },
+    ],
+    topItems: [
+      { name: "Greek Yogurt 500g", kg: 12.8, value: 198, reason: "Expiry" },
+      { name: "Specialty Cheeses", kg: 10.4, value: 284, reason: "Expiry" },
+    ],
+    recommendations: [
+      { icon: Tag, title: "Expiry-based markdown ladder", impact: "−28% waste", description: "Auto-discount at 7d, 3d, 1d before expiry.", action: "Configure pricing rule" },
+      { icon: Boxes, title: "Reduce reorder qty 12%", impact: "−$220/wk", description: "Current par levels exceed weekly velocity.", action: "Update reorder plan" },
+    ],
+  },
+  "Fish & Seafood": {
+    rootCauses: [
+      { reason: "Same-day expiry", pct: 78, color: "hsl(var(--destructive))" },
+      { reason: "Quality", pct: 22, color: "hsl(25 95% 53%)" },
+    ],
+    trend: [
+      { day: "Mon", kg: 5.2 }, { day: "Tue", kg: 4.8 }, { day: "Wed", kg: 5.6 },
+      { day: "Thu", kg: 4.2 }, { day: "Fri", kg: 4.8 }, { day: "Sat", kg: 4.6 }, { day: "Sun", kg: 5.0 },
+    ],
+    topItems: [
+      { name: "Atlantic Salmon Fillet", kg: 14.6, value: 348, reason: "Expiry" },
+      { name: "Fresh Tuna Steaks", kg: 11.2, value: 312, reason: "Expiry" },
+      { name: "Shrimp 500g", kg: 8.4, value: 232, reason: "Expiry" },
+    ],
+    recommendations: [
+      { icon: Tag, title: "40% off seafood after 4PM", impact: "−52% waste", description: "Aggressive late-day pricing for fresh fish counter.", action: "Configure pricing rule" },
+      { icon: Boxes, title: "Switch to alternate-day delivery", impact: "−$340/wk", description: "Volume doesn't justify daily fresh delivery.", action: "Adjust supplier schedule" },
+    ],
+  },
+};
+
 export default function SmartStoreWasteTracking() {
+  const [analyzeCategory, setAnalyzeCategory] = useState<string | null>(null);
+  const [appliedActions, setAppliedActions] = useState<Set<string>>(new Set());
+
+  const analysis = analyzeCategory ? categoryAnalysis[analyzeCategory] : null;
+  const categoryStat = analyzeCategory ? categoryStats.find(s => s.category === analyzeCategory) : null;
+
+  const handleApplyRecommendation = (title: string) => {
+    setAppliedActions(prev => new Set(prev).add(title));
+    toast.success("Recommendation applied", { description: title });
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-start">
