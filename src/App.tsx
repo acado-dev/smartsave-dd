@@ -340,6 +340,10 @@ const App = () => (
           </Route>
           
           {/* Superadmin / DD Brain RBAC Console */}
+          {/* Case-insensitive redirects (e.g. /Superadmin -> /superadmin) */}
+          <Route path="/Superadmin/*" element={<Navigate to="/superadmin" replace />} />
+          <Route path="/SuperAdmin/*" element={<Navigate to="/superadmin" replace />} />
+          <Route path="/SUPERADMIN/*" element={<Navigate to="/superadmin" replace />} />
           <Route path="/superadmin/" element={<Navigate to="/superadmin" replace />} />
           <Route path="/superadmin" element={<SuperadminLayout><SuperadminDashboard /></SuperadminLayout>} />
           <Route path="/superadmin/tenants/" element={<Navigate to="/superadmin/tenants" replace />} />
