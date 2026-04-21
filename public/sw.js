@@ -1,9 +1,9 @@
-// Kill-switch service worker.
-// A previous build registered a PWA service worker that cached a precache
-// manifest and started intercepting deep links (e.g. /superadmin/*),
-// returning 404 from cache. This replacement unregisters itself and
-// clears all caches so the page reloads cleanly.
-self.addEventListener("install", (event) => {
+// No-op service worker.
+// Any previously-installed PWA service worker is unregistered by the cleanup
+// logic in src/main.tsx. This file exists only so that browsers requesting
+// /sw.js receive a valid (but inert) script — it never intercepts fetches
+// and never reloads the page.
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
@@ -17,8 +17,6 @@ self.addEventListener("activate", (event) => {
       try {
         await self.registration.unregister();
       } catch (e) {}
-      const clients = await self.clients.matchAll({ type: "window" });
-      clients.forEach((client) => client.navigate(client.url));
     })()
   );
 });
