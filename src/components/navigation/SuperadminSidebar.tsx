@@ -8,8 +8,8 @@ import {
   Boxes,
   GitBranch,
   ScrollText,
-  Crown,
 } from "lucide-react";
+import ithinaLogo from "@/assets/ithina-logo-white.png";
 import {
   Sidebar,
   SidebarContent,
@@ -93,19 +93,18 @@ export function SuperadminSidebar() {
       style={{ background: "hsl(222 47% 6%)" }}
     >
       <SidebarHeader className="border-b border-white/10 p-4">
-        <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[hsl(217,91%,60%)] to-[hsl(262,60%,55%)] flex items-center justify-center shrink-0">
-            <Crown className="h-4 w-4 text-white" />
+        {collapsed ? (
+          <div className="flex justify-center">
+            <img src={ithinaLogo} alt="Ithina" className="h-7 w-auto object-contain" />
           </div>
-          {!collapsed && (
-            <div className="leading-tight">
-              <div className="text-sm font-bold text-white">DD Brain</div>
-              <div className="text-[10px] uppercase tracking-wider text-[hsl(217,91%,75%)]">
-                Superadmin Console
-              </div>
+        ) : (
+          <div className="flex flex-col items-start gap-1.5">
+            <img src={ithinaLogo} alt="Ithina" className="h-8 w-auto object-contain" />
+            <div className="text-[10px] uppercase tracking-wider text-[hsl(217,91%,75%)]">
+              Superadmin Console
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </SidebarHeader>
 
       <SidebarContent style={{ background: "hsl(222 47% 6%)" }}>

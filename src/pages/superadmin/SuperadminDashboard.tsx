@@ -56,7 +56,7 @@ export default function SuperadminDashboard() {
           </div>
           <h1 className="text-3xl font-bold text-white">Superadmin Dashboard</h1>
           <p className="text-sm text-slate-400 mt-1">
-            Govern every tenant, module, role and approval rail across DD Brain.
+            Govern every tenant, module, role and approval rail across Ithina.
           </p>
         </div>
         <div className="text-right">

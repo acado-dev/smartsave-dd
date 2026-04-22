@@ -12,7 +12,7 @@ export default function ModuleAccess() {
       <div>
         <h1 className="text-3xl font-bold text-white">Module Access</h1>
         <p className="text-sm text-slate-400 mt-1">
-          Enable or disable DD Brain modules per tenant. Disabling instantly revokes all related role permissions.
+          Enable or disable Ithina modules per tenant. Disabling instantly revokes all related role permissions.
         </p>
       </div>
 
