@@ -33,7 +33,7 @@ export function SuperadminLayout({ children }: Props) {
                   PLATFORM
                 </Badge>
                 <span className="hidden md:inline text-xs text-slate-400">
-                  Ithina · DD Brain Governance Console
+                  Ithina · Superadmin Governance Console
                 </span>
               </div>
               <div className="flex items-center gap-3 flex-1 max-w-xl">
