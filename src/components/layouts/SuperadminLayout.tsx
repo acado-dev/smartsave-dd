@@ -1,11 +1,13 @@
+import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { SuperadminSidebar } from "@/components/navigation/SuperadminSidebar";
 import { Menu, Bell, Search, Crown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { SuperadminErrorBoundary } from "@/components/superadmin/SuperadminErrorBoundary";
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function SuperadminLayout({ children }: Props) {
@@ -60,7 +62,9 @@ export function SuperadminLayout({ children }: Props) {
               </div>
             </div>
           </header>
-          <main className="flex-1 p-6 text-slate-200">{children}</main>
+          <main className="flex-1 p-6 text-slate-200">
+            <SuperadminErrorBoundary>{children ?? <Outlet />}</SuperadminErrorBoundary>
+          </main>
         </div>
       </div>
     </SidebarProvider>

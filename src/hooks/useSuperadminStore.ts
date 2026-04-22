@@ -40,23 +40,35 @@ const seed = (): StoreShape => ({
   tenantModules: Object.fromEntries(seedTenants.map((t) => [t.id, [...t.modules]])),
 });
 
+const isObj = (v: unknown): v is Record<string, unknown> =>
+  typeof v === "object" && v !== null && !Array.isArray(v);
+
 const load = (): StoreShape => {
   if (typeof window === "undefined") return seed();
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return seed();
-    const parsed = JSON.parse(raw) as StoreShape;
-    // Light merge so new seed entities still appear after schema additions
+    const parsed: unknown = JSON.parse(raw);
+    if (!isObj(parsed)) return seed();
+    const fallback = seed();
+    const arr = <T,>(v: unknown, fb: T[]): T[] => (Array.isArray(v) ? (v as T[]) : fb);
     return {
-      tenants: parsed.tenants ?? seed().tenants,
-      locations: parsed.locations ?? seed().locations,
-      users: parsed.users ?? seed().users,
-      roles: parsed.roles ?? seed().roles,
-      guardrails: parsed.guardrails ?? seed().guardrails,
-      audit: parsed.audit ?? seed().audit,
-      tenantModules: parsed.tenantModules ?? seed().tenantModules,
+      tenants: arr(parsed.tenants, fallback.tenants),
+      locations: arr(parsed.locations, fallback.locations),
+      users: arr(parsed.users, fallback.users),
+      roles: arr(parsed.roles, fallback.roles),
+      guardrails: arr(parsed.guardrails, fallback.guardrails),
+      audit: arr(parsed.audit, fallback.audit),
+      tenantModules: isObj(parsed.tenantModules)
+        ? (parsed.tenantModules as Record<string, ModuleKey[]>)
+        : fallback.tenantModules,
     };
   } catch {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
     return seed();
   }
 };

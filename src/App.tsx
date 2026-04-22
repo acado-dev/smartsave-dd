@@ -355,22 +355,16 @@ const App = () => (
           <Route path="/Superadmin/*" element={<Navigate to="/superadmin" replace />} />
           <Route path="/SuperAdmin/*" element={<Navigate to="/superadmin" replace />} />
           <Route path="/SUPERADMIN/*" element={<Navigate to="/superadmin" replace />} />
-          <Route path="/superadmin/" element={<Navigate to="/superadmin" replace />} />
-          <Route path="/superadmin" element={<SuperadminLayout><SuperadminDashboard /></SuperadminLayout>} />
-          <Route path="/superadmin/tenants/" element={<Navigate to="/superadmin/tenants" replace />} />
-          <Route path="/superadmin/tenants" element={<SuperadminLayout><SuperadminTenants /></SuperadminLayout>} />
-          <Route path="/superadmin/organization/" element={<Navigate to="/superadmin/organization" replace />} />
-          <Route path="/superadmin/organization" element={<SuperadminLayout><SuperadminOrganization /></SuperadminLayout>} />
-          <Route path="/superadmin/users/" element={<Navigate to="/superadmin/users" replace />} />
-          <Route path="/superadmin/users" element={<SuperadminLayout><SuperadminUsers /></SuperadminLayout>} />
-          <Route path="/superadmin/roles/" element={<Navigate to="/superadmin/roles" replace />} />
-          <Route path="/superadmin/roles" element={<SuperadminLayout><SuperadminRoles /></SuperadminLayout>} />
-          <Route path="/superadmin/modules/" element={<Navigate to="/superadmin/modules" replace />} />
-          <Route path="/superadmin/modules" element={<SuperadminLayout><SuperadminModules /></SuperadminLayout>} />
-          <Route path="/superadmin/guardrails/" element={<Navigate to="/superadmin/guardrails" replace />} />
-          <Route path="/superadmin/guardrails" element={<SuperadminLayout><SuperadminGuardrails /></SuperadminLayout>} />
-          <Route path="/superadmin/audit/" element={<Navigate to="/superadmin/audit" replace />} />
-          <Route path="/superadmin/audit" element={<SuperadminLayout><SuperadminAudit /></SuperadminLayout>} />
+          <Route path="/superadmin" element={<SuperadminLayout />}>
+            <Route index element={<SuperadminDashboard />} />
+            <Route path="tenants" element={<SuperadminTenants />} />
+            <Route path="organization" element={<SuperadminOrganization />} />
+            <Route path="users" element={<SuperadminUsers />} />
+            <Route path="roles" element={<SuperadminRoles />} />
+            <Route path="modules" element={<SuperadminModules />} />
+            <Route path="guardrails" element={<SuperadminGuardrails />} />
+            <Route path="audit" element={<SuperadminAudit />} />
+          </Route>
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
