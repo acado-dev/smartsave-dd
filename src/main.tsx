@@ -36,24 +36,6 @@ function mount() {
   createRoot(document.getElementById("root")!).render(<App />);
 }
 
-async function bootstrap() {
-  const reloadGuardKey = "__ithina_sw_cleanup_reload__";
-  const alreadyReloaded = typeof window !== "undefined" && sessionStorage.getItem(reloadGuardKey) === "1";
-  const hadLegacyServiceWorker = await cleanupServiceWorkers();
+mount();
 
-  if (typeof window !== "undefined" && hadLegacyServiceWorker && !alreadyReloaded) {
-    sessionStorage.setItem(reloadGuardKey, "1");
-    const url = new URL(window.location.href);
-    url.searchParams.set("sw_cleanup", Date.now().toString());
-    window.location.replace(url.toString());
-    return;
-  }
-
-  if (typeof window !== "undefined") {
-    sessionStorage.removeItem(reloadGuardKey);
-  }
-
-  mount();
-}
-
-bootstrap();
+void cleanupServiceWorkers();
