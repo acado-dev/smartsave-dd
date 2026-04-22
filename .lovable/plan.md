@@ -1,58 +1,37 @@
 
-Fix the `/superadmin` blank-page issue by removing the unstable bootstrap workaround and making the superadmin section mount in a more deterministic way.
 
-1. Stabilize app startup
-- Remove the leftover service-worker/cache cleanup logic from `src/main.tsx`.
-- Keep boot simple: mount React immediately and do not touch browser caches or service-worker state on every load.
-- This is important because Lovable already handles SPA routing, so the current cleanup code is unnecessary and is the most suspicious remaining change from the failed fixes.
+## Replace "DD Brain" branding with Ithina logo in Superadmin
 
-2. Refactor superadmin routing into one nested route shell
-- Update `src/App.tsx` so `/superadmin` uses one shared layout route with child routes:
-  - index dashboard
-  - tenants
-  - organization
-  - users
-  - roles
-  - modules
-  - guardrails
-  - audit
-- Keep lowercase/trailing-slash normalization redirects, but move the actual pages under one parent route instead of repeating `<SuperadminLayout>` on every path.
-- This reduces remounting edge cases and makes the section behave like the other structured workspaces.
+Swap the "DD Brain" text branding in the Superadmin console for the uploaded Ithina logo. Leave the Infomil presentations untouched (they reference "DD Brain" as a separate product narrative).
 
-3. Add a non-blank fallback for superadmin rendering
-- Introduce a lightweight error-safe wrapper around the superadmin area so that if a page ever fails, the user sees a visible recovery panel instead of a blank screen.
-- The recovery UI should:
-  - say the superadmin console failed to load
-  - include a “Return to dashboard” action
-  - include a “Reset superadmin demo data” action
-- This protects the experience even if future state/data issues occur.
+### 1. Add the logo asset
+- Copy `user-uploads://ithina_final_white-3.png` into `src/assets/ithina-logo-white.png` so it can be imported as a bundled module.
 
-4. Harden the superadmin demo store
-- Strengthen `src/hooks/useSuperadminStore.ts` so saved local data is validated before use.
-- If stored data is malformed or from an older incompatible shape, automatically fall back to seeded demo data instead of letting pages break.
-- Keep the existing demo persistence, but make it resilient.
+### 2. Update the Superadmin sidebar (`src/components/navigation/SuperadminSidebar.tsx`)
+- Replace the gradient crown tile + "DD Brain" / "Superadmin Console" text block with the Ithina logo image.
+- Expanded state: show the Ithina logo (height ~28–32px, `object-contain`) followed by a small "Superadmin Console" caption underneath in the existing light-blue uppercase style.
+- Collapsed state: show just the logo, scaled down to fit the 16px-wide rail (height ~28px, centered).
+- Keep the existing dark header background and bottom border.
 
-5. Verify every superadmin route after the fix
-- Check these routes after implementation:
-  - `/superadmin`
-  - `/superadmin/users`
-  - `/superadmin/tenants`
-  - `/superadmin/organization`
-  - `/superadmin/roles`
-  - `/superadmin/modules`
-  - `/superadmin/guardrails`
-  - `/superadmin/audit`
-- Confirm:
-  - no blank screen
-  - sidebar and header render
-  - pages load with content
-  - redirects with trailing slash/case variants still land correctly
+### 3. Update the Superadmin top header (`src/components/layouts/SuperadminLayout.tsx`)
+- Change the subtitle text from `Ithina · DD Brain Governance Console` to `Ithina · Superadmin Governance Console`.
+- Keep the PLATFORM badge and crown icon as-is (they're a role indicator, not branding).
 
-Files to update
-- `src/main.tsx`
-- `src/App.tsx`
-- `src/hooks/useSuperadminStore.ts`
-- one new small fallback component for superadmin route safety
+### 4. Update the Superadmin dashboard copy (`src/pages/superadmin/SuperadminDashboard.tsx`)
+- Change the subtitle from "Govern every tenant, module, role and approval rail across DD Brain." to "Govern every tenant, module, role and approval rail across Ithina."
 
-Technical note
-- The current code already contains valid `/superadmin` routes, and the console snapshot shows no active runtime crash. That means this is most likely not a missing-route problem anymore. The remaining problem is more consistent with the previous cache/service-worker workaround plus brittle superadmin mounting, so the fix should focus there rather than adding more routing hacks.
+### 5. Update Module Access copy (`src/pages/superadmin/ModuleAccess.tsx`)
+- Change "Enable or disable DD Brain modules per tenant…" to "Enable or disable Ithina modules per tenant…"
+
+### Out of scope (intentionally not changed)
+- `InfomilPresentation.tsx` and `InfomilStrategicPresentation.tsx` — "DD Brain" there is a distinct product narrative for the Infomil pitch deck.
+- `src/data/superadminData.ts` header comment — internal-only, not user-visible.
+- `src/App.tsx` route comment — internal-only.
+
+### Files touched
+- `src/assets/ithina-logo-white.png` (new, copied from upload)
+- `src/components/navigation/SuperadminSidebar.tsx`
+- `src/components/layouts/SuperadminLayout.tsx`
+- `src/pages/superadmin/SuperadminDashboard.tsx`
+- `src/pages/superadmin/ModuleAccess.tsx`
+
