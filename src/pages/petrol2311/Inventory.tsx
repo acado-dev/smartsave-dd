@@ -7,20 +7,20 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Search, Filter, Download, Plus, Wifi, Battery, Clock, Monitor } from "lucide-react";
-import { smartStoreInventory, smartStoreCategories, type Petrol2311Product } from "@/data/smartStoreInventory";
+import { smartStoreInventory, smartStoreCategories, type SmartStoreProduct } from "@/data/smartStoreInventory";
 
-export default function Petrol2311Inventory() {
+export default function smartStoreInventory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-  const [selectedItem, setSelectedItem] = useState<Petrol2311Product | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SmartStoreProduct | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleViewItem = (item: Petrol2311Product) => {
+  const handleViewItem = (item: SmartStoreProduct) => {
     setSelectedItem(item);
     setDialogOpen(true);
   };
 
-  const getESLData = (item: Petrol2311Product) => {
+  const getESLData = (item: SmartStoreProduct) => {
     // Generate ESL-specific data based on item
     return {
       eslId: `ESL-${item.id.padStart(6, '0')}`,
