@@ -28,8 +28,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
-const ITHINA_NAVY = "hsl(205, 55%, 18%)";
-const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+const PETROL_DARK = "hsl(0, 0%, 12%)";
+const PETROL_RED = "hsl(357, 92%, 46%)";
 
 export default function HandheldSettings() {
   const { toast } = useToast();
@@ -59,7 +59,7 @@ export default function HandheldSettings() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>Settings</h2>
+        <h2 className="text-lg font-semibold" style={{ color: PETROL_DARK }}>Settings</h2>
         <p className="text-sm text-muted-foreground">App preferences and sync status</p>
       </div>
 
@@ -67,8 +67,8 @@ export default function HandheldSettings() {
       <Card className="border-slate-200">
         <CardContent className="pt-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${ITHINA_TEAL}15` }}>
-              <User className="h-6 w-6" style={{ color: ITHINA_TEAL }} />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${PETROL_RED}15` }}>
+              <User className="h-6 w-6" style={{ color: PETROL_RED }} />
             </div>
             <div className="flex-1">
               <p className="font-medium">{userInfo.name}</p>

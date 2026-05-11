@@ -21,8 +21,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const ITHINA_NAVY = "hsl(205, 55%, 18%)";
-const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+const PETROL_DARK = "hsl(0, 0%, 12%)";
+const PETROL_RED = "hsl(357, 92%, 46%)";
 
 const aisleData = [
   { id: "A1", name: "Aisle 1 - Produce", total: 145, healthy: 140, warning: 4, critical: 1 },
@@ -63,7 +63,7 @@ export default function HandheldHealth() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>Battery Intelligence</h2>
+        <h2 className="text-lg font-semibold" style={{ color: PETROL_DARK }}>Battery Intelligence</h2>
         <p className="text-sm text-muted-foreground">Monitor and plan battery replacements</p>
       </div>
 
@@ -135,7 +135,7 @@ export default function HandheldHealth() {
                         className="h-full rounded-full transition-all"
                         style={{ 
                           width: `${healthPercent}%`, 
-                          backgroundColor: healthPercent >= 90 ? ITHINA_TEAL : healthPercent >= 80 ? '#f59e0b' : '#f97316'
+                          backgroundColor: healthPercent >= 90 ? PETROL_RED : healthPercent >= 80 ? '#f59e0b' : '#f97316'
                         }} 
                       />
                     </div>

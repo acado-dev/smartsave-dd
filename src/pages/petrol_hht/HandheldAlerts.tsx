@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+const PETROL_RED = "hsl(357, 92%, 46%)";
 
 const alerts = [
   {
@@ -100,7 +100,7 @@ export default function HandheldAlerts() {
     switch (type) {
       case "critical": return "text-orange-500";
       case "warning": return "text-amber-500";
-      default: return ITHINA_TEAL;
+      default: return PETROL_RED;
     }
   };
 
@@ -193,7 +193,7 @@ export default function HandheldAlerts() {
                             {alert.title}
                           </p>
                           {!alert.read && (
-                            <div className="w-2 h-2 rounded-full shrink-0 mt-1.5" style={{ backgroundColor: ITHINA_TEAL }} />
+                            <div className="w-2 h-2 rounded-full shrink-0 mt-1.5" style={{ backgroundColor: PETROL_RED }} />
                           )}
                         </div>
                         <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>

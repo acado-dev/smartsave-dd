@@ -19,8 +19,8 @@ import {
 import { cn } from "@/lib/utils";
 
 // Ithina brand colors
-const ITHINA_NAVY = "hsl(205, 55%, 18%)";
-const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+const PETROL_DARK = "hsl(0, 0%, 12%)";
+const PETROL_RED = "hsl(357, 92%, 46%)";
 
 const priorityActions = [
   {
@@ -65,13 +65,13 @@ export default function HandheldHome() {
       {/* Store Health Score & Quick Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Store Health Score */}
-        <Card className="border-slate-200 lg:col-span-2" style={{ background: `linear-gradient(135deg, ${ITHINA_TEAL}10, transparent)` }}>
+        <Card className="border-slate-200 lg:col-span-2" style={{ background: `linear-gradient(135deg, ${PETROL_RED}10, transparent)` }}>
           <CardContent className="pt-4 md:pt-6">
             <div className="flex items-center justify-between mb-4 md:mb-6">
               <div>
                 <p className="text-sm md:text-base text-muted-foreground">Store Health Score</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl md:text-5xl font-bold" style={{ color: ITHINA_NAVY }}>{storeHealthScore}</span>
+                  <span className="text-4xl md:text-5xl font-bold" style={{ color: PETROL_DARK }}>{storeHealthScore}</span>
                   <span className="text-sm md:text-base text-muted-foreground">/100</span>
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default function HandheldHome() {
               <CardContent className="p-3 md:p-4 text-center lg:flex lg:items-center lg:gap-4 lg:text-left">
                 <metric.icon className={cn("h-5 w-5 md:h-6 md:w-6 mx-auto lg:mx-0 mb-1 lg:mb-0", metric.color)} />
                 <div>
-                  <p className="text-xl md:text-2xl font-bold" style={{ color: ITHINA_NAVY }}>{metric.value}</p>
+                  <p className="text-xl md:text-2xl font-bold" style={{ color: PETROL_DARK }}>{metric.value}</p>
                   <p className="text-xs md:text-sm text-muted-foreground">{metric.label}</p>
                 </div>
               </CardContent>
@@ -153,7 +153,7 @@ export default function HandheldHome() {
                       action.severity === "warning" && "bg-amber-500 hover:bg-amber-600 text-white",
                       action.severity === "info" && "text-white"
                     )}
-                    style={action.severity === "info" ? { backgroundColor: ITHINA_TEAL } : undefined}
+                    style={action.severity === "info" ? { backgroundColor: PETROL_RED } : undefined}
                   >
                     {action.action}
                   </Button>
@@ -181,7 +181,7 @@ export default function HandheldHome() {
                 <span className="font-medium text-emerald-600 text-lg md:text-xl">1,247</span>
               </div>
               <div className="h-2 md:h-3 w-full rounded-full bg-slate-100 overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: '87%', backgroundColor: ITHINA_TEAL }} />
+                <div className="h-full rounded-full" style={{ width: '87%', backgroundColor: PETROL_RED }} />
               </div>
               <div className="flex items-center justify-between text-xs md:text-sm">
                 <span className="flex items-center gap-1">
@@ -217,7 +217,7 @@ export default function HandheldHome() {
                 className="flex flex-col items-center gap-1 md:gap-2 h-auto py-3 md:py-4 border-slate-200 hover:border-sky-300 hover:bg-sky-50"
                 onClick={() => navigate(item.route)}
               >
-                <item.icon className="h-5 w-5 md:h-6 md:w-6" style={{ color: ITHINA_NAVY }} />
+                <item.icon className="h-5 w-5 md:h-6 md:w-6" style={{ color: PETROL_DARK }} />
                 <span className="text-xs md:text-sm">{item.label}</span>
               </Button>
             ))}

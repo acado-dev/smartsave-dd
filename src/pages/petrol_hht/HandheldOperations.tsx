@@ -16,8 +16,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const ITHINA_TEAL = "hsl(195, 100%, 42%)";
-const ITHINA_NAVY = "hsl(205, 55%, 18%)";
+const PETROL_RED = "hsl(357, 92%, 46%)";
+const PETROL_DARK = "hsl(0, 0%, 12%)";
 
 const operationGroups = [
   {
@@ -117,7 +117,7 @@ export default function HandheldOperations() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>ESL Operations</h2>
+        <h2 className="text-lg font-semibold" style={{ color: PETROL_DARK }}>ESL Operations</h2>
         <p className="text-sm text-muted-foreground">Select an operation to begin</p>
       </div>
 
@@ -136,7 +136,7 @@ export default function HandheldOperations() {
                 <CardContent className="p-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: `${ITHINA_TEAL}15`, color: ITHINA_TEAL }}
+                      style={{ backgroundColor: `${PETROL_RED}15`, color: PETROL_RED }}
                     >
                       <op.icon className="h-5 w-5" />
                     </div>

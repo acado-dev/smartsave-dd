@@ -28,8 +28,8 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 
-const ITHINA_NAVY = "hsl(205, 55%, 18%)";
-const ITHINA_TEAL = "hsl(195, 100%, 42%)";
+const PETROL_DARK = "hsl(0, 0%, 12%)";
+const PETROL_RED = "hsl(357, 92%, 46%)";
 
 const jobStats = {
   total: 1275,
@@ -147,7 +147,7 @@ export default function HandheldJobs() {
   return (
     <div className="p-4 space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold" style={{ color: ITHINA_NAVY }}>Job Control Center</h2>
+        <h2 className="text-lg font-semibold" style={{ color: PETROL_DARK }}>Job Control Center</h2>
         <p className="text-sm text-muted-foreground">Monitor and manage ESL jobs</p>
       </div>
 
@@ -156,7 +156,7 @@ export default function HandheldJobs() {
         <CardContent className="pt-4">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <p className="text-2xl font-bold" style={{ color: ITHINA_NAVY }}>{completionRate}%</p>
+              <p className="text-2xl font-bold" style={{ color: PETROL_DARK }}>{completionRate}%</p>
               <p className="text-xs text-muted-foreground">Completion Rate</p>
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-right text-sm">
@@ -167,7 +167,7 @@ export default function HandheldJobs() {
             </div>
           </div>
           <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full rounded-full" style={{ width: `${completionRate}%`, backgroundColor: ITHINA_TEAL }} />
+            <div className="h-full rounded-full" style={{ width: `${completionRate}%`, backgroundColor: PETROL_RED }} />
           </div>
           {jobStats.slaBreaches > 0 && (
             <div className="mt-3 flex items-center gap-2 text-amber-600 text-xs">
@@ -308,12 +308,12 @@ export default function HandheldJobs() {
               )}
 
               {selectedJob.recommendation && (
-                <Card className="mb-4" style={{ backgroundColor: `${ITHINA_TEAL}08`, borderColor: `${ITHINA_TEAL}30` }}>
+                <Card className="mb-4" style={{ backgroundColor: `${PETROL_RED}08`, borderColor: `${PETROL_RED}30` }}>
                   <CardContent className="p-3">
                     <div className="flex items-start gap-2">
-                      <ArrowUpRight className="h-5 w-5 shrink-0 mt-0.5" style={{ color: ITHINA_TEAL }} />
+                      <ArrowUpRight className="h-5 w-5 shrink-0 mt-0.5" style={{ color: PETROL_RED }} />
                       <div>
-                        <p className="font-medium text-sm" style={{ color: ITHINA_TEAL }}>Recommended Action</p>
+                        <p className="font-medium text-sm" style={{ color: PETROL_RED }}>Recommended Action</p>
                         <p className="text-sm mt-1">{selectedJob.recommendation}</p>
                       </div>
                     </div>
@@ -354,7 +354,7 @@ export default function HandheldJobs() {
 
               {selectedJob.status === "failed" && (
                 <div className="flex gap-2 mt-6">
-                  <Button className="flex-1 text-white" style={{ backgroundColor: ITHINA_TEAL }}>
+                  <Button className="flex-1 text-white" style={{ backgroundColor: PETROL_RED }}>
                     <RefreshCw className="h-4 w-4 mr-2" />
                     Retry Job
                   </Button>
