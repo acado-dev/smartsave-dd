@@ -85,6 +85,19 @@ import SmartStoreAnalytics from "./pages/smartstore/Analytics";
 import SmartStoreMarketplace from "./pages/smartstore/Marketplace";
 import SmartStorePricingOptimization from "./pages/smartstore/PricingOptimization";
 import SmartStorePricingRules from "./pages/smartstore/PricingRules";
+import { Petrol2311Layout } from "./components/layouts/Petrol2311Layout";
+import Petrol2311Dashboard from "./pages/petrol2311/Dashboard";
+import Petrol2311Inventory from "./pages/petrol2311/Inventory";
+import Petrol2311ExpiringItems from "./pages/petrol2311/ExpiringItems";
+import Petrol2311WasteTracking from "./pages/petrol2311/WasteTracking";
+import Petrol2311Donations from "./pages/petrol2311/Donations";
+import Petrol2311Discounts from "./pages/petrol2311/Discounts";
+import Petrol2311DynamicPricing from "./pages/petrol2311/DynamicPricing";
+import Petrol2311LowSalability from "./pages/petrol2311/LowSalability";
+import Petrol2311Analytics from "./pages/petrol2311/Analytics";
+import Petrol2311Marketplace from "./pages/petrol2311/Marketplace";
+import Petrol2311PricingOptimization from "./pages/petrol2311/PricingOptimization";
+import Petrol2311PricingRules from "./pages/petrol2311/PricingRules";
 import InfomilPresentation from "./pages/InfomilPresentation";
 import InfomilStrategicPresentation from "./pages/InfomilStrategicPresentation";
 import CommandInfoPresentation from "./pages/CommandInfoPresentation";
@@ -258,7 +271,21 @@ const App = () => (
           <Route path="/smartstore/marketplace" element={<SmartStoreLayout><SmartStoreMarketplace /></SmartStoreLayout>} />
           <Route path="/smartstore/pricing-optimization" element={<SmartStoreLayout><SmartStorePricingOptimization /></SmartStoreLayout>} />
           <Route path="/smartstore/pricing-rules" element={<SmartStoreLayout><SmartStorePricingRules /></SmartStoreLayout>} />
-          
+
+          {/* Petrol Station #2311 Routes - Ljubljana Celovska 226 */}
+          <Route path="/petrol2311" element={<Petrol2311Layout><Petrol2311Dashboard /></Petrol2311Layout>} />
+          <Route path="/petrol2311/inventory" element={<Petrol2311Layout><Petrol2311Inventory /></Petrol2311Layout>} />
+          <Route path="/petrol2311/expiring-items" element={<Petrol2311Layout><Petrol2311ExpiringItems /></Petrol2311Layout>} />
+          <Route path="/petrol2311/waste-tracking" element={<Petrol2311Layout><Petrol2311WasteTracking /></Petrol2311Layout>} />
+          <Route path="/petrol2311/donations" element={<Petrol2311Layout><Petrol2311Donations /></Petrol2311Layout>} />
+          <Route path="/petrol2311/discounts" element={<Petrol2311Layout><Petrol2311Discounts /></Petrol2311Layout>} />
+          <Route path="/petrol2311/dynamic-pricing" element={<Petrol2311Layout><Petrol2311DynamicPricing /></Petrol2311Layout>} />
+          <Route path="/petrol2311/low-salability" element={<Petrol2311Layout><Petrol2311LowSalability /></Petrol2311Layout>} />
+          <Route path="/petrol2311/analytics" element={<Petrol2311Layout><Petrol2311Analytics /></Petrol2311Layout>} />
+          <Route path="/petrol2311/marketplace" element={<Petrol2311Layout><Petrol2311Marketplace /></Petrol2311Layout>} />
+          <Route path="/petrol2311/pricing-optimization" element={<Petrol2311Layout><Petrol2311PricingOptimization /></Petrol2311Layout>} />
+          <Route path="/petrol2311/pricing-rules" element={<Petrol2311Layout><Petrol2311PricingRules /></Petrol2311Layout>} />
+
           {/* Demo Routes */}
           <Route path="/demo/freshness-analysis" element={<FreshnessAnalysisDemo />} />
           
