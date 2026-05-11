@@ -102,6 +102,27 @@ import InfomilPresentation from "./pages/InfomilPresentation";
 import InfomilStrategicPresentation from "./pages/InfomilStrategicPresentation";
 import CommandInfoPresentation from "./pages/CommandInfoPresentation";
 import HandheldLayout from "./pages/handheld/HandheldLayout";
+import PetrolHandheldLayout from "./pages/petrol_hht/HandheldLayout";
+import PetrolHandheldSplash from "./pages/petrol_hht/HandheldSplash";
+import PetrolHandheldHome from "./pages/petrol_hht/HandheldHome";
+import PetrolHandheldOperations from "./pages/petrol_hht/HandheldOperations";
+import PetrolHandheldHealth from "./pages/petrol_hht/HandheldHealth";
+import PetrolHandheldJobs from "./pages/petrol_hht/HandheldJobs";
+import PetrolHandheldSettings from "./pages/petrol_hht/HandheldSettings";
+import PetrolHandheldAlerts from "./pages/petrol_hht/HandheldAlerts";
+import PetrolAssignESL from "./pages/petrol_hht/operations/AssignESL";
+import PetrolUnassignESL from "./pages/petrol_hht/operations/UnassignESL";
+import PetrolMultiAssignESL from "./pages/petrol_hht/operations/MultiAssignESL";
+import PetrolReplaceESL from "./pages/petrol_hht/operations/ReplaceESL";
+import PetrolRefreshESL from "./pages/petrol_hht/operations/RefreshESL";
+import PetrolFlashESL from "./pages/petrol_hht/operations/FlashESL";
+import PetrolPageChangeESL from "./pages/petrol_hht/operations/PageChangeESL";
+import PetrolInquireESL from "./pages/petrol_hht/operations/InquireESL";
+import PetrolAddESL from "./pages/petrol_hht/operations/AddESL";
+import PetrolDeleteESL from "./pages/petrol_hht/operations/DeleteESL";
+import PetrolOnlineESLs from "./pages/petrol_hht/status/OnlineESLs";
+import PetrolOfflineESLs from "./pages/petrol_hht/status/OfflineESLs";
+import PetrolLowBatteryESLs from "./pages/petrol_hht/status/LowBatteryESLs";
 import HandheldSplash from "./pages/handheld/HandheldSplash";
 import HandheldHome from "./pages/handheld/HandheldHome";
 import HandheldOperations from "./pages/handheld/HandheldOperations";
@@ -322,6 +343,31 @@ const App = () => (
             <Route path="alerts" element={<HandheldAlerts />} />
           </Route>
           
+          {/* Petrol BS #2311 Handheld App Routes */}
+          <Route path="/petrol_hht" element={<PetrolHandheldSplash />} />
+          <Route path="/petrol_hht/home" element={<PetrolHandheldLayout />}>
+            <Route index element={<PetrolHandheldHome />} />
+            <Route path="freshness" element={<FreshnessMobileAnalysis />} />
+            <Route path="operations" element={<PetrolHandheldOperations />} />
+            <Route path="operations/assign" element={<PetrolAssignESL />} />
+            <Route path="operations/unassign" element={<PetrolUnassignESL />} />
+            <Route path="operations/multi-assign" element={<PetrolMultiAssignESL />} />
+            <Route path="operations/replace" element={<PetrolReplaceESL />} />
+            <Route path="operations/refresh" element={<PetrolRefreshESL />} />
+            <Route path="operations/flash" element={<PetrolFlashESL />} />
+            <Route path="operations/page-change" element={<PetrolPageChangeESL />} />
+            <Route path="operations/inquire" element={<PetrolInquireESL />} />
+            <Route path="operations/add" element={<PetrolAddESL />} />
+            <Route path="operations/delete" element={<PetrolDeleteESL />} />
+            <Route path="status/online" element={<PetrolOnlineESLs />} />
+            <Route path="status/offline" element={<PetrolOfflineESLs />} />
+            <Route path="status/low-battery" element={<PetrolLowBatteryESLs />} />
+            <Route path="health" element={<PetrolHandheldHealth />} />
+            <Route path="jobs" element={<PetrolHandheldJobs />} />
+            <Route path="settings" element={<PetrolHandheldSettings />} />
+            <Route path="alerts" element={<PetrolHandheldAlerts />} />
+          </Route>
+
           {/* HHT Light App Routes */}
           <Route path="/HHTLight" element={<HHTLightLayout />}>
             <Route index element={<HHTLightDashboard />} />
