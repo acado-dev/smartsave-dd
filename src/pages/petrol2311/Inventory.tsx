@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Search, Filter, Download, Plus, Wifi, Battery, Clock, Monitor } from "lucide-react";
 import { smartStoreInventory, smartStoreCategories, type SmartStoreProduct } from "@/data/smartStoreInventory";
 
-export default function smartStoreInventory() {
+export default function Petrol2311Inventory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [selectedItem, setSelectedItem] = useState<SmartStoreProduct | null>(null);
