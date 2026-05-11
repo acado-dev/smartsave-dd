@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import petrolLogo from "@/assets/petrol-logo.svg";
 import { useState } from "react";
+import IthinaAssistant from "@/components/handheld/IthinaAssistant";
 
 // Petrol brand colors
 const PETROL_DARK = "hsl(0, 0%, 10%)";
@@ -207,6 +208,9 @@ export default function PetrolHandheldLayout() {
           </div>
         </nav>
       </div>
+
+      {/* Ithina AI Assistant */}
+      <IthinaAssistant />
     </div>
   );
 }
