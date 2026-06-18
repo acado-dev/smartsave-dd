@@ -6,12 +6,15 @@ import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { modules, type GuardrailRule } from "@/data/superadminData";
 import { GitBranch, Plus, Clock, ShieldCheck, Zap, MoreVertical, Pencil, Trash2 } from "lucide-react";
-import { useSuperadminStore, superadminActions } from "@/hooks/useSuperadminStore";
+import { superadminActions } from "@/hooks/useSuperadminStore";
+import { useScopedSuperadminStore as useSuperadminStore } from "@/lib/superadminScope";
+import { usePersonaGuard } from "@/hooks/usePersonaGuard";
 import { GuardrailFormDialog } from "@/components/superadmin/GuardrailFormDialog";
 import { ConfirmDeleteDialog } from "@/components/superadmin/ConfirmDeleteDialog";
 import { toast } from "sonner";
 
 export default function GuardrailsPanel() {
+  usePersonaGuard("guardrails");
   const { guardrails, roles } = useSuperadminStore();
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<GuardrailRule | null>(null);

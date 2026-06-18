@@ -1,37 +1,56 @@
+## Add login + role-scoped workspace to `/superadmin`
 
+Add a mock login screen at `/superadmin/login` and gate the existing `/superadmin/*` console behind it. After login, the same console adapts to the signed-in persona — Platform Super Admin sees everything, Organization Admin sees only their tenant/org, and Tenant Admin sees only users/roles inside their tenant scope.
 
-## Replace "DD Brain" branding with Ithina logo in Superadmin
+### 1. Auth model (mock, demo-only)
 
-Swap the "DD Brain" text branding in the Superadmin console for the uploaded Ithina logo. Leave the Infomil presentations untouched (they reference "DD Brain" as a separate product narrative).
+Three personas, mapped to existing `superadminData.ts` records:
 
-### 1. Add the logo asset
-- Copy `user-uploads://ithina_final_white-3.png` into `src/assets/ithina-logo-white.png` so it can be imported as a bundled module.
+| Persona | Scope | Demo login |
+|---|---|---|
+| Platform Super Admin | All tenants, all modules, governance, audit, guardrails | `anjali@ithina.ai` |
+| Organization Admin | Single tenant (full): users, roles, org tree, modules, audit for that tenant | `marcus.t@bucees.com` (Buc-ee's), `a.kowalski@zabka.pl` (Żabka), `priya@smartstore.io` (SmartStore) |
+| Tenant Admin | Sub-scope of a tenant (e.g. region/store): users + roles only, no module/guardrail config | `j.cole@bucees.com` (Buc-ee's · Texas), `p.nowak@zabka.pl` (Żabka · Warsaw+Kraków) |
 
-### 2. Update the Superadmin sidebar (`src/components/navigation/SuperadminSidebar.tsx`)
-- Replace the gradient crown tile + "DD Brain" / "Superadmin Console" text block with the Ithina logo image.
-- Expanded state: show the Ithina logo (height ~28–32px, `object-contain`) followed by a small "Superadmin Console" caption underneath in the existing light-blue uppercase style.
-- Collapsed state: show just the logo, scaled down to fit the 16px-wide rail (height ~28px, centered).
-- Keep the existing dark header background and bottom border.
+Password is ignored (demo). A "Quick sign-in" panel lists the demo accounts so reviewers can switch personas in one click.
 
-### 3. Update the Superadmin top header (`src/components/layouts/SuperadminLayout.tsx`)
-- Change the subtitle text from `Ithina · DD Brain Governance Console` to `Ithina · Superadmin Governance Console`.
-- Keep the PLATFORM badge and crown icon as-is (they're a role indicator, not branding).
+Session is persisted in `localStorage` (`superadmin.session`). Logout clears it and returns to `/superadmin/login`.
 
-### 4. Update the Superadmin dashboard copy (`src/pages/superadmin/SuperadminDashboard.tsx`)
-- Change the subtitle from "Govern every tenant, module, role and approval rail across DD Brain." to "Govern every tenant, module, role and approval rail across Ithina."
+### 2. New files
 
-### 5. Update Module Access copy (`src/pages/superadmin/ModuleAccess.tsx`)
-- Change "Enable or disable DD Brain modules per tenant…" to "Enable or disable Ithina modules per tenant…"
+- `src/contexts/SuperadminAuthContext.tsx` — provider exposing `{ user, tenantId, persona, can(action), signIn, signOut }`. Persona is derived from the user's role (`r-super` → platform, `r-owner` → org, anything else → tenant).
+- `src/pages/superadmin/SuperadminLogin.tsx` — branded login page (Ithina logo, dark navy theme matching the console) with email + password fields and the quick-sign-in list.
+- `src/components/superadmin/RequireSuperadminAuth.tsx` — route guard that redirects to `/superadmin/login` when no session exists.
 
-### Out of scope (intentionally not changed)
-- `InfomilPresentation.tsx` and `InfomilStrategicPresentation.tsx` — "DD Brain" there is a distinct product narrative for the Infomil pitch deck.
-- `src/data/superadminData.ts` header comment — internal-only, not user-visible.
-- `src/App.tsx` route comment — internal-only.
+### 3. Edits
+
+- `src/App.tsx` — wrap the `/superadmin` route tree with `SuperadminAuthProvider` + `RequireSuperadminAuth`, add `/superadmin/login` as a public child.
+- `src/components/layouts/SuperadminLayout.tsx` — show real signed-in name/role in the header avatar block; add a logout menu; show the active tenant scope chip next to the PLATFORM badge (e.g. "Buc-ee's" for org admins).
+- `src/components/navigation/SuperadminSidebar.tsx` — hide menu items the persona cannot access:
+  - Platform admin: all items
+  - Organization admin: Dashboard, Tenants (read-only single row), Org Tree, Users, Roles, Modules, Audit
+  - Tenant admin: Dashboard, Org Tree (scoped), Users, Roles, Audit
+- The console pages (`SuperadminDashboard`, `TenantsPage`, `UsersPage`, `RolesPermissions`, `OrganizationTree`, `ModuleAccess`, `GuardrailsPanel`, `AuditLog`) — filter their data through a small helper `scopeForPersona(persona, tenantId, locationIds, data)` so each persona only sees their own tenant's rows. Dashboard KPIs are recomputed against the filtered set so an org admin sees their tenant's stores/users/MRR, not platform totals.
+
+### 4. UX details
+
+- Login page uses the same dark navy + blue accent as the console for visual continuity; Ithina logo at the top.
+- Header shows: `Ithina · Superadmin` for platform, `Ithina · {Tenant Name} Admin` for org, `Ithina · {Tenant Name} · {Scope}` for tenant admin.
+- Unauthorized direct navigation (e.g. tenant admin opening `/superadmin/guardrails`) redirects to `/superadmin` with a toast.
+
+### Technical notes
+
+- Pure client-side mock — no Lovable Cloud, no backend. This matches the existing pattern used by `ESLLogin` (`localStorage`-based role gate).
+- No changes to `superadminData.ts` shape; only consumers filter it.
+- Existing deep-link redirects (`/Superadmin` → `/superadmin`) keep working; if the user is unauthenticated they land on the login page.
 
 ### Files touched
-- `src/assets/ithina-logo-white.png` (new, copied from upload)
-- `src/components/navigation/SuperadminSidebar.tsx`
-- `src/components/layouts/SuperadminLayout.tsx`
-- `src/pages/superadmin/SuperadminDashboard.tsx`
-- `src/pages/superadmin/ModuleAccess.tsx`
 
+- new: `src/contexts/SuperadminAuthContext.tsx`
+- new: `src/pages/superadmin/SuperadminLogin.tsx`
+- new: `src/components/superadmin/RequireSuperadminAuth.tsx`
+- new: `src/lib/superadminScope.ts` (small `scopeForPersona` helper)
+- edit: `src/App.tsx`
+- edit: `src/components/layouts/SuperadminLayout.tsx`
+- edit: `src/components/navigation/SuperadminSidebar.tsx`
+- edit: each page under `src/pages/superadmin/*` to apply the scope helper
