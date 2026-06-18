@@ -22,25 +22,29 @@ import {
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
+import { canAccess } from "@/lib/superadminScope";
 
-const overview = [
-  { title: "Platform Dashboard", url: "/superadmin", icon: LayoutDashboard, end: true },
+type Item = { title: string; url: string; icon: any; end?: boolean; section: Parameters<typeof canAccess>[0] };
+
+const overview: Item[] = [
+  { title: "Workspace Dashboard", url: "/superadmin", icon: LayoutDashboard, end: true, section: "dashboard" },
 ];
 
-const governance = [
-  { title: "Tenants", url: "/superadmin/tenants", icon: Building2 },
-  { title: "Organization Tree", url: "/superadmin/organization", icon: Network },
-  { title: "Users", url: "/superadmin/users", icon: Users },
+const governance: Item[] = [
+  { title: "Tenants", url: "/superadmin/tenants", icon: Building2, section: "tenants" },
+  { title: "Organization Tree", url: "/superadmin/organization", icon: Network, section: "organization" },
+  { title: "Users", url: "/superadmin/users", icon: Users, section: "users" },
 ];
 
-const access = [
-  { title: "Roles & Permissions", url: "/superadmin/roles", icon: ShieldCheck },
-  { title: "Module Access", url: "/superadmin/modules", icon: Boxes },
-  { title: "Guardrails", url: "/superadmin/guardrails", icon: GitBranch },
+const access: Item[] = [
+  { title: "Roles & Permissions", url: "/superadmin/roles", icon: ShieldCheck, section: "roles" },
+  { title: "Module Access", url: "/superadmin/modules", icon: Boxes, section: "modules" },
+  { title: "Guardrails", url: "/superadmin/guardrails", icon: GitBranch, section: "guardrails" },
 ];
 
-const compliance = [
-  { title: "Audit Log", url: "/superadmin/audit", icon: ScrollText },
+const compliance: Item[] = [
+  { title: "Audit Log", url: "/superadmin/audit", icon: ScrollText, section: "audit" },
 ];
 
 export function SuperadminSidebar() {
