@@ -434,25 +434,28 @@ const App = () => (
           <Route
             path="/superadmin/*"
             element={
-              <SuperadminAuthProvider>
-                <Routes>
-                  <Route path="login" element={<SuperadminLogin />} />
-                  <Route element={<RequireSuperadminAuth />}>
-                    <Route element={<SuperadminLayout />}>
-                      <Route index element={<SuperadminDashboard />} />
-                      <Route path="tenants" element={<SuperadminTenants />} />
-                      <Route path="organization" element={<SuperadminOrganization />} />
-                      <Route path="users" element={<SuperadminUsers />} />
-                      <Route path="roles" element={<SuperadminRoles />} />
-                      <Route path="modules" element={<SuperadminModules />} />
-                      <Route path="guardrails" element={<SuperadminGuardrails />} />
-                      <Route path="audit" element={<SuperadminAudit />} />
+              <SuperadminErrorBoundary>
+                <SuperadminAuthProvider>
+                  <Routes>
+                    <Route path="login" element={<SuperadminLogin />} />
+                    <Route element={<RequireSuperadminAuth />}>
+                      <Route element={<SuperadminLayout />}>
+                        <Route index element={<SuperadminDashboard />} />
+                        <Route path="tenants" element={<SuperadminTenants />} />
+                        <Route path="organization" element={<SuperadminOrganization />} />
+                        <Route path="users" element={<SuperadminUsers />} />
+                        <Route path="roles" element={<SuperadminRoles />} />
+                        <Route path="modules" element={<SuperadminModules />} />
+                        <Route path="guardrails" element={<SuperadminGuardrails />} />
+                        <Route path="audit" element={<SuperadminAudit />} />
+                      </Route>
                     </Route>
-                  </Route>
-                </Routes>
-              </SuperadminAuthProvider>
+                  </Routes>
+                </SuperadminAuthProvider>
+              </SuperadminErrorBoundary>
             }
           />
+
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
