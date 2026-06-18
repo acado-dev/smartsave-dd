@@ -64,15 +64,29 @@ export function SuperadminAuthProvider({ children }: { children: ReactNode }) {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
-      return JSON.parse(raw) as SuperadminSession;
+      // We persist only the email and rebuild the session from seed data so a
+      // change in the demo data shape never leaves a partial/stale session.
+      const parsed = JSON.parse(raw);
+      const email = typeof parsed === "string" ? parsed : parsed?.email;
+      if (!email || typeof email !== "string") {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      const rebuilt = buildSession(email);
+      if (!rebuilt) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return rebuilt;
     } catch {
+      try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
       return null;
     }
   });
 
   useEffect(() => {
     try {
-      if (session) localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+      if (session) localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: session.email }));
       else localStorage.removeItem(STORAGE_KEY);
     } catch {
       /* ignore */

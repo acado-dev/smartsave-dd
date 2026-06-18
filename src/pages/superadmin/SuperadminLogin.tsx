@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,7 +31,7 @@ export default function SuperadminLogin() {
   const from = (location.state as any)?.from ?? "/superadmin";
 
   if (session) {
-    navigate(from, { replace: true });
+    return <Navigate to={from} replace />;
   }
 
   const handleSubmit = (e: React.FormEvent, overrideEmail?: string) => {
