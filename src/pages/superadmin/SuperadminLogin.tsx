@@ -31,7 +31,7 @@ export default function SuperadminLogin() {
   const from = (location.state as any)?.from ?? "/superadmin";
 
   if (session) {
-    navigate(from, { replace: true });
+    return <Navigate to={from} replace />;
   }
 
   const handleSubmit = (e: React.FormEvent, overrideEmail?: string) => {
