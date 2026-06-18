@@ -176,6 +176,7 @@ import SuperadminAudit from "./pages/superadmin/AuditLog";
 import SuperadminLogin from "./pages/superadmin/SuperadminLogin";
 import { SuperadminAuthProvider } from "./contexts/SuperadminAuthContext";
 import { RequireSuperadminAuth } from "./components/superadmin/RequireSuperadminAuth";
+import { SuperadminErrorBoundary } from "./components/superadmin/SuperadminErrorBoundary";
 
 const queryClient = new QueryClient();
 
