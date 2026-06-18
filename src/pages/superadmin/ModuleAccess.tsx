@@ -2,7 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { modules } from "@/data/superadminData";
 import { Boxes, Check, X } from "lucide-react";
-import { useSuperadminStore, superadminActions } from "@/hooks/useSuperadminStore";
+import { superadminActions } from "@/hooks/useSuperadminStore";
+import { useScopedSuperadminStore as useSuperadminStore } from "@/lib/superadminScope";
 
 export default function ModuleAccess() {
   const { tenants } = useSuperadminStore();

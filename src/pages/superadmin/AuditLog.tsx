@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Download, ScrollText, RefreshCw } from "lucide-react";
-import { useSuperadminStore, superadminActions } from "@/hooks/useSuperadminStore";
+import { superadminActions } from "@/hooks/useSuperadminStore";
+import { useScopedSuperadminStore as useSuperadminStore } from "@/lib/superadminScope";
 
 const resultStyle: Record<string, string> = {
   success: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
