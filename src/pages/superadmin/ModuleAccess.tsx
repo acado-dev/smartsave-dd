@@ -4,8 +4,10 @@ import { modules } from "@/data/superadminData";
 import { Boxes, Check, X } from "lucide-react";
 import { superadminActions } from "@/hooks/useSuperadminStore";
 import { useScopedSuperadminStore as useSuperadminStore } from "@/lib/superadminScope";
+import { usePersonaGuard } from "@/hooks/usePersonaGuard";
 
 export default function ModuleAccess() {
+  usePersonaGuard("modules");
   const { tenants } = useSuperadminStore();
 
   return (

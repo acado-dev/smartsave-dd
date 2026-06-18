@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { modules, type Tenant } from "@/data/superadminData";
 import { superadminActions } from "@/hooks/useSuperadminStore";
 import { useScopedSuperadminStore as useSuperadminStore } from "@/lib/superadminScope";
+import { usePersonaGuard } from "@/hooks/usePersonaGuard";
 import { Search, Plus, Users, Store, DollarSign, MoreVertical, Pencil, Trash2, Power } from "lucide-react";
 import { TenantFormDialog } from "@/components/superadmin/TenantFormDialog";
 import { ConfirmDeleteDialog } from "@/components/superadmin/ConfirmDeleteDialog";
@@ -26,6 +27,7 @@ const statusStyle: Record<string, string> = {
 };
 
 export default function TenantsPage() {
+  usePersonaGuard("tenants");
   const { tenants } = useSuperadminStore();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<string>("all");
