@@ -173,6 +173,9 @@ import SuperadminRoles from "./pages/superadmin/RolesPermissions";
 import SuperadminModules from "./pages/superadmin/ModuleAccess";
 import SuperadminGuardrails from "./pages/superadmin/GuardrailsPanel";
 import SuperadminAudit from "./pages/superadmin/AuditLog";
+import SuperadminLogin from "./pages/superadmin/SuperadminLogin";
+import { SuperadminAuthProvider } from "./contexts/SuperadminAuthContext";
+import { RequireSuperadminAuth } from "./components/superadmin/RequireSuperadminAuth";
 
 const queryClient = new QueryClient();
 
@@ -423,21 +426,33 @@ const App = () => (
             <Route path="status/offline" element={<ITHNCommandOfflineESLs />} />
           </Route>
           
-          {/* Superadmin / DD Brain RBAC Console */}
+          {/* Superadmin / RBAC Console */}
           {/* Case-insensitive redirects (e.g. /Superadmin -> /superadmin) */}
           <Route path="/Superadmin/*" element={<Navigate to="/superadmin" replace />} />
           <Route path="/SuperAdmin/*" element={<Navigate to="/superadmin" replace />} />
           <Route path="/SUPERADMIN/*" element={<Navigate to="/superadmin" replace />} />
-          <Route path="/superadmin" element={<SuperadminLayout />}>
-            <Route index element={<SuperadminDashboard />} />
-            <Route path="tenants" element={<SuperadminTenants />} />
-            <Route path="organization" element={<SuperadminOrganization />} />
-            <Route path="users" element={<SuperadminUsers />} />
-            <Route path="roles" element={<SuperadminRoles />} />
-            <Route path="modules" element={<SuperadminModules />} />
-            <Route path="guardrails" element={<SuperadminGuardrails />} />
-            <Route path="audit" element={<SuperadminAudit />} />
-          </Route>
+          <Route
+            path="/superadmin/*"
+            element={
+              <SuperadminAuthProvider>
+                <Routes>
+                  <Route path="login" element={<SuperadminLogin />} />
+                  <Route element={<RequireSuperadminAuth />}>
+                    <Route element={<SuperadminLayout />}>
+                      <Route index element={<SuperadminDashboard />} />
+                      <Route path="tenants" element={<SuperadminTenants />} />
+                      <Route path="organization" element={<SuperadminOrganization />} />
+                      <Route path="users" element={<SuperadminUsers />} />
+                      <Route path="roles" element={<SuperadminRoles />} />
+                      <Route path="modules" element={<SuperadminModules />} />
+                      <Route path="guardrails" element={<SuperadminGuardrails />} />
+                      <Route path="audit" element={<SuperadminAudit />} />
+                    </Route>
+                  </Route>
+                </Routes>
+              </SuperadminAuthProvider>
+            }
+          />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
