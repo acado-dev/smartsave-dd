@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -203,6 +203,14 @@ const ITHNCommandOnlineESLs = lazy(() => import("./pages/ithncommand/status/ITHN
 const ITHNCommandOfflineESLs = lazy(() => import("./pages/ithncommand/status/ITHNCommandOfflineESLs"));
 
 const RouteLoader = () => <div className="min-h-screen bg-background" />;
+
+const SuperadminRouteShell = () => (
+  <SuperadminErrorBoundary>
+    <SuperadminAuthProvider>
+      <Outlet />
+    </SuperadminAuthProvider>
+  </SuperadminErrorBoundary>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -432,30 +440,21 @@ const App = () => (
           <Route path="/Superadmin/*" element={<Navigate to="/superadmin" replace />} />
           <Route path="/SuperAdmin/*" element={<Navigate to="/superadmin" replace />} />
           <Route path="/SUPERADMIN/*" element={<Navigate to="/superadmin" replace />} />
-          <Route
-            path="/superadmin/*"
-            element={
-              <SuperadminErrorBoundary>
-                <SuperadminAuthProvider>
-                  <Routes>
-                    <Route path="login" element={<SuperadminLogin />} />
-                    <Route element={<RequireSuperadminAuth />}>
-                      <Route element={<SuperadminLayout />}>
-                        <Route index element={<SuperadminDashboard />} />
-                        <Route path="tenants" element={<SuperadminTenants />} />
-                        <Route path="organization" element={<SuperadminOrganization />} />
-                        <Route path="users" element={<SuperadminUsers />} />
-                        <Route path="roles" element={<SuperadminRoles />} />
-                        <Route path="modules" element={<SuperadminModules />} />
-                        <Route path="guardrails" element={<SuperadminGuardrails />} />
-                        <Route path="audit" element={<SuperadminAudit />} />
-                      </Route>
-                    </Route>
-                  </Routes>
-                </SuperadminAuthProvider>
-              </SuperadminErrorBoundary>
-            }
-          />
+          <Route path="/superadmin" element={<SuperadminRouteShell />}>
+            <Route path="login" element={<SuperadminLogin />} />
+            <Route element={<RequireSuperadminAuth />}>
+              <Route element={<SuperadminLayout />}>
+                <Route index element={<SuperadminDashboard />} />
+                <Route path="tenants" element={<SuperadminTenants />} />
+                <Route path="organization" element={<SuperadminOrganization />} />
+                <Route path="users" element={<SuperadminUsers />} />
+                <Route path="roles" element={<SuperadminRoles />} />
+                <Route path="modules" element={<SuperadminModules />} />
+                <Route path="guardrails" element={<SuperadminGuardrails />} />
+                <Route path="audit" element={<SuperadminAudit />} />
+              </Route>
+            </Route>
+          </Route>
 
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
