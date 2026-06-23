@@ -12,6 +12,7 @@ import Features from "./pages/Features";
 import Solutions from "./pages/Solutions";
 import Benefits from "./pages/Benefits";
 import About from "./pages/About";
+import NewFeatureHHT from "./pages/NewFeatureHHT";
 import { ManagementLayout } from "./components/layouts/ManagementLayout";
 import { AdminLayout } from "./components/layouts/AdminLayout";
 import { SmartStoreLayout } from "./components/layouts/SmartStoreLayout";
