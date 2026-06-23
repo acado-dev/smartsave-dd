@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, Maximize2, Sparkles, Sun, Moon, Download, Loader2, FileText, Presentation } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2, Sparkles, Sun, Moon, Loader2, FileText, Presentation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { slides, type Slide } from "./newfeaturehht-content";
 import { downloadPPTX, downloadPDF } from "./newfeaturehht-export";
