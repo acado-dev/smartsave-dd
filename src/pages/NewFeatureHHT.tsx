@@ -54,13 +54,34 @@ export default function NewFeatureHHT() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleExport("pptx")}
+            disabled={exporting !== null}
+            className="bg-transparent border-white/20 text-white hover:bg-white/5"
+          >
+            {exporting === "pptx" ? <Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> : <Presentation className="w-4 h-4 mr-1.5" />}
+            PPTX
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleExport("pdf")}
+            disabled={exporting !== null}
+            className="bg-transparent border-white/20 text-white hover:bg-white/5"
+          >
+            {exporting === "pdf" ? <Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> : <FileText className="w-4 h-4 mr-1.5" />}
+            PDF
+          </Button>
+          <span className="text-xs text-slate-400 ml-2">
             {idx + 1} / {total}
           </span>
           <Button variant="ghost" size="icon" onClick={() => document.documentElement.requestFullscreen?.()}>
             <Maximize2 className="w-4 h-4" />
           </Button>
         </div>
+
       </header>
 
       {/* Slide */}
