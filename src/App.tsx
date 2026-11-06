@@ -174,6 +174,7 @@ import SuperadminRoles from "./pages/superadmin/RolesPermissions";
 import SuperadminModules from "./pages/superadmin/ModuleAccess";
 import SuperadminGuardrails from "./pages/superadmin/GuardrailsPanel";
 import SuperadminAudit from "./pages/superadmin/AuditLog";
+import SuperadminProducts from "./pages/superadmin/ProductConfiguration";
 import SuperadminLogin from "./pages/superadmin/SuperadminLogin";
 import { SuperadminAuthProvider } from "./contexts/SuperadminAuthContext";
 import { RequireSuperadminAuth } from "./components/superadmin/RequireSuperadminAuth";
