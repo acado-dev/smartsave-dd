@@ -153,6 +153,7 @@ export function SubscriptionDetailDialog({ cp, tenantName, onClose }: { cp: Cust
           <F k="Attributes" v={sku.attributes || "—"} />
           <F k="Subscription date" v={cp.startDate} />
           <F k="Expiry date" v={<ExpiryText endDate={cp.endDate} />} />
+          {cp.deployment && <F k="Deployment" v={cp.deployment} />}
           <F k="Auto-renew" v={sku.billing === "subscription" ? (cp.autoRenew ? "Yes" : "No") : "—"} />
           <F k="Sold via" v={`${cp.source} · ${cp.orderRef}`} />
           <div className="col-span-2">
@@ -204,6 +205,7 @@ export function MappingDialog({ tenantId, tenants, cp, onClose }: {
     if (f.quantity < 1) return toast.error("Quantity must be at least 1");
     if ((f.used ?? 0) < 0) return toast.error("Usage cannot be negative");
     if (!f.orderRef.trim()) return toast.error("Order / opportunity reference is required");
+    if (sku && nodes.find((x) => x.id === catOf(sku.nodeId))?.name === "Ithina Core" && !f.deployment) return toast.error("Choose Cloud or On-Prem for Ithina Core");
     if (f.endDate && f.endDate < f.startDate) return toast.error("Expiry date must be after subscription date");
     catalogActions.saveCustomerProduct({ ...f, id: cp?.id });
     toast.success(cp ? "Subscription updated" : "Subscription mapped to customer");
@@ -265,6 +267,16 @@ export function MappingDialog({ tenantId, tenants, cp, onClose }: {
             </div>
             <div><Label>Assigned to</Label><Input className={fieldCls} value={f.assignedTo ?? ""} onChange={(e) => setF({ ...f, assignedTo: e.target.value })} placeholder="All locations" /></div>
           </div>
+          {sku && nodes.find((x) => x.id === catOf(sku.nodeId))?.name === "Ithina Core" && (
+            <div><Label>Deployment</Label>
+              <div className="grid grid-cols-2 gap-2 mt-1">
+                {(["Cloud", "On-Prem"] as const).map((d) => (
+                  <button key={d} type="button" onClick={() => setF({ ...f, deployment: d })}
+                    className={`p-2 rounded border text-xs ${f.deployment === d ? "border-[hsl(187,70%,42%)] bg-[hsl(187,70%,42%)]/10 text-white" : "border-white/10 text-slate-300 hover:bg-white/5"}`}>{d}</button>
+                ))}
+              </div>
+            </div>
+          )}
           {sku?.billing === "subscription" && (
             <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!f.autoRenew} onChange={(e) => setF({ ...f, autoRenew: e.target.checked })} /> Auto-renew at expiry</label>
           )}

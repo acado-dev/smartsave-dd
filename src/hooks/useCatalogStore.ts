@@ -56,6 +56,8 @@ export interface CustomerProduct {
   autoRenew?: boolean;
   /** Stores/locations this mapping is assigned to (free text). */
   assignedTo?: string;
+  /** Ithina Core only: where the platform runs for this customer. */
+  deployment?: "On-Prem" | "Cloud";
 }
 
 export interface ConnectedSystem { id: string; name: string; lastPublished: string | null; version: number }
@@ -81,6 +83,7 @@ const seed = (): CatalogState => ({
     n("p-core-api", "f-core-platform", "product", "Connectivity APIs", "API"),
     n("c-hw", null, "group", "Hardware", "HW", "Physical devices and infrastructure supplied by Ithina or approved third-party manufacturers."),
     n("f-dcom", "c-hw", "group", "D.Com", "DCOM", "Communication infrastructure"),
+    n("p-dcom", "f-dcom", "product", "D.COM Dynamic Communicator", "DCOM-DC", "In-store dynamic communicator hub"),
     n("p-ap5", "f-dcom", "product", "AP5 Access Point", "AP5"),
     n("p-dcs", "f-dcom", "product", "DCS Gateway", "DCS"),
     n("f-esl", "c-hw", "group", "Electronic Shelf Labels", "ESL"),
@@ -94,6 +97,7 @@ const seed = (): CatalogState => ({
     n("s-cseries", "f-esl", "group", "C Series", "ESL-C"),
     n("s-qseries", "f-esl", "group", "Q Series", "ESL-Q"),
     n("f-display", "c-hw", "group", "Displays", "DSP"),
+    n("p-dsp", "f-display", "product", "Digital Shelf Display", "DSP-SHELF"),
     n("c-maestro", null, "group", "Maestro", "MAE", "Retail intelligence and orchestration platform and its assistants."),
     n("f-assistants", "c-maestro", "group", "Assistants", "MAE-AST"),
     n("p-maestro", "c-maestro", "product", "Maestro Platform", "MAESTRO"),
@@ -116,6 +120,8 @@ const seed = (): CatalogState => ({
     { id: "k9", nodeId: "p-ithina-os", code: "IOS-STORE-Y", name: "Ithina OS per store / year", attributes: "Per store", billing: "subscription", term: "annual", price: 490, currency: "EUR", channels: ["Direct Sales", "E-Commerce"], status: "approved" },
     { id: "k10", nodeId: "p-core-api", code: "API-CALLS-M", name: "Connectivity API (1M calls / month)", attributes: "1M calls", billing: "subscription", term: "monthly", price: 120, currency: "EUR", channels: ["Direct Sales", "System Integrator"], status: "approved" },
     { id: "k8", nodeId: "p-plano", code: "MAE-PLN-M", name: "Planogram Assistant monthly", attributes: "Per store", billing: "subscription", term: "monthly", price: 59, currency: "EUR", channels: ["E-Commerce", "Reseller"], status: "draft" },
+    { id: "k11", nodeId: "p-dcom", code: "DCOM-DC-EU", name: "D.COM Dynamic Communicator", attributes: "Per store · EU", billing: "one-time", term: "—", price: 690, currency: "EUR", channels: ["Direct Sales", "System Integrator"], status: "approved" },
+    { id: "k12", nodeId: "p-dsp", code: "DSP-SHELF-23", name: "Digital Shelf Display 23\"", attributes: "Stretch bar · 23-inch", billing: "one-time", term: "—", price: 340, currency: "EUR", channels: ["Direct Sales", "Distributor"], status: "approved" },
   ],
   relationships: [
     { id: "r1", fromId: "p-presto", toId: "p-ap5", type: "requires" },
@@ -124,13 +130,18 @@ const seed = (): CatalogState => ({
   ],
   customerProducts: [
     { id: "cp1", tenantId: "t-bucees", skuId: "k2", quantity: 42000, used: 39850, usageUnit: "labels", source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-01-15", endDate: "", status: "active", assignedTo: "All Texas stores" },
-    { id: "cp2", tenantId: "t-bucees", skuId: "k9", quantity: 52, used: 49, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-02-01", endDate: "2027-01-31", status: "active", autoRenew: true },
+    { id: "cp2", tenantId: "t-bucees", skuId: "k9", quantity: 52, used: 49, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-02-01", endDate: "2027-01-31", status: "active", autoRenew: true, deployment: "Cloud" },
     { id: "cp7", tenantId: "t-bucees", skuId: "k6", quantity: 52, used: 31, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-10561", startDate: "2026-02-01", endDate: "2027-01-31", status: "active", autoRenew: true },
     { id: "cp3", tenantId: "t-zabka", skuId: "k6", quantity: 1200, used: 1104, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-11870", startDate: "2026-03-01", endDate: "2027-02-28", status: "active", autoRenew: true },
     { id: "cp4", tenantId: "t-cornerstop", skuId: "k3", quantity: 600, used: 540, usageUnit: "labels", source: "E-Com Portal", orderRef: "EC-55120", startDate: "2026-05-10", endDate: "", status: "active" },
-    { id: "cp5", tenantId: "t-cornerstop", skuId: "k5", quantity: 1, used: 1, usageUnit: "stores", source: "E-Com Portal", orderRef: "EC-55121", startDate: "2026-05-10", endDate: "2026-11-25", status: "active", autoRenew: false },
+    { id: "cp5", tenantId: "t-cornerstop", skuId: "k5", quantity: 1, used: 1, usageUnit: "stores", source: "E-Com Portal", orderRef: "EC-55121", startDate: "2026-05-10", endDate: "2026-11-25", status: "active", autoRenew: false, deployment: "On-Prem" },
     { id: "cp6", tenantId: "t-smartstore", skuId: "k7", quantity: 30, used: 0, usageUnit: "stores", source: "Direct", orderRef: "PO-8812", startDate: "2026-04-01", endDate: "2027-03-31", status: "pending" },
     { id: "cp8", tenantId: "t-smartstore", skuId: "k10", quantity: 5, used: 4.2, usageUnit: "M calls", source: "Direct", orderRef: "PO-8813", startDate: "2026-04-01", endDate: "2026-10-31", status: "expired" },
+    { id: "cp9", tenantId: "t-bucees", skuId: "k11", quantity: 52, used: 50, usageUnit: "units", source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-01-15", endDate: "", status: "active" },
+    { id: "cp10", tenantId: "t-bucees", skuId: "k12", quantity: 940, used: 812, usageUnit: "displays", source: "Salesforce", orderRef: "SF-OPP-10890", startDate: "2026-03-01", endDate: "", status: "active" },
+    { id: "cp11", tenantId: "t-zabka", skuId: "k11", quantity: 1200, used: 1146, usageUnit: "units", source: "Salesforce", orderRef: "SF-OPP-11870", startDate: "2026-03-01", endDate: "", status: "active" },
+    { id: "cp12", tenantId: "t-zabka", skuId: "k5", quantity: 1200, used: 1150, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-11871", startDate: "2026-03-01", endDate: "2027-02-28", status: "active", autoRenew: true, deployment: "On-Prem" },
+    { id: "cp13", tenantId: "t-cornerstop", skuId: "k11", quantity: 1, used: 1, usageUnit: "units", source: "E-Com Portal", orderRef: "EC-55120", startDate: "2026-05-10", endDate: "", status: "active" },
   ],
   systems: [
     { id: "sys-sf", name: "Salesforce CPQ", lastPublished: "2026-10-30 09:12", version: 12 },
@@ -141,7 +152,7 @@ const seed = (): CatalogState => ({
 });
 
 // ─── Store ────────────────────────────────────────────────────────────
-const KEY = "ithina.catalog.v2";
+const KEY = "ithina.catalog.v3";
 const load = (): CatalogState => {
   try {
     const raw = localStorage.getItem(KEY);
