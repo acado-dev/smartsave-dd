@@ -112,7 +112,7 @@ export default function SuperadminDashboard() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
         {persona === "platform" && (
           <KPI label="Active tenants" value={`${tenants.filter((t) => t.status === "active").length} / ${tenants.length}`} sub="across the platform" icon={Building2} accent="blue" />
         )}
