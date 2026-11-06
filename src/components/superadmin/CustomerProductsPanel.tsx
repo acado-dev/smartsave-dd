@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,7 +47,7 @@ export function MandatoryStatus({ tenantId }: { tenantId: string }) {
   return (
     <div className="flex items-start gap-2 text-xs text-amber-200 p-2 rounded border border-amber-500/40 bg-amber-500/10">
       <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-      <div>Missing mandatory: {gaps.map((g) => <span key={g.id} className="font-medium">{nodePath(store.nodes, g.id)}</span>).reduce((a: React.ReactNode[], el, i) => (i ? [...a, ", ", el] : [el]), [])}</div>
+      <div>Missing mandatory: {gaps.map((g) => <span key={g.id} className="font-medium">{nodePath(store.nodes, g.id)}</span>).reduce((a: ReactNode[], el, i) => (i ? [...a, ", ", el] : [el]), [])}</div>
     </div>
   );
 }
@@ -136,7 +136,7 @@ export function SubscriptionDetailDialog({ cp, tenantName, onClose }: { cp: Cust
   const node = nodes.find((x) => x.id === sku.nodeId);
   const productId = node?.kind === "variant" ? node.parentId : node?.id;
   const requires = relationships.filter((r) => r.fromId === productId && r.type === "requires").map((r) => nodes.find((x) => x.id === r.toId)?.name).filter(Boolean);
-  const F = ({ k, v }: { k: string; v: React.ReactNode }) => <div><div className="text-[11px] uppercase tracking-wider text-slate-500">{k}</div><div className="text-sm text-slate-200">{v}</div></div>;
+  const F = ({ k, v }: { k: string; v: ReactNode }) => <div><div className="text-[11px] uppercase tracking-wider text-slate-500">{k}</div><div className="text-sm text-slate-200">{v}</div></div>;
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 max-w-lg">
