@@ -1,0 +1,1 @@
+- Superadmin product catalogue lives in its own store (useCatalogStore, separate localStorage key) with an unlimited-depth category tree; keeps catalogue data decoupled from tenant/RBAC data.
