@@ -98,14 +98,14 @@ export default function SubscriptionsPage() {
           <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search product, SKU, customer, order…" className="pl-9 bg-white/5 border-white/10 text-slate-200" />
         </div>
         {tenants.length > 1 && (
-          <select className={`${selectCls} w-44`} value={tenantF} onChange={(e) => setTenantF(e.target.value)}>
+          <select className={`${selectCls} !w-44`} value={tenantF} onChange={(e) => setTenantF(e.target.value)}>
             <option value="all">All customers</option>{tenants.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
           </select>
         )}
-        <select className={`${selectCls} w-44`} value={catF} onChange={(e) => setCatF(e.target.value)}>
+        <select className={`${selectCls} !w-44`} value={catF} onChange={(e) => setCatF(e.target.value)}>
           <option value="all">All categories</option>{topCats.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
-        <select className={`${selectCls} w-44`} value={statusF} onChange={(e) => setStatusF(e.target.value)}>
+        <select className={`${selectCls} !w-44`} value={statusF} onChange={(e) => setStatusF(e.target.value)}>
           <option value="all">All statuses</option><option value="active">Active</option><option value="pending">Pending</option>
           <option value="expiring">Expiring ≤ 60 days</option><option value="expired">Expired</option><option value="cancelled">Cancelled</option>
           <option value="mandatory">Mandatory only</option>
