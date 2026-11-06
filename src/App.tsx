@@ -174,6 +174,7 @@ import SuperadminRoles from "./pages/superadmin/RolesPermissions";
 import SuperadminModules from "./pages/superadmin/ModuleAccess";
 import SuperadminGuardrails from "./pages/superadmin/GuardrailsPanel";
 import SuperadminAudit from "./pages/superadmin/AuditLog";
+import SuperadminProducts from "./pages/superadmin/ProductConfiguration";
 import SuperadminLogin from "./pages/superadmin/SuperadminLogin";
 import { SuperadminAuthProvider } from "./contexts/SuperadminAuthContext";
 import { RequireSuperadminAuth } from "./components/superadmin/RequireSuperadminAuth";
@@ -455,6 +456,7 @@ const App = () => (
                 <Route path="modules" element={<SuperadminModules />} />
                 <Route path="guardrails" element={<SuperadminGuardrails />} />
                 <Route path="audit" element={<SuperadminAudit />} />
+                <Route path="products" element={<SuperadminProducts />} />
               </Route>
             </Route>
           </Route>

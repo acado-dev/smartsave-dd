@@ -8,6 +8,7 @@ import {
   Boxes,
   GitBranch,
   ScrollText,
+  PackageSearch,
 } from "lucide-react";
 import ithinaLogo from "@/assets/ithina-logo-white.png";
 import {
@@ -35,6 +36,10 @@ const governance: Item[] = [
   { title: "Tenants", url: "/superadmin/tenants", icon: Building2, section: "tenants" },
   { title: "Organization Tree", url: "/superadmin/organization", icon: Network, section: "organization" },
   { title: "Users", url: "/superadmin/users", icon: Users, section: "users" },
+];
+
+const commercial: Item[] = [
+  { title: "Product Configuration", url: "/superadmin/products", icon: PackageSearch, section: "products" },
 ];
 
 const access: Item[] = [
@@ -126,6 +131,7 @@ export function SuperadminSidebar() {
       <SidebarContent style={{ background: "hsl(222 47% 6%)" }}>
         {renderGroup("Overview", overview)}
         {renderGroup("Governance", governance)}
+        {renderGroup("Commercial", commercial)}
         {renderGroup("Access Control", access)}
         {renderGroup("Compliance", compliance)}
       </SidebarContent>

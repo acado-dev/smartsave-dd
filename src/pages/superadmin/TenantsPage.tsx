@@ -13,6 +13,9 @@ import { Search, Plus, Users, Store, DollarSign, MoreVertical, Pencil, Trash2, P
 import { TenantFormDialog } from "@/components/superadmin/TenantFormDialog";
 import { ConfirmDeleteDialog } from "@/components/superadmin/ConfirmDeleteDialog";
 import { toast } from "sonner";
+import { CustomerProductsPanel } from "@/components/superadmin/CustomerProductsPanel";
+import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
+import { useCatalogStore } from "@/hooks/useCatalogStore";
 
 const tierStyle: Record<string, string> = {
   Enterprise: "border-[hsl(262,60%,55%)]/40 text-[hsl(262,60%,75%)] bg-[hsl(262,60%,55%)]/10",
@@ -29,6 +32,9 @@ const statusStyle: Record<string, string> = {
 export default function TenantsPage() {
   usePersonaGuard("tenants");
   const { tenants } = useSuperadminStore();
+  const { customerProducts } = useCatalogStore();
+  const { session } = useSuperadminAuth();
+  const isPlatform = !session || session.persona === "platform";
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<string>("all");
   const [selected, setSelected] = useState<Tenant | null>(null);
@@ -122,6 +128,9 @@ export default function TenantsPage() {
                 <Metric icon={DollarSign} value={t.monthlyRevenue ? `$${(t.monthlyRevenue / 1000).toFixed(1)}k` : "—"} label="MRR" />
               </div>
 
+              <button onClick={() => setSelected(t)} className="w-full text-left text-[11px] text-slate-400 mb-2 hover:text-white">
+                {customerProducts.filter((c) => c.tenantId === t.id).length} products & subscriptions mapped →
+              </button>
               <div className="flex flex-wrap gap-1">
                 {t.modules.slice(0, 4).map((m) => {
                   const mod = modules.find((x) => x.key === m);
@@ -142,7 +151,7 @@ export default function TenantsPage() {
 
       {/* Detail sheet */}
       <Sheet open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
-        <SheetContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[480px] sm:max-w-[480px]">
+        <SheetContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[560px] sm:max-w-[560px] overflow-y-auto">
           {selected && (
             <>
               <SheetHeader>
@@ -171,6 +180,7 @@ export default function TenantsPage() {
                     })}
                   </div>
                 </div>
+                <CustomerProductsPanel tenantId={selected.id} readOnly={!isPlatform} />
                 <div className="flex gap-2 pt-2">
                   <Button onClick={() => openEdit(selected)} variant="outline" className="flex-1 bg-transparent border-white/20 text-white hover:bg-white/5">
                     <Pencil className="h-3.5 w-3.5 mr-2" /> Edit tenant
