@@ -15,6 +15,8 @@ export interface CatalogNode {
   code: string;
   description: string;
   status: LifecycleStatus;
+  /** Mandatory: every customer must hold an active SKU under this node (e.g. Ithina Core). */
+  mandatory?: boolean;
 }
 
 export type Billing = "one-time" | "subscription";
@@ -48,6 +50,12 @@ export interface CustomerProduct {
   startDate: string;
   endDate: string;
   status: "active" | "pending" | "expired" | "cancelled";
+  /** Units consumed against `quantity` (stores, labels, seats…). */
+  used?: number;
+  usageUnit?: string;
+  autoRenew?: boolean;
+  /** Stores/locations this mapping is assigned to (free text). */
+  assignedTo?: string;
 }
 
 export interface ConnectedSystem { id: string; name: string; lastPublished: string | null; version: number }
@@ -67,9 +75,9 @@ const n = (id: string, parentId: string | null, kind: NodeKind, name: string, co
 
 const seed = (): CatalogState => ({
   nodes: [
-    n("c-core", null, "group", "Ithina Core", "CORE", "Device connectivity, abstraction, control, orchestration, monitoring and lifecycle platform."),
+    { ...n("c-core", null, "group", "Ithina Core", "CORE", "Device connectivity, abstraction, control, orchestration, monitoring and lifecycle platform."), mandatory: true },
     n("f-core-platform", "c-core", "group", "Core Platform", "CORE-PLT"),
-    n("p-ithina-os", "f-core-platform", "product", "Ithina OS", "IOS", "Core device orchestration platform"),
+    { ...n("p-ithina-os", "f-core-platform", "product", "Ithina OS", "IOS", "Core device orchestration platform"), mandatory: true },
     n("p-core-api", "f-core-platform", "product", "Connectivity APIs", "API"),
     n("c-hw", null, "group", "Hardware", "HW", "Physical devices and infrastructure supplied by Ithina or approved third-party manufacturers."),
     n("f-dcom", "c-hw", "group", "D.Com", "DCOM", "Communication infrastructure"),
@@ -105,6 +113,8 @@ const seed = (): CatalogState => ({
     { id: "k5", nodeId: "p-ithina-os", code: "IOS-STORE-M", name: "Ithina OS per store / month", attributes: "Per store", billing: "subscription", term: "monthly", price: 49, currency: "EUR", channels: ["Direct Sales", "E-Commerce", "Reseller"], status: "approved" },
     { id: "k6", nodeId: "p-perish", code: "MAE-PER-Y", name: "Perishable Assistant annual", attributes: "Per store", billing: "subscription", term: "annual", price: 990, currency: "EUR", channels: ["Direct Sales", "E-Commerce"], status: "approved" },
     { id: "k7", nodeId: "p-pac", code: "MAE-PAC-Y", name: "PAC Assistant annual", attributes: "Per store", billing: "subscription", term: "annual", price: 790, currency: "EUR", channels: ["Direct Sales"], status: "approved" },
+    { id: "k9", nodeId: "p-ithina-os", code: "IOS-STORE-Y", name: "Ithina OS per store / year", attributes: "Per store", billing: "subscription", term: "annual", price: 490, currency: "EUR", channels: ["Direct Sales", "E-Commerce"], status: "approved" },
+    { id: "k10", nodeId: "p-core-api", code: "API-CALLS-M", name: "Connectivity API (1M calls / month)", attributes: "1M calls", billing: "subscription", term: "monthly", price: 120, currency: "EUR", channels: ["Direct Sales", "System Integrator"], status: "approved" },
     { id: "k8", nodeId: "p-plano", code: "MAE-PLN-M", name: "Planogram Assistant monthly", attributes: "Per store", billing: "subscription", term: "monthly", price: 59, currency: "EUR", channels: ["E-Commerce", "Reseller"], status: "draft" },
   ],
   relationships: [
@@ -113,12 +123,14 @@ const seed = (): CatalogState => ({
     { id: "r3", fromId: "p-e-label", toId: "p-ap5", type: "compatible-with" },
   ],
   customerProducts: [
-    { id: "cp1", tenantId: "t-bucees", skuId: "k2", quantity: 42000, source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-01-15", endDate: "", status: "active" },
-    { id: "cp2", tenantId: "t-bucees", skuId: "k5", quantity: 52, source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-02-01", endDate: "2027-01-31", status: "active" },
-    { id: "cp3", tenantId: "t-zabka", skuId: "k6", quantity: 1200, source: "Salesforce", orderRef: "SF-OPP-11870", startDate: "2026-03-01", endDate: "2027-02-28", status: "active" },
-    { id: "cp4", tenantId: "t-cornerstop", skuId: "k3", quantity: 600, source: "E-Com Portal", orderRef: "EC-55120", startDate: "2026-05-10", endDate: "", status: "active" },
-    { id: "cp5", tenantId: "t-cornerstop", skuId: "k5", quantity: 1, source: "E-Com Portal", orderRef: "EC-55121", startDate: "2026-05-10", endDate: "2026-11-10", status: "active" },
-    { id: "cp6", tenantId: "t-smartstore", skuId: "k7", quantity: 30, source: "Direct", orderRef: "PO-8812", startDate: "2026-04-01", endDate: "2027-03-31", status: "pending" },
+    { id: "cp1", tenantId: "t-bucees", skuId: "k2", quantity: 42000, used: 39850, usageUnit: "labels", source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-01-15", endDate: "", status: "active", assignedTo: "All Texas stores" },
+    { id: "cp2", tenantId: "t-bucees", skuId: "k9", quantity: 52, used: 49, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-10234", startDate: "2026-02-01", endDate: "2027-01-31", status: "active", autoRenew: true },
+    { id: "cp7", tenantId: "t-bucees", skuId: "k6", quantity: 52, used: 31, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-10561", startDate: "2026-02-01", endDate: "2027-01-31", status: "active", autoRenew: true },
+    { id: "cp3", tenantId: "t-zabka", skuId: "k6", quantity: 1200, used: 1104, usageUnit: "stores", source: "Salesforce", orderRef: "SF-OPP-11870", startDate: "2026-03-01", endDate: "2027-02-28", status: "active", autoRenew: true },
+    { id: "cp4", tenantId: "t-cornerstop", skuId: "k3", quantity: 600, used: 540, usageUnit: "labels", source: "E-Com Portal", orderRef: "EC-55120", startDate: "2026-05-10", endDate: "", status: "active" },
+    { id: "cp5", tenantId: "t-cornerstop", skuId: "k5", quantity: 1, used: 1, usageUnit: "stores", source: "E-Com Portal", orderRef: "EC-55121", startDate: "2026-05-10", endDate: "2026-11-25", status: "active", autoRenew: false },
+    { id: "cp6", tenantId: "t-smartstore", skuId: "k7", quantity: 30, used: 0, usageUnit: "stores", source: "Direct", orderRef: "PO-8812", startDate: "2026-04-01", endDate: "2027-03-31", status: "pending" },
+    { id: "cp8", tenantId: "t-smartstore", skuId: "k10", quantity: 5, used: 4.2, usageUnit: "M calls", source: "Direct", orderRef: "PO-8813", startDate: "2026-04-01", endDate: "2026-10-31", status: "expired" },
   ],
   systems: [
     { id: "sys-sf", name: "Salesforce CPQ", lastPublished: "2026-10-30 09:12", version: 12 },
@@ -129,7 +141,7 @@ const seed = (): CatalogState => ({
 });
 
 // ─── Store ────────────────────────────────────────────────────────────
-const KEY = "ithina.catalog.v1";
+const KEY = "ithina.catalog.v2";
 const load = (): CatalogState => {
   try {
     const raw = localStorage.getItem(KEY);
@@ -161,6 +173,34 @@ export const nodePath = (nodes: CatalogNode[], id: string): string => {
   let cur = nodes.find((x) => x.id === id);
   while (cur) { parts.unshift(cur.name); cur = nodes.find((x) => x.id === cur!.parentId); }
   return parts.join(" › ");
+};
+
+/** True if the node or any ancestor is flagged mandatory. */
+export const isMandatory = (nodes: CatalogNode[], id: string): boolean => {
+  let cur = nodes.find((x) => x.id === id);
+  while (cur) { if (cur.mandatory) return true; cur = nodes.find((x) => x.id === cur!.parentId); }
+  return false;
+};
+
+export const daysUntil = (date: string) => (date ? Math.ceil((new Date(date).getTime() - Date.now()) / 86400000) : null);
+
+/** Effective status, treating past end dates as expired. */
+export const effectiveStatus = (cp: CustomerProduct): CustomerProduct["status"] => {
+  const d = daysUntil(cp.endDate);
+  if (cp.status === "active" && d !== null && d < 0) return "expired";
+  return cp.status;
+};
+
+/** Mandatory nodes (most specific) a customer has no active/pending SKU for. */
+export const mandatoryGaps = (s: { nodes: CatalogNode[]; skus: Sku[]; customerProducts: CustomerProduct[] }, tenantId: string): CatalogNode[] => {
+  const flagged = s.nodes.filter((x) => x.mandatory && x.status !== "retired");
+  // keep only the deepest flagged nodes (a flagged product under a flagged category is the real requirement)
+  const leaves = flagged.filter((f) => !flagged.some((o) => o.id !== f.id && descendantIds(s.nodes, f.id).includes(o.id)));
+  const held = s.customerProducts.filter((c) => c.tenantId === tenantId && ["active", "pending"].includes(effectiveStatus(c)));
+  return leaves.filter((m) => {
+    const ids = new Set(descendantIds(s.nodes, m.id));
+    return !held.some((c) => { const k = s.skus.find((x) => x.id === c.skuId); return k && ids.has(k.nodeId); });
+  });
 };
 
 export const catalogActions = {
