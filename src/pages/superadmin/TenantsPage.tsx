@@ -15,7 +15,15 @@ import { ConfirmDeleteDialog } from "@/components/superadmin/ConfirmDeleteDialog
 import { toast } from "sonner";
 import { CustomerProductsPanel } from "@/components/superadmin/CustomerProductsPanel";
 import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
-import { useCatalogStore } from "@/hooks/useCatalogStore";
+import { useCatalogStore, daysUntil, effectiveStatus, mandatoryGaps, type CatalogNode } from "@/hooks/useCatalogStore";
+import { Package, CalendarClock, AlertTriangle, ShieldCheck, Gauge, RefreshCw } from "lucide-react";
+
+const rootOf = (nodes: CatalogNode[], id: string) => {
+  let cur = nodes.find((x) => x.id === id);
+  while (cur && cur.parentId) cur = nodes.find((x) => x.id === cur!.parentId);
+  return cur;
+};
+const fmtMoney = (v: number) => (v >= 1e6 ? `€${(v / 1e6).toFixed(2)}M` : v >= 1000 ? `€${(v / 1000).toFixed(1)}k` : `€${Math.round(v)}`);
 
 const tierStyle: Record<string, string> = {
   Enterprise: "border-[hsl(262,60%,55%)]/40 text-[hsl(262,60%,75%)] bg-[hsl(262,60%,55%)]/10",
@@ -32,7 +40,29 @@ const statusStyle: Record<string, string> = {
 export default function TenantsPage() {
   usePersonaGuard("tenants");
   const { tenants } = useSuperadminStore();
-  const { customerProducts } = useCatalogStore();
+  const catalog = useCatalogStore();
+  const { customerProducts } = catalog;
+  const [sortBy, setSortBy] = useState<"name" | "renewal" | "arr">("name");
+  const summary = (tenantId: string) => {
+    const mine = customerProducts.filter((c) => c.tenantId === tenantId);
+    const live = mine.filter((c) => ["active", "pending"].includes(effectiveStatus(c)));
+    const expired = mine.filter((c) => effectiveStatus(c) === "expired").length;
+    let arr = 0, oneTime = 0, used = 0, cap = 0;
+    const cats = new Set<string>();
+    live.forEach((c) => {
+      const k = catalog.skus.find((x) => x.id === c.skuId);
+      if (!k) return;
+      const r = rootOf(catalog.nodes, k.nodeId); if (r) cats.add(r.name);
+      if (k.billing === "subscription") arr += k.price * c.quantity * (k.term === "monthly" ? 12 : 1);
+      else oneTime += k.price * c.quantity;
+      if (c.used != null) { used += c.used; cap += c.quantity; }
+    });
+    const renewals = live.filter((c) => c.endDate).map((c) => ({ c, d: daysUntil(c.endDate)! })).sort((a, b) => a.d - b.d);
+    const next = renewals[0];
+    const gaps = mandatoryGaps(catalog, tenantId);
+    return { total: mine.length, live: live.length, expired, arr, oneTime, cats: [...cats], next, renewing90: renewals.filter((r) => r.d <= 90).length,
+      usage: cap ? Math.round((used / cap) * 100) : null, gaps, autoRenew: live.filter((c) => c.autoRenew).length };
+  };
   const { session } = useSuperadminAuth();
   const isPlatform = !session || session.persona === "platform";
   const [q, setQ] = useState("");
@@ -44,9 +74,23 @@ export default function TenantsPage() {
 
   const filtered = tenants.filter((t) => {
     const match = t.name.toLowerCase().includes(q.toLowerCase()) || t.industry.toLowerCase().includes(q.toLowerCase());
-    const tier = filter === "all" || t.tier === filter;
+    const sm = summary(t.id);
+    const tier = filter === "all" || t.tier === filter
+      || (filter === "renewal" && sm.renewing90 > 0) || (filter === "gap" && sm.gaps.length > 0);
     return match && tier;
+  }).sort((a, b) => {
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    const sa = summary(a.id), sb = summary(b.id);
+    if (sortBy === "arr") return sb.arr - sa.arr;
+    return (sa.next?.d ?? 1e9) - (sb.next?.d ?? 1e9);
   });
+  const all = tenants.map((t) => summary(t.id));
+  const kpi = {
+    arr: all.reduce((s, x) => s + x.arr, 0),
+    subs: all.reduce((s, x) => s + x.live, 0),
+    renew: all.reduce((s, x) => s + x.renewing90, 0),
+    gaps: all.filter((x) => x.gaps.length).length,
+  };
 
   const openCreate = () => { setEditing(null); setFormOpen(true); };
   const openEdit = (t: Tenant) => { setEditing(t); setFormOpen(true); setSelected(null); };
@@ -70,20 +114,33 @@ export default function TenantsPage() {
         </Button>
       </div>
 
-      <div className="flex gap-3 items-center">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <Kpi icon={DollarSign} label="Contracted ARR" value={fmtMoney(kpi.arr)} />
+        <Kpi icon={Package} label="Active subscriptions" value={kpi.subs} />
+        <Kpi icon={CalendarClock} label="Renewals in 90 days" value={kpi.renew} tone={kpi.renew ? "warn" : undefined} onClick={() => setFilter("renewal")} />
+        <Kpi icon={AlertTriangle} label="Missing mandatory product" value={kpi.gaps} tone={kpi.gaps ? "bad" : undefined} onClick={() => setFilter("gap")} />
+      </div>
+
+      <div className="flex gap-3 items-center flex-wrap">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
           <Input placeholder="Search tenants…" value={q} onChange={(e) => setQ(e.target.value)}
             className="pl-9 bg-white/5 border-white/10 text-slate-200" />
         </div>
         <div className="flex gap-1 bg-white/5 border border-white/10 rounded-lg p-1">
-          {["all", "Enterprise", "Mid-Market", "SMB", "Single-Store"].map((f) => (
+          {["all", "Enterprise", "Mid-Market", "SMB", "Single-Store", "renewal", "gap"].map((f) => (
             <button key={f} onClick={() => setFilter(f)}
               className={`px-3 py-1 text-xs rounded ${filter === f ? "bg-[hsl(217,91%,60%)] text-white" : "text-slate-400 hover:text-white"}`}>
-              {f === "all" ? "All" : f}
+              {f === "all" ? "All" : f === "renewal" ? "Renewing ≤90d" : f === "gap" ? "Compliance gap" : f}
             </button>
           ))}
         </div>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)}
+          className="h-9 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-300 px-2">
+          <option value="name">Sort: Name</option>
+          <option value="renewal">Sort: Next renewal</option>
+          <option value="arr">Sort: ARR</option>
+        </select>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -125,12 +182,10 @@ export default function TenantsPage() {
               <div className="grid grid-cols-3 gap-2 mb-3">
                 <Metric icon={Store} value={t.storesCount.toLocaleString()} label="stores" />
                 <Metric icon={Users} value={t.usersCount.toLocaleString()} label="users" />
-                <Metric icon={DollarSign} value={t.monthlyRevenue ? `$${(t.monthlyRevenue / 1000).toFixed(1)}k` : "—"} label="MRR" />
+                <Metric icon={DollarSign} value={fmtMoney(summary(t.id).arr)} label="ARR" />
               </div>
 
-              <button onClick={() => setSelected(t)} className="w-full text-left text-[11px] text-slate-400 mb-2 hover:text-white">
-                {customerProducts.filter((c) => c.tenantId === t.id).length} products & subscriptions mapped →
-              </button>
+              <SubscriptionStrip sm={summary(t.id)} onOpen={() => setSelected(t)} />
               <div className="flex flex-wrap gap-1">
                 {t.modules.slice(0, 4).map((m) => {
                   const mod = modules.find((x) => x.key === m);
@@ -166,6 +221,7 @@ export default function TenantsPage() {
                 </SheetDescription>
               </SheetHeader>
               <div className="mt-6 space-y-5">
+                <SubscriptionOverview sm={summary(selected.id)} />
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Primary contact</div>
                   <div className="text-sm text-white">{selected.primaryContact}</div>
@@ -219,4 +275,72 @@ const Metric = ({ icon: Icon, value, label }: any) => (
     <div className="text-sm font-semibold text-white">{value}</div>
     <div className="text-[10px] text-slate-500">{label}</div>
   </div>
+);
+
+type Summary = ReturnType<ReturnType<typeof makeSummaryType>>;
+// helper purely for typing
+function makeSummaryType() { return (_: string) => ({ total: 0, live: 0, expired: 0, arr: 0, oneTime: 0, cats: [] as string[],
+  next: undefined as undefined | { c: { endDate: string; autoRenew?: boolean }; d: number }, renewing90: 0, usage: null as number | null,
+  gaps: [] as CatalogNode[], autoRenew: 0 }); }
+
+const renewTone = (d?: number) => d == null ? "text-slate-400" : d < 0 ? "text-[hsl(4,84%,75%)]" : d <= 30 ? "text-[hsl(4,84%,75%)]" : d <= 90 ? "text-amber-300" : "text-emerald-300";
+
+const SubscriptionStrip = ({ sm, onOpen }: { sm: Summary; onOpen: () => void }) => (
+  <button onClick={onOpen} className="w-full text-left mb-3 p-2.5 rounded bg-white/[0.03] border border-white/5 hover:border-white/20 space-y-2">
+    <div className="flex items-center justify-between text-[11px]">
+      <span className="text-slate-300 flex items-center gap-1"><Package className="h-3 w-3" /> {sm.live} active subscriptions{sm.expired ? ` · ${sm.expired} expired` : ""}</span>
+      {sm.gaps.length ? (
+        <span className="text-[hsl(4,84%,75%)] flex items-center gap-1"><AlertTriangle className="h-3 w-3" /> Missing {sm.gaps[0].name}</span>
+      ) : (
+        <span className="text-emerald-300 flex items-center gap-1"><ShieldCheck className="h-3 w-3" /> Compliant</span>
+      )}
+    </div>
+    <div className="flex items-center justify-between text-[11px]">
+      <span className="text-slate-500 flex items-center gap-1"><CalendarClock className="h-3 w-3" /> Next renewal</span>
+      <span className={renewTone(sm.next?.d)}>
+        {sm.next ? `${sm.next.c.endDate} · ${sm.next.d < 0 ? "overdue" : `${sm.next.d}d`}${sm.next.c.autoRenew ? " · auto" : ""}` : "—"}
+      </span>
+    </div>
+    {sm.usage != null && (
+      <div>
+        <div className="flex justify-between text-[10px] text-slate-500 mb-1"><span>License usage</span><span>{sm.usage}%</span></div>
+        <div className="h-1.5 rounded bg-white/10 overflow-hidden">
+          <div className={`h-full ${sm.usage > 90 ? "bg-[hsl(4,84%,55%)]" : sm.usage > 75 ? "bg-amber-400" : "bg-[hsl(187,70%,42%)]"}`} style={{ width: `${Math.min(sm.usage, 100)}%` }} />
+        </div>
+      </div>
+    )}
+    {sm.cats.length > 0 && (
+      <div className="flex flex-wrap gap-1">
+        {sm.cats.map((c) => <span key={c} className="text-[10px] px-1.5 py-0.5 rounded bg-[hsl(217,91%,60%)]/10 border border-[hsl(217,91%,60%)]/30 text-[hsl(217,91%,80%)]">{c}</span>)}
+      </div>
+    )}
+  </button>
+);
+
+const SubscriptionOverview = ({ sm }: { sm: Summary }) => (
+  <div>
+    <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Commercial overview</div>
+    <div className="grid grid-cols-3 gap-2">
+      <Metric icon={DollarSign} value={fmtMoney(sm.arr)} label="contracted ARR" />
+      <Metric icon={Package} value={fmtMoney(sm.oneTime)} label="hardware / one-time" />
+      <Metric icon={Gauge} value={sm.usage != null ? `${sm.usage}%` : "—"} label="license usage" />
+      <Metric icon={CalendarClock} value={sm.next ? (sm.next.d < 0 ? "Overdue" : `${sm.next.d}d`) : "—"} label={sm.next ? `renews ${sm.next.c.endDate}` : "next renewal"} />
+      <Metric icon={RefreshCw} value={`${sm.autoRenew}/${sm.live}`} label="auto-renew" />
+      <Metric icon={CalendarClock} value={sm.renewing90} label="renewing ≤90d" />
+    </div>
+    {sm.gaps.length > 0 && (
+      <div className="mt-2 p-2 rounded border border-[hsl(4,84%,55%)]/30 bg-[hsl(4,84%,55%)]/10 text-[11px] text-[hsl(4,84%,80%)] flex items-center gap-2">
+        <AlertTriangle className="h-3.5 w-3.5" /> Mandatory product missing: {sm.gaps.map((g) => g.name).join(", ")}
+      </div>
+    )}
+  </div>
+);
+
+const Kpi = ({ icon: Icon, label, value, tone, onClick }: any) => (
+  <button onClick={onClick} disabled={!onClick}
+    className={`text-left p-4 rounded-lg bg-white/5 border ${tone === "bad" ? "border-[hsl(4,84%,55%)]/40" : tone === "warn" ? "border-amber-500/40" : "border-white/10"} ${onClick ? "hover:bg-white/10" : ""}`}>
+    <Icon className={`h-4 w-4 mb-2 ${tone === "bad" ? "text-[hsl(4,84%,70%)]" : tone === "warn" ? "text-amber-300" : "text-slate-500"}`} />
+    <div className="text-2xl font-bold text-white">{value}</div>
+    <div className="text-[11px] text-slate-400">{label}</div>
+  </button>
 );
