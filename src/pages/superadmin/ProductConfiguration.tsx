@@ -129,6 +129,7 @@ export default function ProductConfiguration() {
                         <h2 className="text-xl font-semibold text-white mt-1">{selected.name}</h2>
                         <div className="flex gap-2 mt-2">
                           <Badge variant="outline" className="border-white/15 text-slate-300">{kindLabel[selected.kind]}</Badge>
+                          {selected.mandatory && <Badge variant="outline" className="border-amber-500/40 text-amber-300 bg-amber-500/10">Mandatory</Badge>}
                           <Badge variant="outline" className="border-white/15 text-slate-300 font-mono">{selected.code}</Badge>
                           <Badge variant="outline" className={statusStyle[selected.status]}>{selected.status}</Badge>
                         </div>
@@ -169,7 +170,7 @@ export default function ProductConfiguration() {
                             <button key={c.id} onClick={() => { setSelectedId(c.id); setExpanded((s) => new Set(s).add(selected.id)); }}
                               className="text-left p-3 rounded border border-white/10 bg-white/[0.03] hover:border-[hsl(217,91%,60%)]/40">
                               <div className="flex items-center gap-2 text-sm text-white"><Icon className="h-3.5 w-3.5 text-slate-400" />{c.name}</div>
-                              <div className="text-[11px] text-slate-500 mt-0.5">{kindLabel[c.kind]} · {c.code}</div>
+                              <div className="text-[11px] text-slate-500 mt-0.5">{kindLabel[c.kind]} · {c.code}{c.mandatory ? " · Mandatory" : ""}</div>
                             </button>
                           );
                         })}
