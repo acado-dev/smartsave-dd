@@ -87,13 +87,14 @@ export function canAccess(
     | "modules"
     | "guardrails"
     | "audit"
-    | "products",
+    | "products"
+    | "subscriptions",
   persona: SuperadminSession["persona"] | undefined,
 ) {
   if (!persona || persona === "platform") return true;
   if (persona === "organization") {
-    return ["dashboard", "tenants", "organization", "users", "roles", "modules", "audit"].includes(section);
+    return ["dashboard", "tenants", "organization", "users", "roles", "modules", "audit", "subscriptions"].includes(section);
   }
   // tenant
-  return ["dashboard", "organization", "users", "roles", "audit"].includes(section);
+  return ["dashboard", "organization", "users", "roles", "audit", "subscriptions"].includes(section);
 }

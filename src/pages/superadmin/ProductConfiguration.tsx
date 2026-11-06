@@ -303,7 +303,7 @@ function SkuTable({ skus, nodes, onEdit, onDelete, showPath, customerProducts }:
 function NodeDialog({ node, parentId, kind, nodes, onClose, onSaved }: {
   node?: CatalogNode; parentId: string | null; kind: NodeKind; nodes: CatalogNode[]; onClose: () => void; onSaved: (id?: string) => void;
 }) {
-  const [f, setF] = useState({ name: node?.name ?? "", code: node?.code ?? "", description: node?.description ?? "", status: node?.status ?? ("draft" as LifecycleStatus) });
+  const [f, setF] = useState({ name: node?.name ?? "", code: node?.code ?? "", description: node?.description ?? "", status: node?.status ?? ("draft" as LifecycleStatus), mandatory: node?.mandatory ?? false });
   const parent = nodes.find((x) => x.id === parentId);
   const save = () => {
     if (!f.name.trim() || !f.code.trim()) return toast.error("Name and code are required");
@@ -332,6 +332,13 @@ function NodeDialog({ node, parentId, kind, nodes, onClose, onSaved }: {
               <option value="draft">Draft</option><option value="approved">Approved</option><option value="retired">Retired</option>
             </select>
           </div>
+          {kind !== "variant" && (
+            <label className="flex items-start gap-2 p-3 rounded border border-white/10 bg-white/[0.03] cursor-pointer">
+              <input type="checkbox" className="mt-1" checked={f.mandatory} onChange={(e) => setF({ ...f, mandatory: e.target.checked })} />
+              <span><span className="text-sm text-white">Mandatory for every customer</span><br />
+              <span className="text-xs text-slate-400">Each organisation / tenant must hold an active SKU from this {kind === "group" ? "category" : "product"} (e.g. Ithina Core).</span></span>
+            </label>
+          )}
         </div>
         <DialogFooter>
           <Button variant="outline" className="bg-transparent border-white/20 text-white" onClick={onClose}>Cancel</Button>

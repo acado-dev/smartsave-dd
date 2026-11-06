@@ -9,6 +9,7 @@ import {
   GitBranch,
   ScrollText,
   PackageSearch,
+  CreditCard,
 } from "lucide-react";
 import ithinaLogo from "@/assets/ithina-logo-white.png";
 import {
@@ -40,6 +41,7 @@ const governance: Item[] = [
 
 const commercial: Item[] = [
   { title: "Product Configuration", url: "/superadmin/products", icon: PackageSearch, section: "products" },
+  { title: "Subscriptions", url: "/superadmin/subscriptions", icon: CreditCard, section: "subscriptions" },
 ];
 
 const access: Item[] = [
