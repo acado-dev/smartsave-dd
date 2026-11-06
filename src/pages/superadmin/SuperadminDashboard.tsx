@@ -9,7 +9,9 @@ import { useScopedSuperadminStore } from "@/lib/superadminScope";
 import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
 import { useNavigate } from "react-router-dom";
 import { useCatalogStore, nodePath } from "@/hooks/useCatalogStore";
-import { portfolioSummary, fmtMoney } from "@/lib/subscriptionSummary";
+import { portfolioSummary, licenseMix } from "@/lib/subscriptionSummary";
+import { LicenseMixGrid } from "@/components/superadmin/LicenseMix";
+import { ShieldCheck, Cpu, Sparkles, Plug } from "lucide-react";
 import { CalendarClock, AlertTriangle, Gauge, Package, RefreshCw } from "lucide-react";
 
 const KPI = ({
@@ -54,7 +56,10 @@ export default function SuperadminDashboard() {
   const catalog = useCatalogStore();
   const ps = portfolioSummary(catalog, tenants.map((t) => t.id));
   const tName = (id: string) => tenants.find((t) => t.id === id)?.name ?? id;
-  const maxCat = Math.max(1, ...ps.byCategory.map((c) => c.arr));
+  const mix = licenseMix(catalog, tenants.map((t) => t.id));
+  const mc = (c: string) => mix.find((g) => g.category === c);
+  const coreStores = mc("Ithina Core")?.items.find((i) => i.unit === "stores")?.qty ?? mc("Ithina Core")?.total ?? 0;
+  const tMix = (id: string) => licenseMix(catalog, [id]);
   const recentAudits = audit.slice(0, 6);
 
   const totalStores = persona === "platform"
@@ -79,7 +84,7 @@ export default function SuperadminDashboard() {
     : `Manage users and roles within your assigned scope at ${session?.tenantName}.`;
 
   const tArr = (id: string) => portfolioSummary(catalog, [id]);
-  const topTenants = [...tenants].sort((a, b) => tArr(b.id).arr - tArr(a.id).arr).slice(0, 5);
+  const topTenants = [...tenants].sort((a, b) => tArr(b.id).live - tArr(a.id).live).slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -107,7 +112,7 @@ export default function SuperadminDashboard() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
         {persona === "platform" && (
           <KPI label="Active tenants" value={`${tenants.filter((t) => t.status === "active").length} / ${tenants.length}`} sub="across the platform" icon={Building2} accent="blue" />
         )}
@@ -117,19 +122,30 @@ export default function SuperadminDashboard() {
         <KPI label={persona === "platform" ? "Platform users" : "Users in scope"} value={users.length.toLocaleString()} sub={persona === "platform" ? "across all tenants" : "managed by you"} icon={Users} accent="purple" />
         <KPI label="Stores in scope" value={totalStores.toLocaleString()} sub={persona === "platform" ? `${tenants.length} tenants` : `${locations.filter((l) => l.type === "Region").length} regions`} icon={Store} accent="teal" />
         {persona === "platform" && (
-          <KPI label="Contracted ARR" value={fmtMoney(ps.arr)} sub={`${ps.live} active subscriptions`} icon={DollarSign} accent="green" />
+          <KPI label="Active licences" value={ps.live} sub={`${ps.expired} expired`} icon={Package} accent="green" />
         )}
         {persona !== "platform" && (
           <KPI label="Org nodes" value={locations.length} sub="HQ · regions · stores" icon={Server} accent="green" />
         )}
-        <KPI label="Pending approvals" value={pendingApprovals} sub="in your audit log" icon={ShieldAlert} accent="amber" />
-        <KPI label="Audit events" value={audit.length} sub={`${customRoles} custom roles · ${enabledModulesAvg} modules`} icon={Activity} accent="purple" />
-        <KPI label="Renewals in 90 days" value={ps.renewals.length} sub={`${fmtMoney(ps.atRiskArr)} ARR not on auto-renew`} icon={CalendarClock} accent="amber" />
+        <KPI label="Ithina Core store licences" value={coreStores.toLocaleString()} sub={`${mc("Ithina Core")?.items.length ?? 0} core products`} icon={ShieldCheck} accent="teal" />
+        <KPI label="Hardware units deployed" value={(mc("Hardware")?.total ?? 0).toLocaleString()} sub={mc("Hardware")?.items.map((i) => i.name).slice(0, 3).join(" · ") || "none"} icon={Cpu} accent="blue" />
+        <KPI label="Maestro assistants in use" value={mc("Maestro")?.items.length ?? 0} sub={mc("Maestro")?.items.map((i) => i.name.replace(" Assistant", "")).join(" · ") || "none"} icon={Sparkles} accent="purple" />
+        <KPI label="External apps connected" value={mc("External Apps")?.items.length ?? 0} sub={mc("External Apps")?.items.map((i) => i.name).join(" · ") || "none"} icon={Plug} accent="amber" />
+        <KPI label="Renewals in 90 days" value={ps.renewals.length} sub={`${ps.renewals.filter((r) => !r.c.autoRenew).length} not on auto-renew`} icon={CalendarClock} accent="amber" />
         <KPI label="Mandatory product gaps" value={ps.gaps.length} sub={ps.gaps.length ? "customers non-compliant" : "all customers compliant"} icon={AlertTriangle} accent={ps.gaps.length ? "red" : "green"} />
       </div>
 
 
-      {/* Commercial: subscriptions & renewals */}
+      {/* Licence portfolio */}
+      <Card className="bg-white/5 border-white/10">
+        <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="text-white text-base flex items-center gap-2"><Package className="h-4 w-4" /> Licences procured</CardTitle>
+          <button onClick={() => navigate("/superadmin/subscriptions")} className="text-xs text-[hsl(217,91%,75%)] hover:underline">Subscriptions →</button>
+        </CardHeader>
+        <CardContent><LicenseMixGrid groups={mix} showTenants={persona === "platform"} /></CardContent>
+      </Card>
+
+      {/* Renewals */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="bg-white/5 border-white/10 lg:col-span-2">
           <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
@@ -157,23 +173,6 @@ export default function SuperadminDashboard() {
 
         <div className="space-y-6">
           <Card className="bg-white/5 border-white/10">
-            <CardHeader className="pb-3"><CardTitle className="text-white text-base flex items-center gap-2"><Package className="h-4 w-4" /> ARR by product category</CardTitle></CardHeader>
-            <CardContent className="space-y-3">
-              {ps.byCategory.length === 0 && <div className="text-sm text-slate-500">No active subscriptions.</div>}
-              {ps.byCategory.map((c) => (
-                <div key={c.name}>
-                  <div className="flex justify-between text-xs mb-1"><span className="text-slate-300">{c.name} <span className="text-slate-500">· {c.lines}</span></span><span className="text-white">{fmtMoney(c.arr)}</span></div>
-                  <div className="h-1.5 rounded bg-white/10 overflow-hidden"><div className="h-full bg-[hsl(187,70%,42%)]" style={{ width: `${(c.arr / maxCat) * 100}%` }} /></div>
-                </div>
-              ))}
-              <div className="flex justify-between text-[11px] text-slate-400 pt-2 border-t border-white/5">
-                <span className="flex items-center gap-1"><RefreshCw className="h-3 w-3" /> Auto-renew {ps.autoRenewPct}%</span>
-                <span>Hardware/one-time {fmtMoney(ps.oneTime)}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-3"><CardTitle className="text-white text-base flex items-center gap-2"><AlertTriangle className="h-4 w-4" /> Attention needed</CardTitle></CardHeader>
             <CardContent className="space-y-2 text-xs">
               {ps.gaps.length === 0 && ps.highUsage.length === 0 && ps.expired === 0 && <div className="text-slate-500">Nothing needs attention.</div>}
@@ -199,7 +198,7 @@ export default function SuperadminDashboard() {
         <Card className="bg-white/5 border-white/10 lg:col-span-2">
           <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-white text-base">
-              {persona === "platform" ? "Top tenants by ARR" : "Tenant snapshot"}
+              {persona === "platform" ? "Tenants by licence footprint" : "Tenant snapshot"}
             </CardTitle>
             {persona === "platform" && (
               <button onClick={() => navigate("/superadmin/tenants")} className="text-xs text-[hsl(217,91%,75%)] hover:underline">
@@ -226,7 +225,7 @@ export default function SuperadminDashboard() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <div className="text-sm text-white font-medium">{fmtMoney(tArr(t.id).arr)} ARR</div>
+                    <div className="text-sm text-white font-medium">{tMix(t.id).find((g) => g.category === "Maestro")?.items.length ?? 0} assistants · {(tMix(t.id).find((g) => g.category === "Hardware")?.total ?? 0).toLocaleString()} devices</div>
                     <div className="text-[11px] text-slate-400">{tArr(t.id).live} subs · {t.storesCount.toLocaleString()} stores · {t.usersCount.toLocaleString()} users</div>
                   </div>
                   <Badge variant="outline" className="border-[hsl(217,91%,60%)]/30 text-[hsl(217,91%,75%)] text-[10px]">

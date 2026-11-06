@@ -113,7 +113,7 @@ export interface AuditLog {
 
 // ─── Modules ──────────────────────────────────────────────────────────
 export const modules: Module[] = [
-  { key: "roos", name: "ROOS", description: "Retail Operating OS — orchestration core", color: "187 70% 42%" },
+  { key: "roos", name: "Maestro", description: "Retail intelligence & assistant orchestration", color: "187 70% 42%" },
   { key: "goal-console", name: "Goal Console", description: "OKR & target alignment across stores", color: "262 60% 55%" },
   { key: "pricing-os", name: "Pricing OS", description: "Dynamic & promotional pricing engine", color: "4 84% 49%" },
   { key: "perishables", name: "Perishables Assistant", description: "Freshness, expiry & waste prevention", color: "142 60% 42%" },

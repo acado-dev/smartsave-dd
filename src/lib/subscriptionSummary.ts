@@ -42,3 +42,39 @@ export function portfolioSummary(cat: Cat, tenantIds: string[]) {
     autoRenewPct: live.length ? Math.round((live.filter((l) => l.c.autoRenew).length / live.length) * 100) : 0,
   };
 }
+
+export type LicenseItem = { name: string; qty: number; used: number; unit: string; tenants: number; skus: string[] };
+export type LicenseGroup = { category: string; items: LicenseItem[]; total: number };
+export const CATEGORY_ORDER = ["Ithina Core", "Hardware", "Maestro", "External Apps"];
+
+/** Nearest product node above (or at) a node — used to group SKUs/variants by product. */
+const productOf = (nodes: CatalogNode[], id: string) => {
+  let cur = nodes.find((x) => x.id === id);
+  while (cur && cur.kind !== "product" && cur.parentId) cur = nodes.find((x) => x.id === cur!.parentId);
+  return cur;
+};
+
+/** What licences / units the given tenants hold, grouped by top-level category and product. */
+export function licenseMix(cat: Cat, tenantIds: string[]): LicenseGroup[] {
+  const ids = new Set(tenantIds);
+  const groups = new Map<string, Map<string, LicenseItem & { tset: Set<string> }>>();
+  cat.customerProducts.forEach((c) => {
+    if (!ids.has(c.tenantId)) return;
+    const st = effectiveStatus(c);
+    if (st !== "active" && st !== "pending") return;
+    const k = cat.skus.find((x) => x.id === c.skuId);
+    if (!k) return;
+    const root = rootOf(cat.nodes, k.nodeId)?.name ?? "Other";
+    const prod = productOf(cat.nodes, k.nodeId)?.name ?? k.name;
+    const g = groups.get(root) ?? new Map();
+    const it = g.get(prod) ?? { name: prod, qty: 0, used: 0, unit: c.usageUnit ?? (root === "Hardware" ? "units" : "stores"), tenants: 0, skus: [], tset: new Set<string>() };
+    it.qty += c.quantity; it.used += c.used ?? 0; it.tset.add(c.tenantId);
+    if (!it.skus.includes(k.code)) it.skus.push(k.code);
+    g.set(prod, it); groups.set(root, g);
+  });
+  const names = [...new Set([...CATEGORY_ORDER, ...groups.keys()])];
+  return names.map((category) => {
+    const items = [...(groups.get(category)?.values() ?? [])].map(({ tset, ...i }) => ({ ...i, tenants: tset.size })).sort((a, b) => b.qty - a.qty);
+    return { category, items, total: items.reduce((s, i) => s + i.qty, 0) };
+  });
+}

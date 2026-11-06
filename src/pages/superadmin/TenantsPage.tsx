@@ -16,7 +16,9 @@ import { toast } from "sonner";
 import { CustomerProductsPanel } from "@/components/superadmin/CustomerProductsPanel";
 import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
 import { useCatalogStore, daysUntil, effectiveStatus, mandatoryGaps, type CatalogNode } from "@/hooks/useCatalogStore";
-import { Package, CalendarClock, AlertTriangle, ShieldCheck, Gauge, RefreshCw } from "lucide-react";
+import { Package, CalendarClock, AlertTriangle, ShieldCheck, Gauge, RefreshCw, Cpu, Sparkles, Plug } from "lucide-react";
+import { licenseMix } from "@/lib/subscriptionSummary";
+import { LicenseMixChips, LicenseMixGrid } from "@/components/superadmin/LicenseMix";
 
 const rootOf = (nodes: CatalogNode[], id: string) => {
   let cur = nodes.find((x) => x.id === id);
@@ -42,7 +44,7 @@ export default function TenantsPage() {
   const { tenants } = useSuperadminStore();
   const catalog = useCatalogStore();
   const { customerProducts } = catalog;
-  const [sortBy, setSortBy] = useState<"name" | "renewal" | "arr">("name");
+  const [sortBy, setSortBy] = useState<"name" | "renewal" | "assistants">("name");
   const summary = (tenantId: string) => {
     const mine = customerProducts.filter((c) => c.tenantId === tenantId);
     const live = mine.filter((c) => ["active", "pending"].includes(effectiveStatus(c)));
@@ -81,9 +83,13 @@ export default function TenantsPage() {
   }).sort((a, b) => {
     if (sortBy === "name") return a.name.localeCompare(b.name);
     const sa = summary(a.id), sb = summary(b.id);
-    if (sortBy === "arr") return sb.arr - sa.arr;
+    if (sortBy === "assistants") return mixCount(b.id, "Maestro") - mixCount(a.id, "Maestro");
     return (sa.next?.d ?? 1e9) - (sb.next?.d ?? 1e9);
   });
+  const mixOf = (id: string) => licenseMix(catalog, [id]);
+  const mixCount = (id: string, c: string) => mixOf(id).find((g) => g.category === c)?.items.length ?? 0;
+  const portfolio = licenseMix(catalog, tenants.map((t) => t.id));
+  const pc = (c: string) => portfolio.find((g) => g.category === c);
   const all = tenants.map((t) => summary(t.id));
   const kpi = {
     arr: all.reduce((s, x) => s + x.arr, 0),
@@ -114,9 +120,11 @@ export default function TenantsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Kpi icon={DollarSign} label="Contracted ARR" value={fmtMoney(kpi.arr)} />
-        <Kpi icon={Package} label="Active subscriptions" value={kpi.subs} />
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+        <Kpi icon={ShieldCheck} label="Ithina Core store licences" value={(pc("Ithina Core")?.items.find((i) => i.unit === "stores")?.qty ?? pc("Ithina Core")?.total ?? 0).toLocaleString()} />
+        <Kpi icon={Cpu} label="Hardware units (ESL, D.COM, AP)" value={(pc("Hardware")?.total ?? 0).toLocaleString()} />
+        <Kpi icon={Sparkles} label="Maestro assistants in use" value={pc("Maestro")?.items.length ?? 0} />
+        <Kpi icon={Plug} label="External apps connected" value={pc("External Apps")?.items.length ?? 0} />
         <Kpi icon={CalendarClock} label="Renewals in 90 days" value={kpi.renew} tone={kpi.renew ? "warn" : undefined} onClick={() => setFilter("renewal")} />
         <Kpi icon={AlertTriangle} label="Missing mandatory product" value={kpi.gaps} tone={kpi.gaps ? "bad" : undefined} onClick={() => setFilter("gap")} />
       </div>
@@ -139,7 +147,7 @@ export default function TenantsPage() {
           className="h-9 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-300 px-2">
           <option value="name">Sort: Name</option>
           <option value="renewal">Sort: Next renewal</option>
-          <option value="arr">Sort: ARR</option>
+          <option value="assistants">Sort: Assistants used</option>
         </select>
       </div>
 
@@ -182,9 +190,10 @@ export default function TenantsPage() {
               <div className="grid grid-cols-3 gap-2 mb-3">
                 <Metric icon={Store} value={t.storesCount.toLocaleString()} label="stores" />
                 <Metric icon={Users} value={t.usersCount.toLocaleString()} label="users" />
-                <Metric icon={DollarSign} value={fmtMoney(summary(t.id).arr)} label="ARR" />
+                <Metric icon={Package} value={summary(t.id).live} label="active licences" />
               </div>
 
+              <LicenseMixChips groups={mixOf(t.id)} />
               <SubscriptionStrip sm={summary(t.id)} onOpen={() => setSelected(t)} />
               <div className="flex flex-wrap gap-1">
                 {t.modules.slice(0, 4).map((m) => {
@@ -221,6 +230,10 @@ export default function TenantsPage() {
                 </SheetDescription>
               </SheetHeader>
               <div className="mt-6 space-y-5">
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Licences procured</div>
+                  <div className="[&>div]:!grid-cols-1 sm:[&>div]:!grid-cols-2"><LicenseMixGrid groups={mixOf(selected.id)} /></div>
+                </div>
                 <SubscriptionOverview sm={summary(selected.id)} />
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Primary contact</div>
@@ -309,7 +322,7 @@ const SubscriptionStrip = ({ sm, onOpen }: { sm: Summary; onOpen: () => void }) 
         </div>
       </div>
     )}
-    {sm.cats.length > 0 && (
+    {false && sm.cats.length > 0 && (
       <div className="flex flex-wrap gap-1">
         {sm.cats.map((c) => <span key={c} className="text-[10px] px-1.5 py-0.5 rounded bg-[hsl(217,91%,60%)]/10 border border-[hsl(217,91%,60%)]/30 text-[hsl(217,91%,80%)]">{c}</span>)}
       </div>
@@ -319,10 +332,10 @@ const SubscriptionStrip = ({ sm, onOpen }: { sm: Summary; onOpen: () => void }) 
 
 const SubscriptionOverview = ({ sm }: { sm: Summary }) => (
   <div>
-    <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Commercial overview</div>
+    <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Licence health</div>
     <div className="grid grid-cols-3 gap-2">
-      <Metric icon={DollarSign} value={fmtMoney(sm.arr)} label="contracted ARR" />
-      <Metric icon={Package} value={fmtMoney(sm.oneTime)} label="hardware / one-time" />
+      <Metric icon={Package} value={sm.live} label="active licences" />
+      <Metric icon={AlertTriangle} value={sm.expired} label="expired" />
       <Metric icon={Gauge} value={sm.usage != null ? `${sm.usage}%` : "—"} label="license usage" />
       <Metric icon={CalendarClock} value={sm.next ? (sm.next.d < 0 ? "Overdue" : `${sm.next.d}d`) : "—"} label={sm.next ? `renews ${sm.next.c.endDate}` : "next renewal"} />
       <Metric icon={RefreshCw} value={`${sm.autoRenew}/${sm.live}`} label="auto-renew" />
