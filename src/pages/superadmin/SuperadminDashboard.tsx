@@ -78,7 +78,8 @@ export default function SuperadminDashboard() {
     : persona === "organization" ? `Manage users, roles, org tree and modules across ${session?.tenantName}.`
     : `Manage users and roles within your assigned scope at ${session?.tenantName}.`;
 
-  const topTenants = [...tenants].slice(0, 5);
+  const tArr = (id: string) => portfolioSummary(catalog, [id]);
+  const topTenants = [...tenants].sort((a, b) => tArr(b.id).arr - tArr(a.id).arr).slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -225,8 +226,8 @@ export default function SuperadminDashboard() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <div className="text-sm text-white font-medium">{t.usersCount.toLocaleString()} users</div>
-                    <div className="text-[11px] text-slate-400">{t.storesCount.toLocaleString()} stores</div>
+                    <div className="text-sm text-white font-medium">{fmtMoney(tArr(t.id).arr)} ARR</div>
+                    <div className="text-[11px] text-slate-400">{tArr(t.id).live} subs · {t.storesCount.toLocaleString()} stores · {t.usersCount.toLocaleString()} users</div>
                   </div>
                   <Badge variant="outline" className="border-[hsl(217,91%,60%)]/30 text-[hsl(217,91%,75%)] text-[10px]">
                     {t.tier}
