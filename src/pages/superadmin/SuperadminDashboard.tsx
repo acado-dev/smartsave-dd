@@ -125,8 +125,6 @@ export default function SuperadminDashboard() {
         )}
         <KPI label={persona === "platform" ? "Platform users" : "Users in scope"} value={users.length.toLocaleString()} sub={persona === "platform" ? "across all tenants" : "managed by you"} icon={Users} accent="purple" />
         <KPI label="Stores in scope" value={totalStores.toLocaleString()} sub={persona === "platform" ? `${tenants.length} tenants` : `${locations.filter((l) => l.type === "Region").length} regions`} icon={Store} accent="teal" />
-        {persona === "platform" && (
-        )}
         {persona !== "platform" && (
           <KPI label="Org nodes" value={locations.length} sub="HQ · regions · stores" icon={Server} accent="green" />
         )}
