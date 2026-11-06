@@ -86,7 +86,8 @@ export function canAccess(
     | "roles"
     | "modules"
     | "guardrails"
-    | "audit",
+    | "audit"
+    | "products",
   persona: SuperadminSession["persona"] | undefined,
 ) {
   if (!persona || persona === "platform") return true;

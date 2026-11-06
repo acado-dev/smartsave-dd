@@ -455,6 +455,7 @@ const App = () => (
                 <Route path="modules" element={<SuperadminModules />} />
                 <Route path="guardrails" element={<SuperadminGuardrails />} />
                 <Route path="audit" element={<SuperadminAudit />} />
+                <Route path="products" element={<SuperadminProducts />} />
               </Route>
             </Route>
           </Route>
