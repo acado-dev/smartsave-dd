@@ -23,7 +23,7 @@ const rootOf = (nodes: CatalogNode[], id: string) => {
   while (cur && cur.parentId) cur = nodes.find((x) => x.id === cur!.parentId);
   return cur;
 };
-const fmtMoney = (v: number) => (v >= 1000 ? `€${(v / 1000).toFixed(1)}k` : `€${Math.round(v)}`);
+const fmtMoney = (v: number) => (v >= 1e6 ? `€${(v / 1e6).toFixed(2)}M` : v >= 1000 ? `€${(v / 1000).toFixed(1)}k` : `€${Math.round(v)}`);
 
 const tierStyle: Record<string, string> = {
   Enterprise: "border-[hsl(262,60%,55%)]/40 text-[hsl(262,60%,75%)] bg-[hsl(262,60%,55%)]/10",
