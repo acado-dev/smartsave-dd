@@ -17,7 +17,7 @@ import { CustomerProductsPanel } from "@/components/superadmin/CustomerProductsP
 import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
 import { useCatalogStore, daysUntil, effectiveStatus, mandatoryGaps, type CatalogNode } from "@/hooks/useCatalogStore";
 import { Package, CalendarClock, AlertTriangle, ShieldCheck, Gauge, RefreshCw, Cpu, Sparkles, Plug } from "lucide-react";
-import { licenseMix } from "@/lib/subscriptionSummary";
+import { licenseMix, hardwareStats, coreDeployment } from "@/lib/subscriptionSummary";
 import { LicenseMixChips, LicenseMixGrid } from "@/components/superadmin/LicenseMix";
 
 const rootOf = (nodes: CatalogNode[], id: string) => {
@@ -90,6 +90,10 @@ export default function TenantsPage() {
   const mixCount = (id: string, c: string) => mixOf(id).find((g) => g.category === c)?.items.length ?? 0;
   const portfolio = licenseMix(catalog, tenants.map((t) => t.id));
   const pc = (c: string) => portfolio.find((g) => g.category === c);
+  const hw = hardwareStats(catalog, tenants.map((t) => t.id));
+  const dep = coreDeployment(catalog, tenants.map((t) => t.id));
+  const tHw = (id: string) => hardwareStats(catalog, [id]);
+  const tDep = (id: string) => { const d = coreDeployment(catalog, [id]); return d.onPrem && d.cloud ? "Hybrid" : d.onPrem ? "On-Prem" : d.cloud ? "Cloud" : "—"; };
   const all = tenants.map((t) => summary(t.id));
   const kpi = {
     arr: all.reduce((s, x) => s + x.arr, 0),
@@ -120,9 +124,10 @@ export default function TenantsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
-        <Kpi icon={ShieldCheck} label="Ithina Core store licences" value={(pc("Ithina Core")?.items.find((i) => i.unit === "stores")?.qty ?? pc("Ithina Core")?.total ?? 0).toLocaleString()} />
-        <Kpi icon={Cpu} label="Hardware units (ESL, D.COM, AP)" value={(pc("Hardware")?.total ?? 0).toLocaleString()} />
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-3">
+        <Kpi icon={ShieldCheck} label={`Core stores · ${dep.cloud} Cloud / ${dep.onPrem} On-Prem`} value={(pc("Ithina Core")?.items.find((i) => i.unit === "stores")?.qty ?? pc("Ithina Core")?.total ?? 0).toLocaleString()} />
+        <Kpi icon={Cpu} label="Displays active / total" value={`${hw.displaysActive.toLocaleString()} / ${hw.displaysTotal.toLocaleString()}`} />
+        <Kpi icon={Gauge} label="D.COM active / total" value={`${hw.dcomActive.toLocaleString()} / ${hw.dcomTotal.toLocaleString()}`} />
         <Kpi icon={Sparkles} label="Maestro assistants in use" value={pc("Maestro")?.items.length ?? 0} />
         <Kpi icon={Plug} label="External apps connected" value={pc("External Apps")?.items.length ?? 0} />
         <Kpi icon={CalendarClock} label="Renewals in 90 days" value={kpi.renew} tone={kpi.renew ? "warn" : undefined} onClick={() => setFilter("renewal")} />
@@ -193,6 +198,11 @@ export default function TenantsPage() {
                 <Metric icon={Package} value={summary(t.id).live} label="active licences" />
               </div>
 
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                <Metric icon={ShieldCheck} value={tDep(t.id)} label="Core deployment" />
+                <Metric icon={Cpu} value={`${tHw(t.id).displaysActive.toLocaleString()}/${tHw(t.id).displaysTotal.toLocaleString()}`} label="displays active" />
+                <Metric icon={Gauge} value={`${tHw(t.id).dcomActive}/${tHw(t.id).dcomTotal}`} label="D.COM active" />
+              </div>
               <LicenseMixChips groups={mixOf(t.id)} />
               <SubscriptionStrip sm={summary(t.id)} onOpen={() => setSelected(t)} />
               <div className="flex flex-wrap gap-1">
@@ -233,6 +243,11 @@ export default function TenantsPage() {
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Licences procured</div>
                   <div className="[&>div]:!grid-cols-1 sm:[&>div]:!grid-cols-2"><LicenseMixGrid groups={mixOf(selected.id)} /></div>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <Metric icon={ShieldCheck} value={tDep(selected.id)} label="Ithina Core deployment" />
+                  <Metric icon={Cpu} value={`${tHw(selected.id).displaysActive.toLocaleString()} / ${tHw(selected.id).displaysTotal.toLocaleString()}`} label="displays active / total" />
+                  <Metric icon={Gauge} value={`${tHw(selected.id).dcomActive} / ${tHw(selected.id).dcomTotal}`} label="D.COM active / total" />
                 </div>
                 <SubscriptionOverview sm={summary(selected.id)} />
                 <div>
