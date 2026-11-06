@@ -25,6 +25,7 @@ const rootOf = (nodes: CatalogNode[], id: string) => {
   while (cur && cur.parentId) cur = nodes.find((x) => x.id === cur!.parentId);
   return cur;
 };
+const cmp = (v: number) => (v >= 10000 ? `${(v / 1000).toFixed(1)}k` : v.toLocaleString());
 const fmtMoney = (v: number) => (v >= 1e6 ? `€${(v / 1e6).toFixed(2)}M` : v >= 1000 ? `€${(v / 1000).toFixed(1)}k` : `€${Math.round(v)}`);
 
 const tierStyle: Record<string, string> = {
@@ -200,8 +201,8 @@ export default function TenantsPage() {
 
               <div className="grid grid-cols-3 gap-2 mb-3">
                 <Metric icon={ShieldCheck} value={tDep(t.id)} label="Core deployment" />
-                <Metric icon={Cpu} value={`${tHw(t.id).displaysActive.toLocaleString()}/${tHw(t.id).displaysTotal.toLocaleString()}`} label="displays active" />
-                <Metric icon={Gauge} value={`${tHw(t.id).dcomActive}/${tHw(t.id).dcomTotal}`} label="D.COM active" />
+                <Metric icon={Cpu} value={`${cmp(tHw(t.id).displaysActive)}/${cmp(tHw(t.id).displaysTotal)}`} label="displays active" />
+                <Metric icon={Gauge} value={`${cmp(tHw(t.id).dcomActive)}/${cmp(tHw(t.id).dcomTotal)}`} label="D.COM active" />
               </div>
               <LicenseMixChips groups={mixOf(t.id)} />
               <SubscriptionStrip sm={summary(t.id)} onOpen={() => setSelected(t)} />
