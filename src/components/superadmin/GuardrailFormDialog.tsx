@@ -13,7 +13,7 @@ import { modules } from "@/data/superadminData";
 
 const schema = z.object({
   name: z.string().trim().min(3).max(80),
-  module: z.enum(["roos", "goal-console", "pricing-os", "perishables", "promotions", "admin"]),
+  module: z.enum(["core", "maestro", "pac", "perishables", "planogram", "promotions", "admin", "dis"]),
   trigger: z.string().trim().min(5).max(200),
   approvers: z.array(z.string()).min(1, "Pick at least one approver role"),
   escalateAfterHours: z.coerce.number().int().min(1).max(168),
