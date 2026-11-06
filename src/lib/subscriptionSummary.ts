@@ -78,3 +78,33 @@ export function licenseMix(cat: Cat, tenantIds: string[]): LicenseGroup[] {
     return { category, items, total: items.reduce((s, i) => s + i.qty, 0) };
   });
 }
+
+/** Hardware split: displays (ESL + digital displays) and D.COM units, total vs active. */
+export function hardwareStats(cat: Cat, tenantIds: string[]) {
+  const ids = new Set(tenantIds);
+  const under = (nodeId: string, anc: string) => { let c = cat.nodes.find((x) => x.id === nodeId); while (c) { if (c.id === anc) return true; c = cat.nodes.find((x) => x.id === c!.parentId); } return false; };
+  const r = { displaysTotal: 0, displaysActive: 0, dcomTotal: 0, dcomActive: 0 };
+  cat.customerProducts.forEach((c) => {
+    if (!ids.has(c.tenantId)) return;
+    const st = effectiveStatus(c); if (st !== "active" && st !== "pending") return;
+    const k = cat.skus.find((x) => x.id === c.skuId); if (!k) return;
+    if (under(k.nodeId, "p-dcom")) { r.dcomTotal += c.quantity; r.dcomActive += c.used ?? 0; }
+    else if (under(k.nodeId, "f-esl") || under(k.nodeId, "f-display")) { r.displaysTotal += c.quantity; r.displaysActive += c.used ?? 0; }
+  });
+  return r;
+}
+
+/** Ithina Core deployment model split (stores on On-Prem vs Cloud). */
+export function coreDeployment(cat: Cat, tenantIds: string[]) {
+  const ids = new Set(tenantIds);
+  const r = { onPrem: 0, cloud: 0, unset: 0, onPremTenants: new Set<string>(), cloudTenants: new Set<string>() };
+  cat.customerProducts.forEach((c) => {
+    if (!ids.has(c.tenantId)) return;
+    const st = effectiveStatus(c); if (st !== "active" && st !== "pending") return;
+    const k = cat.skus.find((x) => x.id === c.skuId); if (!k || rootOf(cat.nodes, k.nodeId)?.name !== "Ithina Core") return;
+    if (c.deployment === "On-Prem") { r.onPrem += c.quantity; r.onPremTenants.add(c.tenantId); }
+    else if (c.deployment === "Cloud") { r.cloud += c.quantity; r.cloudTenants.add(c.tenantId); }
+    else r.unset += c.quantity;
+  });
+  return r;
+}

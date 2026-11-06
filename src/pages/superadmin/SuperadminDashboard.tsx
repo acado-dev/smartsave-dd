@@ -9,7 +9,7 @@ import { useScopedSuperadminStore } from "@/lib/superadminScope";
 import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
 import { useNavigate } from "react-router-dom";
 import { useCatalogStore, nodePath } from "@/hooks/useCatalogStore";
-import { portfolioSummary, licenseMix } from "@/lib/subscriptionSummary";
+import { portfolioSummary, licenseMix, hardwareStats, coreDeployment } from "@/lib/subscriptionSummary";
 import { LicenseMixGrid } from "@/components/superadmin/LicenseMix";
 import { ShieldCheck, Cpu, Sparkles, Plug } from "lucide-react";
 import { CalendarClock, AlertTriangle, Gauge, Package, RefreshCw } from "lucide-react";
@@ -60,6 +60,10 @@ export default function SuperadminDashboard() {
   const mc = (c: string) => mix.find((g) => g.category === c);
   const coreStores = mc("Ithina Core")?.items.find((i) => i.unit === "stores")?.qty ?? mc("Ithina Core")?.total ?? 0;
   const tMix = (id: string) => licenseMix(catalog, [id]);
+  const hw = hardwareStats(catalog, tenants.map((t) => t.id));
+  const dep = coreDeployment(catalog, tenants.map((t) => t.id));
+  const tHw = (id: string) => hardwareStats(catalog, [id]);
+  const tDep = (id: string) => { const d = coreDeployment(catalog, [id]); return d.onPrem && d.cloud ? "Hybrid" : d.onPrem ? "On-Prem" : d.cloud ? "Cloud" : "—"; };
   const recentAudits = audit.slice(0, 6);
 
   const totalStores = persona === "platform"
@@ -121,14 +125,12 @@ export default function SuperadminDashboard() {
         )}
         <KPI label={persona === "platform" ? "Platform users" : "Users in scope"} value={users.length.toLocaleString()} sub={persona === "platform" ? "across all tenants" : "managed by you"} icon={Users} accent="purple" />
         <KPI label="Stores in scope" value={totalStores.toLocaleString()} sub={persona === "platform" ? `${tenants.length} tenants` : `${locations.filter((l) => l.type === "Region").length} regions`} icon={Store} accent="teal" />
-        {persona === "platform" && (
-          <KPI label="Active licences" value={ps.live} sub={`${ps.expired} expired`} icon={Package} accent="green" />
-        )}
         {persona !== "platform" && (
           <KPI label="Org nodes" value={locations.length} sub="HQ · regions · stores" icon={Server} accent="green" />
         )}
-        <KPI label="Ithina Core store licences" value={coreStores.toLocaleString()} sub={`${mc("Ithina Core")?.items.length ?? 0} core products`} icon={ShieldCheck} accent="teal" />
-        <KPI label="Hardware units deployed" value={(mc("Hardware")?.total ?? 0).toLocaleString()} sub={mc("Hardware")?.items.map((i) => i.name).slice(0, 3).join(" · ") || "none"} icon={Cpu} accent="blue" />
+        <KPI label="Ithina Core store licences" value={coreStores.toLocaleString()} sub={`${dep.cloud.toLocaleString()} Cloud · ${dep.onPrem.toLocaleString()} On-Prem`} icon={ShieldCheck} accent="teal" />
+        <KPI label="Displays (active / total)" value={`${hw.displaysActive.toLocaleString()} / ${hw.displaysTotal.toLocaleString()}`} sub={`${hw.displaysTotal ? Math.round((hw.displaysActive / hw.displaysTotal) * 100) : 0}% active · ESL + digital displays`} icon={Cpu} accent="blue" />
+        <KPI label="D.COM communicators (active / total)" value={`${hw.dcomActive.toLocaleString()} / ${hw.dcomTotal.toLocaleString()}`} sub="Dynamic communicators" icon={Server} accent="teal" />
         <KPI label="Maestro assistants in use" value={mc("Maestro")?.items.length ?? 0} sub={mc("Maestro")?.items.map((i) => i.name.replace(" Assistant", "")).join(" · ") || "none"} icon={Sparkles} accent="purple" />
         <KPI label="External apps connected" value={mc("External Apps")?.items.length ?? 0} sub={mc("External Apps")?.items.map((i) => i.name).join(" · ") || "none"} icon={Plug} accent="amber" />
         <KPI label="Renewals in 90 days" value={ps.renewals.length} sub={`${ps.renewals.filter((r) => !r.c.autoRenew).length} not on auto-renew`} icon={CalendarClock} accent="amber" />
@@ -142,7 +144,20 @@ export default function SuperadminDashboard() {
           <CardTitle className="text-white text-base flex items-center gap-2"><Package className="h-4 w-4" /> Licences procured</CardTitle>
           <button onClick={() => navigate("/superadmin/subscriptions")} className="text-xs text-[hsl(217,91%,75%)] hover:underline">Subscriptions →</button>
         </CardHeader>
-        <CardContent><LicenseMixGrid groups={mix} showTenants={persona === "platform"} /></CardContent>
+        <CardContent className="space-y-4">
+          <div className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
+            <div className="flex justify-between text-xs mb-2">
+              <span className="text-white font-medium">Ithina Core deployment</span>
+              <span className="text-slate-400">Cloud {dep.cloud.toLocaleString()} stores ({dep.cloudTenants.size} customers) · On-Prem {dep.onPrem.toLocaleString()} stores ({dep.onPremTenants.size} customers)</span>
+            </div>
+            <div className="h-2.5 rounded bg-white/10 overflow-hidden flex">
+              <div className="h-full bg-[hsl(187,70%,42%)]" style={{ width: `${(dep.cloud / Math.max(1, dep.cloud + dep.onPrem)) * 100}%` }} />
+              <div className="h-full bg-[hsl(262,60%,55%)]" style={{ width: `${(dep.onPrem / Math.max(1, dep.cloud + dep.onPrem)) * 100}%` }} />
+            </div>
+            <div className="flex gap-4 text-[10px] text-slate-400 mt-1.5"><span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-[hsl(187,70%,42%)]" />Cloud</span><span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-[hsl(262,60%,55%)]" />On-Prem</span></div>
+          </div>
+          <LicenseMixGrid groups={mix} showTenants={persona === "platform"} />
+        </CardContent>
       </Card>
 
       {/* Renewals */}
@@ -225,7 +240,7 @@ export default function SuperadminDashboard() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <div className="text-sm text-white font-medium">{tMix(t.id).find((g) => g.category === "Maestro")?.items.length ?? 0} assistants · {(tMix(t.id).find((g) => g.category === "Hardware")?.total ?? 0).toLocaleString()} devices</div>
+                    <div className="text-sm text-white font-medium">{tDep(t.id)} · {tMix(t.id).find((g) => g.category === "Maestro")?.items.length ?? 0} assistants · {tHw(t.id).displaysTotal.toLocaleString()} displays · {tHw(t.id).dcomTotal} D.COM</div>
                     <div className="text-[11px] text-slate-400">{tArr(t.id).live} subs · {t.storesCount.toLocaleString()} stores · {t.usersCount.toLocaleString()} users</div>
                   </div>
                   <Badge variant="outline" className="border-[hsl(217,91%,60%)]/30 text-[hsl(217,91%,75%)] text-[10px]">
