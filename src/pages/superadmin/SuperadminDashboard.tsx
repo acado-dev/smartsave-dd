@@ -8,6 +8,9 @@ import { modules } from "@/data/superadminData";
 import { useScopedSuperadminStore } from "@/lib/superadminScope";
 import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
 import { useNavigate } from "react-router-dom";
+import { useCatalogStore, nodePath } from "@/hooks/useCatalogStore";
+import { portfolioSummary, fmtMoney } from "@/lib/subscriptionSummary";
+import { CalendarClock, AlertTriangle, Gauge, Package, RefreshCw } from "lucide-react";
 
 const KPI = ({
   label, value, sub, icon: Icon, accent = "blue", trend,
@@ -48,6 +51,10 @@ export default function SuperadminDashboard() {
   const { tenants, users, audit, guardrails, roles, locations } = useScopedSuperadminStore();
 
   const persona = session?.persona ?? "platform";
+  const catalog = useCatalogStore();
+  const ps = portfolioSummary(catalog, tenants.map((t) => t.id));
+  const tName = (id: string) => tenants.find((t) => t.id === id)?.name ?? id;
+  const maxCat = Math.max(1, ...ps.byCategory.map((c) => c.arr));
   const recentAudits = audit.slice(0, 6);
 
   const totalStores = persona === "platform"
@@ -71,7 +78,7 @@ export default function SuperadminDashboard() {
     : persona === "organization" ? `Manage users, roles, org tree and modules across ${session?.tenantName}.`
     : `Manage users and roles within your assigned scope at ${session?.tenantName}.`;
 
-  const topTenants = [...tenants].sort((a, b) => b.usersCount - a.usersCount).slice(0, 5);
+  const topTenants = [...tenants].slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -109,15 +116,80 @@ export default function SuperadminDashboard() {
         <KPI label={persona === "platform" ? "Platform users" : "Users in scope"} value={users.length.toLocaleString()} sub={persona === "platform" ? "across all tenants" : "managed by you"} icon={Users} accent="purple" />
         <KPI label="Stores in scope" value={totalStores.toLocaleString()} sub={persona === "platform" ? `${tenants.length} tenants` : `${locations.filter((l) => l.type === "Region").length} regions`} icon={Store} accent="teal" />
         {persona === "platform" && (
-          <KPI label="MRR" value={`$${(totalRevenue / 1000).toFixed(1)}k`} sub="recurring" icon={DollarSign} accent="green" trend="+12.4%" />
+          <KPI label="Contracted ARR" value={fmtMoney(ps.arr)} sub={`${ps.live} active subscriptions`} icon={DollarSign} accent="green" />
         )}
         {persona !== "platform" && (
           <KPI label="Org nodes" value={locations.length} sub="HQ · regions · stores" icon={Server} accent="green" />
         )}
         <KPI label="Pending approvals" value={pendingApprovals} sub="in your audit log" icon={ShieldAlert} accent="amber" />
-        <KPI label="Audit events" value={audit.length} sub="visible to you" icon={Activity} accent="red" />
-        <KPI label="Custom roles" value={customRoles} sub={`of ${roles.length} total`} icon={Lock} accent="purple" />
-        <KPI label="Modules" value={enabledModulesAvg} sub={persona === "platform" ? "deployed" : "enabled"} icon={Boxes} accent="teal" />
+        <KPI label="Audit events" value={audit.length} sub={`${customRoles} custom roles · ${enabledModulesAvg} modules`} icon={Activity} accent="purple" />
+        <KPI label="Renewals in 90 days" value={ps.renewals.length} sub={`${fmtMoney(ps.atRiskArr)} ARR not on auto-renew`} icon={CalendarClock} accent="amber" />
+        <KPI label="Mandatory product gaps" value={ps.gaps.length} sub={ps.gaps.length ? "customers non-compliant" : "all customers compliant"} icon={AlertTriangle} accent={ps.gaps.length ? "red" : "green"} />
+      </div>
+
+
+      {/* Commercial: subscriptions & renewals */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="bg-white/5 border-white/10 lg:col-span-2">
+          <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-white text-base flex items-center gap-2"><CalendarClock className="h-4 w-4" /> Upcoming license renewals (90 days)</CardTitle>
+            <button onClick={() => navigate("/superadmin/subscriptions")} className="text-xs text-[hsl(217,91%,75%)] hover:underline">Subscriptions →</button>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {ps.renewals.length === 0 && <div className="text-sm text-slate-500 p-6 text-center">No renewals due in the next 90 days.</div>}
+            {ps.renewals.slice(0, 6).map(({ c, k, d }) => (
+              <div key={c.id} className="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                <div className="min-w-0">
+                  <div className="text-sm text-white font-medium truncate">{tName(c.tenantId)} · {k.name}</div>
+                  <div className="text-[11px] text-slate-400 truncate">{k.code} · {nodePath(catalog.nodes, k.nodeId)}</div>
+                </div>
+                <div className="text-right shrink-0 ml-3">
+                  <div className={`text-sm font-medium ${d! < 0 ? "text-[hsl(4,84%,75%)]" : d! <= 30 ? "text-[hsl(4,84%,75%)]" : "text-amber-300"}`}>
+                    {d! < 0 ? "Overdue" : `${d} days`}
+                  </div>
+                  <div className="text-[11px] text-slate-400">{c.endDate} · {c.autoRenew ? "auto-renew" : "manual"}</div>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        <div className="space-y-6">
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader className="pb-3"><CardTitle className="text-white text-base flex items-center gap-2"><Package className="h-4 w-4" /> ARR by product category</CardTitle></CardHeader>
+            <CardContent className="space-y-3">
+              {ps.byCategory.length === 0 && <div className="text-sm text-slate-500">No active subscriptions.</div>}
+              {ps.byCategory.map((c) => (
+                <div key={c.name}>
+                  <div className="flex justify-between text-xs mb-1"><span className="text-slate-300">{c.name} <span className="text-slate-500">· {c.lines}</span></span><span className="text-white">{fmtMoney(c.arr)}</span></div>
+                  <div className="h-1.5 rounded bg-white/10 overflow-hidden"><div className="h-full bg-[hsl(187,70%,42%)]" style={{ width: `${(c.arr / maxCat) * 100}%` }} /></div>
+                </div>
+              ))}
+              <div className="flex justify-between text-[11px] text-slate-400 pt-2 border-t border-white/5">
+                <span className="flex items-center gap-1"><RefreshCw className="h-3 w-3" /> Auto-renew {ps.autoRenewPct}%</span>
+                <span>Hardware/one-time {fmtMoney(ps.oneTime)}</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader className="pb-3"><CardTitle className="text-white text-base flex items-center gap-2"><AlertTriangle className="h-4 w-4" /> Attention needed</CardTitle></CardHeader>
+            <CardContent className="space-y-2 text-xs">
+              {ps.gaps.length === 0 && ps.highUsage.length === 0 && ps.expired === 0 && <div className="text-slate-500">Nothing needs attention.</div>}
+              {ps.gaps.map((g) => (
+                <div key={g.tenantId} onClick={() => navigate("/superadmin/tenants")} className="cursor-pointer p-2 rounded border border-[hsl(4,84%,55%)]/30 bg-[hsl(4,84%,55%)]/10 text-[hsl(4,84%,80%)]">
+                  {tName(g.tenantId)} — missing mandatory {g.gaps.map((x) => x.name).join(", ")}
+                </div>
+              ))}
+              {ps.highUsage.map(({ c, k }) => (
+                <div key={c.id} className="p-2 rounded border border-amber-500/30 bg-amber-500/10 text-amber-200 flex items-center gap-2">
+                  <Gauge className="h-3 w-3" /> {tName(c.tenantId)} · {k.name} at {Math.round((c.used! / c.quantity) * 100)}% of license
+                </div>
+              ))}
+              {ps.expired > 0 && <div className="p-2 rounded border border-white/10 bg-white/5 text-slate-300">{ps.expired} subscription(s) expired</div>}
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {/* Two-column */}
@@ -126,7 +198,7 @@ export default function SuperadminDashboard() {
         <Card className="bg-white/5 border-white/10 lg:col-span-2">
           <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-white text-base">
-              {persona === "platform" ? "Top tenants by users" : "Tenant snapshot"}
+              {persona === "platform" ? "Top tenants by ARR" : "Tenant snapshot"}
             </CardTitle>
             {persona === "platform" && (
               <button onClick={() => navigate("/superadmin/tenants")} className="text-xs text-[hsl(217,91%,75%)] hover:underline">
