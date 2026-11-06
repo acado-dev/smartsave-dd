@@ -17,7 +17,7 @@ import {
 } from "@/data/superadminData";
 
 // ─── Storage layer ────────────────────────────────────────────────────
-const STORAGE_KEY = "ithina.superadmin.v1";
+const STORAGE_KEY = "ithina.superadmin.v2";
 
 interface StoreShape {
   tenants: Tenant[];

@@ -2,12 +2,14 @@
 // All data is in-memory only; no backend wiring.
 
 export type ModuleKey =
-  | "roos"
-  | "goal-console"
-  | "pricing-os"
+  | "core"
+  | "maestro"
+  | "pac"
   | "perishables"
+  | "planogram"
   | "promotions"
-  | "admin";
+  | "admin"
+  | "dis";
 
 export type PermissionAction =
   | "VIEW"
@@ -28,6 +30,9 @@ export interface Module {
   name: string;
   description: string;
   color: string; // hsl token reference
+  group: "Platform" | "Assistants" | "Operations";
+  mandatory?: boolean;
+  requires?: ModuleKey[];
 }
 
 export interface Tenant {
@@ -113,12 +118,14 @@ export interface AuditLog {
 
 // ─── Modules ──────────────────────────────────────────────────────────
 export const modules: Module[] = [
-  { key: "roos", name: "Maestro", description: "Retail intelligence & assistant orchestration", color: "187 70% 42%" },
-  { key: "goal-console", name: "Goal Console", description: "OKR & target alignment across stores", color: "262 60% 55%" },
-  { key: "pricing-os", name: "Pricing OS", description: "Dynamic & promotional pricing engine", color: "4 84% 49%" },
-  { key: "perishables", name: "Perishables Assistant", description: "Freshness, expiry & waste prevention", color: "142 60% 42%" },
-  { key: "promotions", name: "Promotions Assistant", description: "Campaign planning & execution", color: "32 95% 50%" },
-  { key: "admin", name: "Admin", description: "Governance, RBAC, audit", color: "222 47% 30%" },
+  { key: "core", name: "Ithina Core", description: "Mandatory platform: Ithina OS, device orchestration & connectivity", color: "187 70% 42%", group: "Platform", mandatory: true },
+  { key: "maestro", name: "Maestro", description: "Retail intelligence & assistant orchestration", color: "262 60% 55%", group: "Platform", requires: ["core"] },
+  { key: "pac", name: "PAC Assistant", description: "Price, assortment & competition optimisation", color: "4 84% 49%", group: "Assistants", requires: ["maestro"] },
+  { key: "perishables", name: "Perishable Assistant", description: "Freshness, expiry & waste prevention", color: "142 60% 42%", group: "Assistants", requires: ["maestro"] },
+  { key: "planogram", name: "Planogram Assistant", description: "Shelf compliance, gaps & replenishment", color: "217 91% 60%", group: "Assistants", requires: ["maestro"] },
+  { key: "promotions", name: "Promo Assistant", description: "Campaign planning, flash sales & execution", color: "32 95% 50%", group: "Assistants", requires: ["maestro"] },
+  { key: "admin", name: "Admin", description: "Governance, users, RBAC & audit", color: "222 30% 55%", group: "Operations", requires: ["core"] },
+  { key: "dis", name: "DIS", description: "DIS module", color: "330 70% 55%", group: "Operations", requires: ["core"] },
 ];
 
 // ─── Tenants ──────────────────────────────────────────────────────────
@@ -126,43 +133,43 @@ export const tenants: Tenant[] = [
   {
     id: "t-bucees", name: "Buc-ee's", tier: "Enterprise", industry: "Convenience / Fuel",
     country: "USA", storesCount: 47, usersCount: 312, status: "active",
-    createdAt: "2024-03-12", modules: ["roos", "goal-console", "pricing-os", "perishables", "promotions", "admin"],
+    createdAt: "2024-03-12", modules: ["core", "maestro", "planogram", "pac", "perishables", "promotions", "admin", "dis"],
     primaryContact: "Marcus Tanner", contactEmail: "marcus.t@bucees.com", monthlyRevenue: 48500,
   },
   {
     id: "t-zabka", name: "Żabka Group", tier: "Enterprise", industry: "Convenience",
     country: "Poland", storesCount: 9842, usersCount: 1240, status: "active",
-    createdAt: "2024-01-08", modules: ["roos", "pricing-os", "perishables", "promotions", "admin"],
+    createdAt: "2024-01-08", modules: ["core", "maestro", "pac", "perishables", "promotions", "admin"],
     primaryContact: "Anna Kowalski", contactEmail: "a.kowalski@zabka.pl", monthlyRevenue: 142000,
   },
   {
     id: "t-smartstore", name: "SmartStore Demo", tier: "Mid-Market", industry: "Grocery",
     country: "USA", storesCount: 12, usersCount: 64, status: "active",
-    createdAt: "2024-06-22", modules: ["pricing-os", "perishables", "admin"],
+    createdAt: "2024-06-22", modules: ["core", "pac", "perishables", "admin"],
     primaryContact: "Priya Shah", contactEmail: "priya@smartstore.io", monthlyRevenue: 8400,
   },
   {
     id: "t-freshmart", name: "FreshMart Co-op", tier: "SMB", industry: "Organic Grocery",
     country: "Canada", storesCount: 4, usersCount: 18, status: "trial",
-    createdAt: "2026-02-14", modules: ["perishables", "admin"],
+    createdAt: "2026-02-14", modules: ["core", "perishables", "admin"],
     primaryContact: "Daniel Brun", contactEmail: "dan@freshmart.ca", monthlyRevenue: 0,
   },
   {
     id: "t-cornerstop", name: "CornerStop", tier: "Single-Store", industry: "Convenience",
     country: "UK", storesCount: 1, usersCount: 4, status: "active",
-    createdAt: "2025-11-03", modules: ["perishables", "promotions", "admin"],
+    createdAt: "2025-11-03", modules: ["core", "perishables", "promotions", "admin"],
     primaryContact: "Aisha Patel", contactEmail: "aisha@cornerstop.uk", monthlyRevenue: 240,
   },
   {
     id: "t-greenleaf", name: "GreenLeaf Markets", tier: "Mid-Market", industry: "Specialty Grocery",
     country: "USA", storesCount: 22, usersCount: 96, status: "suspended",
-    createdAt: "2024-09-18", modules: ["roos", "perishables", "admin"],
+    createdAt: "2024-09-18", modules: ["core", "maestro", "perishables", "admin"],
     primaryContact: "Robert Chen", contactEmail: "rchen@greenleaf.com", monthlyRevenue: 12600,
   },
   {
     id: "t-infomil", name: "Infomil Retail", tier: "Enterprise", industry: "Hypermarket",
     country: "France", storesCount: 156, usersCount: 482, status: "active",
-    createdAt: "2025-01-30", modules: ["roos", "goal-console", "pricing-os", "perishables", "admin"],
+    createdAt: "2025-01-30", modules: ["core", "maestro", "planogram", "pac", "perishables", "admin"],
     primaryContact: "Camille Rousseau", contactEmail: "c.rousseau@infomil.fr", monthlyRevenue: 96400,
   },
 ];
@@ -216,11 +223,11 @@ export const roles: Role[] = [
 // ─── Permission matrix entries ────────────────────────────────────────
 export const permissions: Permission[] = [
   // Pricing OS
-  { id: "p1", module: "pricing-os", resource: "Pricing Rules", action: "VIEW", scope: "Tenant" },
-  { id: "p2", module: "pricing-os", resource: "Pricing Rules", action: "CONFIGURE", scope: "Tenant" },
-  { id: "p3", module: "pricing-os", resource: "Markdowns", action: "EXECUTE", scope: "Store" },
-  { id: "p4", module: "pricing-os", resource: "Markdowns", action: "APPROVE", scope: "Region" },
-  { id: "p5", module: "pricing-os", resource: "Markdowns", action: "OVERRIDE", scope: "Tenant" },
+  { id: "p1", module: "pac", resource: "Pricing Rules", action: "VIEW", scope: "Tenant" },
+  { id: "p2", module: "pac", resource: "Pricing Rules", action: "CONFIGURE", scope: "Tenant" },
+  { id: "p3", module: "pac", resource: "Markdowns", action: "EXECUTE", scope: "Store" },
+  { id: "p4", module: "pac", resource: "Markdowns", action: "APPROVE", scope: "Region" },
+  { id: "p5", module: "pac", resource: "Markdowns", action: "OVERRIDE", scope: "Tenant" },
   // Perishables
   { id: "p6", module: "perishables", resource: "Expiring Items", action: "VIEW", scope: "Store" },
   { id: "p7", module: "perishables", resource: "Waste Log", action: "AUDIT", scope: "Tenant" },
@@ -276,12 +283,12 @@ export const users: User[] = [
 
 // ─── Guardrails ──────────────────────────────────────────────────────
 export const guardrails: GuardrailRule[] = [
-  { id: "g-1", name: "Markdown > 30%", module: "pricing-os", trigger: "Markdown depth exceeds 30%", approvers: ["r-pricing-mgr", "r-owner"], escalateAfterHours: 4, overrideRoleId: "r-owner", status: "active" },
+  { id: "g-1", name: "Markdown > 30%", module: "pac", trigger: "Markdown depth exceeds 30%", approvers: ["r-pricing-mgr", "r-owner"], escalateAfterHours: 4, overrideRoleId: "r-owner", status: "active" },
   { id: "g-2", name: "Bulk Donation Routing", module: "perishables", trigger: "Donation batch > 200 units", approvers: ["r-store-mgr"], escalateAfterHours: 12, overrideRoleId: "r-owner", status: "active" },
   { id: "g-3", name: "Promo Activation Tenant-Wide", module: "promotions", trigger: "Campaign scope = entire tenant", approvers: ["r-marketing", "r-owner"], escalateAfterHours: 24, overrideRoleId: "r-owner", status: "active" },
   { id: "g-4", name: "Role Assignment > Manager", module: "admin", trigger: "Assigning Owner / Pricing Mgr", approvers: ["r-owner"], escalateAfterHours: 8, overrideRoleId: "r-platform", status: "active" },
   { id: "g-5", name: "Module Enable / Disable", module: "admin", trigger: "Toggling tenant module", approvers: ["r-platform"], escalateAfterHours: 48, overrideRoleId: "r-super", status: "active" },
-  { id: "g-6", name: "Cross-Region Price Override", module: "pricing-os", trigger: "Override applied across > 1 region", approvers: ["r-owner"], escalateAfterHours: 2, overrideRoleId: "r-super", status: "draft" },
+  { id: "g-6", name: "Cross-Region Price Override", module: "pac", trigger: "Override applied across > 1 region", approvers: ["r-owner"], escalateAfterHours: 2, overrideRoleId: "r-super", status: "draft" },
 ];
 
 // ─── Audit log ───────────────────────────────────────────────────────
