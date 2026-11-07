@@ -14,12 +14,15 @@ import {
   type GuardrailRule,
   type AuditLog,
   type ModuleKey,
+  type Partner,
 } from "@/data/superadminData";
+import { partnerKey, reconcilePartners } from "@/lib/partnerReporting";
 
 // ─── Storage layer ────────────────────────────────────────────────────
 const STORAGE_KEY = "ithina.superadmin.v2";
 
 interface StoreShape {
+  partners: Partner[];
   tenants: Tenant[];
   locations: Location[];
   users: User[];
@@ -31,6 +34,7 @@ interface StoreShape {
 }
 
 const seed = (): StoreShape => ({
+  partners: [],
   tenants: structuredClone(seedTenants),
   locations: structuredClone(seedLocations),
   users: structuredClone(seedUsers),
@@ -52,8 +56,9 @@ const load = (): StoreShape => {
     if (!isObj(parsed)) return seed();
     const fallback = seed();
     const arr = <T,>(v: unknown, fb: T[]): T[] => (Array.isArray(v) ? (v as T[]) : fb);
+    const upgraded = reconcilePartners(arr(parsed.tenants, fallback.tenants), arr(parsed.partners, []));
     return {
-      tenants: arr(parsed.tenants, fallback.tenants),
+      ...upgraded,
       locations: arr(parsed.locations, fallback.locations),
       users: arr(parsed.users, fallback.users),
       roles: arr(parsed.roles, fallback.roles),
@@ -122,6 +127,18 @@ const audit = (entry: Omit<AuditLog, "id" | "timestamp" | "actor" | "actorRole" 
 
 // ─── Mutations ────────────────────────────────────────────────────────
 export const superadminActions = {
+  savePartner(input: Omit<Partner, "id" | "createdAt"> & { id?: string }) {
+    const name = input.name.trim();
+    if (name.length < 2) throw new Error("Partner name is required");
+    if (state.partners.some((p) => p.id !== input.id && partnerKey(p.name) === partnerKey(name))) throw new Error("A partner with this name already exists");
+    const previous = state.partners.find((p) => p.id === input.id);
+    const partner: Partner = { ...input, name, id: previous?.id ?? nid("partner"), createdAt: previous?.createdAt ?? new Date().toISOString().slice(0, 10) };
+    state.partners = previous ? state.partners.map((p) => p.id === partner.id ? partner : p) : [...state.partners, partner];
+    state.tenants = state.tenants.map((t) => t.partnerId === partner.id ? { ...t, partnerName: partner.name } : t);
+    audit({ tenant: "Platform", action: previous ? "Updated partner" : "Created partner", resource: partner.name, scope: "Global", result: "success" });
+    emit();
+    return partner;
+  },
   // Tenants
   createTenant(input: Omit<Tenant, "id" | "createdAt" | "usersCount" | "storesCount"> & {
     storesCount?: number;
@@ -135,6 +152,9 @@ export const superadminActions = {
       createdAt: new Date().toISOString().slice(0, 10),
     };
     state.tenants = [t, ...state.tenants];
+    const reconciled = reconcilePartners(state.tenants, state.partners);
+    state.tenants = reconciled.tenants;
+    state.partners = reconciled.partners;
     state.tenantModules = { ...state.tenantModules, [t.id]: [...input.modules] };
     audit({ tenant: t.name, action: "Created tenant", resource: `${t.name} (${t.tier})`, scope: "Global", result: "success" });
     emit();
@@ -142,6 +162,9 @@ export const superadminActions = {
   },
   updateTenant(id: string, patch: Partial<Tenant>) {
     state.tenants = state.tenants.map((t) => (t.id === id ? { ...t, ...patch } : t));
+    const reconciled = reconcilePartners(state.tenants, state.partners);
+    state.tenants = reconciled.tenants;
+    state.partners = reconciled.partners;
     if (patch.modules) {
       state.tenantModules = { ...state.tenantModules, [id]: [...patch.modules] };
     }

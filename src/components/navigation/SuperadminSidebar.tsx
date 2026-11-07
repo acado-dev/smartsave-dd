@@ -40,6 +40,7 @@ const governance: Item[] = [
 ];
 
 const commercial: Item[] = [
+  { title: "Partner Master", url: "/superadmin/partners", icon: Building2, section: "partners" },
   { title: "Product Configuration", url: "/superadmin/products", icon: PackageSearch, section: "products" },
   { title: "Subscriptions", url: "/superadmin/subscriptions", icon: CreditCard, section: "subscriptions" },
 ];

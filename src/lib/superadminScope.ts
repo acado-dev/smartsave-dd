@@ -88,7 +88,8 @@ export function canAccess(
     | "guardrails"
     | "audit"
     | "products"
-    | "subscriptions",
+    | "subscriptions"
+    | "partners",
   persona: SuperadminSession["persona"] | undefined,
 ) {
   if (!persona || persona === "platform") return true;
