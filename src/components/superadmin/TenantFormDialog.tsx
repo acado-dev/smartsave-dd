@@ -9,6 +9,9 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { modules, type Tenant, type TenantTier, type ModuleKey } from "@/data/superadminData";
 import { superadminActions } from "@/hooks/useSuperadminStore";
+import { useScopedSuperadminStore } from "@/lib/superadminScope";
+import { tenantCommercial, tenantCommercialSchema } from "@/lib/tenantCommercial";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name is required").max(80),
@@ -39,10 +42,15 @@ const empty = {
   contactEmail: "",
   storesCount: 1,
   monthlyRevenue: 0,
+  salesChannel: "direct" as "direct" | "partner",
+  partnerName: "",
+  storeFormat: "single" as "chain" | "single",
   modules: ["admin"] as string[],
 };
 
 export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
+  const { tenants } = useScopedSuperadminStore();
+  const partnerNames = [...new Set(tenants.map((t) => t.partnerName?.trim()).filter((name): name is string => Boolean(name)))].sort();
   const [form, setForm] = useState(empty);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const isEdit = !!tenant;
@@ -55,6 +63,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
         primaryContact: tenant.primaryContact, contactEmail: tenant.contactEmail,
         storesCount: tenant.storesCount, monthlyRevenue: tenant.monthlyRevenue,
         modules: [...tenant.modules],
+        ...tenantCommercial(tenant),
       });
     } else {
       setForm(empty);
@@ -64,13 +73,15 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
 
   const submit = () => {
     const parsed = schema.safeParse(form);
-    if (!parsed.success) {
+    const commercial = tenantCommercialSchema.safeParse(form);
+    if (!parsed.success || !commercial.success) {
       const errs: Record<string, string> = {};
-      parsed.error.issues.forEach((i) => { errs[String(i.path[0])] = i.message; });
+      if (!parsed.success) parsed.error.issues.forEach((i) => { errs[String(i.path[0])] = i.message; });
+      if (!commercial.success) commercial.error.issues.forEach((i) => { errs[String(i.path[0])] = i.message; });
       setErrors(errs);
       return;
     }
-    const data = { ...parsed.data, modules: parsed.data.modules as ModuleKey[] } as Omit<Tenant, "id" | "createdAt" | "usersCount" | "storesCount"> & { storesCount: number };
+    const data = { ...parsed.data, ...commercial.data, modules: parsed.data.modules as ModuleKey[] } as Omit<Tenant, "id" | "createdAt" | "usersCount">;
     if (isEdit && tenant) {
       superadminActions.updateTenant(tenant.id, data);
       toast.success(`${data.name} updated`);
@@ -90,7 +101,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="dark bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-white">{isEdit ? "Edit tenant" : "Provision new tenant"}</DialogTitle>
           <DialogDescription className="text-slate-400">
@@ -98,7 +109,27 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label="Customer format" error={errors.storeFormat}>
+            <Select value={form.storeFormat} onValueChange={(value: "chain" | "single") => setForm({ ...form, storeFormat: value, storesCount: value === "single" ? 1 : form.storesCount })}>
+              <SelectTrigger aria-label="Customer format"><SelectValue /></SelectTrigger>
+              <SelectContent className="dark"><SelectItem value="single">Single store</SelectItem><SelectItem value="chain">Chain of stores</SelectItem></SelectContent>
+            </Select>
+          </Field>
+          <Field label="Sales channel" error={errors.salesChannel}>
+            <Select value={form.salesChannel} onValueChange={(value: "direct" | "partner") => setForm({ ...form, salesChannel: value, partnerName: value === "direct" ? "" : form.partnerName })}>
+              <SelectTrigger aria-label="Sales channel"><SelectValue /></SelectTrigger>
+              <SelectContent className="dark"><SelectItem value="direct">Direct customer</SelectItem><SelectItem value="partner">Partner-sourced customer</SelectItem></SelectContent>
+            </Select>
+          </Field>
+          {form.salesChannel === "partner" && (
+            <div className="sm:col-span-2">
+              <Field label="Partner" error={errors.partnerName}>
+                <Input aria-label="Partner" list="tenant-partners" placeholder="Select an existing partner or enter a new name" value={form.partnerName} onChange={(e) => setForm({ ...form, partnerName: e.target.value })} />
+                <datalist id="tenant-partners">{partnerNames.map((name) => <option key={name} value={name} />)}</datalist>
+              </Field>
+            </div>
+          )}
           <Field label="Tenant name" error={errors.name}>
             <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-white/5 border-white/10 text-white" />
           </Field>
@@ -124,7 +155,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
             <Input type="email" value={form.contactEmail} onChange={(e) => setForm({ ...form, contactEmail: e.target.value })} className="bg-white/5 border-white/10 text-white" />
           </Field>
           <Field label="Stores" error={errors.storesCount}>
-            <Input type="number" value={form.storesCount} onChange={(e) => setForm({ ...form, storesCount: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
+            <Input aria-label="Stores" type="number" min={1} disabled={form.storeFormat === "single"} value={form.storesCount} onChange={(e) => setForm({ ...form, storesCount: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
           </Field>
           <Field label="Monthly revenue (USD)" error={errors.monthlyRevenue}>
             <Input type="number" value={form.monthlyRevenue} onChange={(e) => setForm({ ...form, monthlyRevenue: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />

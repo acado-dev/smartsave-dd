@@ -19,6 +19,8 @@ import { useCatalogStore, daysUntil, effectiveStatus, mandatoryGaps, type Catalo
 import { Package, CalendarClock, AlertTriangle, ShieldCheck, Gauge, RefreshCw, Cpu, Sparkles, Plug } from "lucide-react";
 import { licenseMix, hardwareStats, coreDeployment } from "@/lib/subscriptionSummary";
 import { LicenseMixChips, LicenseMixGrid } from "@/components/superadmin/LicenseMix";
+import { tenantCommercial } from "@/lib/tenantCommercial";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const rootOf = (nodes: CatalogNode[], id: string) => {
   let cur = nodes.find((x) => x.id === id);
@@ -69,6 +71,10 @@ export default function TenantsPage() {
   const { session } = useSuperadminAuth();
   const isPlatform = !session || session.persona === "platform";
   const [q, setQ] = useState("");
+  const [channel, setChannel] = useState("all");
+  const [format, setFormat] = useState("all");
+  const [partner, setPartner] = useState("all");
+  const partnerNames = [...new Set(tenants.map((t) => t.partnerName?.trim()).filter((name): name is string => Boolean(name)))].sort();
   const [filter, setFilter] = useState<string>("all");
   const [selected, setSelected] = useState<Tenant | null>(null);
   const [formOpen, setFormOpen] = useState(false);
@@ -76,11 +82,14 @@ export default function TenantsPage() {
   const [confirmDelete, setConfirmDelete] = useState<Tenant | null>(null);
 
   const filtered = tenants.filter((t) => {
-    const match = t.name.toLowerCase().includes(q.toLowerCase()) || t.industry.toLowerCase().includes(q.toLowerCase());
+    const commercial = tenantCommercial(t);
+    const match = [t.name, t.industry, commercial.partnerName].some((value) => value.toLowerCase().includes(q.toLowerCase()));
     const sm = summary(t.id);
     const tier = filter === "all" || t.tier === filter
       || (filter === "renewal" && sm.renewing90 > 0) || (filter === "gap" && sm.gaps.length > 0);
-    return match && tier;
+    return match && tier && (channel === "all" || commercial.salesChannel === channel)
+      && (format === "all" || commercial.storeFormat === format)
+      && (partner === "all" || commercial.partnerName === partner);
   }).sort((a, b) => {
     if (sortBy === "name") return a.name.localeCompare(b.name);
     const sa = summary(a.id), sb = summary(b.id);
@@ -112,7 +121,7 @@ export default function TenantsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="dark space-y-6">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Tenants</h1>
@@ -136,6 +145,18 @@ export default function TenantsPage() {
       </div>
 
       <div className="flex gap-3 items-center flex-wrap">
+        <Select value={channel} onValueChange={(value) => { setChannel(value); setPartner("all"); }}>
+          <SelectTrigger aria-label="Filter sales channel" className="w-44"><SelectValue /></SelectTrigger>
+          <SelectContent className="dark"><SelectItem value="all">All sales channels</SelectItem><SelectItem value="direct">Direct customers</SelectItem><SelectItem value="partner">Partner customers</SelectItem></SelectContent>
+        </Select>
+        <Select value={format} onValueChange={setFormat}>
+          <SelectTrigger aria-label="Filter customer format" className="w-44"><SelectValue /></SelectTrigger>
+          <SelectContent className="dark"><SelectItem value="all">All store formats</SelectItem><SelectItem value="chain">Chains of stores</SelectItem><SelectItem value="single">Single stores</SelectItem></SelectContent>
+        </Select>
+        {channel !== "direct" && partnerNames.length > 0 && <Select value={partner} onValueChange={setPartner}>
+          <SelectTrigger aria-label="Filter partner" className="w-44"><SelectValue /></SelectTrigger>
+          <SelectContent className="dark"><SelectItem value="all">All partners</SelectItem>{partnerNames.map((name) => <SelectItem key={name} value={name}>{name}</SelectItem>)}</SelectContent>
+        </Select>}
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
           <Input placeholder="Search tenants…" value={q} onChange={(e) => setQ(e.target.value)}
@@ -188,7 +209,9 @@ export default function TenantsPage() {
                 </DropdownMenu>
               </div>
 
-              <div className="flex gap-2 mb-3">
+              <div className="flex flex-wrap gap-2 mb-3">
+                <Badge variant="outline" className="border-border text-foreground">{tenantCommercial(t).storeFormat === "single" ? "Single store" : "Chain of stores"}</Badge>
+                <Badge variant="outline" className="border-border text-foreground max-w-full break-words whitespace-normal">{tenantCommercial(t).salesChannel === "partner" ? `Partner · ${t.partnerName || "Unassigned"}` : "Direct customer"}</Badge>
                 <Badge variant="outline" className={tierStyle[t.tier]}>{t.tier}</Badge>
                 <Badge variant="outline" className={statusStyle[t.status]}>{t.status}</Badge>
               </div>
@@ -224,9 +247,10 @@ export default function TenantsPage() {
         ))}
       </div>
 
+      {filtered.length === 0 && <p className="text-muted-foreground py-8 text-center">No tenants match these filters.</p>}
       {/* Detail sheet */}
       <Sheet open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
-        <SheetContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[560px] sm:max-w-[560px] overflow-y-auto">
+        <SheetContent className="dark bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[560px] sm:max-w-[560px] overflow-y-auto">
           {selected && (
             <>
               <SheetHeader>
@@ -241,6 +265,14 @@ export default function TenantsPage() {
                 </SheetDescription>
               </SheetHeader>
               <div className="mt-6 space-y-5">
+                <div className="space-y-2 border-b border-border pb-4">
+                  <h3 className="text-sm font-semibold text-foreground">Customer & partner</h3>
+                  <dl className="grid grid-cols-2 gap-2 text-sm">
+                    <dt className="text-muted-foreground">Customer format</dt><dd className="text-foreground">{tenantCommercial(selected).storeFormat === "single" ? "Single store" : "Chain of stores"} · {selected.storesCount.toLocaleString()} stores</dd>
+                    <dt className="text-muted-foreground">Sales channel</dt><dd className="text-foreground">{tenantCommercial(selected).salesChannel === "partner" ? "Partner-sourced" : "Direct"}</dd>
+                    {tenantCommercial(selected).salesChannel === "partner" && <><dt className="text-muted-foreground">Partner</dt><dd className="text-foreground break-words">{selected.partnerName || "Unassigned"}</dd></>}
+                  </dl>
+                </div>
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Licences procured</div>
                   <div className="[&>div]:!grid-cols-1 sm:[&>div]:!grid-cols-2"><LicenseMixGrid groups={mixOf(selected.id)} /></div>

@@ -49,6 +49,9 @@ export interface Tenant {
   primaryContact: string;
   contactEmail: string;
   monthlyRevenue: number;
+  salesChannel?: "direct" | "partner";
+  partnerName?: string;
+  storeFormat?: "chain" | "single";
 }
 
 export interface Location {
