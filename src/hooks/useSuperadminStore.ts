@@ -17,11 +17,13 @@ import {
   type Partner,
 } from "@/data/superadminData";
 import { partnerKey, reconcilePartners } from "@/lib/partnerReporting";
+import { addPartnerDemoData } from "@/data/partnerDemoData";
 
 // ─── Storage layer ────────────────────────────────────────────────────
 const STORAGE_KEY = "ithina.superadmin.v2";
 
 interface StoreShape {
+  partnerDemoSeeded: boolean;
   partners: Partner[];
   tenants: Tenant[];
   locations: Location[];
@@ -34,8 +36,8 @@ interface StoreShape {
 }
 
 const seed = (): StoreShape => ({
-  partners: [],
-  tenants: structuredClone(seedTenants),
+  partnerDemoSeeded: true,
+  ...addPartnerDemoData(structuredClone(seedTenants), []),
   locations: structuredClone(seedLocations),
   users: structuredClone(seedUsers),
   roles: structuredClone(seedRoles),
@@ -56,8 +58,14 @@ const load = (): StoreShape => {
     if (!isObj(parsed)) return seed();
     const fallback = seed();
     const arr = <T,>(v: unknown, fb: T[]): T[] => (Array.isArray(v) ? (v as T[]) : fb);
-    const upgraded = reconcilePartners(arr(parsed.tenants, fallback.tenants), arr(parsed.partners, []));
+    const existing = reconcilePartners(arr(parsed.tenants, fallback.tenants), arr(parsed.partners, []));
+    const upgraded = parsed.partnerDemoSeeded === true
+      ? existing
+      : addPartnerDemoData(existing.tenants, existing.partners);
+    // Save the migration immediately so subsequent edits are never seeded again.
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...parsed, ...upgraded, partnerDemoSeeded: true }));
     return {
+      partnerDemoSeeded: true,
       ...upgraded,
       locations: arr(parsed.locations, fallback.locations),
       users: arr(parsed.users, fallback.users),
