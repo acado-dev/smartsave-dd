@@ -139,7 +139,7 @@ export default function SuperadminDashboard() {
       </div>
 
 
-      <PartnerPortfolio partners={partners} tenants={tenants} products={catalog.customerProducts} skus={catalog.skus} platform={persona === "platform"} />
+      {persona !== "tenant" ? <PartnerPortfolio partners={partners} tenants={tenants} products={catalog.customerProducts} skus={catalog.skus} platform={persona === "platform"} /> : <section className="border-y border-border py-4"><h2 className="text-sm font-semibold text-foreground">Customer channel</h2><p className="text-sm text-muted-foreground mt-1">{tenants[0]?.salesChannel === "partner" ? `Partner-sourced · ${tenants[0]?.partnerName || "Unassigned"}` : "Direct customer"}</p></section>}
 
       {/* Licence portfolio */}
       <Card className="bg-white/5 border-white/10">

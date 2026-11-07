@@ -22,4 +22,12 @@ describe('partner reporting', () => {
  test('stable partner IDs retain attribution after a rename', () => {
   const r=reconcilePartners(tenants,[{...partner,name:'Renamed Partner'}]); expect(r.tenants[0].partnerName).toBe('Renamed Partner'); expect(r.tenants[0].partnerId).toBe('p1');
  });
+ test('scoped partner reporting excludes other customers and their licences', () => {
+  const r=partnerReport(partner,[tenants[1]],products,skus,'2026-11-07');
+  expect(r.customers.map(t=>t.id)).toEqual(['t2']);
+  expect(r.stores).toBe(1);
+  expect(r.rows.map(row=>row.c.id)).toEqual(['c2']);
+  expect(r.subscriptions).toBe(0);
+  expect(r.renewals.length).toBe(0);
+ });
 });
