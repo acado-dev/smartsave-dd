@@ -4,3 +4,6 @@
 - [x] Add partner master creation/editing and stable tenant partner links, preserving existing attribution.
 - [x] Add partner dashboard and customer/store/product/licence/renewal/expiry detail reporting.
 - [x] Verify saved master records, linked tenant reporting and reporting rules.
+- [ ] Extend tenant partner summaries, stable partner filtering and master detail visibility.
+- [ ] Add scoped partner contribution and renewal information to Workspace dashboard.
+- [ ] Verify tenant filtering/detail and dashboard partner data.
