@@ -1,6 +1,6 @@
 - [x] Add partner attribution and store-format fields to tenant creation/editing without resetting existing data.
 - [x] Show and filter partner / chain / single-store information alongside existing licence details.
 - [x] Test validation and verify creation, editing and saved readback in the tenant screen.
-- [ ] Add partner master creation/editing and stable tenant partner links, preserving existing attribution.
-- [ ] Add partner dashboard and customer/store/product/licence/renewal/expiry detail reporting.
-- [ ] Verify saved master records, linked tenant reporting and reporting rules.
+- [x] Add partner master creation/editing and stable tenant partner links, preserving existing attribution.
+- [x] Add partner dashboard and customer/store/product/licence/renewal/expiry detail reporting.
+- [x] Verify saved master records, linked tenant reporting and reporting rules.
