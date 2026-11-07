@@ -7,3 +7,5 @@
 - [x] Extend tenant partner summaries, stable partner filtering and master detail visibility.
 - [x] Add scoped partner contribution and renewal information to Workspace dashboard.
 - [x] Verify tenant filtering/detail and dashboard partner data.
+- [ ] Add partner-grouped tenant selection and commercial context to Organization Tree without changing access hierarchy.
+- [ ] Verify partner filtering, tenant switching and tree node controls.
