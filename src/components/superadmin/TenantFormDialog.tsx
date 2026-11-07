@@ -12,6 +12,7 @@ import { superadminActions } from "@/hooks/useSuperadminStore";
 import { useScopedSuperadminStore } from "@/lib/superadminScope";
 import { tenantCommercial, tenantCommercialSchema } from "@/lib/tenantCommercial";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PartnerFormDialog } from "@/components/superadmin/PartnerFormDialog";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name is required").max(80),
@@ -44,13 +45,14 @@ const empty = {
   monthlyRevenue: 0,
   salesChannel: "direct" as "direct" | "partner",
   partnerName: "",
+  partnerId: "",
   storeFormat: "single" as "chain" | "single",
   modules: ["admin"] as string[],
 };
 
 export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
-  const { tenants } = useScopedSuperadminStore();
-  const partnerNames = [...new Set(tenants.map((t) => t.partnerName?.trim()).filter((name): name is string => Boolean(name)))].sort();
+  const { partners } = useScopedSuperadminStore();
+  const [partnerOpen, setPartnerOpen] = useState(false);
   const [form, setForm] = useState(empty);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const isEdit = !!tenant;
@@ -64,6 +66,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
         storesCount: tenant.storesCount, monthlyRevenue: tenant.monthlyRevenue,
         modules: [...tenant.modules],
         ...tenantCommercial(tenant),
+        partnerId: tenant.partnerId ?? "",
       });
     } else {
       setForm(empty);
@@ -74,6 +77,9 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
   const submit = () => {
     const parsed = schema.safeParse(form);
     const commercial = tenantCommercialSchema.safeParse(form);
+    if (form.salesChannel === "partner" && !partners.some((p) => p.id === form.partnerId)) {
+      setErrors({ partnerName: "Select a partner from the partner master" }); return;
+    }
     if (!parsed.success || !commercial.success) {
       const errs: Record<string, string> = {};
       if (!parsed.success) parsed.error.issues.forEach((i) => { errs[String(i.path[0])] = i.message; });
@@ -81,7 +87,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
       setErrors(errs);
       return;
     }
-    const data = { ...parsed.data, ...commercial.data, modules: parsed.data.modules as ModuleKey[] } as Omit<Tenant, "id" | "createdAt" | "usersCount">;
+    const data = { ...parsed.data, ...commercial.data, partnerId: form.salesChannel === "partner" ? form.partnerId : "", modules: parsed.data.modules as ModuleKey[] } as Omit<Tenant, "id" | "createdAt" | "usersCount">;
     if (isEdit && tenant) {
       superadminActions.updateTenant(tenant.id, data);
       toast.success(`${data.name} updated`);
@@ -125,8 +131,11 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
           {form.salesChannel === "partner" && (
             <div className="sm:col-span-2">
               <Field label="Partner" error={errors.partnerName}>
-                <Input aria-label="Partner" list="tenant-partners" placeholder="Select an existing partner or enter a new name" value={form.partnerName} onChange={(e) => setForm({ ...form, partnerName: e.target.value })} />
-                <datalist id="tenant-partners">{partnerNames.map((name) => <option key={name} value={name} />)}</datalist>
+                <Select value={form.partnerId} onValueChange={(id) => { const partner = partners.find((p) => p.id === id); if (partner) setForm({ ...form, partnerId: partner.id, partnerName: partner.name }); }}>
+                  <SelectTrigger aria-label="Partner"><SelectValue placeholder="Select partner" /></SelectTrigger>
+                  <SelectContent className="dark">{partners.filter((p) => p.status === "active" || p.id === form.partnerId).map((p) => <SelectItem key={p.id} value={p.id}>{p.name}{p.status === "inactive" ? " (inactive)" : ""}</SelectItem>)}</SelectContent>
+                </Select>
+                <Button variant="link" size="sm" onClick={() => setPartnerOpen(true)}>Add new partner</Button>
               </Field>
             </div>
           )}
@@ -193,6 +202,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
           </Button>
         </DialogFooter>
       </DialogContent>
+      <PartnerFormDialog open={partnerOpen} onOpenChange={setPartnerOpen} onSaved={(partner) => setForm((f) => ({ ...f, partnerId: partner.id, partnerName: partner.name }))} />
     </Dialog>
   );
 }
