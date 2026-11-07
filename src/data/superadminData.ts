@@ -51,7 +51,21 @@ export interface Tenant {
   monthlyRevenue: number;
   salesChannel?: "direct" | "partner";
   partnerName?: string;
+  partnerId?: string;
   storeFormat?: "chain" | "single";
+}
+
+export interface Partner {
+  id: string;
+  name: string;
+  type: "Distributor" | "Reseller" | "System Integrator" | "Referral Partner";
+  country: string;
+  primaryContact: string;
+  contactEmail: string;
+  phone: string;
+  status: "active" | "inactive";
+  createdAt: string;
+  notes: string;
 }
 
 export interface Location {

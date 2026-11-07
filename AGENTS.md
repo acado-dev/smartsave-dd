@@ -1,2 +1,3 @@
 - Superadmin product catalogue lives in its own store (useCatalogStore, separate localStorage key) with an unlimited-depth category tree; keeps catalogue data decoupled from tenant/RBAC data.
 - Keep tenant partner attribution and store format as optional commercial metadata, independent of access scope and catalogue ownership; derive legacy defaults without resetting saved records.
+- Store partner master records with stable IDs in the existing Superadmin demo store; reconcile legacy name attribution and derive partner reports from linked tenants and the separate catalogue rather than copying subscription data.
