@@ -17,7 +17,7 @@ describe("tenant commercial dimensions", () => {
     expect(tenantCommercialSchema.parse({ salesChannel: "direct", partnerName: "Old Partner", storeFormat: "single", storesCount: 1 }).partnerName).toBe("");
   });
   test("legacy customers keep inferred store format without changing counts", () => {
-    const tenant = { tier: "SMB" as const, storesCount: 12 };
+    const tenant = { tier: "SMB", storesCount: 12 };
     expect(tenantCommercial(tenant)).toEqual({ salesChannel: "direct", partnerName: "", storeFormat: "chain" });
     expect(tenant.storesCount).toBe(12);
   });
