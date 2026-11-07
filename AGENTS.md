@@ -2,3 +2,4 @@
 - Keep tenant partner attribution and store format as optional commercial metadata, independent of access scope and catalogue ownership; derive legacy defaults without resetting saved records.
 - Store partner master records with stable IDs in the existing Superadmin demo store; reconcile legacy name attribution and derive partner reports from linked tenants and the separate catalogue rather than copying subscription data.
 - Seed partner examples through a one-time additive demo-store migration; preserve saved attribution and mark completion so later user edits are not reapplied.
+- Reuse PartnerPortfolio for tenant and workspace partner contribution, deriving reports only from passed scoped tenants; partner detail links use stable master IDs in URL parameters.

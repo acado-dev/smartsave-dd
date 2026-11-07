@@ -21,6 +21,8 @@ import { licenseMix, hardwareStats, coreDeployment } from "@/lib/subscriptionSum
 import { LicenseMixChips, LicenseMixGrid } from "@/components/superadmin/LicenseMix";
 import { tenantCommercial } from "@/lib/tenantCommercial";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Link } from "react-router-dom";
+import { PartnerPortfolio } from "@/components/superadmin/PartnerPortfolio";
 
 const rootOf = (nodes: CatalogNode[], id: string) => {
   let cur = nodes.find((x) => x.id === id);
@@ -44,7 +46,7 @@ const statusStyle: Record<string, string> = {
 
 export default function TenantsPage() {
   usePersonaGuard("tenants");
-  const { tenants } = useSuperadminStore();
+  const { tenants, partners } = useSuperadminStore();
   const catalog = useCatalogStore();
   const { customerProducts } = catalog;
   const [sortBy, setSortBy] = useState<"name" | "renewal" | "assistants">("name");
@@ -74,7 +76,8 @@ export default function TenantsPage() {
   const [channel, setChannel] = useState("all");
   const [format, setFormat] = useState("all");
   const [partner, setPartner] = useState("all");
-  const partnerNames = [...new Set(tenants.map((t) => t.partnerName?.trim()).filter((name): name is string => Boolean(name)))].sort();
+  const linkedPartners = partners.filter(p => tenants.some(t => t.partnerId === p.id)).sort((a, b) => a.name.localeCompare(b.name));
+  const selectedPartner = partners.find(p => p.id === selected?.partnerId);
   const [filter, setFilter] = useState<string>("all");
   const [selected, setSelected] = useState<Tenant | null>(null);
   const [formOpen, setFormOpen] = useState(false);
@@ -89,7 +92,7 @@ export default function TenantsPage() {
       || (filter === "renewal" && sm.renewing90 > 0) || (filter === "gap" && sm.gaps.length > 0);
     return match && tier && (channel === "all" || commercial.salesChannel === channel)
       && (format === "all" || commercial.storeFormat === format)
-      && (partner === "all" || commercial.partnerName === partner);
+      && (partner === "all" || t.partnerId === partner);
   }).sort((a, b) => {
     if (sortBy === "name") return a.name.localeCompare(b.name);
     const sa = summary(a.id), sb = summary(b.id);
@@ -144,6 +147,8 @@ export default function TenantsPage() {
         <Kpi icon={AlertTriangle} label="Missing mandatory product" value={kpi.gaps} tone={kpi.gaps ? "bad" : undefined} onClick={() => setFilter("gap")} />
       </div>
 
+      <PartnerPortfolio partners={partners} tenants={tenants} products={customerProducts} skus={catalog.skus} platform={isPlatform} compact onPartner={(id) => { setPartner(id); setChannel("partner"); }} />
+
       <div className="flex gap-3 items-center flex-wrap">
         <Select value={channel} onValueChange={(value) => { setChannel(value); setPartner("all"); }}>
           <SelectTrigger aria-label="Filter sales channel" className="w-44"><SelectValue /></SelectTrigger>
@@ -153,9 +158,9 @@ export default function TenantsPage() {
           <SelectTrigger aria-label="Filter customer format" className="w-44"><SelectValue /></SelectTrigger>
           <SelectContent className="dark"><SelectItem value="all">All store formats</SelectItem><SelectItem value="chain">Chains of stores</SelectItem><SelectItem value="single">Single stores</SelectItem></SelectContent>
         </Select>
-        {channel !== "direct" && partnerNames.length > 0 && <Select value={partner} onValueChange={setPartner}>
+        {channel !== "direct" && linkedPartners.length > 0 && <Select value={partner} onValueChange={setPartner}>
           <SelectTrigger aria-label="Filter partner" className="w-44"><SelectValue /></SelectTrigger>
-          <SelectContent className="dark"><SelectItem value="all">All partners</SelectItem>{partnerNames.map((name) => <SelectItem key={name} value={name}>{name}</SelectItem>)}</SelectContent>
+          <SelectContent className="dark"><SelectItem value="all">All partners</SelectItem>{linkedPartners.map((p) => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}</SelectContent>
         </Select>}
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
@@ -271,7 +276,9 @@ export default function TenantsPage() {
                     <dt className="text-muted-foreground">Customer format</dt><dd className="text-foreground">{tenantCommercial(selected).storeFormat === "single" ? "Single store" : "Chain of stores"} · {selected.storesCount.toLocaleString()} stores</dd>
                     <dt className="text-muted-foreground">Sales channel</dt><dd className="text-foreground">{tenantCommercial(selected).salesChannel === "partner" ? "Partner-sourced" : "Direct"}</dd>
                     {tenantCommercial(selected).salesChannel === "partner" && <><dt className="text-muted-foreground">Partner</dt><dd className="text-foreground break-words">{selected.partnerName || "Unassigned"}</dd></>}
+                    {selectedPartner && <><dt className="text-muted-foreground">Partner type / status</dt><dd className="text-foreground">{selectedPartner.type} · {selectedPartner.status}</dd><dt className="text-muted-foreground">Partner contact</dt><dd className="text-foreground break-words">{selectedPartner.primaryContact || "—"}<div className="text-xs text-muted-foreground">{selectedPartner.contactEmail}</div></dd></>}
                   </dl>
+                  {isPlatform && selectedPartner && <Button asChild variant="outline" size="sm"><Link to={`/superadmin/partners?partner=${encodeURIComponent(selectedPartner.id)}`}>View partner dashboard</Link></Button>}
                 </div>
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Licences procured</div>
