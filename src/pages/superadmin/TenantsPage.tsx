@@ -77,9 +77,9 @@ export default function TenantsPage() {
   const [format, setFormat] = useState("all");
   const [partner, setPartner] = useState("all");
   const linkedPartners = partners.filter(p => tenants.some(t => t.partnerId === p.id)).sort((a, b) => a.name.localeCompare(b.name));
-  const selectedPartner = partners.find(p => p.id === selected?.partnerId);
   const [filter, setFilter] = useState<string>("all");
   const [selected, setSelected] = useState<Tenant | null>(null);
+  const selectedPartner = partners.find(p => p.id === selected?.partnerId);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Tenant | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<Tenant | null>(null);
