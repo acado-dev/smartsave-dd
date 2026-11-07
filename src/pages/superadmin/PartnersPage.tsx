@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Plus, Pencil, ArrowLeft, Building2, Store, Package, CalendarClock, AlertTriangle, Download } from "lucide-react";
 import type { Partner } from "@/data/superadminData";
 import { useSuperadminStore } from "@/hooks/useSuperadminStore";
@@ -23,7 +23,9 @@ export default function PartnersPage() {
   const allowed = usePersonaGuard("partners");
   const { partners, tenants } = useSuperadminStore();
   const cat = useCatalogStore();
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedId = searchParams.get("partner");
+  const setSelectedId = (id: string | null) => setSearchParams(id ? { partner: id } : {});
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("all");
   const [open, setOpen] = useState(false);

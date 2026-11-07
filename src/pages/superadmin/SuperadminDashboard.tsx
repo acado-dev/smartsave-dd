@@ -13,6 +13,7 @@ import { portfolioSummary, licenseMix, hardwareStats, coreDeployment } from "@/l
 import { LicenseMixGrid } from "@/components/superadmin/LicenseMix";
 import { ShieldCheck, Cpu, Sparkles, Plug } from "lucide-react";
 import { CalendarClock, AlertTriangle, Gauge, Package, RefreshCw } from "lucide-react";
+import { PartnerPortfolio } from "@/components/superadmin/PartnerPortfolio";
 
 const KPI = ({
   label, value, sub, icon: Icon, accent = "blue", trend,
@@ -50,7 +51,7 @@ const KPI = ({
 export default function SuperadminDashboard() {
   const navigate = useNavigate();
   const { session } = useSuperadminAuth();
-  const { tenants, users, audit, guardrails, roles, locations } = useScopedSuperadminStore();
+  const { tenants, partners, users, audit, guardrails, roles, locations } = useScopedSuperadminStore();
 
   const persona = session?.persona ?? "platform";
   const catalog = useCatalogStore();
@@ -138,6 +139,8 @@ export default function SuperadminDashboard() {
       </div>
 
 
+      {persona !== "tenant" ? <PartnerPortfolio partners={partners} tenants={tenants} products={catalog.customerProducts} skus={catalog.skus} platform={persona === "platform"} /> : <section className="border-y border-border py-4"><h2 className="text-sm font-semibold text-foreground">Customer channel</h2><p className="text-sm text-muted-foreground mt-1">{tenants[0]?.salesChannel === "partner" ? `Partner-sourced · ${tenants[0]?.partnerName || "Unassigned"}` : "Direct customer"}</p></section>}
+
       {/* Licence portfolio */}
       <Card className="bg-white/5 border-white/10">
         <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
@@ -174,6 +177,7 @@ export default function SuperadminDashboard() {
                 <div className="min-w-0">
                   <div className="text-sm text-white font-medium truncate">{tName(c.tenantId)} · {k.name}</div>
                   <div className="text-[11px] text-slate-400 truncate">{k.code} · {nodePath(catalog.nodes, k.nodeId)}</div>
+                  <div className="text-xs text-muted-foreground break-words">{tenants.find(t => t.id === c.tenantId)?.salesChannel === "partner" ? `Partner · ${tenants.find(t => t.id === c.tenantId)?.partnerName || "Unassigned"}` : "Direct customer"}</div>
                 </div>
                 <div className="text-right shrink-0 ml-3">
                   <div className={`text-sm font-medium ${d! < 0 ? "text-[hsl(4,84%,75%)]" : d! <= 30 ? "text-[hsl(4,84%,75%)]" : "text-amber-300"}`}>
@@ -236,6 +240,7 @@ export default function SuperadminDashboard() {
                   <div>
                     <div className="text-sm font-medium text-white">{t.name}</div>
                     <div className="text-[11px] text-slate-400">{t.industry} · {t.country}</div>
+                    <div className="text-xs text-muted-foreground break-words">{t.salesChannel === "partner" ? `Partner · ${t.partnerName || "Unassigned"}` : "Direct customer"}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
