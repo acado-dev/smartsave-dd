@@ -101,7 +101,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="dark bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-white">{isEdit ? "Edit tenant" : "Provision new tenant"}</DialogTitle>
           <DialogDescription className="text-slate-400">
@@ -113,13 +113,13 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
           <Field label="Customer format" error={errors.storeFormat}>
             <Select value={form.storeFormat} onValueChange={(value: "chain" | "single") => setForm({ ...form, storeFormat: value, storesCount: value === "single" ? 1 : form.storesCount })}>
               <SelectTrigger aria-label="Customer format"><SelectValue /></SelectTrigger>
-              <SelectContent><SelectItem value="single">Single store</SelectItem><SelectItem value="chain">Chain of stores</SelectItem></SelectContent>
+              <SelectContent className="dark"><SelectItem value="single">Single store</SelectItem><SelectItem value="chain">Chain of stores</SelectItem></SelectContent>
             </Select>
           </Field>
           <Field label="Sales channel" error={errors.salesChannel}>
             <Select value={form.salesChannel} onValueChange={(value: "direct" | "partner") => setForm({ ...form, salesChannel: value, partnerName: value === "direct" ? "" : form.partnerName })}>
               <SelectTrigger aria-label="Sales channel"><SelectValue /></SelectTrigger>
-              <SelectContent><SelectItem value="direct">Direct customer</SelectItem><SelectItem value="partner">Partner-sourced customer</SelectItem></SelectContent>
+              <SelectContent className="dark"><SelectItem value="direct">Direct customer</SelectItem><SelectItem value="partner">Partner-sourced customer</SelectItem></SelectContent>
             </Select>
           </Field>
           {form.salesChannel === "partner" && (

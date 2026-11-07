@@ -121,7 +121,7 @@ export default function TenantsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="dark space-y-6">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Tenants</h1>
@@ -147,15 +147,15 @@ export default function TenantsPage() {
       <div className="flex gap-3 items-center flex-wrap">
         <Select value={channel} onValueChange={(value) => { setChannel(value); setPartner("all"); }}>
           <SelectTrigger aria-label="Filter sales channel" className="w-44"><SelectValue /></SelectTrigger>
-          <SelectContent><SelectItem value="all">All sales channels</SelectItem><SelectItem value="direct">Direct customers</SelectItem><SelectItem value="partner">Partner customers</SelectItem></SelectContent>
+          <SelectContent className="dark"><SelectItem value="all">All sales channels</SelectItem><SelectItem value="direct">Direct customers</SelectItem><SelectItem value="partner">Partner customers</SelectItem></SelectContent>
         </Select>
         <Select value={format} onValueChange={setFormat}>
           <SelectTrigger aria-label="Filter customer format" className="w-44"><SelectValue /></SelectTrigger>
-          <SelectContent><SelectItem value="all">All store formats</SelectItem><SelectItem value="chain">Chains of stores</SelectItem><SelectItem value="single">Single stores</SelectItem></SelectContent>
+          <SelectContent className="dark"><SelectItem value="all">All store formats</SelectItem><SelectItem value="chain">Chains of stores</SelectItem><SelectItem value="single">Single stores</SelectItem></SelectContent>
         </Select>
         {channel !== "direct" && partnerNames.length > 0 && <Select value={partner} onValueChange={setPartner}>
           <SelectTrigger aria-label="Filter partner" className="w-44"><SelectValue /></SelectTrigger>
-          <SelectContent><SelectItem value="all">All partners</SelectItem>{partnerNames.map((name) => <SelectItem key={name} value={name}>{name}</SelectItem>)}</SelectContent>
+          <SelectContent className="dark"><SelectItem value="all">All partners</SelectItem>{partnerNames.map((name) => <SelectItem key={name} value={name}>{name}</SelectItem>)}</SelectContent>
         </Select>}
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
@@ -250,7 +250,7 @@ export default function TenantsPage() {
       {filtered.length === 0 && <p className="text-muted-foreground py-8 text-center">No tenants match these filters.</p>}
       {/* Detail sheet */}
       <Sheet open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
-        <SheetContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[560px] sm:max-w-[560px] overflow-y-auto">
+        <SheetContent className="dark bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[560px] sm:max-w-[560px] overflow-y-auto">
           {selected && (
             <>
               <SheetHeader>
