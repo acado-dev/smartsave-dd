@@ -114,6 +114,13 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 
+  /* Superadmin shell surfaces (dark defaults, overridden in light mode) */
+  :root {
+    --sa-bg: hsl(222 47% 9%);
+    --sa-bg-deep: hsl(222 47% 6%);
+    --sa-header: hsl(222 47% 8%);
+  }
+
   /* Petrol Station #2311 brand theme */
   .theme-petrol {
     --primary: 357 96% 46%;
