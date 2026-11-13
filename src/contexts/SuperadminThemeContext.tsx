@@ -29,13 +29,20 @@ export function SuperadminThemeProvider({ children }: { children: React.ReactNod
 
   useEffect(() => {
     const root = document.documentElement;
+    const hadDark = root.classList.contains("dark");
     root.classList.toggle("superadmin-light", theme === "light");
+    // Keep token-based components (cards, badges, muted text) in sync:
+    // superadmin dark mode needs the dark design tokens, light mode the light ones.
+    root.classList.toggle("dark", theme === "dark");
     try {
       localStorage.setItem(STORAGE_KEY, theme);
     } catch {
       /* storage unavailable */
     }
-    return () => root.classList.remove("superadmin-light");
+    return () => {
+      root.classList.remove("superadmin-light");
+      root.classList.toggle("dark", hadDark);
+    };
   }, [theme]);
 
   const toggleTheme = () => setTheme((p) => (p === "dark" ? "light" : "dark"));
