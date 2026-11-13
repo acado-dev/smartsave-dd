@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { SuperadminSidebar } from "@/components/navigation/SuperadminSidebar";
-import { Menu, Bell, Search, Crown, Building2, Users, LogOut } from "lucide-react";
+import { Menu, Bell, Search, Crown, Building2, Users, LogOut, Sun, Moon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { SuperadminErrorBoundary } from "@/components/superadmin/SuperadminErrorBoundary";
@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSuperadminAuth } from "@/contexts/SuperadminAuthContext";
+import { useSuperadminTheme } from "@/contexts/SuperadminThemeContext";
 
 interface Props {
   children?: React.ReactNode;
@@ -28,6 +29,7 @@ const personaMeta: Record<string, { label: string; icon: any; color: string }> =
 export function SuperadminLayout({ children }: Props) {
   const navigate = useNavigate();
   const { session, signOut } = useSuperadminAuth();
+  const { theme, toggleTheme } = useSuperadminTheme();
   const meta = personaMeta[session?.persona ?? "platform"];
   const PersonaIcon = meta.icon;
 
@@ -43,12 +45,12 @@ export function SuperadminLayout({ children }: Props) {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full" style={{ background: "hsl(222 47% 9%)" }}>
+      <div className="flex min-h-screen w-full" style={{ background: "var(--sa-bg)" }}>
         <SuperadminSidebar />
         <div className="flex-1 flex flex-col overflow-auto">
           <header
             className="sticky top-0 z-10 h-14 border-b border-white/10"
-            style={{ background: "hsl(222 47% 8%)" }}
+            style={{ background: "var(--sa-header)" }}
           >
             <div className="flex h-full items-center justify-between px-4 gap-4">
               <div className="flex items-center gap-3">
@@ -79,6 +81,17 @@ export function SuperadminLayout({ children }: Props) {
                 </div>
               </div>
               <div className="flex items-center gap-3">
+                <button
+                  onClick={toggleTheme}
+                  title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                  className="p-2 rounded-lg hover:bg-white/5"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4 text-slate-300" />
+                  ) : (
+                    <Moon className="h-4 w-4 text-slate-300" />
+                  )}
+                </button>
                 <button className="relative p-2 rounded-lg hover:bg-white/5">
                   <Bell className="h-4 w-4 text-slate-300" />
                   <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-[hsl(4,84%,55%)]" />
