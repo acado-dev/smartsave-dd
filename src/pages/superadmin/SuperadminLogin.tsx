@@ -4,9 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Crown, Building2, Users, ShieldCheck, ArrowRight } from "lucide-react";
+import { Crown, Building2, Users, ShieldCheck, ArrowRight, Sun, Moon } from "lucide-react";
 import ithinaLogo from "@/assets/ithina-logo-white.png";
 import { useSuperadminAuth, DEMO_ACCOUNTS } from "@/contexts/SuperadminAuthContext";
+import { useSuperadminTheme } from "@/contexts/SuperadminThemeContext";
 import { toast } from "sonner";
 
 const personaIcon: Record<string, any> = {
@@ -25,6 +26,7 @@ export default function SuperadminLogin() {
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, session } = useSuperadminAuth();
+  const { theme, toggleTheme } = useSuperadminTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -52,9 +54,20 @@ export default function SuperadminLogin() {
 
   return (
     <div
-      className="min-h-screen w-full flex items-center justify-center p-6"
+      className="superadmin-login-bg min-h-screen w-full flex items-center justify-center p-6 relative"
       style={{ background: "radial-gradient(circle at 20% 10%, hsl(217 91% 14% / 0.6), transparent 50%), hsl(222 47% 7%)" }}
     >
+      <button
+        onClick={toggleTheme}
+        title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        className="absolute top-4 right-4 p-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10"
+      >
+        {theme === "dark" ? (
+          <Sun className="h-4 w-4 text-slate-300" />
+        ) : (
+          <Moon className="h-4 w-4 text-slate-300" />
+        )}
+      </button>
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-6 w-full max-w-5xl">
         {/* Left — branding */}
         <div className="hidden lg:flex flex-col justify-between p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur">

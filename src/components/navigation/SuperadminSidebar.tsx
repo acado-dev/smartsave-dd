@@ -111,7 +111,7 @@ export function SuperadminSidebar() {
   return (
     <Sidebar
       className={`${collapsed ? "w-16" : "w-64"} border-r border-white/10`}
-      style={{ background: "hsl(222 47% 6%)" }}
+      style={{ background: "var(--sa-bg-deep)" }}
     >
       <SidebarHeader className="border-b border-white/10 p-4">
         {collapsed ? (
@@ -131,7 +131,7 @@ export function SuperadminSidebar() {
         )}
       </SidebarHeader>
 
-      <SidebarContent style={{ background: "hsl(222 47% 6%)" }}>
+      <SidebarContent style={{ background: "var(--sa-bg-deep)" }}>
         {renderGroup("Overview", overview)}
         {renderGroup("Governance", governance)}
         {renderGroup("Commercial", commercial)}
