@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Crown, Building2, Users, ShieldCheck, ArrowRight, Sun, Moon } from "lucide-react";
-import ithinaLogo from "@/assets/ithina-logo-white.png";
+import ithinaLogoWhite from "@/assets/ithina-logo-white.png";
+import ithinaLogoDark from "@/assets/ithina-logo.png";
 import { useSuperadminAuth, DEMO_ACCOUNTS } from "@/contexts/SuperadminAuthContext";
 import { useSuperadminTheme } from "@/contexts/SuperadminThemeContext";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ export default function SuperadminLogin() {
   const location = useLocation();
   const { signIn, session } = useSuperadminAuth();
   const { theme, toggleTheme } = useSuperadminTheme();
+  const ithinaLogo = theme === "light" ? ithinaLogoDark : ithinaLogoWhite;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
