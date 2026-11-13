@@ -18,7 +18,7 @@ export function PartnerPortfolio({ partners, tenants, products, skus, platform, 
     ["Partner-sourced stores", sourced.reduce((s, t) => s + t.storesCount, 0)],
     ["Partner renewals ≤90 days", reports.reduce((s, { r }) => s + r.renewals.length, 0)],
   ] as const;
-  return <section className="dark text-foreground space-y-4 border-y border-border py-5" aria-label="Partner contribution">
+  return <section className="text-foreground space-y-4 border-y border-border py-5" aria-label="Partner contribution">
     <div className="flex flex-wrap items-center justify-between gap-3">
       <h2 className="text-base font-semibold text-foreground flex items-center gap-2"><Handshake className="h-4 w-4 text-accent" />Partner contribution{!platform && " in your organization"}</h2>
       {platform && <Button asChild variant="outline" size="sm"><Link to="/superadmin/partners">Partner Master<ArrowUpRight className="h-4 w-4 ml-2" /></Link></Button>}

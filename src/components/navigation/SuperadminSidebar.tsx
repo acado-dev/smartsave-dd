@@ -11,7 +11,9 @@ import {
   PackageSearch,
   CreditCard,
 } from "lucide-react";
-import ithinaLogo from "@/assets/ithina-logo-white.png";
+import ithinaLogoWhite from "@/assets/ithina-logo-white.png";
+import ithinaLogoDark from "@/assets/ithina-logo.png";
+import { useSuperadminTheme } from "@/contexts/SuperadminThemeContext";
 import {
   Sidebar,
   SidebarContent,
@@ -60,6 +62,8 @@ export function SuperadminSidebar() {
   const location = useLocation();
   const collapsed = state === "collapsed";
   const { session } = useSuperadminAuth();
+  const { theme } = useSuperadminTheme();
+  const ithinaLogo = theme === "light" ? ithinaLogoDark : ithinaLogoWhite;
   const persona = session?.persona;
 
   const isActive = (path: string, end = false) =>
@@ -111,7 +115,7 @@ export function SuperadminSidebar() {
   return (
     <Sidebar
       className={`${collapsed ? "w-16" : "w-64"} border-r border-white/10`}
-      style={{ background: "hsl(222 47% 6%)" }}
+      style={{ background: "var(--sa-bg-deep)" }}
     >
       <SidebarHeader className="border-b border-white/10 p-4">
         {collapsed ? (
@@ -131,7 +135,7 @@ export function SuperadminSidebar() {
         )}
       </SidebarHeader>
 
-      <SidebarContent style={{ background: "hsl(222 47% 6%)" }}>
+      <SidebarContent style={{ background: "var(--sa-bg-deep)" }}>
         {renderGroup("Overview", overview)}
         {renderGroup("Governance", governance)}
         {renderGroup("Commercial", commercial)}

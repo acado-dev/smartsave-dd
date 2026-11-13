@@ -26,7 +26,7 @@ export function PartnerFormDialog({ open, onOpenChange, partner, onSaved }: { op
       onSaved?.(saved); onOpenChange(false);
     } catch (e) { setError(e instanceof Error ? e.message : "Unable to save partner"); }
   };
-  return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="dark bg-background text-foreground border-border max-w-xl max-h-[90vh] overflow-y-auto">
+  return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="bg-background text-foreground border-border max-w-xl max-h-[90vh] overflow-y-auto">
     <DialogHeader><DialogTitle>{partner ? "Edit partner" : "Add partner"}</DialogTitle><DialogDescription>Partner master record</DialogDescription></DialogHeader>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {([['name', 'Partner name'], ['country', 'Country'], ['primaryContact', 'Primary contact'], ['contactEmail', 'Contact email'], ['phone', 'Phone']] as const).map(([key, label]) => <div key={key} className="space-y-2"><Label htmlFor={`partner-${key}`}>{label}</Label><Input id={`partner-${key}`} type={key === 'contactEmail' ? 'email' : 'text'} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} /></div>)}

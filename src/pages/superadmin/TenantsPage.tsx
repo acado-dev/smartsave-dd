@@ -124,7 +124,7 @@ export default function TenantsPage() {
   };
 
   return (
-    <div className="dark space-y-6">
+    <div className="space-y-6">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Tenants</h1>
@@ -255,7 +255,7 @@ export default function TenantsPage() {
       {filtered.length === 0 && <p className="text-muted-foreground py-8 text-center">No tenants match these filters.</p>}
       {/* Detail sheet */}
       <Sheet open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
-        <SheetContent className="dark bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[560px] sm:max-w-[560px] overflow-y-auto">
+        <SheetContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 w-[560px] sm:max-w-[560px] overflow-y-auto">
           {selected && (
             <>
               <SheetHeader>
