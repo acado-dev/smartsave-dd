@@ -102,7 +102,7 @@ export default function OrganizationTree() {
   const openEdit = (l: Location) => { setEditing(l); setDefaultParentId(l.parentId); setFormOpen(true); };
 
   return (
-    <div className="dark text-foreground space-y-6">
+    <div className="text-foreground space-y-6">
       <div className="flex flex-wrap gap-3 items-end justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Organization Tree</h1>

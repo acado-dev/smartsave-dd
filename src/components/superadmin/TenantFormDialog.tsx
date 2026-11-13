@@ -107,7 +107,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="dark bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-[hsl(222,47%,8%)] border-white/10 text-slate-200 max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-white">{isEdit ? "Edit tenant" : "Provision new tenant"}</DialogTitle>
           <DialogDescription className="text-slate-400">

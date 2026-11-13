@@ -50,7 +50,7 @@ export default function PartnersPage() {
     const url = URL.createObjectURL(new Blob(['\uFEFF' + rows.map((row) => row.map(csvCell).join(',')).join('\r\n')], { type: 'text/csv;charset=utf-8' }));
     const a = document.createElement('a'); a.href = url; a.download = `partner-${selected.name.replace(/[^a-z0-9]/gi, '-')}.csv`; a.click(); URL.revokeObjectURL(url);
   };
-  return <div className="dark space-y-6 text-foreground">
+  return <div className="space-y-6 text-foreground">
     <header className="flex flex-wrap gap-3 items-start justify-between">
       <div>{selected && <Button variant="ghost" size="sm" onClick={() => { setSelectedId(null); setLineFilter('all'); }}><ArrowLeft className="h-4 w-4 mr-2" />All partners</Button>}<h1 className="text-3xl font-bold break-words">{selected?.name ?? 'Partner Master'}</h1><p className="text-muted-foreground text-sm mt-1">{selected ? `${selected.type} · ${selected.country || 'Country not set'} · Partner since ${selected.createdAt}` : `${partners.length} partners · ${reports.reduce((s, x) => s + x.r.customers.length, 0)} customers brought`}</p></div>
       <Button onClick={() => edit(selected ?? null)}>{selected ? <Pencil className="h-4 w-4 mr-2" /> : <Plus className="h-4 w-4 mr-2" />}{selected ? 'Edit partner' : 'Add partner'}</Button>
