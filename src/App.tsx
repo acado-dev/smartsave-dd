@@ -180,6 +180,7 @@ import SuperadminPartners from "./pages/superadmin/PartnersPage";
 import SuperadminLogin from "./pages/superadmin/SuperadminLogin";
 import { SuperadminAuthProvider } from "./contexts/SuperadminAuthContext";
 import { RequireSuperadminAuth } from "./components/superadmin/RequireSuperadminAuth";
+import { SuperadminThemeProvider } from "./contexts/SuperadminThemeContext";
 import { SuperadminErrorBoundary } from "./components/superadmin/SuperadminErrorBoundary";
 
 const queryClient = new QueryClient();
@@ -211,7 +212,9 @@ const RouteLoader = () => <div className="min-h-screen bg-background" />;
 const SuperadminRouteShell = () => (
   <SuperadminErrorBoundary>
     <SuperadminAuthProvider>
-      <Outlet />
+      <SuperadminThemeProvider>
+        <Outlet />
+      </SuperadminThemeProvider>
     </SuperadminAuthProvider>
   </SuperadminErrorBoundary>
 );
