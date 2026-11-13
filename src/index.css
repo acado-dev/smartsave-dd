@@ -135,3 +135,53 @@ All colors MUST be HSL.
     --shadow-elevated: 0 8px 24px -6px hsl(357 96% 46% / 0.15);
   }
 }
+
+/* ===== Superadmin light mode =====
+   The superadmin console uses hardcoded dark utilities; these overrides
+   remap them to a light palette when .superadmin-light is on <html>. */
+.superadmin-light {
+  --sa-bg: hsl(210 20% 97%);
+  --sa-bg-deep: hsl(0 0% 100%);
+  --sa-header: hsl(0 0% 100%);
+}
+
+.superadmin-light .bg-white\/5 { background-color: hsl(0 0% 100%); }
+.superadmin-light .bg-white\/10 { background-color: hsl(220 13% 93%); }
+.superadmin-light .bg-white\/\[0\.03\] { background-color: hsl(0 0% 100%); }
+.superadmin-light .bg-white\/\[0\.02\] { background-color: hsl(0 0% 100%); }
+.superadmin-light .border-white\/10 { border-color: hsl(220 13% 88%); }
+.superadmin-light .border-white\/5 { border-color: hsl(220 13% 90%); }
+.superadmin-light .divide-white\/10 > * + * { border-color: hsl(220 13% 88%); }
+
+.superadmin-light .text-white { color: hsl(222 47% 12%); }
+.superadmin-light .text-slate-100 { color: hsl(222 47% 14%); }
+.superadmin-light .text-slate-200 { color: hsl(222 35% 20%); }
+.superadmin-light .text-slate-300 { color: hsl(222 20% 32%); }
+.superadmin-light .text-slate-400 { color: hsl(222 12% 42%); }
+.superadmin-light .text-slate-500 { color: hsl(222 10% 50%); }
+.superadmin-light .placeholder\:text-slate-500::placeholder { color: hsl(222 10% 55%); }
+
+.superadmin-light .hover\:bg-white\/5:hover { background-color: hsl(220 13% 93%); }
+.superadmin-light .hover\:bg-white\/10:hover { background-color: hsl(220 13% 90%); }
+.superadmin-light .hover\:text-white:hover { color: hsl(222 47% 12%); }
+
+/* Card / dialog / table surfaces using arbitrary hsl backgrounds */
+.superadmin-light [class*="bg-[hsl(222,47%,8%)]"] { background-color: hsl(0 0% 100%); }
+.superadmin-light [class*="bg-[hsl(222,47%,9%)]"] { background-color: hsl(210 20% 98%); }
+.superadmin-light [class*="bg-[hsl(222,47%,10%)]"] { background-color: hsl(0 0% 100%); }
+.superadmin-light [class*="option]:bg-[hsl(222,47%,10%)]"] option {
+  background-color: hsl(0 0% 100%);
+  color: hsl(222 47% 15%);
+}
+
+/* Keep white text on solid brand-blue buttons and gradient avatars */
+.superadmin-light [class*="bg-[hsl(217,91%,60%)]"]:not([class*="/"]) { color: hsl(0 0% 100%); }
+.superadmin-light [class*="bg-gradient-to-br"].text-white,
+.superadmin-light [class*="bg-gradient-to-br"] .text-white { color: hsl(0 0% 100%); }
+
+/* Login page backdrop */
+.superadmin-light .superadmin-login-bg {
+  background:
+    radial-gradient(circle at 20% 10%, hsl(217 91% 60% / 0.12), transparent 50%),
+    hsl(210 20% 96%) !important;
+}
