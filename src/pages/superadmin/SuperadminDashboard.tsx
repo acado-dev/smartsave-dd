@@ -14,6 +14,7 @@ import { LicenseMixGrid } from "@/components/superadmin/LicenseMix";
 import { ShieldCheck, Cpu, Sparkles, Plug } from "lucide-react";
 import { CalendarClock, AlertTriangle, Gauge, Package, RefreshCw } from "lucide-react";
 import { PartnerPortfolio } from "@/components/superadmin/PartnerPortfolio";
+import { tenantDeploymentLabel } from "@/lib/tenantCommercial";
 
 const KPI = ({
   label, value, sub, icon: Icon, accent = "blue", trend,
