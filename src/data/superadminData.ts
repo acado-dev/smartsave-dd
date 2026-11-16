@@ -53,6 +53,7 @@ export interface Tenant {
   partnerName?: string;
   partnerId?: string;
   storeFormat?: "chain" | "single";
+  deployment?: "cloud" | "onprem" | "hybrid";
 }
 
 export interface Partner {

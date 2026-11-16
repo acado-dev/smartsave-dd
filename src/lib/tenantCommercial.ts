@@ -6,6 +6,7 @@ export const tenantCommercialSchema = z.object({
   partnerName: z.string().trim().max(120),
   storeFormat: z.enum(["chain", "single"]),
   storesCount: z.coerce.number().int().min(1, "At least one store is required").max(100000),
+  deployment: z.enum(["cloud", "onprem", "hybrid"]).optional(),
 }).superRefine((data, ctx) => {
   if (data.salesChannel === "partner" && data.partnerName.length < 2) {
     ctx.addIssue({ code: "custom", path: ["partnerName"], message: "Select or enter a partner name" });
@@ -16,10 +17,29 @@ export const tenantCommercialSchema = z.object({
 }).transform((data) => ({ ...data, partnerName: data.salesChannel === "partner" ? data.partnerName : "" }));
 
 // Legacy tenants retain their records; derive missing commercial dimensions only.
-export function tenantCommercial(tenant: Pick<Tenant, "storesCount" | "tier" | "salesChannel" | "partnerName" | "storeFormat">) {
+export function tenantCommercial(tenant: Pick<Tenant, "storesCount" | "tier" | "salesChannel" | "partnerName" | "storeFormat" | "deployment">) {
   return {
     salesChannel: tenant.salesChannel ?? "direct",
     partnerName: tenant.partnerName ?? "",
     storeFormat: tenant.storeFormat ?? (tenant.storesCount === 1 || tenant.tier === "Single-Store" ? "single" : "chain"),
+    deployment: tenant.deployment,
   };
+}
+
+export const DEPLOYMENT_LABELS: Record<NonNullable<Tenant["deployment"]>, string> = {
+  cloud: "Cloud",
+  onprem: "On-Prem",
+  hybrid: "Hybrid",
+};
+
+/** Tenant-record deployment label; falls back to the subscription-derived split when unset. */
+export function tenantDeploymentLabel(
+  tenant: Pick<Tenant, "deployment">,
+  subscriptionSplit: { onPrem: number; cloud: number },
+): string {
+  if (tenant.deployment) return DEPLOYMENT_LABELS[tenant.deployment];
+  if (subscriptionSplit.onPrem && subscriptionSplit.cloud) return "Hybrid";
+  if (subscriptionSplit.onPrem) return "On-Prem";
+  if (subscriptionSplit.cloud) return "Cloud";
+  return "—";
 }
