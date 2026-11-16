@@ -19,7 +19,7 @@ import { useCatalogStore, daysUntil, effectiveStatus, mandatoryGaps, type Catalo
 import { Package, CalendarClock, AlertTriangle, ShieldCheck, Gauge, RefreshCw, Cpu, Sparkles, Plug } from "lucide-react";
 import { licenseMix, hardwareStats, coreDeployment } from "@/lib/subscriptionSummary";
 import { LicenseMixChips, LicenseMixGrid } from "@/components/superadmin/LicenseMix";
-import { tenantCommercial } from "@/lib/tenantCommercial";
+import { tenantCommercial, tenantDeploymentLabel } from "@/lib/tenantCommercial";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { PartnerPortfolio } from "@/components/superadmin/PartnerPortfolio";
@@ -106,7 +106,10 @@ export default function TenantsPage() {
   const hw = hardwareStats(catalog, tenants.map((t) => t.id));
   const dep = coreDeployment(catalog, tenants.map((t) => t.id));
   const tHw = (id: string) => hardwareStats(catalog, [id]);
-  const tDep = (id: string) => { const d = coreDeployment(catalog, [id]); return d.onPrem && d.cloud ? "Hybrid" : d.onPrem ? "On-Prem" : d.cloud ? "Cloud" : "—"; };
+  const tDep = (id: string) => {
+    const tenant = tenants.find((t) => t.id === id);
+    return tenantDeploymentLabel(tenant ?? {}, coreDeployment(catalog, [id]));
+  };
   const all = tenants.map((t) => summary(t.id));
   const kpi = {
     arr: all.reduce((s, x) => s + x.arr, 0),
