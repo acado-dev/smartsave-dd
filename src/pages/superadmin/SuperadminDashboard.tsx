@@ -64,7 +64,10 @@ export default function SuperadminDashboard() {
   const hw = hardwareStats(catalog, tenants.map((t) => t.id));
   const dep = coreDeployment(catalog, tenants.map((t) => t.id));
   const tHw = (id: string) => hardwareStats(catalog, [id]);
-  const tDep = (id: string) => { const d = coreDeployment(catalog, [id]); return d.onPrem && d.cloud ? "Hybrid" : d.onPrem ? "On-Prem" : d.cloud ? "Cloud" : "—"; };
+  const tDep = (id: string) => {
+    const tenant = tenants.find((t) => t.id === id);
+    return tenantDeploymentLabel(tenant ?? {}, coreDeployment(catalog, [id]));
+  };
   const recentAudits = audit.slice(0, 6);
 
   const totalStores = persona === "platform"
