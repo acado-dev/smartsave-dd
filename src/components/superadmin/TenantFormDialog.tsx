@@ -47,6 +47,7 @@ const empty = {
   partnerName: "",
   partnerId: "",
   storeFormat: "single" as "chain" | "single",
+  deployment: "cloud" as "cloud" | "onprem" | "hybrid",
   modules: ["admin"] as string[],
 };
 
@@ -66,6 +67,7 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
         storesCount: tenant.storesCount, monthlyRevenue: tenant.monthlyRevenue,
         modules: [...tenant.modules],
         ...tenantCommercial(tenant),
+        deployment: tenant.deployment ?? "cloud",
         partnerId: tenant.partnerId ?? "",
       });
     } else {
@@ -168,6 +170,16 @@ export function TenantFormDialog({ open, onOpenChange, tenant }: Props) {
           </Field>
           <Field label="Monthly revenue (USD)" error={errors.monthlyRevenue}>
             <Input type="number" value={form.monthlyRevenue} onChange={(e) => setForm({ ...form, monthlyRevenue: Number(e.target.value) })} className="bg-white/5 border-white/10 text-white" />
+          </Field>
+          <Field label="Core deployment" error={errors.deployment}>
+            <Select value={form.deployment} onValueChange={(value: "cloud" | "onprem" | "hybrid") => setForm({ ...form, deployment: value })}>
+              <SelectTrigger aria-label="Core deployment"><SelectValue /></SelectTrigger>
+              <SelectContent className="dark">
+                <SelectItem value="cloud">Cloud</SelectItem>
+                <SelectItem value="onprem">On-Prem</SelectItem>
+                <SelectItem value="hybrid">Hybrid (Cloud + On-Prem)</SelectItem>
+              </SelectContent>
+            </Select>
           </Field>
           <Field label="Status" error={errors.status}>
             <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value as Tenant["status"] })}
